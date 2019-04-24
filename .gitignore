@@ -1,0 +1,10 @@
+.vscode/
+htmlcov/*
+__pycache__/
+tree/__pycache__/
+.pytest_cache/
+tests/.pytest_cache/
+htmlcov/index.html
+htmlcov/status.json
+htmlcov/tree_operatorTree_py.html
+.coverage

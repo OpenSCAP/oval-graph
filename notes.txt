@@ -1,0 +1,8 @@
+python3 -m pytest --cov tree --cov-report html --cov-branch
+python3 -m pytest 
+ 
+1]id
+1]testy - víc příkladu 
+2]add to tree (find node with id)
+3]change val of node with id
+4]kreslení 

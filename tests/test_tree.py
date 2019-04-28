@@ -1,19 +1,67 @@
 import tree.operatorTree
 import os
-
-def test_tree():
-    t = tree.operatorTree.operatorTree("and")
-    t1 = tree.operatorTree.operatorTree(True)
-
-    assert str(t) == "and"
-    assert t1
+import pytest
 
 def test_bad_tree():
-    t = tree.operatorTree.operatorTree(True,[tree.operatorTree.operatorTree("and")])
-    assert t.children == []
-    assert t.name
+    with pytest.raises(ValueError) as e:
+        bad_tree()
+    assert str(e.value) == 'err- True or False have not child!' 
 
-def test_treeEvaluationAllFalse():
+    with pytest.raises(ValueError) as e:
+        treeOnlyAnd()
+    assert str(e.value) == 'err- OR or AND have child!' 
+
+    with pytest.raises(ValueError) as e:
+        treeOnlyOr()
+    assert str(e.value) == 'err- OR or AND have child!' 
+
+#degenered trees 
+def bad_tree():
+    """
+         t
+         |
+        and
+         |
+         t
+    """
+    t = tree.operatorTree.operatorTree(1,True,[tree.operatorTree.operatorTree(2,"and",[tree.operatorTree.operatorTree(3,True)])])
+    
+def treeOnlyOr():
+    """
+        or
+    """
+    Tree = tree.operatorTree.operatorTree(1,'or')
+
+def treeOnlyAnd():
+    """
+        and
+    """
+    Tree = tree.operatorTree.operatorTree(1,'and')
+
+#normal trees
+def test_treeAndFalse():
+    """
+        and
+         |
+         f
+    """
+    Tree = tree.operatorTree.operatorTree(1,'and', [
+                 tree.operatorTree.operatorTree(2,False)
+                ]
+        )
+    
+    dict={'id': 1,'name': 'and',
+            'child': [
+                {'id': 2,'name': False, 'child': None }
+            ]
+        }
+
+    any_test_treeEvaluation(Tree, False)
+    any_test_renderTree(Tree)
+    any_test_treeToDict(Tree,dict)
+    find_any_node(Tree,1)
+
+def test_treeAllFalse():
     """
         and
         /|\
@@ -21,24 +69,24 @@ def test_treeEvaluationAllFalse():
           / \
          f   f
     """
-    Tree = tree.operatorTree.operatorTree('and', [
-                 tree.operatorTree.operatorTree(False),
-                 tree.operatorTree.operatorTree(False),
-                 tree.operatorTree.operatorTree('or', [
-                             tree.operatorTree.operatorTree(False),
-                             tree.operatorTree.operatorTree(False)
+    Tree = tree.operatorTree.operatorTree(1,'and', [
+                 tree.operatorTree.operatorTree(2,False),
+                 tree.operatorTree.operatorTree(3,False),
+                 tree.operatorTree.operatorTree(4,'or', [
+                             tree.operatorTree.operatorTree(5,False),
+                             tree.operatorTree.operatorTree(6,False)
                             ]
                      )
                 ]
         )
     
-    dict={'name': 'and',
+    dict={'id': 1,'name': 'and',
             'child': [
-                {'name': False, 'child': []}, 
-                {'name': False, 'child': []}, 
-                {'name': 'or', 'child': [
-                                {'name': False, 'child': []},
-                                {'name': False, 'child': []}
+                {'id': 2,'name': False, 'child': None}, 
+                {'id': 3,'name': False, 'child': None}, 
+                {'id': 4,'name': 'or', 'child': [
+                                {'id': 5,'name': False, 'child': None},
+                                {'id': 6,'name': False, 'child': None}
                             ]
                 }
             ]
@@ -47,10 +95,9 @@ def test_treeEvaluationAllFalse():
     any_test_treeEvaluation(Tree, False)
     any_test_renderTree(Tree)
     any_test_treeToDict(Tree,dict)
+    find_any_node(Tree,5)
 
-
-
-def test_treeEvaluation():
+def test_treeIdeal():
     """
         and
         /|\
@@ -58,24 +105,24 @@ def test_treeEvaluation():
           / \
          f   t
     """
-    Tree = tree.operatorTree.operatorTree('and', [
-                 tree.operatorTree.operatorTree(True),
-                 tree.operatorTree.operatorTree(False),
-                 tree.operatorTree.operatorTree('or', [
-                             tree.operatorTree.operatorTree(False),
-                             tree.operatorTree.operatorTree(True)
+    Tree = tree.operatorTree.operatorTree(1,'and', [
+                 tree.operatorTree.operatorTree(2,True),
+                 tree.operatorTree.operatorTree(3,False),
+                 tree.operatorTree.operatorTree(4,'or', [
+                             tree.operatorTree.operatorTree(5,False),
+                             tree.operatorTree.operatorTree(6,True)
                             ]
                      )
                 ]
         )
     
-    dict={'name': 'and',
+    dict={'id': 1,'name': 'and',
             'child': [
-                {'name': True, 'child': []}, 
-                {'name': False, 'child': []}, 
-                {'name': 'or', 'child': [
-                                {'name': False, 'child': []},
-                                {'name': True, 'child': []}
+                {'id': 2,'name': True, 'child': None}, 
+                {'id': 3,'name': False, 'child': None}, 
+                {'id': 4,'name': 'or', 'child': [
+                                {'id': 5,'name': False, 'child': None},
+                                {'id': 6,'name': True, 'child': None}
                             ]
                 }
             ]
@@ -84,9 +131,15 @@ def test_treeEvaluation():
     any_test_treeEvaluation(Tree, False)
     any_test_renderTree(Tree)
     any_test_treeToDict(Tree,dict)
+    find_any_node(Tree,6)
+###################################################
 
 def any_test_treeToDict(tree,dict):
     assert tree.treeToDict() == dict
+
+def find_any_node(Tree,id):
+    findTree=tree.operatorTree.findNodeWithID(Tree, id)
+    assert  findTree.id == id
 
 def any_test_renderTree(tree,img =None):
     assert tree.renderTree(img)
@@ -95,5 +148,48 @@ def any_test_treeEvaluation(tree,expect):
     assert tree.evaluateTree() == expect
 
 def test_dictToTree():
-    tree.operatorTree.dictToTree({"and": [True,True,True,{"or": [True,True,True,False]}]})
-    tree.operatorTree.dictToTree({"and": [False]})
+    """
+        and
+        /|\
+       t t or
+          / \
+         f   t
+    """
+    Tree = tree.operatorTree.operatorTree(1,'and', [
+                 tree.operatorTree.operatorTree(2,True),
+                 tree.operatorTree.operatorTree(3,False),
+                 tree.operatorTree.operatorTree(4,'or', [
+                             tree.operatorTree.operatorTree(5,False),
+                             tree.operatorTree.operatorTree(6,True)
+                            ]
+                     )
+                ]
+        )
+
+    dict={'id': 1,'name': 'and',
+            'child': [
+                {'id': 2,'name': True, 'child': None}, 
+                {'id': 3,'name': False, 'child': None}, 
+                {'id': 4,'name': 'or', 'child': [
+                                {'id': 5,'name': False, 'child': None},
+                                {'id': 6,'name': True, 'child': None}
+                            ]
+                }
+            ]
+        }
+
+    treeDict = tree.operatorTree.dictToTree(dict)
+    #Je to ok?
+    assert treeDict.treeToDict() == dict
+
+def test_treeRepr():
+    """
+        and
+         |
+         f
+    """
+    Tree = tree.operatorTree.operatorTree(1,'and', [
+                 tree.operatorTree.operatorTree(2,False)
+                ]
+        )
+    assert str(Tree) == "and"

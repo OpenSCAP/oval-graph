@@ -4,6 +4,7 @@ python3 -m pytest
 1]id - done
 1]testy (víc příkladu) - done 
 2]find node with id - done
-2]add to tree 
-3]change val of node with id
+2]add to tree - 50%
+3]change val of node with id - 50%
+2,3] TESTs
 4]kreslení 

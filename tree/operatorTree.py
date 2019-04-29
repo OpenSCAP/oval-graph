@@ -55,9 +55,14 @@ def findNodeWithID(tree, id):
         return tree
     else:
         for i in tree.children:
-            print(i.id)
             if i.id == id:
                 return i
         for i in tree.children:
             if i.children != []:
                return findNodeWithID(i,id)
+
+def addToTree(tree,id,newNode):
+    findNodeWithID(tree, id).add_child(newNode)
+
+def ChangeTreeValue(tree,id,value):
+    findNodeWithID(tree, id).name = value

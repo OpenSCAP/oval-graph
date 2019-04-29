@@ -193,3 +193,51 @@ def test_treeRepr():
                 ]
         )
     assert str(Tree) == "and"
+
+
+def test_addToTree():
+    """
+        and
+         |
+         f
+    """
+
+    dict={'id': 1,'name': 'and',
+            'child': [
+                {'id': 2,'name': False, 'child': None}, 
+                {'id': 3,'name': True, 'child': None}, 
+            ]
+        }
+
+    Tree = tree.operatorTree.operatorTree(1,'and', [
+                 tree.operatorTree.operatorTree(2,False)
+                ]
+        )
+    Tree1=tree.operatorTree.operatorTree(3,True)
+    tree.operatorTree.addToTree(Tree,1,Tree1)
+    assert Tree.treeToDict()==dict    
+
+def test_ChangeValueTree():
+    """
+        and
+        /|\
+       t t or
+          / \
+         f   t
+    """
+    Tree = tree.operatorTree.operatorTree(1,'and', [
+                 tree.operatorTree.operatorTree(2,True),
+                 tree.operatorTree.operatorTree(3,False),
+                 tree.operatorTree.operatorTree(4,'or', [
+                             tree.operatorTree.operatorTree(5,False),
+                             tree.operatorTree.operatorTree(6,True)
+                            ]
+                     )
+                ]
+        )
+    
+    tree.operatorTree.ChangeTreeValue(Tree,3,True)
+    any_test_treeEvaluation(Tree, True)
+    
+
+

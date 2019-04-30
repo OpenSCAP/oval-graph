@@ -1,8 +1,8 @@
 import operator
 
 class operatorTree(object):
-    def __init__(self,id, value='root', children=None):
-        self.id=id
+    def __init__(self,node_id, value='root', children=None):
+        self.node_id=node_id
         self.value = value
         self.children = []
         if children is not None:
@@ -33,9 +33,9 @@ class operatorTree(object):
 
     def treeToDict(self):
         if not self.children:
-            return {'id': self.id,'value': self.value,'child': None }
+            return {'node_id': self.node_id,'value': self.value,'child': None }
         else:
-            return {'id': self.id,'value': self.value,'child': [i.treeToDict() for i in self.children] }    
+            return {'node_id': self.node_id,'value': self.value,'child': [i.treeToDict() for i in self.children] }    
         
     def renderTree(self, img = None):
         #str(self.name)+"\n\t"+ [str(item.renderTree)+"\n\t" for item in self.children]
@@ -44,23 +44,23 @@ class operatorTree(object):
 
 def dictToTree(dict):
     if dict["child"] is None :
-        return operatorTree(dict["id"], dict["value"])
+        return operatorTree(dict["node_id"], dict["value"])
     else:
-        return operatorTree(dict["id"], dict["value"], [ dictToTree(i) for i in dict["child"]])
+        return operatorTree(dict["node_id"], dict["value"], [ dictToTree(i) for i in dict["child"]])
 
-def findNodeWithID(tree, id):
-    if tree.id == id:
+def findNodeWithID(tree, node_id):
+    if tree.node_id == node_id:
         return tree
     else:
-        for i in tree.children:
-            if i.id == id:
-                return i
-        for i in tree.children:
-            if i.children != []:
-               return findNodeWithID(i,id)
+        for child in tree.children:
+            if child.node_id == node_id:
+                return child
+        for child in tree.children:
+            if child.children != []:
+               return findNodeWithID(child,node_id)
 
-def addToTree(tree,id,newNode):
-    findNodeWithID(tree, id).add_child(newNode)
+def addToTree(tree,node_id,newNode):
+    findNodeWithID(tree, node_id).add_child(newNode)
 
-def ChangeTreeValue(tree,id,value):
-    findNodeWithID(tree, id).value = value
+def ChangeTreeValue(tree,node_id,value):
+    findNodeWithID(tree, node_id).value = value

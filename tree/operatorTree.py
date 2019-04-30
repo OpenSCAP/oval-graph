@@ -42,11 +42,11 @@ class operatorTree(object):
         #text="{}\n\t".format(self.name) + item.renderTree for item in self.children
         return True
 
-def dictToTree(dict):
-    if dict["child"] is None :
-        return operatorTree(dict["node_id"], dict["value"])
+def dictToTree(dictOfTree):
+    if dictOfTree["child"] is None :
+        return operatorTree(dictOfTree["node_id"], dictOfTree["value"])
     else:
-        return operatorTree(dict["node_id"], dict["value"], [ dictToTree(i) for i in dict["child"]])
+        return operatorTree(dictOfTree["node_id"], dictOfTree["value"], [ dictToTree(i) for i in dictOfTree["child"]])
 
 def findNodeWithID(tree, node_id):
     if tree.node_id == node_id:

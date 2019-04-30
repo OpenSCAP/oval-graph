@@ -50,15 +50,15 @@ def test_treeAndFalse():
                 ]
         )
     
-    dict={'id': 1,'name': 'and',
+    dictOfTree={'node_id': 1,'value': 'and',
             'child': [
-                {'id': 2,'name': False, 'child': None }
+                {'node_id': 2,'value': False, 'child': None }
             ]
         }
 
     any_test_treeEvaluation(Tree, False)
     any_test_renderTree(Tree)
-    any_test_treeToDict(Tree,dict)
+    any_test_treeTodictOfTree(Tree,dictOfTree)
     find_any_node(Tree,1)
 
 def test_treeAllFalse():
@@ -80,13 +80,13 @@ def test_treeAllFalse():
                 ]
         )
     
-    dict={'id': 1,'name': 'and',
+    dictOfTree={'node_id': 1,'value': 'and',
             'child': [
-                {'id': 2,'name': False, 'child': None}, 
-                {'id': 3,'name': False, 'child': None}, 
-                {'id': 4,'name': 'or', 'child': [
-                                {'id': 5,'name': False, 'child': None},
-                                {'id': 6,'name': False, 'child': None}
+                {'node_id': 2,'value': False, 'child': None}, 
+                {'node_id': 3,'value': False, 'child': None}, 
+                {'node_id': 4,'value': 'or', 'child': [
+                                {'node_id': 5,'value': False, 'child': None},
+                                {'node_id': 6,'value': False, 'child': None}
                             ]
                 }
             ]
@@ -94,10 +94,10 @@ def test_treeAllFalse():
 
     any_test_treeEvaluation(Tree, False)
     any_test_renderTree(Tree)
-    any_test_treeToDict(Tree,dict)
+    any_test_treeTodictOfTree(Tree,dictOfTree)
     find_any_node(Tree,5)
 
-def test_treeIdeal():
+def test_treenode_ideal():
     """
         and
         /|\
@@ -116,13 +116,13 @@ def test_treeIdeal():
                 ]
         )
     
-    dict={'id': 1,'name': 'and',
+    dictOfTree={'node_id': 1,'value': 'and',
             'child': [
-                {'id': 2,'name': True, 'child': None}, 
-                {'id': 3,'name': False, 'child': None}, 
-                {'id': 4,'name': 'or', 'child': [
-                                {'id': 5,'name': False, 'child': None},
-                                {'id': 6,'name': True, 'child': None}
+                {'node_id': 2,'value': True, 'child': None}, 
+                {'node_id': 3,'value': False, 'child': None}, 
+                {'node_id': 4,'value': 'or', 'child': [
+                                {'node_id': 5,'value': False, 'child': None},
+                                {'node_id': 6,'value': True, 'child': None}
                             ]
                 }
             ]
@@ -130,16 +130,16 @@ def test_treeIdeal():
 
     any_test_treeEvaluation(Tree, False)
     any_test_renderTree(Tree)
-    any_test_treeToDict(Tree,dict)
+    any_test_treeTodictOfTree(Tree,dictOfTree)
     find_any_node(Tree,6)
 ###################################################
 
-def any_test_treeToDict(tree,dict):
-    assert tree.treeToDict() == dict
+def any_test_treeTodictOfTree(tree,dictOfTree):
+    assert tree.treeToDict() == dictOfTree
 
-def find_any_node(Tree,id):
-    findTree=tree.operatorTree.findNodeWithID(Tree, id)
-    assert  findTree.id == id
+def find_any_node(Tree,node_id):
+    findTree=tree.operatorTree.findNodeWithID(Tree, node_id)
+    assert  findTree.node_id == node_id
 
 def any_test_renderTree(tree,img =None):
     assert tree.renderTree(img)
@@ -166,21 +166,21 @@ def test_dictToTree():
                 ]
         )
 
-    dict={'id': 1,'name': 'and',
+    dictOfTree={'node_id': 1,'value': 'and',
             'child': [
-                {'id': 2,'name': True, 'child': None}, 
-                {'id': 3,'name': False, 'child': None}, 
-                {'id': 4,'name': 'or', 'child': [
-                                {'id': 5,'name': False, 'child': None},
-                                {'id': 6,'name': True, 'child': None}
+                {'node_id': 2,'value': True, 'child': None}, 
+                {'node_id': 3,'value': False, 'child': None}, 
+                {'node_id': 4,'value': 'or', 'child': [
+                                {'node_id': 5,'value': False, 'child': None},
+                                {'node_id': 6,'value': True, 'child': None}
                             ]
                 }
             ]
         }
 
-    treeDict = tree.operatorTree.dictToTree(dict)
+    treedictOfTree = tree.operatorTree.dictToTree(dictOfTree)
     #Je to ok?
-    assert treeDict.treeToDict() == dict
+    assert treedictOfTree.treeToDict() == dictOfTree
 
 def test_treeRepr():
     """
@@ -202,10 +202,10 @@ def test_addToTree():
          f
     """
 
-    dict={'id': 1,'name': 'and',
+    dictOfTree={'node_id': 1,'value': 'and',
             'child': [
-                {'id': 2,'name': False, 'child': None}, 
-                {'id': 3,'name': True, 'child': None}, 
+                {'node_id': 2,'value': False, 'child': None}, 
+                {'node_id': 3,'value': True, 'child': None}, 
             ]
         }
 
@@ -215,7 +215,7 @@ def test_addToTree():
         )
     Tree1=tree.operatorTree.operatorTree(3,True)
     tree.operatorTree.addToTree(Tree,1,Tree1)
-    assert Tree.treeToDict()==dict    
+    assert Tree.treeToDict()==dictOfTree    
 
 def test_ChangeValueTree():
     """
@@ -238,6 +238,4 @@ def test_ChangeValueTree():
     
     tree.operatorTree.ChangeTreeValue(Tree,3,True)
     any_test_treeEvaluation(Tree, True)
-    
-
 

@@ -7,4 +7,10 @@ python3 -m pytest
 2]add to tree - 50%
 3]change val of node with id - 50%
 2,3] TESTs
-4]kreslení 
+4]nová výroková logika:  
+https://github.com/OpenSCAP/openscap/blob/4272ea0dfe1ec7ec2043b49753e0687948a95c0e/src/OVAL/results/oval_resultTest.c#L282
+
+https://oval.mitre.org/language/version5.11/ovaldefinition/documentation/oval-common-schema.html#OperatorEnumeration
+
+5]pep8 -testy
+6]kreslení 

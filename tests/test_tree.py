@@ -5,15 +5,15 @@ import pytest
 def test_bad_tree():
     with pytest.raises(ValueError) as e:
         bad_tree()
-    assert str(e.value) == 'err- True or False have not child!' 
+    assert str(e.value) == 'err- true, false, error, unknown. noteval, notappl have not child!' 
 
     with pytest.raises(ValueError) as e:
         treeOnlyAnd()
-    assert str(e.value) == 'err- OR or AND have child!' 
+    assert str(e.value) == 'err- OR, XOR, ONE, AND have child!' 
 
     with pytest.raises(ValueError) as e:
         treeOnlyOr()
-    assert str(e.value) == 'err- OR or AND have child!' 
+    assert str(e.value) == 'err- OR, XOR, ONE, AND have child!' 
 
 #degenered trees 
 def bad_tree():
@@ -24,7 +24,7 @@ def bad_tree():
          |
          t
     """
-    t = tree.operatorTree.operatorTree(1,True,[tree.operatorTree.operatorTree(2,"and",[tree.operatorTree.operatorTree(3,True)])])
+    t = tree.operatorTree.operatorTree(1,"true",[tree.operatorTree.operatorTree(2,"and",[tree.operatorTree.operatorTree(3,"true")])])
     
 def treeOnlyOr():
     """
@@ -46,17 +46,17 @@ def test_treeAndFalse():
          f
     """
     Tree = tree.operatorTree.operatorTree(1,'and', [
-                 tree.operatorTree.operatorTree(2,False)
+                 tree.operatorTree.operatorTree(2,"false")
                 ]
         )
     
     dictOfTree={'node_id': 1,'value': 'and',
             'child': [
-                {'node_id': 2,'value': False, 'child': None }
+                {'node_id': 2,'value': "false", 'child': None }
             ]
         }
 
-    any_test_treeEvaluation(Tree, False)
+    any_test_treeEvaluation(Tree, "false")
     any_test_renderTree(Tree)
     any_test_treeTodictOfTree(Tree,dictOfTree)
     find_any_node(Tree,1)
@@ -70,11 +70,11 @@ def test_treeAllFalse():
          f   f
     """
     Tree = tree.operatorTree.operatorTree(1,'and', [
-                 tree.operatorTree.operatorTree(2,False),
-                 tree.operatorTree.operatorTree(3,False),
+                 tree.operatorTree.operatorTree(2,"false"),
+                 tree.operatorTree.operatorTree(3,"false"),
                  tree.operatorTree.operatorTree(4,'or', [
-                             tree.operatorTree.operatorTree(5,False),
-                             tree.operatorTree.operatorTree(6,False)
+                             tree.operatorTree.operatorTree(5,"false"),
+                             tree.operatorTree.operatorTree(6,"false")
                             ]
                      )
                 ]
@@ -82,17 +82,17 @@ def test_treeAllFalse():
     
     dictOfTree={'node_id': 1,'value': 'and',
             'child': [
-                {'node_id': 2,'value': False, 'child': None}, 
-                {'node_id': 3,'value': False, 'child': None}, 
+                {'node_id': 2,'value': "false", 'child': None}, 
+                {'node_id': 3,'value': "false", 'child': None}, 
                 {'node_id': 4,'value': 'or', 'child': [
-                                {'node_id': 5,'value': False, 'child': None},
-                                {'node_id': 6,'value': False, 'child': None}
+                                {'node_id': 5,'value': "false", 'child': None},
+                                {'node_id': 6,'value': "false", 'child': None}
                             ]
                 }
             ]
         }
 
-    any_test_treeEvaluation(Tree, False)
+    any_test_treeEvaluation(Tree, "false")
     any_test_renderTree(Tree)
     any_test_treeTodictOfTree(Tree,dictOfTree)
     find_any_node(Tree,5)
@@ -106,11 +106,11 @@ def test_treenode_ideal():
          f   t
     """
     Tree = tree.operatorTree.operatorTree(1,'and', [
-                 tree.operatorTree.operatorTree(2,True),
-                 tree.operatorTree.operatorTree(3,False),
+                 tree.operatorTree.operatorTree(2,"true"),
+                 tree.operatorTree.operatorTree(3,"false"),
                  tree.operatorTree.operatorTree(4,'or', [
-                             tree.operatorTree.operatorTree(5,False),
-                             tree.operatorTree.operatorTree(6,True)
+                             tree.operatorTree.operatorTree(5,"false"),
+                             tree.operatorTree.operatorTree(6,"true")
                             ]
                      )
                 ]
@@ -118,17 +118,17 @@ def test_treenode_ideal():
     
     dictOfTree={'node_id': 1,'value': 'and',
             'child': [
-                {'node_id': 2,'value': True, 'child': None}, 
-                {'node_id': 3,'value': False, 'child': None}, 
+                {'node_id': 2,'value': "true", 'child': None}, 
+                {'node_id': 3,'value': "false", 'child': None}, 
                 {'node_id': 4,'value': 'or', 'child': [
-                                {'node_id': 5,'value': False, 'child': None},
-                                {'node_id': 6,'value': True, 'child': None}
+                                {'node_id': 5,'value': "false", 'child': None},
+                                {'node_id': 6,'value': "true", 'child': None}
                             ]
                 }
             ]
         }
 
-    any_test_treeEvaluation(Tree, False)
+    any_test_treeEvaluation(Tree, "false")
     any_test_renderTree(Tree)
     any_test_treeTodictOfTree(Tree,dictOfTree)
     find_any_node(Tree,6)
@@ -156,11 +156,11 @@ def test_dictToTree():
          f   t
     """
     Tree = tree.operatorTree.operatorTree(1,'and', [
-                 tree.operatorTree.operatorTree(2,True),
-                 tree.operatorTree.operatorTree(3,False),
+                 tree.operatorTree.operatorTree(2,"true"),
+                 tree.operatorTree.operatorTree(3,"false"),
                  tree.operatorTree.operatorTree(4,'or', [
-                             tree.operatorTree.operatorTree(5,False),
-                             tree.operatorTree.operatorTree(6,True)
+                             tree.operatorTree.operatorTree(5,"false"),
+                             tree.operatorTree.operatorTree(6,"true")
                             ]
                      )
                 ]
@@ -168,11 +168,11 @@ def test_dictToTree():
 
     dictOfTree={'node_id': 1,'value': 'and',
             'child': [
-                {'node_id': 2,'value': True, 'child': None}, 
-                {'node_id': 3,'value': False, 'child': None}, 
+                {'node_id': 2,'value': "true", 'child': None}, 
+                {'node_id': 3,'value': "false", 'child': None}, 
                 {'node_id': 4,'value': 'or', 'child': [
-                                {'node_id': 5,'value': False, 'child': None},
-                                {'node_id': 6,'value': True, 'child': None}
+                                {'node_id': 5,'value': "false", 'child': None},
+                                {'node_id': 6,'value': "true", 'child': None}
                             ]
                 }
             ]
@@ -189,7 +189,7 @@ def test_treeRepr():
          f
     """
     Tree = tree.operatorTree.operatorTree(1,'and', [
-                 tree.operatorTree.operatorTree(2,False)
+                 tree.operatorTree.operatorTree(2,"false")
                 ]
         )
     assert str(Tree) == "and"
@@ -204,16 +204,16 @@ def test_addToTree():
 
     dictOfTree={'node_id': 1,'value': 'and',
             'child': [
-                {'node_id': 2,'value': False, 'child': None}, 
-                {'node_id': 3,'value': True, 'child': None}, 
+                {'node_id': 2,'value': "false", 'child': None}, 
+                {'node_id': 3,'value': "true", 'child': None}, 
             ]
         }
 
     Tree = tree.operatorTree.operatorTree(1,'and', [
-                 tree.operatorTree.operatorTree(2,False)
+                 tree.operatorTree.operatorTree(2,"false")
                 ]
         )
-    Tree1=tree.operatorTree.operatorTree(3,True)
+    Tree1=tree.operatorTree.operatorTree(3,"true")
     tree.operatorTree.addToTree(Tree,1,Tree1)
     assert Tree.treeToDict()==dictOfTree    
 
@@ -226,16 +226,15 @@ def test_ChangeValueTree():
          f   t
     """
     Tree = tree.operatorTree.operatorTree(1,'and', [
-                 tree.operatorTree.operatorTree(2,True),
-                 tree.operatorTree.operatorTree(3,False),
+                 tree.operatorTree.operatorTree(2,"true"),
+                 tree.operatorTree.operatorTree(3,"false"),
                  tree.operatorTree.operatorTree(4,'or', [
-                             tree.operatorTree.operatorTree(5,False),
-                             tree.operatorTree.operatorTree(6,True)
+                             tree.operatorTree.operatorTree(5,"false"),
+                             tree.operatorTree.operatorTree(6,"true")
                             ]
                      )
                 ]
         )
     
-    tree.operatorTree.ChangeTreeValue(Tree,3,True)
-    any_test_treeEvaluation(Tree, True)
-
+    tree.operatorTree.ChangeTreeValue(Tree,3,"true")
+    any_test_treeEvaluation(Tree, "true")

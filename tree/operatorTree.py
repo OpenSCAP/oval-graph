@@ -9,7 +9,7 @@ class operatorTree(object):
         if value in allowedValues:
             self.value = value
         else:
-            raise ValueError("err- unknown value: ", value)
+            raise ValueError("err- unknown value")
         self.children = []
         if children is not None:
             for child in children:
@@ -27,17 +27,47 @@ class operatorTree(object):
             self.children.append(node)
         else:
             self.children = None
-            raise ValueError("err- True or False have not child!")
+            raise ValueError("err- true, false, error, unknown. noteval, notappl have not child!")
 
     def evaluateTree(self):
-        operators = {
-            "or": any,
-            "and": all,
-        }
-        evaluator = operators[self.value]
-        return evaluator(
-            i.evaluateTree() if type(i.value)is not bool else i.value
-            for i in self.children)
+        result = {
+            'true_cnt': 0,
+            'false_cnt': 0,
+            'error_cnt': 0,
+            'unknown_cnt': 0,
+            'noteval_cnt': 0,
+            'notappl_cnt': 0
+            }
+
+        for child in self.children:
+            if child.value == 'true':
+                result['true_cnt'] += 1
+            elif child.value == 'false':
+                result['false_cnt'] += 1
+            elif child.value == 'error':
+                result['error_cnt'] += 1
+            elif child.value == 'unknown':
+                result['unknown_cnt'] += 1
+            elif child.value == 'noteval':
+                result['noteval_cnt'] += 1
+            elif child.value == 'notappl':
+                result['notappl_cnt'] += 1
+            else:
+                if child.value == "or" or child.value == "and" or child.value == "one" or child.value == "xor":
+                    result[child.evaluateTree()+"_cnt"]
+                else:
+                    raise ValueError("err- unknown value")
+
+        if self.value == "or":
+            return OVAL_OPERATOR_OR(result)
+        elif self.value == "and":
+            return OVAL_OPERATOR_AND(result)
+        elif self.value == "one":
+            return OVAL_OPERATOR_ONE(result)
+        elif self.value == "xor":
+            return OVAL_OPERATOR_XOR(result)
+        else:
+            raise ValueError("err- unknown value")
 
     def treeToDict(self):
         if not self.children:
@@ -85,96 +115,59 @@ def ChangeTreeValue(tree, node_id, value):
     findNodeWithID(tree, node_id).value = value
 
 
-result = {
-    'true_cnt': 1,
-    'false_cnt': 1,
-    'error_cnt': 1,
-    'unknown_cnt': 1,
-    'noteval_cnt': 1,
-    'notappl_cnt': 1
-}
-
-
-def counter(node):
-    result = {
-        'true_cnt': 0,
-        'false_cnt': 0,
-        'error_cnt': 0,
-        'unknown_cnt': 0,
-        'noteval_cnt': 0,
-        'notappl_cnt': 0
-    }
-
-    for child in node.children:
-        if child.value == 'true':
-            result['true_cnt'] += 1
-        elif child.value == 'false':
-            result['false_cnt'] += 1
-        elif child.value == 'error':
-            result['error_cnt'] += 1
-        elif child.value == 'unknown':
-            result['unknown_cnt'] += 1
-        elif child.value == 'noteval':
-            result['noteval_cnt'] += 1
-        elif child.value == 'notappl':
-            result['notappl_cnt'] += 1
-        else:
-            raise ValueError("err- unknown value:", child.value)
-
-
 def OVAL_OPERATOR_AND(result):
     if result['true_cnt'] > 0 and result['false_cnt'] == 0 and result['error_cnt'] == 0 and result['unknown_cnt'] == 0 and result['noteval_cnt'] == 0:
-        outResult = 'OVAL_RESULT_TRUE'
+        outResult = 'true'
     elif result['false_cnt'] > 0:
-        outResult = 'OVAL_RESULT_FALSE'
+        outResult = 'false'
     elif result['false_cnt'] == 0 and result['error_cnt'] > 0:
-        outResult = 'OVAL_RESULT_ERROR'
+        outResult = 'error'
     elif result['false_cnt'] == 0 and result['error_cnt'] == 0 and result['unknown_cnt'] > 0:
-        outResult = 'OVAL_RESULT_UNKNOWN'
+        outResult = 'unknown'
     elif result['false_cnt'] == 0 and result['error_cnt'] == 0 and result['unknown_cnt'] == 0 and result['noteval_cnt'] > 0:
-        outResult = 'OVAL_RESULT_NOT_EVALUATED'
+        outResult = 'noteval'
     return outResult
 
 
 def OVAL_OPERATOR_ONE(result):
     if result['true_cnt'] == 1 and result['false_cnt'] >= 0 and result['error_cnt'] == 0 and result['unknown_cnt'] == 0 and result['noteval_cnt'] == 0 and result['notappl_cnt'] >= 0:
-        outResult = 'OVAL_RESULT_TRUE'
+        outResult = 'true'
     elif result['true_cnt'] >= 2 and result['false_cnt'] >= 0 and result['error_cnt'] >= 0 and result['unknown_cnt'] >= 0 and result['noteval_cnt'] >= 0 and result['notappl_cnt'] >= 0:
-        outResult = 'OVAL_RESULT_FALSE'
+        outResult = 'false'
     elif result['true_cnt'] == 0 and result['false_cnt'] >= 0 and result['error_cnt'] == 0 and result['unknown_cnt'] == 0 and result['noteval_cnt'] == 0 and result['notappl_cnt'] >= 0:
-        outResult = 'OVAL_RESULT_FALSE'
+        outResult = 'false'
     elif result['true_cnt'] < 2 and result['false_cnt'] >= 0 and result['error_cnt'] > 0 and result['unknown_cnt'] >= 0 and result['noteval_cnt'] >= 0 and result['notappl_cnt'] >= 0:
-        outResult = 'OVAL_RESULT_ERROR'
+        outResult = 'error'
     elif result['true_cnt'] < 2 and result['false_cnt'] >= 0 and result['error_cnt'] == 0 and result['unknown_cnt'] >= 1 and result['noteval_cnt'] >= 0 and result['notappl_cnt'] >= 0:
-        outResult = 'OVAL_RESULT_UNKNOWN'
+        outResult = 'unknown'
     elif result['true_cnt'] < 2 and result['false_cnt'] >= 0 and result['error_cnt'] == 0 and result['unknown_cnt'] == 0 and result['noteval_cnt'] > 0 and result['notappl_cnt'] >= 0:
-        outResult = 'OVAL_RESULT_NOT_EVALUATED'
+        outResult = 'noteval'
     return outResult
 
 
 def OVAL_OPERATOR_OR(result):
     if result['true_cnt'] > 0:
-        outResult = 'OVAL_RESULT_TRUE'
+        outResult = 'true'
     elif result['true_cnt'] == 0 and result['false_cnt'] > 0 and result['error_cnt'] == 0 and result['unknown_cnt'] == 0 and result['noteval_cnt'] == 0:
-        outResult = 'OVAL_RESULT_FALSE'
+        outResult = 'false'
     elif result['true_cnt'] == 0 and result['error_cnt'] > 0:
-        outResult = 'OVAL_RESULT_ERROR'
+        outResult = 'error'
     elif result['true_cnt'] == 0 and result['error_cnt'] == 0 and result['unknown_cnt'] > 0:
-        outResult = 'OVAL_RESULT_UNKNOWN'
+        outResult = 'unknown'
     elif result['true_cnt'] == 0 and result['error_cnt'] == 0 and result['unknown_cnt'] == 0 and result['noteval_cnt'] > 0:
-        outResult = 'OVAL_RESULT_NOT_EVALUATED'
+        outResult = 'noteval'
     return outResult
 
 
 def OVAL_OPERATOR_XOR(result):
     if (result['true_cnt'] % 2) == 1 and result['error_cnt'] == 0 and result['unknown_cnt'] == 0 and result['noteval_cnt'] == 0:
-        outResult = 'OVAL_RESULT_TRUE'
+        outResult = 'true'
     elif (result['true_cnt'] % 2) == 0 and result['error_cnt'] == 0 and result['unknown_cnt'] == 0 and result['noteval_cnt'] == 0:
-        outResult = 'OVAL_RESULT_FALSE'
+        outResult = 'false'
     elif result['error_cnt'] > 0:
-        outResult = 'OVAL_RESULT_ERROR'
+        outResult = 'error'
     elif result['error_cnt'] == 0 and result['unknown_cnt'] > 0:
-        outResult = 'OVAL_RESULT_UNKNOWN'
+        outResult = 'unknown'
     elif result['error_cnt'] == 0 and result['unknown_cnt'] == 0 and result['noteval_cnt'] > 0:
-        outResult = 'OVAL_RESULT_NOT_EVALUATED'
+        outResult = 'noteval'
     return outResult

@@ -58,6 +58,12 @@ class operatorTree(object):
                 else:
                     raise ValueError("err- unknown value")
 
+        if result['true_cnt'] == 0 and result['false_cnt'] == 0 and result['error_cnt'] == 0 and result['unknown_cnt'] == 0 and result['notappl_cnt'] == 0 and result['noteval_cnt'] == 0:
+            return "unknown"
+
+        if result['notappl_cnt'] > 0 and result['noteval_cnt'] == 0 and result['false_cnt'] == 0 and result['error_cnt'] == 0 and result['unknown_cnt'] == 0 and result['true_cnt'] == 0:
+            return "notappl"
+
         if self.value == "or":
             return OVAL_OPERATOR_OR(result)
         elif self.value == "and":

@@ -1,4 +1,4 @@
-import tree.operatorTree
+import tree.ovalNode
 import os
 import pytest
 
@@ -24,19 +24,19 @@ def bad_tree():
          |
          t
     """
-    t = tree.operatorTree.operatorTree(1,"true",[tree.operatorTree.operatorTree(2,"and",[tree.operatorTree.operatorTree(3,"true")])])
+    t = tree.ovalNode.ovalNode(1,"true",[tree.ovalNode.ovalNode(2,"and",[tree.ovalNode.ovalNode(3,"true")])])
     
 def treeOnlyOr():
     """
         or
     """
-    Tree = tree.operatorTree.operatorTree(1,'or')
+    Tree = tree.ovalNode.ovalNode(1,'or')
 
 def treeOnlyAnd():
     """
         and
     """
-    Tree = tree.operatorTree.operatorTree(1,'and')
+    Tree = tree.ovalNode.ovalNode(1,'and')
 
 #normal trees
 def test_treeAndFalse():
@@ -45,8 +45,8 @@ def test_treeAndFalse():
          |
          f
     """
-    Tree = tree.operatorTree.operatorTree(1,'and', [
-                 tree.operatorTree.operatorTree(2,"false")
+    Tree = tree.ovalNode.ovalNode(1,'and', [
+                 tree.ovalNode.ovalNode(2,"false")
                 ]
         )
     
@@ -69,12 +69,12 @@ def test_treeAllFalse():
           / \
          f   f
     """
-    Tree = tree.operatorTree.operatorTree(1,'and', [
-                 tree.operatorTree.operatorTree(2,"false"),
-                 tree.operatorTree.operatorTree(3,"false"),
-                 tree.operatorTree.operatorTree(4,'or', [
-                             tree.operatorTree.operatorTree(5,"false"),
-                             tree.operatorTree.operatorTree(6,"false")
+    Tree = tree.ovalNode.ovalNode(1,'and', [
+                 tree.ovalNode.ovalNode(2,"false"),
+                 tree.ovalNode.ovalNode(3,"false"),
+                 tree.ovalNode.ovalNode(4,'or', [
+                             tree.ovalNode.ovalNode(5,"false"),
+                             tree.ovalNode.ovalNode(6,"false")
                             ]
                      )
                 ]
@@ -105,12 +105,12 @@ def test_treenode_ideal():
           / \
          f   t
     """
-    Tree = tree.operatorTree.operatorTree(1,'and', [
-                 tree.operatorTree.operatorTree(2,"true"),
-                 tree.operatorTree.operatorTree(3,"false"),
-                 tree.operatorTree.operatorTree(4,'or', [
-                             tree.operatorTree.operatorTree(5,"false"),
-                             tree.operatorTree.operatorTree(6,"true")
+    Tree = tree.ovalNode.ovalNode(1,'and', [
+                 tree.ovalNode.ovalNode(2,"true"),
+                 tree.ovalNode.ovalNode(3,"false"),
+                 tree.ovalNode.ovalNode(4,'or', [
+                             tree.ovalNode.ovalNode(5,"false"),
+                             tree.ovalNode.ovalNode(6,"true")
                             ]
                      )
                 ]
@@ -138,7 +138,7 @@ def any_test_treeTodictOfTree(tree,dictOfTree):
     assert tree.treeToDict() == dictOfTree
 
 def find_any_node(Tree,node_id):
-    findTree=tree.operatorTree.findNodeWithID(Tree, node_id)
+    findTree=tree.ovalNode.findNodeWithID(Tree, node_id)
     assert  findTree.node_id == node_id
 
 def any_test_renderTree(tree,img =None):
@@ -155,12 +155,12 @@ def test_dictToTree():
           / \
          f   t
     """
-    Tree = tree.operatorTree.operatorTree(1,'and', [
-                 tree.operatorTree.operatorTree(2,"true"),
-                 tree.operatorTree.operatorTree(3,"false"),
-                 tree.operatorTree.operatorTree(4,'or', [
-                             tree.operatorTree.operatorTree(5,"false"),
-                             tree.operatorTree.operatorTree(6,"true")
+    Tree = tree.ovalNode.ovalNode(1,'and', [
+                 tree.ovalNode.ovalNode(2,"true"),
+                 tree.ovalNode.ovalNode(3,"false"),
+                 tree.ovalNode.ovalNode(4,'or', [
+                             tree.ovalNode.ovalNode(5,"false"),
+                             tree.ovalNode.ovalNode(6,"true")
                             ]
                      )
                 ]
@@ -178,7 +178,7 @@ def test_dictToTree():
             ]
         }
 
-    treedictOfTree = tree.operatorTree.dictToTree(dictOfTree)
+    treedictOfTree = tree.ovalNode.dictToTree(dictOfTree)
     #Je to ok?
     assert treedictOfTree.treeToDict() == dictOfTree
 
@@ -188,8 +188,8 @@ def test_treeRepr():
          |
          f
     """
-    Tree = tree.operatorTree.operatorTree(1,'and', [
-                 tree.operatorTree.operatorTree(2,"false")
+    Tree = tree.ovalNode.ovalNode(1,'and', [
+                 tree.ovalNode.ovalNode(2,"false")
                 ]
         )
     assert str(Tree) == "and"
@@ -209,12 +209,12 @@ def test_addToTree():
             ]
         }
 
-    Tree = tree.operatorTree.operatorTree(1,'and', [
-                 tree.operatorTree.operatorTree(2,"false")
+    Tree = tree.ovalNode.ovalNode(1,'and', [
+                 tree.ovalNode.ovalNode(2,"false")
                 ]
         )
-    Tree1=tree.operatorTree.operatorTree(3,"true")
-    tree.operatorTree.addToTree(Tree,1,Tree1)
+    Tree1=tree.ovalNode.ovalNode(3,"true")
+    tree.ovalNode.addToTree(Tree,1,Tree1)
     assert Tree.treeToDict()==dictOfTree    
 
 def test_ChangeValueTree():
@@ -225,16 +225,16 @@ def test_ChangeValueTree():
           / \
          f   t
     """
-    Tree = tree.operatorTree.operatorTree(1,'and', [
-                 tree.operatorTree.operatorTree(2,"true"),
-                 tree.operatorTree.operatorTree(3,"false"),
-                 tree.operatorTree.operatorTree(4,'or', [
-                             tree.operatorTree.operatorTree(5,"false"),
-                             tree.operatorTree.operatorTree(6,"true")
+    Tree = tree.ovalNode.ovalNode(1,'and', [
+                 tree.ovalNode.ovalNode(2,"true"),
+                 tree.ovalNode.ovalNode(3,"false"),
+                 tree.ovalNode.ovalNode(4,'or', [
+                             tree.ovalNode.ovalNode(5,"false"),
+                             tree.ovalNode.ovalNode(6,"true")
                             ]
                      )
                 ]
         )
     
-    tree.operatorTree.ChangeTreeValue(Tree,3,"true")
+    tree.ovalNode.ChangeTreeValue(Tree,3,"true")
     any_test_treeEvaluation(Tree, "true")

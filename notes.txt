@@ -5,6 +5,9 @@ python3 -m pytest
 PEP8 
 pycodestyle tree/operatorTree.py
 
+PEP8-Fix
+autopep8 --in-place --aggressive --aggressive <filename>
+
 TODO
 1]id - done
 2]find node with id - done

@@ -97,6 +97,122 @@ def test_treeAllFalse():
     any_test_treeTodictOfTree(Tree,dictOfTree)
     find_any_node(Tree,5)
 
+def test_allErrorTree():
+    """
+        and
+      /  |\
+    and  f or
+          / \
+         f   f
+
+         "or",
+            "and",
+            "one",
+            "xor",
+            "true",
+            "false",
+            "error",
+            "unknown",
+            "noteval",
+            "notappl"
+    """
+    Tree = tree.ovalNode.ovalNode(1,'and', [
+                 tree.ovalNode.ovalNode(2,"error"),
+                 tree.ovalNode.ovalNode(3,"xor",[tree.ovalNode.ovalNode(4,'error'),                                                   tree.ovalNode.ovalNode(5,'one',[
+                                                    tree.ovalNode.ovalNode(6,'error'),
+                                                    tree.ovalNode.ovalNode(7,'error'),
+                                                    tree.ovalNode.ovalNode(8,'error')]),
+                                                 tree.ovalNode.ovalNode(9,'error')]),
+                 tree.ovalNode.ovalNode(10,'or', [
+                             tree.ovalNode.ovalNode(11,"error"),
+                             tree.ovalNode.ovalNode(12,"error")
+                            ]
+                     )
+                ]
+        )
+    
+    dictOfTree={'node_id': 1,'value': 'and',
+            'child': [
+                {'node_id': 2,'value': "error", 'child': None}, 
+                {'node_id': 3,'value': "xor", 'child': [
+                        {'node_id': 4,'value': "error", 'child': None},
+                        {'node_id': 5,'value': "one", 'child': [
+                                {'node_id': 6,'value': "error", 'child': None},
+                                {'node_id': 7,'value': "error", 'child': None},
+                                {'node_id': 8,'value': "error", 'child': None}
+                                ]},
+                        {'node_id': 9,'value': "error", 'child': None}]}, 
+                {'node_id': 10,'value': 'or', 'child': [
+                                {'node_id': 11,'value': "error", 'child': None},
+                                {'node_id': 12,'value': "error", 'child': None}
+                            ]
+                }
+            ]
+        }
+
+    any_test_treeEvaluation(Tree, "error")
+    any_test_renderTree(Tree)
+    any_test_treeTodictOfTree(Tree,dictOfTree)
+    find_any_node(Tree,5)
+
+def test_UltimateTree():
+    """
+        and
+      /  |\
+    and  f or
+          / \
+         f   f
+
+         "or",
+            "and",
+            "one",
+            "xor",
+            "true",
+            "false",
+            "error",
+            "unknown",
+            "noteval",
+            "notappl"
+    """
+    Tree = tree.ovalNode.ovalNode(1,'and', [
+                 tree.ovalNode.ovalNode(2,"false"),
+                 tree.ovalNode.ovalNode(3,"xor",[tree.ovalNode.ovalNode(4,'true'),                                                   tree.ovalNode.ovalNode(5,'one',[
+                                                    tree.ovalNode.ovalNode(6,'noteval'),
+                                                    tree.ovalNode.ovalNode(7,'true'),
+                                                    tree.ovalNode.ovalNode(8,'notappl')]),
+                                                 tree.ovalNode.ovalNode(9,'error')]),
+                 tree.ovalNode.ovalNode(10,'or', [
+                             tree.ovalNode.ovalNode(11,"unknown"),
+                             tree.ovalNode.ovalNode(12,"true")
+                            ]
+                     )
+                ]
+        )
+    
+    dictOfTree={'node_id': 1,'value': 'and',
+            'child': [
+                {'node_id': 2,'value': "false", 'child': None}, 
+                {'node_id': 3,'value': "xor", 'child': [
+                        {'node_id': 4,'value': "true", 'child': None},
+                        {'node_id': 5,'value': "one", 'child': [
+                                {'node_id': 6,'value': "noteval", 'child': None},
+                                {'node_id': 7,'value': "true", 'child': None},
+                                {'node_id': 8,'value': "notappl", 'child': None}
+                                ]},
+                        {'node_id': 9,'value': "error", 'child': None}]}, 
+                {'node_id': 10,'value': 'or', 'child': [
+                                {'node_id': 11,'value': "unknown", 'child': None},
+                                {'node_id': 12,'value': "true", 'child': None}
+                            ]
+                }
+            ]
+        }
+
+    any_test_treeEvaluation(Tree, "false")
+    any_test_renderTree(Tree)
+    any_test_treeTodictOfTree(Tree,dictOfTree)
+    find_any_node(Tree,5)
+
 def test_treenode_ideal():
     """
         and

@@ -8,8 +8,8 @@ pycodestyle tree/operatorTree.py
 TODO
 1]id - done
 2]find node with id - done
-3]add to tree - 50%
-4]change val of node with id - 50%
+3]add to tree - done
+4]change val of node with id - done 
 5]nová výroková logika: - done
 https://github.com/OpenSCAP/openscap/blob/4272ea0dfe1ec7ec2043b49753e0687948a95c0e/src/OVAL/results/oval_resultTest.c#L282
 

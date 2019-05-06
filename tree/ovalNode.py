@@ -37,8 +37,7 @@ class ovalNode(object):
         else:
             self.children = None
             raise ValueError(
-                "err- true, false, error, unknown. noteval, notappl\
-                     have not child!")
+                "err- true, false, error, unknown. noteval, notappl have not child!")
 
     def evaluateTree(self):
 
@@ -157,8 +156,6 @@ class ovalNode(object):
                         child.value == "and" or\
                         child.value == "one" or child.value == "xor":
                     result[child.evaluateTree() + "_cnt"]
-                else:
-                    raise ValueError("err- unknown value")
 
         if result['true_cnt'] == 0 and\
             result['false_cnt'] == 0 and result['error_cnt'] == 0 and\
@@ -180,8 +177,6 @@ class ovalNode(object):
             return OVAL_OPERATOR_ONE(result)
         elif self.value == "xor":
             return OVAL_OPERATOR_XOR(result)
-        else:
-            raise ValueError("err- unknown value")
 
     def treeToDict(self):
         if not self.children:

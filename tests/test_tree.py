@@ -70,6 +70,12 @@ def treeWithBadType():
     Tree = tree.ovalNode.ovalNode(1, "auto", 'and')
 
 # normal trees
+def test_UPPERCASETree():
+    t = tree.ovalNode.ovalNode(
+        1, "OPERATOR", "AND", [
+            tree.ovalNode.ovalNode(
+                2, "VALUE", "TRUE",),tree.ovalNode.ovalNode(
+                        3, "VALUE", "NOTAPPL")])
 
 # AND operator
 

@@ -1,8 +1,8 @@
 class ovalNode(object):
     def __init__(self, node_id, type, value, children=None):
         self.node_id = node_id
-        value.lower()
-        type.lower()
+        value = value.lower()
+        type = type.lower()
         if type=="value" or type=="operator":
             self.type = type
         else:

@@ -3,7 +3,7 @@ class ovalNode(object):
         self.node_id = node_id
         value = value.lower()
         type = type.lower()
-        if type=="value" or type=="operator":
+        if type == "value" or type == "operator":
             self.type = type
         else:
             raise ValueError("err- unknown type")
@@ -12,7 +12,7 @@ class ovalNode(object):
             "and",
             "one",
             "xor"]
-        allowedValues=[
+        allowedValues = [
             "true",
             "false",
             "error",
@@ -53,8 +53,8 @@ class ovalNode(object):
 
         def OVAL_OPERATOR_AND(result):
             if result['true_cnt'] > 0 and result['false_cnt'] == 0 and result[
-                    'error_cnt'] == 0 and result['unknown_cnt'] == 0 and\
-                         result['noteval_cnt'] == 0:
+                'error_cnt'] == 0 and result['unknown_cnt'] == 0 and\
+                    result['noteval_cnt'] == 0:
                 outResult = 'true'
             elif result['false_cnt'] > 0:
                 outResult = 'false'
@@ -163,7 +163,7 @@ class ovalNode(object):
                 result['notappl_cnt'] += 1
             else:
                 if self.type == "operator":
-                    result[child.evaluateTree() + "_cnt"] += 1 
+                    result[child.evaluateTree() + "_cnt"] += 1
 
         if result['notappl_cnt'] > 0 and result[
             'noteval_cnt'] == 0 and result['false_cnt'] == 0 and result[
@@ -200,7 +200,10 @@ class ovalNode(object):
 
 def dictToTree(dictOfTree):
     if dictOfTree["child"] is None:
-        return ovalNode(dictOfTree["node_id"], dictOfTree["type"], dictOfTree["value"])
+        return ovalNode(
+            dictOfTree["node_id"],
+            dictOfTree["type"],
+            dictOfTree["value"])
     else:
         return ovalNode(
             dictOfTree["node_id"],

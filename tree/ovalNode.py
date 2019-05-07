@@ -4,12 +4,13 @@ class ovalNode(object):
         if type=="value" or type=="operator":
             self.type = type
         else:
-            raise ValueError("err- unknown type value")
-        allowedValues = [
+            raise ValueError("err- unknown type")
+        allowedOperators = [
             "or",
             "and",
             "one",
-            "xor",
+            "xor"]
+        allowedValues=[
             "true",
             "false",
             "error",
@@ -17,10 +18,16 @@ class ovalNode(object):
             "noteval",
             "notappl"]
         value.lower()
-        if value in allowedValues:
-            self.value = value
-        else:
-            raise ValueError("err- unknown value")
+        if self.type == "value":
+            if value in allowedValues:
+                self.value = value
+            else:
+                raise ValueError("err- unknown value")
+        if self.type == "operator":
+            if value in allowedOperators:
+                self.value = value
+            else:
+                raise ValueError("err- unknown operator")
         self.children = []
         if children is not None:
             for child in children:

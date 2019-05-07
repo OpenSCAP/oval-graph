@@ -165,12 +165,6 @@ class ovalNode(object):
                 if self.type == "operator":
                     result[child.evaluateTree() + "_cnt"] += 1 
 
-        if result['true_cnt'] == 0 and\
-            result['false_cnt'] == 0 and result['error_cnt'] == 0 and\
-                result['unknown_cnt'] == 0 and result[
-                    'notappl_cnt'] == 0 and result['noteval_cnt'] == 0:
-            return "unknown"
-
         if result['notappl_cnt'] > 0 and result[
             'noteval_cnt'] == 0 and result['false_cnt'] == 0 and result[
                 'error_cnt'] == 0 and result[

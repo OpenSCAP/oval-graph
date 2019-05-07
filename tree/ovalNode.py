@@ -1,6 +1,10 @@
 class ovalNode(object):
-    def __init__(self, node_id, value='root', children=None):
+    def __init__(self, node_id, type, value, children=None):
         self.node_id = node_id
+        if type=="value" or type=="operator":
+            self.type = type
+        else:
+            raise ValueError("err- unknown type value")
         allowedValues = [
             "or",
             "and",
@@ -22,16 +26,14 @@ class ovalNode(object):
             for child in children:
                 self.add_child(child)
         else:
-            if self.value == "or" or self.value == "and" or\
-                 self.value == "one" or self.value == "xor":
+            if self.type == "operator":
                 raise ValueError('err- OR, XOR, ONE, AND have child!')
 
     def __repr__(self):
         return self.value
 
     def add_child(self, node):
-        if self.value == "or" or self.value == "and" or\
-             self.value == "one" or self.value == "xor":
+        if self.type == "operator":
             assert isinstance(node, ovalNode)
             self.children.append(node)
         else:
@@ -152,10 +154,8 @@ class ovalNode(object):
             elif child.value == 'notappl':
                 result['notappl_cnt'] += 1
             else:
-                if child.value == "or" or\
-                        child.value == "and" or\
-                        child.value == "one" or child.value == "xor":
-                    result[child.evaluateTree() + "_cnt"]
+                if self.type == "operator":
+                    result[child.evaluateTree() + "_cnt"] += 1 
 
         if result['true_cnt'] == 0 and\
             result['false_cnt'] == 0 and result['error_cnt'] == 0 and\
@@ -181,11 +181,13 @@ class ovalNode(object):
     def treeToDict(self):
         if not self.children:
             return {'node_id': self.node_id,
+                    'type': self.type,
                     'value': self.value,
                     'child': None
                     }
         else:
             return {'node_id': self.node_id,
+                    'type': self.type,
                     'value': self.value,
                     'child': [child.treeToDict() for child in self.children]
                     }
@@ -196,10 +198,11 @@ class ovalNode(object):
 
 def dictToTree(dictOfTree):
     if dictOfTree["child"] is None:
-        return ovalNode(dictOfTree["node_id"], dictOfTree["value"])
+        return ovalNode(dictOfTree["node_id"], dictOfTree["type"], dictOfTree["value"])
     else:
         return ovalNode(
             dictOfTree["node_id"],
+            dictOfTree["type"],
             dictOfTree["value"],
             [dictToTree(i) for i in dictOfTree["child"]])
 

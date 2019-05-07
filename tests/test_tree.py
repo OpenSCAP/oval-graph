@@ -83,20 +83,8 @@ def test_ANDTreeTrue():
     ]
     )
 
-    dictOfTree = {'node_id': 1, 'type': 'operator', 'value': 'and',
-                  'child': [
-                      {'node_id': 2, 'type': 'value', 'value': "true", 'child': None},
-                      {'node_id': 3, 'type': 'value', 'value': "true", 'child': None},
-                      {'node_id': 4, 'type': 'value', 'value': "notappl", 'child': None}
-                  ]
-                  }
-
     any_test_treeEvaluation(Tree, "true")
-    any_test_renderTree(Tree)
-    any_test_treeToDictOfTree(Tree, dictOfTree)
-    find_any_node(Tree, 1)
-    any_test_dictToTree(dictOfTree)
-
+    
 
 def test_ANDTreeFalse():
     Tree = tree.ovalNode.ovalNode(1, 'operator', 'and', [
@@ -111,25 +99,7 @@ def test_ANDTreeFalse():
     ]
     )
 
-    dictOfTree = {'node_id': 1, 'type': 'operator', 'value': 'and',
-                  'child': [
-                      {'node_id': 2, 'type': 'value', 'value': "false", 'child': None},
-                      {'node_id': 3, 'type': 'value', 'value': "false", 'child': None},
-                      
-                      {'node_id': 4, 'type': 'value', 'value': "true", 'child': None},
-                      {'node_id': 5, 'type': 'value', 'value': "error", 'child': None},
-                      {'node_id': 6, 'type': 'value', 'value': "unknown", 'child': None},
-                      {'node_id': 7, 'type': 'value', 'value': "noteval", 'child': None},
-                      {'node_id': 8, 'type': 'value', 'value': "notappl", 'child': None}
-                  ]
-                  }
-
     any_test_treeEvaluation(Tree, "false")
-    any_test_renderTree(Tree)
-    any_test_treeToDictOfTree(Tree, dictOfTree)
-    find_any_node(Tree, 1)
-    any_test_dictToTree(dictOfTree)
-
 
 def test_ANDTreeError():
     Tree = tree.ovalNode.ovalNode(1, 'operator', 'and', [
@@ -143,24 +113,7 @@ def test_ANDTreeError():
     ]
     )
 
-    dictOfTree = {'node_id': 1, 'type': 'operator', 'value': 'and',
-                  'child': [
-                      {'node_id': 2, 'type': 'value', 'value': "error", 'child': None},
-                      {'node_id': 3, 'type': 'value', 'value': "error", 'child': None},
-
-                      {'node_id': 4, 'type': 'value', 'value': "true", 'child': None},
-                      {'node_id': 5, 'type': 'value', 'value': "unknown", 'child': None},
-                      {'node_id': 6, 'type': 'value', 'value': "noteval", 'child': None},
-                      {'node_id': 7, 'type': 'value', 'value': "notappl", 'child': None},
-                      {'node_id': 8, 'type': 'value', 'value': "error", 'child': None},
-                  ]
-                  }
-
     any_test_treeEvaluation(Tree, "error")
-    any_test_renderTree(Tree)
-    any_test_treeToDictOfTree(Tree, dictOfTree)
-    find_any_node(Tree, 1)
-    any_test_dictToTree(dictOfTree)
 
 
 def test_ANDTreeUnknown():
@@ -175,24 +128,7 @@ def test_ANDTreeUnknown():
     ]
     )
 
-    dictOfTree = {'node_id': 1, 'type': 'operator', 'value': 'and',
-                  'child': [
-                      {'node_id': 2, 'type': 'value', 'value': "unknown", 'child': None},
-                      {'node_id': 3, 'type': 'value', 'value': "unknown", 'child': None},
-
-                      {'node_id': 4, 'type': 'value', 'value': "true", 'child': None},
-                      {'node_id': 5, 'type': 'value', 'value': "unknown", 'child': None},
-                      {'node_id': 6, 'type': 'value', 'value': "noteval", 'child': None},
-                      {'node_id': 7, 'type': 'value', 'value': "notappl", 'child': None},
-                      {'node_id': 8, 'type': 'value', 'value': "notappl", 'child': None},
-                  ]
-                  }
-
     any_test_treeEvaluation(Tree, "unknown")
-    any_test_renderTree(Tree)
-    any_test_treeToDictOfTree(Tree, dictOfTree)
-    find_any_node(Tree, 1)
-    any_test_dictToTree(dictOfTree)
 
 def test_ANDTreeNoteval():
     Tree = tree.ovalNode.ovalNode(1, 'operator', 'and', [
@@ -206,24 +142,7 @@ def test_ANDTreeNoteval():
     ]
     )
 
-    dictOfTree = {'node_id': 1, 'type': 'operator', 'value': 'and',
-                  'child': [
-                      {'node_id': 2, 'type': 'value', 'value': "noteval", 'child': None},
-                      {'node_id': 3, 'type': 'value', 'value': "noteval", 'child': None},
-
-                      {'node_id': 4, 'type': 'value', 'value': "true", 'child': None},
-                      {'node_id': 5, 'type': 'value', 'value': "true", 'child': None},
-                      {'node_id': 6, 'type': 'value', 'value': "noteval", 'child': None},
-                      {'node_id': 7, 'type': 'value', 'value': "notappl", 'child': None},
-                      {'node_id': 8, 'type': 'value', 'value': "notappl", 'child': None},
-                  ]
-                  }
-
     any_test_treeEvaluation(Tree, "noteval")
-    any_test_renderTree(Tree)
-    any_test_treeToDictOfTree(Tree, dictOfTree)
-    find_any_node(Tree, 1)
-    any_test_dictToTree(dictOfTree)
 
 def test_ANDTreeNotappl():
     Tree = tree.ovalNode.ovalNode(1, 'operator', 'and', [
@@ -233,19 +152,7 @@ def test_ANDTreeNotappl():
     ]
     )
 
-    dictOfTree = {'node_id': 1, 'type': 'operator', 'value': 'and',
-                  'child': [
-                      {'node_id': 2, 'type': 'value', 'value': "notappl", 'child': None},
-                      {'node_id': 3, 'type': 'value', 'value': "notappl", 'child': None},
-                      {'node_id': 4, 'type': 'value', 'value': "notappl", 'child': None}
-                  ]
-                  }
-
     any_test_treeEvaluation(Tree, "notappl")
-    any_test_renderTree(Tree)
-    any_test_treeToDictOfTree(Tree, dictOfTree)
-    find_any_node(Tree, 1)
-    any_test_dictToTree(dictOfTree)
 
 # ONE tree
 
@@ -258,20 +165,7 @@ def test_ONETreeTrue():
     ]
     )
 
-    dictOfTree = {'node_id': 1, 'type': 'operator', 'value': 'one',
-                  'child': [
-                      {'node_id': 2, 'type': 'value', 'value': "true", 'child': None},
-                      {'node_id': 3, 'type': 'value', 'value': "false", 'child': None},
-                      {'node_id': 4, 'type': 'value', 'value': "notappl", 'child': None},
-                      {'node_id': 5, 'type': 'value', 'value': "false", 'child': None}
-                  ]
-                  }
-
     any_test_treeEvaluation(Tree, "true")
-    any_test_renderTree(Tree)
-    any_test_treeToDictOfTree(Tree, dictOfTree)
-    find_any_node(Tree, 1)
-    any_test_dictToTree(dictOfTree)
 
 def test_ONETreeFalse():
     Tree = tree.ovalNode.ovalNode(1, 'operator', 'one', [
@@ -286,24 +180,7 @@ def test_ONETreeFalse():
     ]
     )
 
-    dictOfTree = {'node_id': 1, 'type': 'operator', 'value': 'one',
-                  'child': [
-                      {'node_id': 2, 'type': 'value', 'value': "true", 'child': None},
-                      {'node_id': 3, 'type': 'value', 'value': "true", 'child': None},
-                      
-                      {'node_id': 4, 'type': 'value', 'value': "false", 'child': None},
-                      {'node_id': 5, 'type': 'value', 'value': "error", 'child': None},
-                      {'node_id': 6, 'type': 'value', 'value': "unknown", 'child': None},
-                      {'node_id': 7, 'type': 'value', 'value': "noteval", 'child': None},
-                      {'node_id': 8, 'type': 'value', 'value': "notappl", 'child': None}
-                  ]
-                  }
-
     any_test_treeEvaluation(Tree, "false")
-    any_test_renderTree(Tree)
-    any_test_treeToDictOfTree(Tree, dictOfTree)
-    find_any_node(Tree, 1)
-    any_test_dictToTree(dictOfTree)
 
 def test_ONETreeFalse1():
     Tree = tree.ovalNode.ovalNode(1, 'operator', 'one', [
@@ -313,19 +190,7 @@ def test_ONETreeFalse1():
     ]
     )
 
-    dictOfTree = {'node_id': 1, 'type': 'operator', 'value': 'one',
-                  'child': [
-                      {'node_id': 2, 'type': 'value', 'value': "false", 'child': None},
-                      {'node_id': 3, 'type': 'value', 'value': "false", 'child': None},
-                      {'node_id': 4, 'type': 'value', 'value': "notappl", 'child': None}
-                  ]
-                  }
-
     any_test_treeEvaluation(Tree, "false")
-    any_test_renderTree(Tree)
-    any_test_treeToDictOfTree(Tree, dictOfTree)
-    find_any_node(Tree, 1)
-    any_test_dictToTree(dictOfTree)
 
 def test_ONETreeError():
     Tree = tree.ovalNode.ovalNode(1, 'operator', 'one', [
@@ -339,24 +204,7 @@ def test_ONETreeError():
     ]
     )
 
-    dictOfTree = {'node_id': 1, 'type': 'operator', 'value': 'one',
-                  'child': [
-                      {'node_id': 2, 'type': 'value', 'value': "error", 'child': None},
-                      {'node_id': 3, 'type': 'value', 'value': "error", 'child': None},
-
-                      {'node_id': 4, 'type': 'value', 'value': "true", 'child': None},
-                      {'node_id': 5, 'type': 'value', 'value': "unknown", 'child': None},
-                      {'node_id': 6, 'type': 'value', 'value': "noteval", 'child': None},
-                      {'node_id': 7, 'type': 'value', 'value': "notappl", 'child': None},
-                      {'node_id': 8, 'type': 'value', 'value': "false", 'child': None},
-                  ]
-                  }
-
     any_test_treeEvaluation(Tree, "error")
-    any_test_renderTree(Tree)
-    any_test_treeToDictOfTree(Tree, dictOfTree)
-    find_any_node(Tree, 1)
-    any_test_dictToTree(dictOfTree)
 
 def test_ONETreeUnknown():
     Tree = tree.ovalNode.ovalNode(1, 'operator', 'one', [
@@ -370,24 +218,7 @@ def test_ONETreeUnknown():
     ]
     )
 
-    dictOfTree = {'node_id': 1, 'type': 'operator', 'value': 'one',
-                  'child': [
-                      {'node_id': 2, 'type': 'value', 'value': "unknown", 'child': None},
-                      {'node_id': 3, 'type': 'value', 'value': "unknown", 'child': None},
-
-                      {'node_id': 4, 'type': 'value', 'value': "true", 'child': None},
-                      {'node_id': 5, 'type': 'value', 'value': "unknown", 'child': None},
-                      {'node_id': 6, 'type': 'value', 'value': "noteval", 'child': None},
-                      {'node_id': 7, 'type': 'value', 'value': "notappl", 'child': None},
-                      {'node_id': 8, 'type': 'value', 'value': "false", 'child': None},
-                  ]
-                  }
-
     any_test_treeEvaluation(Tree, "unknown")
-    any_test_renderTree(Tree)
-    any_test_treeToDictOfTree(Tree, dictOfTree)
-    find_any_node(Tree, 1)
-    any_test_dictToTree(dictOfTree)
 
 def test_ONETreeNoteval():
     Tree = tree.ovalNode.ovalNode(1, 'operator', 'one', [
@@ -401,24 +232,7 @@ def test_ONETreeNoteval():
     ]
     )
 
-    dictOfTree = {'node_id': 1, 'type': 'operator', 'value': 'one',
-                  'child': [
-                      {'node_id': 2, 'type': 'value', 'value': "noteval", 'child': None},
-                      {'node_id': 3, 'type': 'value', 'value': "noteval", 'child': None},
-
-                      {'node_id': 4, 'type': 'value', 'value': "true", 'child': None},
-                      {'node_id': 5, 'type': 'value', 'value': "false", 'child': None},
-                      {'node_id': 6, 'type': 'value', 'value': "noteval", 'child': None},
-                      {'node_id': 7, 'type': 'value', 'value': "notappl", 'child': None},
-                      {'node_id': 8, 'type': 'value', 'value': "notappl", 'child': None},
-                  ]
-                  }
-
     any_test_treeEvaluation(Tree, "noteval")
-    any_test_renderTree(Tree)
-    any_test_treeToDictOfTree(Tree, dictOfTree)
-    find_any_node(Tree, 1)
-    any_test_dictToTree(dictOfTree)
 
 def test_ONETreeNotappl():
     Tree = tree.ovalNode.ovalNode(1, 'operator', 'one', [
@@ -428,19 +242,7 @@ def test_ONETreeNotappl():
     ]
     )
 
-    dictOfTree = {'node_id': 1, 'type': 'operator', 'value': 'one',
-                  'child': [
-                      {'node_id': 2, 'type': 'value', 'value': "notappl", 'child': None},
-                      {'node_id': 3, 'type': 'value', 'value': "notappl", 'child': None},
-                      {'node_id': 4, 'type': 'value', 'value': "notappl", 'child': None}
-                  ]
-                  }
-
     any_test_treeEvaluation(Tree, "notappl")
-    any_test_renderTree(Tree)
-    any_test_treeToDictOfTree(Tree, dictOfTree)
-    find_any_node(Tree, 1)
-    any_test_dictToTree(dictOfTree)
 
 def test_bigOvalTree():
     Tree = tree.ovalNode.ovalNode(

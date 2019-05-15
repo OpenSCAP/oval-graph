@@ -16,7 +16,7 @@ class OvalNode(object):
         node_id (str): id of node
         node_type (str): type node
         value (str): value of node for operator and,
-        or, one etc... and for value true, false, error etc...  
+        or, one etc... and for value true, false, error etc...
         children ([OvalNode]): children of node
     '''
     def __init__(self, node_id, input_node_type, input_value, children=None):

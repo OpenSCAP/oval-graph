@@ -1,4 +1,4 @@
-class Oval_Node(object):
+class OvalNode(object):
     def __init__(self, node_id, input_type, input_value, children=None):
         self.node_id = node_id
         value = input_value.lower()
@@ -42,7 +42,7 @@ class Oval_Node(object):
 
     def add_child(self, node):
         if self.type == "operator":
-            assert isinstance(node, Oval_Node)
+            assert isinstance(node, OvalNode)
             self.children.append(node)
         else:
             self.children = None
@@ -226,12 +226,12 @@ class Oval_Node(object):
 
 def dictToTree(dictOfTree):
     if dictOfTree["child"] is None:
-        return Oval_Node(
+        return OvalNode(
             dictOfTree["node_id"],
             dictOfTree["type"],
             dictOfTree["value"])
     else:
-        return Oval_Node(
+        return OvalNode(
             dictOfTree["node_id"],
             dictOfTree["type"],
             dictOfTree["value"],

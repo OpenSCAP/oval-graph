@@ -18,6 +18,7 @@ https://github.com/OpenSCAP/openscap/blob/4272ea0dfe1ec7ec2043b49753e0687948a95c
 
 https://oval.mitre.org/language/version5.11/ovaldefinition/documentation/oval-common-schema.html#OperatorEnumeration
 
-6]pep8 
-7]TESTY
-8]kreslení 
+6]pep8 - done 
+7]TESTY - done 
+8]fix ci
+9]find and fix 

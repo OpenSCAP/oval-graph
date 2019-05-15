@@ -1,8 +1,8 @@
-class ovalNode(object):
-    def __init__(self, node_id, type, value, children=None):
+class Oval_Node(object):
+    def __init__(self, node_id, input_type, input_value, children=None):
         self.node_id = node_id
-        value = value.lower()
-        type = type.lower()
+        value = input_value.lower()
+        type = input_type.lower()
         if type == "value" or type == "operator":
             self.type = type
         else:
@@ -42,7 +42,7 @@ class ovalNode(object):
 
     def add_child(self, node):
         if self.type == "operator":
-            assert isinstance(node, ovalNode)
+            assert isinstance(node, Oval_Node)
             self.children.append(node)
         else:
             self.children = None
@@ -52,90 +52,119 @@ class ovalNode(object):
     def evaluateTree(self):
 
         def OVAL_OPERATOR_AND(result):
-            if result['true_cnt'] > 0 and result['false_cnt'] == 0 and result[
-                'error_cnt'] == 0 and result['unknown_cnt'] == 0 and\
-                    result['noteval_cnt'] == 0:
+            outResult = None
+            if (result['true_cnt'] > 0)\
+                and (result['false_cnt'] == 0)\
+                and (result['error_cnt'] == 0)\
+                and (result['unknown_cnt'] == 0)\
+                and (result['noteval_cnt'] == 0):
                 outResult = 'true'
-            elif result['false_cnt'] > 0:
+            elif (result['false_cnt'] > 0):
                 outResult = 'false'
-            elif result['false_cnt'] == 0 and result['error_cnt'] > 0:
+            elif (result['false_cnt'] == 0)\
+                and (result['error_cnt'] > 0):
                 outResult = 'error'
-            elif result['false_cnt'] == 0 and result[
-                    'error_cnt'] == 0 and result['unknown_cnt'] > 0:
+            elif (result['false_cnt'] == 0)\
+                and (result['error_cnt'] == 0)\
+                and (result['unknown_cnt'] > 0):
                 outResult = 'unknown'
-            elif result['false_cnt'] == 0 and result[
-                    'error_cnt'] == 0 and result[
-                        'unknown_cnt'] == 0 and result['noteval_cnt'] > 0:
+            elif (result['false_cnt'] == 0)\
+                and (result['error_cnt'] == 0)\
+                and (result['unknown_cnt'] == 0)\
+                and (result['noteval_cnt'] > 0):
                 outResult = 'noteval'
             return outResult
 
         def OVAL_OPERATOR_ONE(result):
-            if result['true_cnt'] == 1 and result[
-                'false_cnt'] >= 0 and result['error_cnt'] == 0 and result[
-                    'unknown_cnt'] == 0 and result[
-                        'noteval_cnt'] == 0 and result['notappl_cnt'] >= 0:
+            outResult = None
+            if (result['true_cnt'] == 1)\
+                and (result['false_cnt'] >= 0)\
+                and (result['error_cnt'] == 0)\
+                and (result['unknown_cnt'] == 0)\
+                and (result['noteval_cnt'] == 0)\
+                and (result['notappl_cnt'] >= 0):
                 outResult = 'true'
-            elif result['true_cnt'] >= 2 and result[
-                'false_cnt'] >= 0 and result['error_cnt'] >= 0 and result[
-                    'unknown_cnt'] >= 0 and result[
-                        'noteval_cnt'] >= 0 and result['notappl_cnt'] >= 0:
+            elif (result['true_cnt'] >= 2)\
+                and (result['false_cnt'] >= 0)\
+                and (result['error_cnt'] >= 0)\
+                and (result['unknown_cnt'] >= 0)\
+                and (result['noteval_cnt'] >= 0)\
+                and (result['notappl_cnt'] >= 0):
                 outResult = 'false'
-            elif result['true_cnt'] == 0 and result[
-                'false_cnt'] >= 0 and result['error_cnt'] == 0 and result[
-                    'unknown_cnt'] == 0 and result[
-                        'noteval_cnt'] == 0 and result['notappl_cnt'] >= 0:
+            elif (result['true_cnt'] == 0)\
+                and (result['false_cnt'] >= 0)\
+                and (result['error_cnt'] == 0)\
+                and (result['unknown_cnt'] == 0)\
+                and (result['noteval_cnt'] == 0)\
+                and (result['notappl_cnt'] >= 0):
                 outResult = 'false'
-            elif result['true_cnt'] < 2 and result[
-                'false_cnt'] >= 0 and result['error_cnt'] > 0 and result[
-                    'unknown_cnt'] >= 0 and result[
-                        'noteval_cnt'] >= 0 and result['notappl_cnt'] >= 0:
+            elif (result['true_cnt'] < 2)\
+                and (result['false_cnt'] >= 0)\
+                and (result['error_cnt'] > 0)\
+                and (result['unknown_cnt'] >= 0)\
+                and (result['noteval_cnt'] >= 0)\
+                and (result['notappl_cnt'] >= 0):
                 outResult = 'error'
-            elif result['true_cnt'] < 2 and result[
-                'false_cnt'] >= 0 and result['error_cnt'] == 0 and result[
-                    'unknown_cnt'] >= 1 and result[
-                        'noteval_cnt'] >= 0 and result['notappl_cnt'] >= 0:
+            elif (result['true_cnt'] < 2)\
+                and (result['false_cnt'] >= 0)\
+                and (result['error_cnt'] == 0)\
+                and (result['unknown_cnt'] >= 1)\
+                and (result['noteval_cnt'] >= 0)\
+                and (result['notappl_cnt'] >= 0):
                 outResult = 'unknown'
-            elif result['true_cnt'] < 2 and result[
-                'false_cnt'] >= 0 and result['error_cnt'] == 0 and result[
-                    'unknown_cnt'] == 0 and result[
-                        'noteval_cnt'] > 0 and result['notappl_cnt'] >= 0:
+            elif (result['true_cnt'] < 2)\
+                and (result['false_cnt'] >= 0)\
+                and (result['error_cnt'] == 0)\
+                and (result['unknown_cnt'] == 0)\
+                and (result['noteval_cnt'] > 0)\
+                and (result['notappl_cnt'] >= 0):
                 outResult = 'noteval'
             return outResult
 
         def OVAL_OPERATOR_OR(result):
-            if result['true_cnt'] > 0:
+            outResult = None
+            if (result['true_cnt'] > 0):
                 outResult = 'true'
-            elif result['true_cnt'] == 0 and result[
-                'false_cnt'] > 0 and result['error_cnt'] == 0 and result[
-                    'unknown_cnt'] == 0 and result['noteval_cnt'] == 0:
+            elif (result['true_cnt'] == 0)\
+                and (result['false_cnt'] > 0)\
+                and (result['error_cnt'] == 0)\
+                and (result['unknown_cnt'] == 0)\
+                and (result['noteval_cnt'] == 0):
                 outResult = 'false'
-            elif result['true_cnt'] == 0 and result['error_cnt'] > 0:
+            elif (result['true_cnt'] == 0)\
+                and (result['error_cnt'] > 0):
                 outResult = 'error'
-            elif result['true_cnt'] == 0 and result[
-                    'error_cnt'] == 0 and result[
-                        'unknown_cnt'] > 0:
+            elif (result['true_cnt'] == 0)\
+                and (result['error_cnt'] == 0)\
+                and (result['unknown_cnt'] > 0):
                 outResult = 'unknown'
-            elif result['true_cnt'] == 0 and result[
-                    'error_cnt'] == 0 and result[
-                        'unknown_cnt'] == 0 and result['noteval_cnt'] > 0:
+            elif (result['true_cnt'] == 0)\
+                and (result['error_cnt'] == 0)\
+                and (result['unknown_cnt'] == 0)\
+                and (result['noteval_cnt'] > 0):
                 outResult = 'noteval'
             return outResult
 
         def OVAL_OPERATOR_XOR(result):
-            if (result['true_cnt'] %
-                    2) == 1 and result['error_cnt'] == 0 and result[
-                        'unknown_cnt'] == 0 and result['noteval_cnt'] == 0:
+            outResult = None
+            if ((result['true_cnt'] % 2) == 1)\
+                and (result['error_cnt'] == 0)\
+                and (result['unknown_cnt'] == 0)\
+                and (result['noteval_cnt'] == 0):
                 outResult = 'true'
-            elif (result['true_cnt'] % 2) == 0 and result[
-                    'error_cnt'] == 0 and result[
-                        'unknown_cnt'] == 0 and result['noteval_cnt'] == 0:
+            elif ((result['true_cnt'] % 2) == 0)\
+                and (result['error_cnt'] == 0)\
+                and (result['unknown_cnt'] == 0)\
+                and (result['noteval_cnt'] == 0):
                 outResult = 'false'
-            elif result['error_cnt'] > 0:
+            elif (result['error_cnt'] > 0):
                 outResult = 'error'
-            elif result['error_cnt'] == 0 and result['unknown_cnt'] > 0:
+            elif (result['error_cnt'] == 0)\
+                and (result['unknown_cnt'] > 0):
                 outResult = 'unknown'
-            elif result['error_cnt'] == 0 and result[
-                    'unknown_cnt'] == 0 and result['noteval_cnt'] > 0:
+            elif (result['error_cnt'] == 0)\
+                and (result['unknown_cnt'] == 0)\
+                and (result['noteval_cnt'] > 0):
                 outResult = 'noteval'
             return outResult
 
@@ -167,8 +196,8 @@ class ovalNode(object):
 
         if result['notappl_cnt'] > 0 and result[
             'noteval_cnt'] == 0 and result['false_cnt'] == 0 and result[
-                'error_cnt'] == 0 and result[
-                    'unknown_cnt'] == 0 and result['true_cnt'] == 0:
+            'error_cnt'] == 0 and result[
+            'unknown_cnt'] == 0 and result['true_cnt'] == 0:
             return "notappl"
 
         if self.value == "or":
@@ -194,18 +223,15 @@ class ovalNode(object):
                     'child': [child.treeToDict() for child in self.children]
                     }
 
-    def renderTree(self, img=None):
-        return True
-
 
 def dictToTree(dictOfTree):
     if dictOfTree["child"] is None:
-        return ovalNode(
+        return Oval_Node(
             dictOfTree["node_id"],
             dictOfTree["type"],
             dictOfTree["value"])
     else:
-        return ovalNode(
+        return Oval_Node(
             dictOfTree["node_id"],
             dictOfTree["type"],
             dictOfTree["value"],

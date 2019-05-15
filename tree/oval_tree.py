@@ -1,10 +1,30 @@
+'''
+This module contains methods and classes for
+constructing and controlling an oval tree.
+'''
 class OvalNode(object):
-    def __init__(self, node_id, input_operator_type, input_value, children=None):
+    '''
+    The OvalNode object is one node of oval tree.
+
+    Args:
+        node_id (str|int): identifies node
+        input_node_type (str): type of node (value or operator)
+        input_value (str): value of node
+        children ([OvalNode]): array of children of node
+
+    Attributes:
+        node_id (str): id of node
+        node_type (str): type node
+        value (str): value of node for operator and,
+        or, one etc... and for value true, false, error etc...  
+        children ([OvalNode]): children of node
+    '''
+    def __init__(self, node_id, input_node_type, input_value, children=None):
         self.node_id = node_id
         value = input_value.lower()
-        operator_type = input_operator_type.lower()
-        if operator_type == "value" or operator_type == "operator":
-            self.operator_type = operator_type
+        node_type = input_node_type.lower()
+        if node_type == "value" or node_type == "operator":
+            self.node_type = node_type
         else:
             raise ValueError("err- unknown type")
         allowed_operators = [
@@ -19,12 +39,12 @@ class OvalNode(object):
             "unknown",
             "noteval",
             "notappl"]
-        if self.operator_type == "value":
+        if self.node_type == "value":
             if value in allowed_values:
                 self.value = value
             else:
                 raise ValueError("err- unknown value")
-        if self.operator_type == "operator":
+        if self.node_type == "operator":
             if value in allowed_operators:
                 self.value = value
             else:
@@ -34,14 +54,14 @@ class OvalNode(object):
             for child in children:
                 self.add_child(child)
         else:
-            if self.operator_type == "operator":
+            if self.node_type == "operator":
                 raise ValueError('err- OR, XOR, ONE, AND have child!')
 
     def __repr__(self):
         return self.value
 
     def add_child(self, node):
-        if self.operator_type == "operator":
+        if self.node_type == "operator":
             assert isinstance(node, OvalNode)
             self.children.append(node)
         else:
@@ -191,7 +211,7 @@ class OvalNode(object):
             elif child.value == 'notappl':
                 result['notappl_cnt'] += 1
             else:
-                if self.operator_type == "operator":
+                if self.node_type == "operator":
                     result[child.evaluateTree() + "_cnt"] += 1
 
         if result['notappl_cnt'] > 0\
@@ -215,14 +235,14 @@ class OvalNode(object):
         if not self.children:
             return {
                 'node_id': self.node_id,
-                'type': self.operator_type,
+                'type': self.node_type,
                 'value': self.value,
                 'child': None
             }
         else:
             return {
                 'node_id': self.node_id,
-                'type': self.operator_type,
+                'type': self.node_type,
                 'value': self.value,
                 'child': [child.treeToDict() for child in self.children]
             }

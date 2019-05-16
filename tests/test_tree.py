@@ -566,3 +566,48 @@ def test_ChangeValueTree():
 
     tree.oval_tree.ChangeTreeValue(Tree, 3, "true")
     any_test_treeEvaluation(Tree, "true")
+
+def test_bad_operator_input_and():
+    result = {
+            'true_cnt': -1,
+            'false_cnt': -1,
+            'error_cnt': -1,
+            'unknown_cnt': -1,
+            'noteval_cnt': -1,
+            'notappl_cnt': -1
+        }
+    assert tree.oval_tree.OVAL_OPERATOR_AND(result) == None
+    
+def test_bad_operator_input_one():
+    result = {
+            'true_cnt': -1,
+            'false_cnt': -1,
+            'error_cnt': -1,
+            'unknown_cnt': -1,
+            'noteval_cnt': -1,
+            'notappl_cnt': -1
+        }
+    assert tree.oval_tree.OVAL_OPERATOR_ONE(result) == None
+
+def test_bad_operator_input_or():
+    result = {
+            'true_cnt': -1,
+            'false_cnt': -1,
+            'error_cnt': -1,
+            'unknown_cnt': -1,
+            'noteval_cnt': -1,
+            'notappl_cnt': -1
+        }
+    assert tree.oval_tree.OVAL_OPERATOR_OR(result) == None
+
+def test_bad_operator_input_xor():
+    result = {
+            'true_cnt': -1,
+            'false_cnt': -1,
+            'error_cnt': -1,
+            'unknown_cnt': -1,
+            'noteval_cnt': -1,
+            'notappl_cnt': -1
+        }
+    print(tree.oval_tree.OVAL_OPERATOR_XOR(result))
+    assert tree.oval_tree.OVAL_OPERATOR_XOR(result) == None

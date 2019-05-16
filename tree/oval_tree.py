@@ -189,6 +189,8 @@ def OVAL_OPERATOR_AND(result):
             and result['unknown_cnt'] == 0\
             and result['noteval_cnt'] > 0:
         out_result = 'noteval'
+    else:
+        out_result = None
     return out_result
 
 
@@ -236,6 +238,8 @@ def OVAL_OPERATOR_ONE(result):
             and result['noteval_cnt'] > 0\
             and result['notappl_cnt'] >= 0:
         out_result = 'noteval'
+    else:
+        out_result = None
     return out_result
 
 
@@ -261,6 +265,8 @@ def OVAL_OPERATOR_OR(result):
             and result['unknown_cnt'] == 0\
             and result['noteval_cnt'] > 0:
         out_result = 'noteval'
+    else:
+        out_result = None
     return out_result
 
 
@@ -285,4 +291,6 @@ def OVAL_OPERATOR_XOR(result):
             and result['unknown_cnt'] == 0\
             and result['noteval_cnt'] > 0:
         out_result = 'noteval'
+    else:
+        out_result = None
     return out_result

@@ -2,6 +2,8 @@
 This module contains methods and classes for
 constructing and controlling an oval tree.
 '''
+
+
 class OvalNode(object):
     '''
     The OvalNode object is one node of oval tree.
@@ -19,6 +21,7 @@ class OvalNode(object):
         or, one etc... and for value true, false, error etc...
         children ([OvalNode]): children of node
     '''
+
     def __init__(self, node_id, input_node_type, input_value, children=None):
         self.node_id = node_id
         value = input_value.lower()
@@ -70,124 +73,6 @@ class OvalNode(object):
                 "err- true, false, error, unknown. noteval, notappl have not child!")
 
     def evaluateTree(self):
-
-        def OVAL_OPERATOR_AND(result):
-            out_result = None
-            if result['true_cnt'] > 0\
-                and result['false_cnt'] == 0\
-                and result['error_cnt'] == 0\
-                and result['unknown_cnt'] == 0\
-                and result['noteval_cnt'] == 0:
-                out_result = 'true'
-            elif result['false_cnt'] > 0:
-                out_result = 'false'
-            elif result['false_cnt'] == 0\
-                and result['error_cnt'] > 0:
-                out_result = 'error'
-            elif result['false_cnt'] == 0\
-                and result['error_cnt'] == 0\
-                and result['unknown_cnt'] > 0:
-                out_result = 'unknown'
-            elif result['false_cnt'] == 0\
-                and result['error_cnt'] == 0\
-                and result['unknown_cnt'] == 0\
-                and result['noteval_cnt'] > 0:
-                out_result = 'noteval'
-            return out_result
-
-        def OVAL_OPERATOR_ONE(result):
-            out_result = None
-            if result['true_cnt'] == 1\
-                and result['false_cnt'] >= 0\
-                and result['error_cnt'] == 0\
-                and result['unknown_cnt'] == 0\
-                and result['noteval_cnt'] == 0\
-                and result['notappl_cnt'] >= 0:
-                out_result = 'true'
-            elif result['true_cnt'] >= 2\
-                and result['false_cnt'] >= 0\
-                and result['error_cnt'] >= 0\
-                and result['unknown_cnt'] >= 0\
-                and result['noteval_cnt'] >= 0\
-                and result['notappl_cnt'] >= 0:
-                out_result = 'false'
-            elif result['true_cnt'] == 0\
-                and result['false_cnt'] >= 0\
-                and result['error_cnt'] == 0\
-                and result['unknown_cnt'] == 0\
-                and result['noteval_cnt'] == 0\
-                and result['notappl_cnt'] >= 0:
-                out_result = 'false'
-            elif result['true_cnt'] < 2\
-                and result['false_cnt'] >= 0\
-                and result['error_cnt'] > 0\
-                and result['unknown_cnt'] >= 0\
-                and result['noteval_cnt'] >= 0\
-                and result['notappl_cnt'] >= 0:
-                out_result = 'error'
-            elif result['true_cnt'] < 2\
-                and result['false_cnt'] >= 0\
-                and result['error_cnt'] == 0\
-                and result['unknown_cnt'] >= 1\
-                and result['noteval_cnt'] >= 0\
-                and result['notappl_cnt'] >= 0:
-                out_result = 'unknown'
-            elif result['true_cnt'] < 2\
-                and result['false_cnt'] >= 0\
-                and result['error_cnt'] == 0\
-                and result['unknown_cnt'] == 0\
-                and result['noteval_cnt'] > 0\
-                and result['notappl_cnt'] >= 0:
-                out_result = 'noteval'
-            return out_result
-
-        def OVAL_OPERATOR_OR(result):
-            out_result = None
-            if result['true_cnt'] > 0:
-                out_result = 'true'
-            elif result['true_cnt'] == 0\
-                and result['false_cnt'] > 0\
-                and result['error_cnt'] == 0\
-                and result['unknown_cnt'] == 0\
-                and result['noteval_cnt'] == 0:
-                out_result = 'false'
-            elif result['true_cnt'] == 0\
-                and result['error_cnt'] > 0:
-                out_result = 'error'
-            elif result['true_cnt'] == 0\
-                and result['error_cnt'] == 0\
-                and result['unknown_cnt'] > 0:
-                out_result = 'unknown'
-            elif result['true_cnt'] == 0\
-                and result['error_cnt'] == 0\
-                and result['unknown_cnt'] == 0\
-                and result['noteval_cnt'] > 0:
-                out_result = 'noteval'
-            return out_result
-
-        def OVAL_OPERATOR_XOR(result):
-            out_result = None
-            if (result['true_cnt'] % 2) == 1\
-                and result['error_cnt'] == 0\
-                and result['unknown_cnt'] == 0\
-                and result['noteval_cnt'] == 0:
-                out_result = 'true'
-            elif (result['true_cnt'] % 2) == 0\
-                and result['error_cnt'] == 0\
-                and result['unknown_cnt'] == 0\
-                and result['noteval_cnt'] == 0:
-                out_result = 'false'
-            elif result['error_cnt'] > 0:
-                out_result = 'error'
-            elif result['error_cnt'] == 0\
-                and result['unknown_cnt'] > 0:
-                out_result = 'unknown'
-            elif result['error_cnt'] == 0\
-                and result['unknown_cnt'] == 0\
-                and result['noteval_cnt'] > 0:
-                out_result = 'noteval'
-            return out_result
-
         result = {
             'true_cnt': 0,
             'false_cnt': 0,
@@ -215,11 +100,11 @@ class OvalNode(object):
                     result[child.evaluateTree() + "_cnt"] += 1
 
         if result['notappl_cnt'] > 0\
-            and result['noteval_cnt'] == 0\
-            and result['false_cnt'] == 0\
-            and result['error_cnt'] == 0\
-            and result['unknown_cnt'] == 0\
-            and result['true_cnt'] == 0:
+                and result['noteval_cnt'] == 0\
+                and result['false_cnt'] == 0\
+                and result['error_cnt'] == 0\
+                and result['unknown_cnt'] == 0\
+                and result['true_cnt'] == 0:
             return "notappl"
 
         if self.value == "or":
@@ -280,3 +165,124 @@ def addToTree(tree, node_id, newNode):
 
 def ChangeTreeValue(tree, node_id, value):
     findNodeWithID(tree, node_id).value = value
+
+
+def OVAL_OPERATOR_AND(result):
+    out_result = None
+    if result['true_cnt'] > 0\
+            and result['false_cnt'] == 0\
+            and result['error_cnt'] == 0\
+            and result['unknown_cnt'] == 0\
+            and result['noteval_cnt'] == 0:
+        out_result = 'true'
+    elif result['false_cnt'] > 0:
+        out_result = 'false'
+    elif result['false_cnt'] == 0\
+            and result['error_cnt'] > 0:
+        out_result = 'error'
+    elif result['false_cnt'] == 0\
+            and result['error_cnt'] == 0\
+            and result['unknown_cnt'] > 0:
+        out_result = 'unknown'
+    elif result['false_cnt'] == 0\
+            and result['error_cnt'] == 0\
+            and result['unknown_cnt'] == 0\
+            and result['noteval_cnt'] > 0:
+        out_result = 'noteval'
+    return out_result
+
+
+def OVAL_OPERATOR_ONE(result):
+    out_result = None
+    if result['true_cnt'] == 1\
+            and result['false_cnt'] >= 0\
+            and result['error_cnt'] == 0\
+            and result['unknown_cnt'] == 0\
+            and result['noteval_cnt'] == 0\
+            and result['notappl_cnt'] >= 0:
+        out_result = 'true'
+    elif result['true_cnt'] >= 2\
+            and result['false_cnt'] >= 0\
+            and result['error_cnt'] >= 0\
+            and result['unknown_cnt'] >= 0\
+            and result['noteval_cnt'] >= 0\
+            and result['notappl_cnt'] >= 0:
+        out_result = 'false'
+    elif result['true_cnt'] == 0\
+            and result['false_cnt'] >= 0\
+            and result['error_cnt'] == 0\
+            and result['unknown_cnt'] == 0\
+            and result['noteval_cnt'] == 0\
+            and result['notappl_cnt'] >= 0:
+        out_result = 'false'
+    elif result['true_cnt'] < 2\
+            and result['false_cnt'] >= 0\
+            and result['error_cnt'] > 0\
+            and result['unknown_cnt'] >= 0\
+            and result['noteval_cnt'] >= 0\
+            and result['notappl_cnt'] >= 0:
+        out_result = 'error'
+    elif result['true_cnt'] < 2\
+            and result['false_cnt'] >= 0\
+            and result['error_cnt'] == 0\
+            and result['unknown_cnt'] >= 1\
+            and result['noteval_cnt'] >= 0\
+            and result['notappl_cnt'] >= 0:
+        out_result = 'unknown'
+    elif result['true_cnt'] < 2\
+            and result['false_cnt'] >= 0\
+            and result['error_cnt'] == 0\
+            and result['unknown_cnt'] == 0\
+            and result['noteval_cnt'] > 0\
+            and result['notappl_cnt'] >= 0:
+        out_result = 'noteval'
+    return out_result
+
+
+def OVAL_OPERATOR_OR(result):
+    out_result = None
+    if result['true_cnt'] > 0:
+        out_result = 'true'
+    elif result['true_cnt'] == 0\
+            and result['false_cnt'] > 0\
+            and result['error_cnt'] == 0\
+            and result['unknown_cnt'] == 0\
+            and result['noteval_cnt'] == 0:
+        out_result = 'false'
+    elif result['true_cnt'] == 0\
+            and result['error_cnt'] > 0:
+        out_result = 'error'
+    elif result['true_cnt'] == 0\
+            and result['error_cnt'] == 0\
+            and result['unknown_cnt'] > 0:
+        out_result = 'unknown'
+    elif result['true_cnt'] == 0\
+            and result['error_cnt'] == 0\
+            and result['unknown_cnt'] == 0\
+            and result['noteval_cnt'] > 0:
+        out_result = 'noteval'
+    return out_result
+
+
+def OVAL_OPERATOR_XOR(result):
+    out_result = None
+    if (result['true_cnt'] % 2) == 1\
+            and result['error_cnt'] == 0\
+            and result['unknown_cnt'] == 0\
+            and result['noteval_cnt'] == 0:
+        out_result = 'true'
+    elif (result['true_cnt'] % 2) == 0\
+            and result['error_cnt'] == 0\
+            and result['unknown_cnt'] == 0\
+            and result['noteval_cnt'] == 0:
+        out_result = 'false'
+    elif result['error_cnt'] > 0:
+        out_result = 'error'
+    elif result['error_cnt'] == 0\
+            and result['unknown_cnt'] > 0:
+        out_result = 'unknown'
+    elif result['error_cnt'] == 0\
+            and result['unknown_cnt'] == 0\
+            and result['noteval_cnt'] > 0:
+        out_result = 'noteval'
+    return out_result

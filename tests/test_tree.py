@@ -73,6 +73,7 @@ def treeWithBadValueOfValue():
     Tree = tree.oval_tree.OvalNode(1, "value", 'and')
     return
 
+
 def treeWithBadType():
     Tree = tree.oval_tree.OvalNode(1, "auto", 'and')
     return
@@ -567,47 +568,73 @@ def test_ChangeValueTree():
     tree.oval_tree.ChangeTreeValue(Tree, 3, "true")
     any_test_treeEvaluation(Tree, "true")
 
+
 def test_bad_operator_input_and():
     result = {
-            'true_cnt': -1,
-            'false_cnt': -1,
-            'error_cnt': -1,
-            'unknown_cnt': -1,
-            'noteval_cnt': -1,
-            'notappl_cnt': -1
-        }
-    assert tree.oval_tree.OVAL_OPERATOR_AND(result) == None
-    
+        'true_cnt': -1,
+        'false_cnt': -1,
+        'error_cnt': -1,
+        'unknown_cnt': -1,
+        'noteval_cnt': -1,
+        'notappl_cnt': -1
+    }
+    assert tree.oval_tree.oval_operator_and(result) is None
+
+
 def test_bad_operator_input_one():
     result = {
-            'true_cnt': -1,
-            'false_cnt': -1,
-            'error_cnt': -1,
-            'unknown_cnt': -1,
-            'noteval_cnt': -1,
-            'notappl_cnt': -1
-        }
-    assert tree.oval_tree.OVAL_OPERATOR_ONE(result) == None
+        'true_cnt': -1,
+        'false_cnt': -1,
+        'error_cnt': -1,
+        'unknown_cnt': -1,
+        'noteval_cnt': -1,
+        'notappl_cnt': -1
+    }
+    assert tree.oval_tree.oval_operator_one(result) is None
+
 
 def test_bad_operator_input_or():
     result = {
-            'true_cnt': -1,
-            'false_cnt': -1,
-            'error_cnt': -1,
-            'unknown_cnt': -1,
-            'noteval_cnt': -1,
-            'notappl_cnt': -1
-        }
-    assert tree.oval_tree.OVAL_OPERATOR_OR(result) == None
+        'true_cnt': -1,
+        'false_cnt': -1,
+        'error_cnt': -1,
+        'unknown_cnt': -1,
+        'noteval_cnt': -1,
+        'notappl_cnt': -1
+    }
+    assert tree.oval_tree.oval_operator_or(result) is None
+
 
 def test_bad_operator_input_xor():
     result = {
-            'true_cnt': -1,
-            'false_cnt': -1,
-            'error_cnt': -1,
-            'unknown_cnt': -1,
-            'noteval_cnt': -1,
-            'notappl_cnt': -1
-        }
-    print(tree.oval_tree.OVAL_OPERATOR_XOR(result))
-    assert tree.oval_tree.OVAL_OPERATOR_XOR(result) == None
+        'true_cnt': -1,
+        'false_cnt': -1,
+        'error_cnt': -1,
+        'unknown_cnt': -1,
+        'noteval_cnt': -1,
+        'notappl_cnt': -1
+    }
+    assert tree.oval_tree.oval_operator_xor(result) is None
+
+
+def test_false_noteval_greater_zero():
+    result = {
+        'true_cnt': -1,
+        'false_cnt': -1,
+        'error_cnt': -1,
+        'unknown_cnt': -1,
+        'noteval_cnt': -1,
+        'notappl_cnt': -1
+    }
+    assert tree.oval_tree.noteval_greater_zero(result) == False
+
+def test_false_error_unknown_eq_zero_noteval_greater_zero():
+    result = {
+        'true_cnt': -1,
+        'false_cnt': -1,
+        'error_cnt': -1,
+        'unknown_cnt': -1,
+        'noteval_cnt': -1,
+        'notappl_cnt': -1
+    }
+    assert tree.oval_tree.error_unknown_eq_noteval_greater_zero(result) == False

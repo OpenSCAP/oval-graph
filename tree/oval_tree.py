@@ -100,21 +100,21 @@ class OvalNode(object):
                     result[child.evaluateTree() + "_cnt"] += 1
 
         if result['notappl_cnt'] > 0\
-                and result['noteval_cnt'] == 0\
-                and result['false_cnt'] == 0\
-                and result['error_cnt'] == 0\
-                and result['unknown_cnt'] == 0\
-                and result['true_cnt'] == 0:
+                and noteval_eq_zero(result)\
+                and false_eq_zero(result)\
+                and error_eq_zero(result)\
+                and unknown_eq_zero(result)\
+                and true_eq_zero(result):
             return "notappl"
-
-        if self.value == "or":
-            return OVAL_OPERATOR_OR(result)
-        elif self.value == "and":
-            return OVAL_OPERATOR_AND(result)
-        elif self.value == "one":
-            return OVAL_OPERATOR_ONE(result)
-        elif self.value == "xor":
-            return OVAL_OPERATOR_XOR(result)
+        else:
+            if self.value == "or":
+                return oval_operator_or(result)
+            elif self.value == "and":
+                return oval_operator_and(result)
+            elif self.value == "one":
+                return oval_operator_one(result)
+            elif self.value == "xor":
+                return oval_operator_xor(result)
 
     def treeToDict(self):
         if not self.children:
@@ -124,13 +124,12 @@ class OvalNode(object):
                 'value': self.value,
                 'child': None
             }
-        else:
-            return {
-                'node_id': self.node_id,
-                'type': self.node_type,
-                'value': self.value,
-                'child': [child.treeToDict() for child in self.children]
-            }
+        return {
+            'node_id': self.node_id,
+            'type': self.node_type,
+            'value': self.value,
+            'child': [child.treeToDict() for child in self.children]
+        }
 
 
 def dictToTree(dictOfTree):
@@ -139,12 +138,11 @@ def dictToTree(dictOfTree):
             dictOfTree["node_id"],
             dictOfTree["type"],
             dictOfTree["value"])
-    else:
-        return OvalNode(
-            dictOfTree["node_id"],
-            dictOfTree["type"],
-            dictOfTree["value"],
-            [dictToTree(i) for i in dictOfTree["child"]])
+    return OvalNode(
+        dictOfTree["node_id"],
+        dictOfTree["type"],
+        dictOfTree["value"],
+        [dictToTree(i) for i in dictOfTree["child"]])
 
 
 def findNodeWithID(tree, node_id):
@@ -167,40 +165,35 @@ def ChangeTreeValue(tree, node_id, value):
     findNodeWithID(tree, node_id).value = value
 
 
-def OVAL_OPERATOR_AND(result):
+def oval_operator_and(result):
     out_result = None
-    if result['true_cnt'] > 0\
-            and result['false_cnt'] == 0\
-            and result['error_cnt'] == 0\
-            and result['unknown_cnt'] == 0\
-            and result['noteval_cnt'] == 0:
+    if true_greater_zero(result)\
+            and false_eq_zero(result)\
+            and error_unknown_noteval_eq_zero(result):
         out_result = 'true'
-    elif result['false_cnt'] > 0:
+    elif false_greater_zero(result):
         out_result = 'false'
-    elif result['false_cnt'] == 0\
-            and result['error_cnt'] > 0:
+    elif false_eq_zero(result)\
+            and error_greater_zero(result):
         out_result = 'error'
-    elif result['false_cnt'] == 0\
-            and result['error_cnt'] == 0\
-            and result['unknown_cnt'] > 0:
+    elif false_eq_zero(result)\
+            and error_unknown_eq_zero(result):
         out_result = 'unknown'
-    elif result['false_cnt'] == 0\
-            and result['error_cnt'] == 0\
-            and result['unknown_cnt'] == 0\
-            and result['noteval_cnt'] > 0:
+    elif false_eq_zero(result)\
+            and error_unknown_eq_noteval_greater_zero(result):
         out_result = 'noteval'
     else:
         out_result = None
     return out_result
 
 
-def OVAL_OPERATOR_ONE(result):
+def oval_operator_one(result):
     out_result = None
     if result['true_cnt'] == 1\
             and result['false_cnt'] >= 0\
-            and result['error_cnt'] == 0\
-            and result['unknown_cnt'] == 0\
-            and result['noteval_cnt'] == 0\
+            and error_eq_zero(result)\
+            and unknown_eq_zero(result)\
+            and noteval_eq_zero(result)\
             and result['notappl_cnt'] >= 0:
         out_result = 'true'
     elif result['true_cnt'] >= 2\
@@ -210,32 +203,32 @@ def OVAL_OPERATOR_ONE(result):
             and result['noteval_cnt'] >= 0\
             and result['notappl_cnt'] >= 0:
         out_result = 'false'
-    elif result['true_cnt'] == 0\
+    elif true_eq_zero(result)\
             and result['false_cnt'] >= 0\
-            and result['error_cnt'] == 0\
-            and result['unknown_cnt'] == 0\
-            and result['noteval_cnt'] == 0\
+            and error_eq_zero(result)\
+            and unknown_eq_zero(result)\
+            and noteval_eq_zero(result)\
             and result['notappl_cnt'] >= 0:
         out_result = 'false'
     elif result['true_cnt'] < 2\
             and result['false_cnt'] >= 0\
-            and result['error_cnt'] > 0\
+            and error_greater_zero(result)\
             and result['unknown_cnt'] >= 0\
             and result['noteval_cnt'] >= 0\
             and result['notappl_cnt'] >= 0:
         out_result = 'error'
     elif result['true_cnt'] < 2\
             and result['false_cnt'] >= 0\
-            and result['error_cnt'] == 0\
+            and error_eq_zero(result)\
             and result['unknown_cnt'] >= 1\
             and result['noteval_cnt'] >= 0\
             and result['notappl_cnt'] >= 0:
         out_result = 'unknown'
     elif result['true_cnt'] < 2\
             and result['false_cnt'] >= 0\
-            and result['error_cnt'] == 0\
-            and result['unknown_cnt'] == 0\
-            and result['noteval_cnt'] > 0\
+            and error_eq_zero(result)\
+            and unknown_eq_zero(result)\
+            and noteval_greater_zero(result)\
             and result['notappl_cnt'] >= 0:
         out_result = 'noteval'
     else:
@@ -243,54 +236,132 @@ def OVAL_OPERATOR_ONE(result):
     return out_result
 
 
-def OVAL_OPERATOR_OR(result):
+def oval_operator_or(result):
     out_result = None
-    if result['true_cnt'] > 0:
+    if true_greater_zero(result):
         out_result = 'true'
-    elif result['true_cnt'] == 0\
-            and result['false_cnt'] > 0\
-            and result['error_cnt'] == 0\
-            and result['unknown_cnt'] == 0\
-            and result['noteval_cnt'] == 0:
+    elif true_eq_zero(result)\
+            and false_greater_zero(result)\
+            and error_unknown_noteval_eq_zero(result):
         out_result = 'false'
-    elif result['true_cnt'] == 0\
-            and result['error_cnt'] > 0:
+    elif true_eq_zero(result)\
+            and error_greater_zero(result):
         out_result = 'error'
-    elif result['true_cnt'] == 0\
-            and result['error_cnt'] == 0\
-            and result['unknown_cnt'] > 0:
+    elif true_eq_zero(result)\
+            and error_unknown_eq_zero(result):
         out_result = 'unknown'
-    elif result['true_cnt'] == 0\
-            and result['error_cnt'] == 0\
-            and result['unknown_cnt'] == 0\
-            and result['noteval_cnt'] > 0:
+    elif true_eq_zero(result)\
+            and error_unknown_eq_noteval_greater_zero(result):
         out_result = 'noteval'
     else:
         out_result = None
     return out_result
 
 
-def OVAL_OPERATOR_XOR(result):
+def oval_operator_xor(result):
     out_result = None
     if (result['true_cnt'] % 2) == 1\
-            and result['error_cnt'] == 0\
-            and result['unknown_cnt'] == 0\
-            and result['noteval_cnt'] == 0:
+            and error_eq_zero(result)\
+            and unknown_eq_zero(result)\
+            and noteval_eq_zero(result):
         out_result = 'true'
     elif (result['true_cnt'] % 2) == 0\
-            and result['error_cnt'] == 0\
-            and result['unknown_cnt'] == 0\
-            and result['noteval_cnt'] == 0:
+            and error_eq_zero(result)\
+            and unknown_eq_zero(result)\
+            and noteval_eq_zero(result):
         out_result = 'false'
-    elif result['error_cnt'] > 0:
+    elif error_greater_zero(result):
         out_result = 'error'
-    elif result['error_cnt'] == 0\
-            and result['unknown_cnt'] > 0:
+    elif error_eq_zero(result)\
+            and unknown_greater_zero(result):
         out_result = 'unknown'
-    elif result['error_cnt'] == 0\
-            and result['unknown_cnt'] == 0\
-            and result['noteval_cnt'] > 0:
+    elif error_eq_zero(result)\
+            and unknown_eq_zero(result)\
+            and noteval_greater_zero(result):
         out_result = 'noteval'
     else:
         out_result = None
     return out_result
+
+
+def noteval_eq_zero(result):
+    if result['noteval_cnt'] == 0:
+        return True
+    return False
+
+
+def false_eq_zero(result):
+    if result['false_cnt'] == 0:
+        return True
+    return False
+
+
+def error_eq_zero(result):
+    if result['error_cnt'] == 0:
+        return True
+    return False
+
+
+def unknown_eq_zero(result):
+    if result['unknown_cnt'] == 0:
+        return True
+    return False
+
+
+def true_eq_zero(result):
+    if result['true_cnt'] == 0:
+        return True
+    return False
+
+
+def true_greater_zero(result):
+    if result['true_cnt'] > 0:
+        return True
+    return False
+
+
+def false_greater_zero(result):
+    if result['false_cnt'] > 0:
+        return True
+    return False
+
+
+def error_greater_zero(result):
+    if result['error_cnt'] > 0:
+        return True
+    return False
+
+
+def unknown_greater_zero(result):
+    if result['unknown_cnt'] > 0:
+        return True
+    return False
+
+
+def noteval_greater_zero(result):
+    if result['noteval_cnt'] > 0:
+        return True
+    return False
+
+
+def error_unknown_noteval_eq_zero(result):
+    if error_eq_zero(result)\
+            and unknown_eq_zero(result)\
+            and noteval_eq_zero(result):
+        return True
+    return False
+
+
+def error_unknown_eq_noteval_greater_zero(result):
+    if error_eq_zero(result)\
+            and unknown_eq_zero(result)\
+            and noteval_greater_zero(result):
+        return True
+    return False
+
+
+def error_unknown_eq_zero(result):
+    if error_eq_zero(result)\
+            and unknown_greater_zero(result):
+        return True
+    return False

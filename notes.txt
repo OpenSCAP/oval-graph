@@ -4,9 +4,11 @@ python3 -m pytest
  
 PEP8 
 pycodestyle tree/operatorTree.py
+pylint tree/oval_tree.py 
 
 PEP8-Fix
 autopep8 --in-place --aggressive --aggressive <filename>
+
 
 TODO
 1]id - done

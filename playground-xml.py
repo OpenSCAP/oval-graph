@@ -1,30 +1,41 @@
 import tree.oval_tree
 from lxml import etree as ET
-
+import pprint
+import json
+pp = pprint.PrettyPrinter(indent=4)
 
 #Function for interpreting data
-
 def build_node(tree):
+    node=dict(operator=tree.get('operator'),children=[])
     print('OPERATOR: ', tree.get('operator'), tree.get('result'))
     for child in tree:
         if child.get('operator') is not None:
-            build_node(child)
+            node['children'].append(build_node(child))
         else:
             if child.get('definition_ref') is not None:
                     print("extend_definition: ", child.get('result'))
+                    node['children'].append(dict(extend_definition=None))
             else:
+                node['children'].append(dict(value_id=child.get('test_ref'),value=child.get('result')))
                 print('subTEST RES:',child.get('result'))
+    return node
 
 def build_tree(tree_data):
+    test = dict(id=tree_data.get('definition_id'),tree=[])
+
     print('TEST NAME: ', tree_data.get('definition_id'))
     for tree in tree_data:
-        build_node(tree)
+        test['tree'].append(build_node(tree))
+    
     print(" ")
+    return test
 
 def run(trees_data):
+    scan=dict(scan="none",tests=[])
     for i in trees_data:
-        build_tree(i)
-
+        scan['tests'].append(build_tree(i))
+    print (json.dumps(scan,sort_keys=False, indent=4))
+    
 #parse data 
 def get_data_form_xml(src):
     tree = ET.parse(src)

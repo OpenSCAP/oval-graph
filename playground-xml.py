@@ -97,6 +97,7 @@ def get_data_form_xml(src):
         'ns1': 'http://scap.nist.gov/schema/asset-reporting-format/1.1'
     }
 
+    report_data = None
     reports = root.find('.//ns1:reports', ns)
     for report in reports:
         if report.get("id") == "oval0":

@@ -29,7 +29,7 @@ def build_tree(tree_data):
         test['tree'].append(build_node(tree))
     return test
 
-# Function for delete extend definition
+# Function for remove extend definition
 
 
 def find_definition_by_id(scan, id):

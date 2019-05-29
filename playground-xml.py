@@ -40,9 +40,9 @@ def find_definition_by_id(scan, id):
 
 def fill_extend_definition(scan):
     definitions = scan['definitions']
-    trees = []
     out = dict(scan="none", definitions=[])
     for definition in scan['definitions']:
+        trees = []
         for value in definition['tree']:
             trees.append(operator_as_child(value, scan))
         out['definitions'].append(dict(id=definition['id'], tree=trees))
@@ -73,7 +73,7 @@ def parse_data_to_dict(trees_data):
         scan['definitions'].append(build_tree(i))
 
     # save results
-    if False:
+    if True:
         f = open("def0.txt", "w+")
         f.write(str(json.dumps(scan, sort_keys=False, indent=4)))
         f.close()

@@ -117,12 +117,13 @@ print(
         sort_keys=False,
         indent=4))
 
-data =  parse_data_to_dict(get_data_form_xml(src))
+data = parse_data_to_dict(get_data_form_xml(src))
 
 f = open("tree.txt", "w+")
 
 for definition in data['definitions']:
-    oval_tree = tree.oval_tree.xml_dict_to_node(definition, 0)
-    f.write(str(json.dumps(oval_tree.tree_to_dict(), sort_keys=False, indent=4)))
+    if definition['id'] == 'oval:ssg-sysctl_net_ipv6_conf_all_disable_ipv6:def:1':
+        oval_tree = tree.oval_tree.xml_dict_to_node(definition, 0)
+        assert oval_tree.evaluate_tree() == 'noteval'
+        f.write(str(json.dumps(oval_tree.tree_to_dict(), sort_keys=False, indent=4)))
 f.close()
-    

@@ -1,3 +1,5 @@
+from lxml import etree as ET
+
 '''
 This module contains methods and classes for
 constructing and controlling an oval tree.
@@ -348,39 +350,135 @@ def dict_to_tree(dict_of_tree):
         dict_of_tree["value"],
         [dict_to_tree(i) for i in dict_of_tree["child"]])
 
+# Help function for transfer XML definition to OVAL_TREE
+
 
 def xml_dict_to_node(dict_of_definition, sub_node_id):
-    children=[]
-    #print(dict_of_definition['node'])
+    children = []
     for child in dict_of_definition['node']:
         if 'operator' in child and 'id':
             sub_node_id = sub_node_id + 1
             children.append(xml_dict_to_node(child, sub_node_id))
         else:
-            if child['value']=='not evaluated':
+            if child['value'] == 'not evaluated':
                 children.append(
-                    OvalNode(child['value_id'],'value','noteval')
+                    OvalNode(child['value_id'], 'value', 'noteval')
                 )
             else:
                 children.append(
-                    OvalNode(child['value_id'],'value',child['value'])
+                    OvalNode(child['value_id'], 'value', child['value'])
                 )
 
     if 'id' in dict_of_definition:
-        children[0].node_id=dict_of_definition['id']
+        children[0].node_id = dict_of_definition['id']
         return children[0]
-        """
-        return OvalNode(
-            dict_of_definition['id'],
-            'operator',
-            dict_of_definition['node'][0]['operator'],
-            children
-            )
-        """
     else:
         return OvalNode(
             sub_node_id,
             'operator',
             dict_of_definition['operator'],
             children
-            )
+        )
+
+# Function for build dict form XML
+
+
+def build_node(tree):
+    node = dict(operator=tree.get('operator'), node=[])
+    for child in tree:
+        if child.get('operator') is not None:
+            node['node'].append(build_node(child))
+        else:
+            if child.get('definition_ref') is not None:
+                node['node'].append(
+                    dict(extend_definition=child.get('definition_ref')))
+            else:
+                node['node'].append(
+                    dict(
+                        value_id=child.get('test_ref'),
+                        value=child.get('result')))
+    return node
+
+
+def build_tree(tree_data):
+    test = dict(id=tree_data.get('definition_id'), node=[])
+    for tree in tree_data:
+        test['node'].append(build_node(tree))
+    return test
+
+
+def parse_data_to_dict(trees_data):
+    scan = dict(scan="none", definitions=[])
+    for i in trees_data:
+        scan['definitions'].append(build_tree(i))
+    return fill_extend_definition(scan)
+
+
+# Function for remove extend definitions from dict
+
+
+def find_definition_by_id(scan, id):
+    for definition in scan['definitions']:
+        if definition['id'] == id:
+            return operator_as_child(definition['node'][0], scan)
+
+
+def fill_extend_definition(scan):
+    definitions = scan['definitions']
+    out = dict(scan="none", definitions=[])
+    for definition in scan['definitions']:
+        nodes = []
+        for value in definition['node']:
+            nodes.append(operator_as_child(value, scan))
+        out['definitions'].append(dict(id=definition['id'], node=nodes))
+    return out
+
+
+def operator_as_child(value, scan):
+    out = dict(operator=value['operator'], node=[])
+    for child in value['node']:
+        if 'operator' in child:
+            out['node'].append(operator_as_child(child, scan))
+        elif 'extend_definition' in child:
+            out['node'].append(
+                find_definition_by_id(
+                    scan, child['extend_definition']))
+        elif 'value_id' in child:
+            out['node'].append(child)
+        else:
+            raise ValueError('error - unknown child')
+    return out
+
+
+# Mine data form XML
+
+
+def get_data_form_xml(src):
+    tree = ET.parse(src)
+    root = tree.getroot()
+
+    ns = {
+        'ns0': 'http://oval.mitre.org/XMLSchema/oval-results-5',
+        'ns1': 'http://scap.nist.gov/schema/asset-reporting-format/1.1'
+    }
+
+    report_data = None
+    reports = root.find('.//ns1:reports', ns)
+    for report in reports:
+        if report.get("id") == "oval0":
+            report_data = report
+
+    trees_data = report_data.find(
+        './/ns0:oval_results/ns0:results/ns0:system/ns0:definitions', ns)
+    return trees_data
+
+# Function for transfer XML to OVAL_TREE
+
+
+def xml_to_tree(xml_src):
+    data = parse_data_to_dict(get_data_form_xml(xml_src))
+    out = []
+    for definition in data['definitions']:
+        oval_tree = tree.oval_tree.xml_dict_to_node(definition, 0)
+        out.append(oval_tree)
+    return out

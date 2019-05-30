@@ -347,3 +347,40 @@ def dict_to_tree(dict_of_tree):
         dict_of_tree["type"],
         dict_of_tree["value"],
         [dict_to_tree(i) for i in dict_of_tree["child"]])
+
+
+def xml_dict_to_node(dict_of_definition, sub_node_id):
+    children=[]
+    #print(dict_of_definition['node'])
+    for child in dict_of_definition['node']:
+        if 'operator' in child and 'id':
+            sub_node_id = sub_node_id + 1
+            children.append(xml_dict_to_node(child, sub_node_id))
+        else:
+            if child['value']=='not evaluated':
+                children.append(
+                    OvalNode(child['value_id'],'value','noteval')
+                )
+            else:
+                children.append(
+                    OvalNode(child['value_id'],'value',child['value'])
+                )
+
+    if 'id' in dict_of_definition:
+        children[0].node_id=dict_of_definition['id']
+        return children[0]
+        """
+        return OvalNode(
+            dict_of_definition['id'],
+            'operator',
+            dict_of_definition['node'][0]['operator'],
+            children
+            )
+        """
+    else:
+        return OvalNode(
+            sub_node_id,
+            'operator',
+            dict_of_definition['operator'],
+            children
+            )

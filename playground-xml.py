@@ -7,16 +7,16 @@ import json
 
 
 def build_node(tree):
-    node = dict(operator=tree.get('operator'), children=[])
+    node = dict(operator=tree.get('operator'), node=[])
     for child in tree:
         if child.get('operator') is not None:
-            node['children'].append(build_node(child))
+            node['node'].append(build_node(child))
         else:
             if child.get('definition_ref') is not None:
-                node['children'].append(
+                node['node'].append(
                     dict(extend_definition=child.get('definition_ref')))
             else:
-                node['children'].append(
+                node['node'].append(
                     dict(
                         value_id=child.get('test_ref'),
                         value=child.get('result')))
@@ -24,9 +24,9 @@ def build_node(tree):
 
 
 def build_tree(tree_data):
-    test = dict(id=tree_data.get('definition_id'), tree=[])
+    test = dict(id=tree_data.get('definition_id'), node=[])
     for tree in tree_data:
-        test['tree'].append(build_node(tree))
+        test['node'].append(build_node(tree))
     return test
 
 # Function for remove extend definition
@@ -35,31 +35,31 @@ def build_tree(tree_data):
 def find_definition_by_id(scan, id):
     for definition in scan['definitions']:
         if definition['id'] == id:
-            return operator_as_child(definition['tree'][0], scan)
+            return operator_as_child(definition['node'][0], scan)
 
 
 def fill_extend_definition(scan):
     definitions = scan['definitions']
     out = dict(scan="none", definitions=[])
     for definition in scan['definitions']:
-        trees = []
-        for value in definition['tree']:
-            trees.append(operator_as_child(value, scan))
-        out['definitions'].append(dict(id=definition['id'], tree=trees))
+        nodes = []
+        for value in definition['node']:
+            nodes.append(operator_as_child(value, scan))
+        out['definitions'].append(dict(id=definition['id'], node=nodes))
     return out
 
 
 def operator_as_child(value, scan):
-    out = dict(operator=value['operator'], children=[])
-    for child in value['children']:
+    out = dict(operator=value['operator'], node=[])
+    for child in value['node']:
         if 'operator' in child:
-            out['children'].append(operator_as_child(child, scan))
+            out['node'].append(operator_as_child(child, scan))
         elif 'extend_definition' in child:
-            out['children'].append(
+            out['node'].append(
                 find_definition_by_id(
                     scan, child['extend_definition']))
         elif 'value_id' in child:
-            out['children'].append(child)
+            out['node'].append(child)
         else:
             print('ERROR')
     return out
@@ -116,3 +116,13 @@ print(
             get_data_form_xml(src)),
         sort_keys=False,
         indent=4))
+
+data =  parse_data_to_dict(get_data_form_xml(src))
+
+f = open("tree.txt", "w+")
+
+for definition in data['definitions']:
+    oval_tree = tree.oval_tree.xml_dict_to_node(definition, 0)
+    f.write(str(json.dumps(oval_tree.tree_to_dict(), sort_keys=False, indent=4)))
+f.close()
+    

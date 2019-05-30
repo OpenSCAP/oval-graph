@@ -479,6 +479,5 @@ def xml_to_tree(xml_src):
     data = parse_data_to_dict(get_data_form_xml(xml_src))
     out = []
     for definition in data['definitions']:
-        oval_tree = tree.oval_tree.xml_dict_to_node(definition, 0)
-        out.append(oval_tree)
+        out.append(xml_dict_to_node(definition, 0))
     return out

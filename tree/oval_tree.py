@@ -1,3 +1,6 @@
+"""
+    Module for parsing XML
+"""
 from lxml import etree as ET
 
 '''

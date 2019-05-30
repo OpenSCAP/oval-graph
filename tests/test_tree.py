@@ -649,9 +649,12 @@ def test_false_error_unknown_eq_noteval_greater_zero():
     assert Tree._error_unknown_eq_noteval_greater_zero(result) == False
 
 
-def test_parse_normal_XML_and_evaluate_one_definition_with_extend_definitions():
+def test_parsing_full_can_XML_and_evaluate_one_definition_with_extend_definitions():
+    #src = 'test_data/ssg-fedora-ds-arf-scan-with-extend-definitions.xml'
+    src = 'test_data/ssg-fedora-ds-arf.xml'
+
     _dir = os.path.dirname(os.path.realpath(__file__))
-    FIXTURE_DIR = py.path.local(_dir) / 'test_data/ssg-fedora-ds-arf.xml'
+    FIXTURE_DIR = py.path.local(_dir) / src
     
     oval_trees_array = tree.oval_tree.xml_to_tree(str(FIXTURE_DIR))
     for oval_tree in oval_trees_array:

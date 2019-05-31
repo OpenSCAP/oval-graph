@@ -709,3 +709,11 @@ def test_parsing_and_evaluate_scan_with_rule_with_XOR():
     result = 'true'
 
     any_test_parsing_and_evaluate_scan_rule(src, rule_id, result)
+
+
+def test_parsing_and_evaluate_scan_with_11_rules():
+    src = 'test_data/ssg-fedora-ds-arf-scan-with-11-rules.xml'
+    rule_id = 'xccdf_org.ssgproject.content_rule_mount_option_tmp_nosuid'
+    result = 'true'
+
+    any_test_parsing_and_evaluate_scan_rule(src, rule_id, result)

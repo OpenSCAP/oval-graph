@@ -649,7 +649,7 @@ def test_false_error_unknown_eq_noteval_greater_zero():
     assert Tree._error_unknown_eq_noteval_greater_zero(result) == False
 
 
-def test_parsing_full_can_XML_and_evaluate_one_definition_with_extend_definitions():
+def test_parsing_full_can_XML_and_evaluate():
     #src = 'test_data/ssg-fedora-ds-arf-scan-with-extend-definitions.xml'
     src = 'test_data/ssg-fedora-ds-arf.xml'
 
@@ -659,7 +659,7 @@ def test_parsing_full_can_XML_and_evaluate_one_definition_with_extend_definition
     oval_trees_array = tree.oval_tree.xml_to_tree(str(FIXTURE_DIR))
     for oval_tree in oval_trees_array:
         print(oval_tree)
-        if oval_tree.node_id == 'oval:ssg-sysctl_net_ipv6_conf_all_disable_ipv6:def:1':
-            any_test_treeEvaluation(oval_tree,'noteval')
+        if oval_tree.node_id == 'oval:ssg-accounts_passwords_pam_faillock_deny:def:1':
+            any_test_treeEvaluation(oval_tree,'false')
 
         

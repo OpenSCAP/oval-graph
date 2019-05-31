@@ -3,9 +3,14 @@
 """
 from lxml import etree as ET
 
+"""
+    Module for create ID
+"""
+import uuid
+
 '''
-This module contains methods and classes for
-constructing and controlling an oval tree.
+    This module contains methods and classes for
+    constructing and controlling an oval tree.
 '''
 
 
@@ -354,21 +359,14 @@ def dict_to_tree(dict_of_tree):
         [dict_to_tree(i) for i in dict_of_tree["child"]])
 
 # Help function for transfer XML definition to OVAL_TREE
-
-
-def xml_dict_to_node(dict_of_definition, sub_node_id):
+ 
+def xml_dict_to_node(dict_of_definition):
     children = []
     for child in dict_of_definition['node']:
         if 'operator' in child and 'id':
-            sub_node_id = sub_node_id + 1
-            children.append(xml_dict_to_node(child, sub_node_id))
+            children.append(xml_dict_to_node(child))
         else:
-            if child['value'] == 'not evaluated':
-                children.append(
-                    OvalNode(child['value_id'], 'value', 'noteval')
-                )
-            else:
-                children.append(
+            children.append(
                     OvalNode(child['value_id'], 'value', child['value'])
                 )
 
@@ -377,10 +375,20 @@ def xml_dict_to_node(dict_of_definition, sub_node_id):
         return children[0]
     else:
         return OvalNode(
-            sub_node_id,
+            str(uuid.uuid4()),
             'operator',
             dict_of_definition['operator'],
             children
+        )
+
+def xml_dict_of_rule_to_node(rule):
+    children = []
+    dict_of_definition=rule['definition']
+    return OvalNode(
+            rule['rule_id'],
+            'operator',
+            'and',
+            [xml_dict_to_node(dict_of_definition)]
         )
 
 # Function for build dict form XML
@@ -409,12 +417,20 @@ def build_tree(tree_data):
         test['node'].append(build_node(tree))
     return test
 
+def clean_definitions(definitions, used_rules):
+    out = []
+    for definition in definitions['definitions']:
+        for rule in used_rules:
+            rule_id, def_id = rule.items()
+            if def_id[1] == definition['id']:
+                out.append(dict(rule_id=rule_id[1],definition=definition))
+    return dict(scan="none", rules=out)
 
-def parse_data_to_dict(trees_data):
+def parse_data_to_dict(trees_data,used_rules):
     scan = dict(scan="none", definitions=[])
     for i in trees_data:
         scan['definitions'].append(build_tree(i))
-    return fill_extend_definition(scan)
+    return clean_definitions(fill_extend_definition(scan),used_rules)
 
 
 # Function for remove extend definitions from dict
@@ -475,12 +491,31 @@ def get_data_form_xml(src):
         './/ns0:oval_results/ns0:results/ns0:system/ns0:definitions', ns)
     return trees_data
 
+def get_used_rules(src):
+    tree = ET.parse(src)
+    root = tree.getroot()
+
+    testResults = root.find('.//{http://checklists.nist.gov/xccdf/1.2}TestResult')
+    ruleResults = testResults.findall('.//{http://checklists.nist.gov/xccdf/1.2}rule-result')
+    
+    rules = []
+    for ruleResult in ruleResults:
+        for res in ruleResult:
+            if res.text=="fail" or res.text=="pass":
+                idk = ruleResult.get('idref')
+                for res in ruleResult:
+                    for r in res:
+                        if r.get('href')=='#oval0':
+                            rules.append(dict( id_rule =  idk, id_def = r.get('name')))
+    return rules
+
 # Function for transfer XML to OVAL_TREE
 
 
 def xml_to_tree(xml_src):
-    data = parse_data_to_dict(get_data_form_xml(xml_src))
+    data = parse_data_to_dict(
+            get_data_form_xml(xml_src),get_used_rules(xml_src))
     out = []
-    for definition in data['definitions']:
-        out.append(xml_dict_to_node(definition, 0))
+    for rule in data['rules']:
+        out.append(xml_dict_of_rule_to_node(rule))
     return out

@@ -66,8 +66,16 @@ def operator_as_child(value, scan):
 
 # ?????????????????????????????????????????????????????????????????????????????
 
+def clean_definitions(definitions, used_rules):
+    out = []
+    for definition in definitions['definitions']:
+        for rule in used_rules:
+            rule_id, def_id = rule.items()
+            if def_id[1] == definition['id']:
+                out.append(dict(rule_id=rule_id[1],definition=definition))
+    return dict(scan="none", rules=out)
 
-def parse_data_to_dict(trees_data):
+def parse_data_to_dict(trees_data,used_rules):
     scan = dict(scan="none", definitions=[])
     for i in trees_data:
         scan['definitions'].append(build_tree(i))
@@ -83,7 +91,11 @@ def parse_data_to_dict(trees_data):
             scan), sort_keys=False, indent=4)))
         f.close()
 
-    return fill_extend_definition(scan)
+        f = open("def3.txt", "w+")
+        f.write(str(json.dumps(clean_definitions(fill_extend_definition(scan),used_rules), sort_keys=False, indent=4)))
+        f.close()
+
+    return clean_definitions(fill_extend_definition(scan),used_rules)
 
 # mine data form XML
 
@@ -107,23 +119,43 @@ def get_data_form_xml(src):
         './/ns0:oval_results/ns0:results/ns0:system/ns0:definitions', ns)
     return trees_data
 
+def get_used_rules(src):
+    tree = ET.parse(src)
+    root = tree.getroot()
+
+    testResults = root.find('.//{http://checklists.nist.gov/xccdf/1.2}TestResult')
+    #print(testResults)
+    ruleResults = testResults.findall('.//{http://checklists.nist.gov/xccdf/1.2}rule-result')
+    
+    rules = []
+    for ruleResult in ruleResults:
+        for res in ruleResult:
+            if res.text=="fail" or res.text=="pass":
+                idk = ruleResult.get('idref')
+                for res in ruleResult:
+                    for r in res:
+                        if r.get('href')=='#oval0':
+                            rules.append(dict( id_rule =  idk, id_def = r.get('name')))
+    #print(rules)
+    return rules
 
 # interpret data
 src = 'data/ssg-fedora-ds-arf.xml'
 print(
     json.dumps(
         parse_data_to_dict(
-            get_data_form_xml(src)),
+            get_data_form_xml(src),get_used_rules(src)),
         sort_keys=False,
         indent=4))
 
-data = parse_data_to_dict(get_data_form_xml(src))
+data = parse_data_to_dict(get_data_form_xml(src),get_used_rules(src))
 
 f = open("tree.txt", "w+")
 
-for definition in data['definitions']:
-    if definition['id'] == 'oval:ssg-sysctl_net_ipv6_conf_all_disable_ipv6:def:1':
-        oval_tree = tree.oval_tree.xml_dict_to_node(definition, 0)
-        assert oval_tree.evaluate_tree() == 'noteval'
+for rule in data['rules']:
+    #print(definition)
+    if rule['definition']['id'] == 'oval:ssg-accounts_passwords_pam_faillock_deny:def:1':
+        oval_tree = tree.oval_tree.xml_dict_of_rule_to_node(rule)
+        assert oval_tree.evaluate_tree() == 'false'
         f.write(str(json.dumps(oval_tree.tree_to_dict(), sort_keys=False, indent=4)))
 f.close()

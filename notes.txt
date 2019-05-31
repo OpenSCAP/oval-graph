@@ -20,7 +20,10 @@ https://github.com/OpenSCAP/openscap/blob/4272ea0dfe1ec7ec2043b49753e0687948a95c
 
 https://oval.mitre.org/language/version5.11/ovaldefinition/documentation/oval-common-schema.html#OperatorEnumeration
 
-6]pep8 - done 
-7]TESTY - done 
-8]fix ci
-9]find and fix 
+6]pep8 - done
+7]fix id nodes in dicts
+8]rework parsing  
+9]TESTY
+10]fix ci
+11]interpret by html and js
+12]find and fix 

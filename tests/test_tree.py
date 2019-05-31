@@ -468,23 +468,23 @@ def test_bigOvalTree():
                                                                 12, 'value', "true")])])
 
     dict_of_tree = {'node_id': 1, 'type': 'operator', 'value': 'and',
-                  'child': [
-                      {'node_id': 2, 'type': 'value', 'value': "false", 'child': None},
-                      {'node_id': 3, 'type': 'operator', 'value': "xor", 'child': [
-                          {'node_id': 4, 'type': 'value', 'value': "true", 'child': None},
-                          {'node_id': 5, 'type': 'operator', 'value': "one", 'child': [
-                              {'node_id': 6, 'type': 'value', 'value': "noteval", 'child': None},
-                              {'node_id': 7, 'type': 'value', 'value': "true", 'child': None},
-                              {'node_id': 8, 'type': 'value', 'value': "notappl", 'child': None}
-                          ]},
-                          {'node_id': 9, 'type': 'value', 'value': "error", 'child': None}]},
-                      {'node_id': 10, 'type': 'operator', 'value': 'or', 'child': [
-                          {'node_id': 11, 'type': 'value', 'value': "unknown", 'child': None},
-                          {'node_id': 12, 'type': 'value', 'value': "true", 'child': None}
-                      ]
-                      }
-                  ]
-                  }
+                    'child': [
+                        {'node_id': 2, 'type': 'value', 'value': "false", 'child': None},
+                        {'node_id': 3, 'type': 'operator', 'value': "xor", 'child': [
+                            {'node_id': 4, 'type': 'value', 'value': "true", 'child': None},
+                            {'node_id': 5, 'type': 'operator', 'value': "one", 'child': [
+                                {'node_id': 6, 'type': 'value', 'value': "noteval", 'child': None},
+                                {'node_id': 7, 'type': 'value', 'value': "true", 'child': None},
+                                {'node_id': 8, 'type': 'value', 'value': "notappl", 'child': None}
+                            ]},
+                            {'node_id': 9, 'type': 'value', 'value': "error", 'child': None}]},
+                        {'node_id': 10, 'type': 'operator', 'value': 'or', 'child': [
+                            {'node_id': 11, 'type': 'value', 'value': "unknown", 'child': None},
+                            {'node_id': 12, 'type': 'value', 'value': "true", 'child': None}
+                        ]
+                        }
+                    ]
+                    }
 
     any_test_treeEvaluation(Tree, "false")
     any_test_tree_to_dict_of_tree(Tree, dict_of_tree)
@@ -532,12 +532,18 @@ def test_add_to_tree():
          f
     """
 
-    dict_of_tree = {'node_id': 1, 'type': 'operator', 'value': 'and',
-                  'child': [
-                      {'node_id': 2, 'type': 'value', 'value': "false", 'child': None},
-                      {'node_id': 3, 'type': 'value', 'value': "true", 'child': None},
-                  ]
-                  }
+    dict_of_tree = {'node_id': 1,
+                    'type': 'operator',
+                    'value': 'and',
+                    'child': [{'node_id': 2,
+                               'type': 'value',
+                               'value': "false",
+                               'child': None},
+                              {'node_id': 3,
+                               'type': 'value',
+                               'value': "true",
+                               'child': None},
+                              ]}
 
     Tree = tree.oval_tree.OvalNode(1, 'operator', 'and', [
         tree.oval_tree.OvalNode(2, 'value', "false")
@@ -650,16 +656,56 @@ def test_false_error_unknown_eq_noteval_greater_zero():
 
 
 def test_parsing_full_can_XML_and_evaluate():
-    #src = 'test_data/ssg-fedora-ds-arf-scan-with-extend-definitions.xml'
     src = 'test_data/ssg-fedora-ds-arf.xml'
+    rule_id = 'xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny'
+    result = 'false'
 
     _dir = os.path.dirname(os.path.realpath(__file__))
     FIXTURE_DIR = py.path.local(_dir) / src
-    
+
     oval_trees_array = tree.oval_tree.xml_to_tree(str(FIXTURE_DIR))
     for oval_tree in oval_trees_array:
-        print(oval_tree)
-        if oval_tree.node_id == 'oval:ssg-accounts_passwords_pam_faillock_deny:def:1':
-            any_test_treeEvaluation(oval_tree,'false')
+        if oval_tree.node_id == rule_id:
+            any_test_treeEvaluation(oval_tree, result)
 
-        
+
+def any_test_parsing_and_evaluate_scan_rule(src, rule_id, result):
+    _dir = os.path.dirname(os.path.realpath(__file__))
+    FIXTURE_DIR = py.path.local(_dir) / src
+
+    oval_trees_array = tree.oval_tree.xml_to_tree(str(FIXTURE_DIR))
+    for oval_tree in oval_trees_array:
+        if oval_tree.node_id == rule_id:
+            any_test_treeEvaluation(oval_tree, result)
+
+
+def test_parsing_and_evaluate_scan_with_extend_def():
+    src = 'test_data/ssg-fedora-ds-arf-scan-with-extend-definitions.xml'
+    rule_id = 'xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_disable_ipv6'
+    result = 'false'
+
+    any_test_parsing_and_evaluate_scan_rule(src, rule_id, result)
+
+
+def test_parsing_and_evaluate_scan_with_pasing_rule():
+    src = 'test_data/ssg-fedora-ds-arf-passing-scan.xml'
+    rule_id = 'xccdf_org.ssgproject.content_rule_service_debug-shell_disabled'
+    result = 'true'
+
+    any_test_parsing_and_evaluate_scan_rule(src, rule_id, result)
+
+
+def test_parsing_and_evaluate_scan_with_fail_rule():
+    src = 'test_data/ssg-fedora-ds-arf-scan-fail.xml'
+    rule_id = 'xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec'
+    result = 'false'
+
+    any_test_parsing_and_evaluate_scan_rule(src, rule_id, result)
+
+
+def test_parsing_and_evaluate_scan_with_rule_with_XOR():
+    src = 'test_data/ssg-fedora-ds-arf-scan-with-xor.xml'
+    rule_id = 'xccdf_org.ssgproject.content_rule_mount_option_nosuid_removable_partitions'
+    result = 'true'
+
+    any_test_parsing_and_evaluate_scan_rule(src, rule_id, result)

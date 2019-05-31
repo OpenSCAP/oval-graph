@@ -655,19 +655,6 @@ def test_false_error_unknown_eq_noteval_greater_zero():
     assert Tree._error_unknown_eq_noteval_greater_zero(result) == False
 
 
-def test_parsing_full_can_XML_and_evaluate():
-    src = 'test_data/ssg-fedora-ds-arf.xml'
-    rule_id = 'xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny'
-    result = 'false'
-
-    _dir = os.path.dirname(os.path.realpath(__file__))
-    FIXTURE_DIR = py.path.local(_dir) / src
-
-    oval_trees_array = tree.oval_tree.xml_to_tree(str(FIXTURE_DIR))
-    for oval_tree in oval_trees_array:
-        if oval_tree.node_id == rule_id:
-            any_test_treeEvaluation(oval_tree, result)
-
 
 def any_test_parsing_and_evaluate_scan_rule(src, rule_id, result):
     _dir = os.path.dirname(os.path.realpath(__file__))
@@ -677,6 +664,13 @@ def any_test_parsing_and_evaluate_scan_rule(src, rule_id, result):
     for oval_tree in oval_trees_array:
         if oval_tree.node_id == rule_id:
             any_test_treeEvaluation(oval_tree, result)
+
+def test_parsing_full_can_XML_and_evaluate():
+    src = 'test_data/ssg-fedora-ds-arf.xml'
+    rule_id = 'xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny'
+    result = 'false'
+
+    any_test_parsing_and_evaluate_scan_rule(src, rule_id, result)
 
 
 def test_parsing_and_evaluate_scan_with_extend_def():

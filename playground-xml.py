@@ -147,7 +147,7 @@ print(
             get_data_form_xml(src),get_used_rules(src)),
         sort_keys=False,
         indent=4))
-
+"""
 data = parse_data_to_dict(get_data_form_xml(src),get_used_rules(src))
 
 f = open("tree.txt", "w+")
@@ -159,3 +159,18 @@ for rule in data['rules']:
         assert oval_tree.evaluate_tree() == 'false'
         f.write(str(json.dumps(oval_tree.tree_to_dict(), sort_keys=False, indent=4)))
 f.close()
+"""
+
+src = 'data/ssg-fedora-ds-arf.xml'
+rule_id = 'xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny'
+result = 'false'
+
+f = open("tree.txt", "w+")
+
+oval_trees_array = tree.oval_tree.xml_to_tree(src)
+for oval_tree in oval_trees_array:
+    if oval_tree.node_id == rule_id:
+        assert oval_tree.evaluate_tree() == result
+        f.write(str(json.dumps(oval_tree.tree_to_dict(), sort_keys=False, indent=4)))
+f.close()
+     

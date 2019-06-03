@@ -25,5 +25,5 @@ https://oval.mitre.org/language/version5.11/ovaldefinition/documentation/oval-co
 8]rework parsing - done 
 9]TESTY
 10]fix ci
-11]interpret by html and js
+11]interpret by html and js 50%
 12]find and fix 

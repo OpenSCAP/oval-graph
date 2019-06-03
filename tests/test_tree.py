@@ -4,6 +4,17 @@ import os
 import py
 
 
+global results_counts
+results_counts = {
+    'true_cnt': -1,
+    'false_cnt': -1,
+    'error_cnt': -1,
+    'unknown_cnt': -1,
+    'noteval_cnt': -1,
+    'notappl_cnt': -1
+}
+
+
 def test_bad_tree():
     with pytest.raises(ValueError) as e:
         badTree()
@@ -121,46 +132,45 @@ def test_ANDTreeFalse():
 
 
 def test_ANDTreeError():
-    Tree = tree.oval_tree.OvalNode(
-        1, 'operator', 'and', [
-            tree.oval_tree.OvalNode(
-                2, 'value', "error"), tree.oval_tree.OvalNode(
-                3, 'value', "error"), tree.oval_tree.OvalNode(
-                    4, 'value', "true"), tree.oval_tree.OvalNode(
-                        5, 'value', "unknown"), tree.oval_tree.OvalNode(
-                            6, 'value', "noteval"), tree.oval_tree.OvalNode(
-                                7, 'value', "notappl"), tree.oval_tree.OvalNode(
-                                    8, 'value', "error")])
+    Tree = tree.oval_tree.OvalNode(1, 'operator', 'and', [
+                tree.oval_tree.OvalNode(2, 'value', "error"),
+                tree.oval_tree.OvalNode(3, 'value', "error"),
+                tree.oval_tree.OvalNode(4, 'value', "true"),
+                tree.oval_tree.OvalNode(5, 'value', "unknown"),
+                tree.oval_tree.OvalNode(6, 'value', "noteval"),
+                tree.oval_tree.OvalNode(7, 'value', "notappl"),
+                tree.oval_tree.OvalNode(8, 'value', "error")
+                ])
 
     any_test_treeEvaluation(Tree, "error")
 
 
 def test_ANDTreeUnknown():
-    Tree = tree.oval_tree.OvalNode(
-        1, 'operator', 'and', [
-            tree.oval_tree.OvalNode(
-                2, 'value', "unknown"), tree.oval_tree.OvalNode(
-                3, 'value', "unknown"), tree.oval_tree.OvalNode(
-                    4, 'value', "true"), tree.oval_tree.OvalNode(
-                        5, 'value', "unknown"), tree.oval_tree.OvalNode(
-                            6, 'value', "noteval"), tree.oval_tree.OvalNode(
-                                7, 'value', "notappl"), tree.oval_tree.OvalNode(
-                                    8, 'value', "notappl")])
+    Tree = tree.oval_tree.OvalNode(1, 'operator', 'and', [
+                tree.oval_tree.OvalNode(2, 'value', "unknown"),
+                tree.oval_tree.OvalNode(3, 'value', "unknown"),
+                tree.oval_tree.OvalNode(4, 'value', "true"),
+                tree.oval_tree.OvalNode(5, 'value', "unknown"),
+                tree.oval_tree.OvalNode(6, 'value', "noteval"),
+                tree.oval_tree.OvalNode(7, 'value', "notappl"),
+                tree.oval_tree.OvalNode(8, 'value', "notappl")
+                ]
+                )
 
     any_test_treeEvaluation(Tree, "unknown")
 
 
 def test_ANDTreeNoteval():
-    Tree = tree.oval_tree.OvalNode(
-        1, 'operator', 'and', [
-            tree.oval_tree.OvalNode(
-                2, 'value', "noteval"), tree.oval_tree.OvalNode(
-                3, 'value', "noteval"), tree.oval_tree.OvalNode(
-                    4, 'value', "true"), tree.oval_tree.OvalNode(
-                        5, 'value', "true"), tree.oval_tree.OvalNode(
-                            6, 'value', "noteval"), tree.oval_tree.OvalNode(
-                                7, 'value', "notappl"), tree.oval_tree.OvalNode(
-                                    8, 'value', "notappl")])
+    Tree = tree.oval_tree.OvalNode(1, 'operator', 'and', [
+                tree.oval_tree.OvalNode(2, 'value', "noteval"),
+                tree.oval_tree.OvalNode(3, 'value', "noteval"),
+                tree.oval_tree.OvalNode(4, 'value', "true"),
+                tree.oval_tree.OvalNode(5, 'value', "true"),
+                tree.oval_tree.OvalNode(6, 'value', "noteval"),
+                tree.oval_tree.OvalNode(7, 'value', "notappl"),
+                tree.oval_tree.OvalNode(8, 'value', "notappl")
+                ]
+                )
 
     any_test_treeEvaluation(Tree, "noteval")
 
@@ -218,46 +228,45 @@ def test_ONETreeFalse1():
 
 
 def test_ONETreeError():
-    Tree = tree.oval_tree.OvalNode(
-        1, 'operator', 'one', [
-            tree.oval_tree.OvalNode(
-                2, 'value', "error"), tree.oval_tree.OvalNode(
-                3, 'value', "error"), tree.oval_tree.OvalNode(
-                    4, 'value', "true"), tree.oval_tree.OvalNode(
-                        5, 'value', "unknown"), tree.oval_tree.OvalNode(
-                            6, 'value', "noteval"), tree.oval_tree.OvalNode(
-                                7, 'value', "notappl"), tree.oval_tree.OvalNode(
-                                    8, 'value', "false")])
+    Tree = tree.oval_tree.OvalNode(1, 'operator', 'one', [
+                tree.oval_tree.OvalNode(2, 'value', "error"),
+                tree.oval_tree.OvalNode(3, 'value', "error"),
+                tree.oval_tree.OvalNode(4, 'value', "true"),
+                tree.oval_tree.OvalNode(5, 'value', "unknown"),
+                tree.oval_tree.OvalNode(6, 'value', "noteval"),
+                tree.oval_tree.OvalNode(7, 'value', "notappl"),
+                tree.oval_tree.OvalNode(8, 'value', "false")
+                ]
+                )
 
     any_test_treeEvaluation(Tree, "error")
 
 
 def test_ONETreeUnknown():
-    Tree = tree.oval_tree.OvalNode(
-        1, 'operator', 'one', [
-            tree.oval_tree.OvalNode(
-                2, 'value', "unknown"), tree.oval_tree.OvalNode(
-                3, 'value', "unknown"), tree.oval_tree.OvalNode(
-                    4, 'value', "true"), tree.oval_tree.OvalNode(
-                        5, 'value', "unknown"), tree.oval_tree.OvalNode(
-                            6, 'value', "noteval"), tree.oval_tree.OvalNode(
-                                7, 'value', "notappl"), tree.oval_tree.OvalNode(
-                                    8, 'value', "false")])
+    Tree = tree.oval_tree.OvalNode(1, 'operator', 'one', [
+                tree.oval_tree.OvalNode(2, 'value', "unknown"),
+                tree.oval_tree.OvalNode(3, 'value', "unknown"),
+                tree.oval_tree.OvalNode(4, 'value', "true"),
+                tree.oval_tree.OvalNode(5, 'value', "unknown"),
+                tree.oval_tree.OvalNode(6, 'value', "noteval"),
+                tree.oval_tree.OvalNode(7, 'value', "notappl"),
+                tree.oval_tree.OvalNode(8, 'value', "false")
+                ])
 
     any_test_treeEvaluation(Tree, "unknown")
 
 
 def test_ONETreeNoteval():
-    Tree = tree.oval_tree.OvalNode(
-        1, 'operator', 'one', [
-            tree.oval_tree.OvalNode(
-                2, 'value', "noteval"), tree.oval_tree.OvalNode(
-                3, 'value', "noteval"), tree.oval_tree.OvalNode(
-                    4, 'value', "true"), tree.oval_tree.OvalNode(
-                        5, 'value', "false"), tree.oval_tree.OvalNode(
-                            6, 'value', "noteval"), tree.oval_tree.OvalNode(
-                                7, 'value', "notappl"), tree.oval_tree.OvalNode(
-                                    8, 'value', "notappl")])
+    Tree = tree.oval_tree.OvalNode(1, 'operator', 'one', [
+                tree.oval_tree.OvalNode(2, 'value', "noteval"),
+                tree.oval_tree.OvalNode(3, 'value', "noteval"),
+                tree.oval_tree.OvalNode(4, 'value', "true"),
+                tree.oval_tree.OvalNode(5, 'value', "false"),
+                tree.oval_tree.OvalNode(6, 'value', "noteval"),
+                tree.oval_tree.OvalNode(7, 'value', "notappl"),
+                tree.oval_tree.OvalNode(8, 'value', "notappl")
+                ]
+                )
 
     any_test_treeEvaluation(Tree, "noteval")
 
@@ -578,82 +587,33 @@ def test_ChangeValueTree():
 
 
 def test_bad_operator_input_and():
-    result = {
-        'true_cnt': -1,
-        'false_cnt': -1,
-        'error_cnt': -1,
-        'unknown_cnt': -1,
-        'noteval_cnt': -1,
-        'notappl_cnt': -1
-    }
     Tree = tree.oval_tree.OvalNode(0, 'value', "true")
-    assert Tree._oval_operator_and(result) is None
+    assert Tree._oval_operator_and(results_counts) is None
 
 
 def test_bad_operator_input_one():
-    result = {
-        'true_cnt': -1,
-        'false_cnt': -1,
-        'error_cnt': -1,
-        'unknown_cnt': -1,
-        'noteval_cnt': -1,
-        'notappl_cnt': -1
-    }
     Tree = tree.oval_tree.OvalNode(0, 'value', "true")
-    assert Tree._oval_operator_one(result) is None
+    assert Tree._oval_operator_one(results_counts) is None
 
 
 def test_bad_operator_input_or():
-    result = {
-        'true_cnt': -1,
-        'false_cnt': -1,
-        'error_cnt': -1,
-        'unknown_cnt': -1,
-        'noteval_cnt': -1,
-        'notappl_cnt': -1
-    }
     Tree = tree.oval_tree.OvalNode(0, 'value', "true")
-    assert Tree._oval_operator_or(result) is None
+    assert Tree._oval_operator_or(results_counts) is None
 
 
 def test_bad_operator_input_xor():
-    result = {
-        'true_cnt': -1,
-        'false_cnt': -1,
-        'error_cnt': -1,
-        'unknown_cnt': -1,
-        'noteval_cnt': -1,
-        'notappl_cnt': -1
-    }
     Tree = tree.oval_tree.OvalNode(0, 'value', "true")
-    assert Tree._oval_operator_xor(result) is None
+    assert Tree._oval_operator_xor(results_counts) is None
 
 
 def test_false_noteval_greater_zero():
-    result = {
-        'true_cnt': -1,
-        'false_cnt': -1,
-        'error_cnt': -1,
-        'unknown_cnt': -1,
-        'noteval_cnt': -1,
-        'notappl_cnt': -1
-    }
     Tree = tree.oval_tree.OvalNode(0, 'value', "true")
-    assert Tree._noteval_greater_zero(result) == False
+    assert Tree._noteval_greater_zero(results_counts) == False
 
 
 def test_false_error_unknown_eq_noteval_greater_zero():
-    result = {
-        'true_cnt': -1,
-        'false_cnt': -1,
-        'error_cnt': -1,
-        'unknown_cnt': -1,
-        'noteval_cnt': -1,
-        'notappl_cnt': -1
-    }
     Tree = tree.oval_tree.OvalNode(0, 'value', "true")
-    assert Tree._error_unknown_eq_noteval_greater_zero(result) == False
-
+    assert Tree._error_unknown_eq_noteval_greater_zero(results_counts) == False
 
 
 def any_test_parsing_and_evaluate_scan_rule(src, rule_id, result):
@@ -664,6 +624,7 @@ def any_test_parsing_and_evaluate_scan_rule(src, rule_id, result):
     for oval_tree in oval_trees_array:
         if oval_tree.node_id == rule_id:
             any_test_treeEvaluation(oval_tree, result)
+
 
 def test_parsing_full_can_XML_and_evaluate():
     src = 'test_data/ssg-fedora-ds-arf.xml'
@@ -711,3 +672,122 @@ def test_parsing_and_evaluate_scan_with_11_rules():
     result = 'true'
 
     any_test_parsing_and_evaluate_scan_rule(src, rule_id, result)
+
+
+def test_transformation_tree_to_Json_for_SigmaJs():
+    test_data = {"nodes": [{"id": "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny",
+                            "label": "and",
+                            "x": 0,
+                            "y": 0,
+                            "size": 3},
+                           {"id": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
+                            "label": "and",
+                            "x": 0,
+                            "y": 1,
+                            "size": 3},
+                           {"id": "oval:ssg-test_accounts_passwords_pam_faillock_preauth_silent_system-auth:tst:1",
+                            "label": "false",
+                            "x": 2,
+                            "y": 3,
+                            "size": 3},
+                           {"id": "oval:ssg-test_accounts_passwords_pam_faillock_account_phase_system-auth:tst:1",
+                            "label": "false",
+                            "x": 3,
+                            "y": 3,
+                            "size": 3},
+                           {"id": "oval:ssg-test_accounts_passwords_pam_faillock_preauth_silent_password-auth:tst:1",
+                            "label": "false",
+                            "x": 4,
+                            "y": 3,
+                            "size": 3},
+                           {"id": "oval:ssg-test_accounts_passwords_pam_faillock_account_phase_password-auth:tst:1",
+                            "label": "false",
+                            "x": 5,
+                            "y": 3,
+                            "size": 3},
+                           {"id": "cd2670ff-ec6a-450d-a501-f13ccc53c442",
+                            "label": "and",
+                            "x": 6,
+                            "y": 3,
+                            "size": 3},
+                           {"id": "94b8d8f8-25d5-4d91-80bb-4cb981c79018",
+                            "label": "or",
+                            "x": 8,
+                            "y": 5,
+                            "size": 3},
+                           {"id": "oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_system-auth:tst:1",
+                            "label": "false",
+                            "x": 10,
+                            "y": 7,
+                            "size": 3},
+                           {"id": "oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_system-auth:tst:1",
+                            "label": "false",
+                            "x": 11,
+                            "y": 7,
+                            "size": 3},
+                           {"id": "ddcfa90d-6b1f-4e93-9984-20cfec3f164c",
+                            "label": "or",
+                            "x": 9,
+                            "y": 5,
+                            "size": 3},
+                           {"id": "oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_password-auth:tst:1",
+                            "label": "false",
+                            "x": 11,
+                            "y": 7,
+                            "size": 3},
+                           {"id": "oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_password-auth:tst:1",
+                            "label": "false",
+                            "x": 12,
+                            "y": 7,
+                            "size": 3}],
+                 "edges": [{"id": "7c749b2b-cda0-47d3-af1c-4ae5896eb06e",
+                            "source": "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny",
+                            "target": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1"},
+                           {"id": "ad1f0982-252f-4c8d-b89e-f3dacf95a384",
+                            "source": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
+                            "target": "oval:ssg-test_accounts_passwords_pam_faillock_preauth_silent_system-auth:tst:1"},
+                           {"id": "7011d766-f739-48d0-8e8b-225957586f2c",
+                            "source": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
+                            "target": "oval:ssg-test_accounts_passwords_pam_faillock_account_phase_system-auth:tst:1"},
+                           {"id": "03e3f2b0-5283-4800-8c46-ca23c19e1b3a",
+                            "source": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
+                            "target": "oval:ssg-test_accounts_passwords_pam_faillock_preauth_silent_password-auth:tst:1"},
+                           {"id": "951ce893-90f3-443a-a90f-89cf65c409b8",
+                            "source": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
+                            "target": "oval:ssg-test_accounts_passwords_pam_faillock_account_phase_password-auth:tst:1"},
+                           {"id": "e96dcac1-8a38-45be-9aad-968ca7fecec5",
+                            "source": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
+                            "target": "cd2670ff-ec6a-450d-a501-f13ccc53c442"},
+                           {"id": "aa32e847-b6a5-4566-b8f4-af19a90d14c9",
+                            "source": "cd2670ff-ec6a-450d-a501-f13ccc53c442",
+                            "target": "94b8d8f8-25d5-4d91-80bb-4cb981c79018"},
+                           {"id": "4b918b29-b0af-454e-9ca3-b2df6e414e2d",
+                            "source": "94b8d8f8-25d5-4d91-80bb-4cb981c79018",
+                            "target": "oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_system-auth:tst:1"},
+                           {"id": "d662d791-c6ce-4921-bb47-4cf7cdef829d",
+                            "source": "94b8d8f8-25d5-4d91-80bb-4cb981c79018",
+                            "target": "oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_system-auth:tst:1"},
+                           {"id": "e8fd65b3-7727-4008-8e10-3a70a336a07c",
+                            "source": "cd2670ff-ec6a-450d-a501-f13ccc53c442",
+                            "target": "ddcfa90d-6b1f-4e93-9984-20cfec3f164c"},
+                           {"id": "a18808f4-f0e5-431b-ab85-72ebf265d3b3",
+                            "source": "ddcfa90d-6b1f-4e93-9984-20cfec3f164c",
+                            "target": "oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_password-auth:tst:1"},
+                           {"id": "c9c4a710-fc36-499b-9539-c5f9668179b1",
+                            "source": "ddcfa90d-6b1f-4e93-9984-20cfec3f164c",
+                            "target": "oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_password-auth:tst:1"}]}
+    src = 'data/ssg-fedora-ds-arf.xml'
+    rule_id = 'xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny'
+    result = 'false'
+
+    out = []
+    test = []
+    oval_trees_array = tree.oval_tree.xml_to_tree(src)
+    for oval_tree in oval_trees_array:
+        if oval_tree.node_id == rule_id:
+            out_data = oval_tree.to_sigma_dict(0, 0)
+            for node_out in out_data['nodes']:
+                out.append(node_out['label'])
+            for node_test in test_data['nodes']:
+                test.append(node_test['label'])
+    assert out == test

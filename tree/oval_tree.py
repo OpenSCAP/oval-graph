@@ -158,36 +158,36 @@ class OvalNode(object):
     def change_tree_value(self, node_id, value):
         self.find_node_with_ID(node_id).value = value
 
-    #Methods for interpreting oval tree with SigmaJS
+    # Methods for interpreting oval tree with SigmaJS
 
-    def _create_node(self,x,y):
-        return {      
+    def _create_node(self, x, y):
+        return {
             'id': self.node_id,
             'label': self.value,
             "x": x,
             "y": y,
             "size": 3
-            }
+        }
 
-    def _create_edge(self,id_source,id_target):
+    def _create_edge(self, id_source, id_target):
         return {
             "id": str(uuid.uuid4()),
             "source": id_source,
             "target": id_target
         }
-    
-    def to_sigma_dict(self, x,y,out=None):
+
+    def to_sigma_dict(self, x, y, out=None):
         if out is None:
-            out=dict(nodes=[], edges=[])
-            out['nodes'].append(self._create_node(x,y))
-        y_row = y+1
+            out = dict(nodes=[], edges=[])
+            out['nodes'].append(self._create_node(x, y))
+        y_row = y + 1
         x_row = x
         for node in self.children:
-            out['nodes'].append(node._create_node(x_row,y_row))
-            out['edges'].append(node._create_edge(self.node_id,node.node_id))
-            x_row = x_row+1
-            if node.children is not None:    
-                out = node.to_sigma_dict(x_row+1,y_row+1,out)
+            out['nodes'].append(node._create_node(x_row, y_row))
+            out['edges'].append(node._create_edge(self.node_id, node.node_id))
+            x_row = x_row + 1
+            if node.children is not None:
+                out = node.to_sigma_dict(x_row + 1, y_row + 1, out)
         return out
 
     # ----Function for evaluation----
@@ -508,9 +508,13 @@ def operator_as_child(value, scan):
 # Mine data form XML
 
 
-def get_data_form_xml(src):
+def get_root_of_XML(src):
     tree = ET.parse(src)
-    root = tree.getroot()
+    return tree.getroot()
+
+
+def get_data_form_xml(src):
+    root = get_root_of_XML(src)
 
     ns = {
         'ns0': 'http://oval.mitre.org/XMLSchema/oval-results-5',
@@ -529,8 +533,7 @@ def get_data_form_xml(src):
 
 
 def get_used_rules(src):
-    tree = ET.parse(src)
-    root = tree.getroot()
+    root = get_root_of_XML(src)
 
     testResults = root.find(
         './/{http://checklists.nist.gov/xccdf/1.2}TestResult')

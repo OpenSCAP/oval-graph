@@ -98,11 +98,13 @@ def parse_data_to_dict(trees_data,used_rules):
     return clean_definitions(fill_extend_definition(scan),used_rules)
 
 # mine data form XML
+def get_root_of_XML(src):
+    tree = ET.parse(src)
+    return tree.getroot()
 
 
 def get_data_form_xml(src):
-    tree = ET.parse(src)
-    root = tree.getroot()
+    root = get_root_of_XML(src)
 
     ns = {
         'ns0': 'http://oval.mitre.org/XMLSchema/oval-results-5',
@@ -120,8 +122,7 @@ def get_data_form_xml(src):
     return trees_data
 
 def get_used_rules(src):
-    tree = ET.parse(src)
-    root = tree.getroot()
+    root = get_root_of_XML(src)
 
     testResults = root.find('.//{http://checklists.nist.gov/xccdf/1.2}TestResult')
     #print(testResults)
@@ -141,16 +142,18 @@ def get_used_rules(src):
 
 # interpret data
 src = 'data/ssg-fedora-ds-arf.xml'
+"""
 print(
     json.dumps(
         parse_data_to_dict(
             get_data_form_xml(src),get_used_rules(src)),
         sort_keys=False,
         indent=4))
-"""
+
 data = parse_data_to_dict(get_data_form_xml(src),get_used_rules(src))
 
 f = open("tree.txt", "w+")
+
 
 for rule in data['rules']:
     #print(definition)
@@ -171,6 +174,9 @@ oval_trees_array = tree.oval_tree.xml_to_tree(src)
 for oval_tree in oval_trees_array:
     if oval_tree.node_id == rule_id:
         assert oval_tree.evaluate_tree() == result
+        f1 = open("sigmaJs.txt", "w+")
+        f1.write(str(json.dumps(oval_tree.to_sigma_dict(0,0), sort_keys=False, indent=4)))
+        f1.close()
         f.write(str(json.dumps(oval_tree.tree_to_dict(), sort_keys=False, indent=4)))
 f.close()
      

@@ -158,6 +158,36 @@ class OvalNode(object):
     def change_tree_value(self, node_id, value):
         self.find_node_with_ID(node_id).value = value
 
+    #Methods for interpreting oval tree with SigmaJS
+
+    def _create_node(self,x,y):
+        return {      
+            'id': self.node_id,
+            'label': self.value,
+            "x": x,
+            "y": y,
+            "size": 3
+            }
+
+    def _create_edge(self,id_source,id_target):
+        return {
+            "id": str(uuid.uuid4()),
+            "source": id_source,
+            "target": id_target
+        }
+    
+    def to_sigma_dict(self, x,y,out=None):
+        if out is None:
+            out=dict(nodes=[], edges=[])
+        out['nodes'].append(self._create_node(x,y))
+        y_row = y+1
+        for node in self.children:
+            out['nodes'].append(node._create_node(x+1,y_row))
+            out['edges'].append(node._create_edge(self.node_id,node.node_id))
+            if node.children is not None:    
+                out = node.to_sigma_dict(x+1,y_row+1,out)
+        return out
+
     # ----Function for evaluation----
 
     def _oval_operator_and(self, result):

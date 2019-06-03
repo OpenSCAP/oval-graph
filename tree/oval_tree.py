@@ -179,13 +179,15 @@ class OvalNode(object):
     def to_sigma_dict(self, x,y,out=None):
         if out is None:
             out=dict(nodes=[], edges=[])
-        out['nodes'].append(self._create_node(x,y))
+            out['nodes'].append(self._create_node(x,y))
         y_row = y+1
+        x_row = x
         for node in self.children:
-            out['nodes'].append(node._create_node(x+1,y_row))
+            out['nodes'].append(node._create_node(x_row,y_row))
             out['edges'].append(node._create_edge(self.node_id,node.node_id))
+            x_row = x_row+1
             if node.children is not None:    
-                out = node.to_sigma_dict(x+1,y_row+1,out)
+                out = node.to_sigma_dict(x_row+1,y_row+1,out)
         return out
 
     # ----Function for evaluation----

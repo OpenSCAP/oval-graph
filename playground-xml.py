@@ -168,15 +168,21 @@ src = 'data/ssg-fedora-ds-arf.xml'
 rule_id = 'xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny'
 result = 'false'
 
-f = open("tree.txt", "w+")
 
 oval_trees_array = tree.oval_tree.xml_to_tree(src)
 for oval_tree in oval_trees_array:
     if oval_tree.node_id == rule_id:
         assert oval_tree.evaluate_tree() == result
         f1 = open("sigmaJs.txt", "w+")
-        f1.write(str(json.dumps(oval_tree.to_sigma_dict(0,0), sort_keys=False, indent=4)))
+        f1.write(json.dumps(oval_tree.to_sigma_dict(0,0), sort_keys=False, indent=4))
         f1.close()
-        f.write(str(json.dumps(oval_tree.tree_to_dict(), sort_keys=False, indent=4)))
-f.close()
+
+        f = open("tree.txt", "w+")
+        f.write(json.dumps(oval_tree.tree_to_dict(), sort_keys=False, indent=4))
+        f.close()
+
+        f = open("htmlOut/data.json", "w+")
+        f.write(json.dumps(oval_tree.to_sigma_dict(0,0), sort_keys=False, indent=4))
+        f.close()
+
      

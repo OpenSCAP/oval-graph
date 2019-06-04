@@ -312,46 +312,46 @@ def test_ORTreeFalse():
 
 
 def test_ORTreeError():
-    Tree = tree.oval_tree.OvalNode(
-        1, 'operator', 'or', [
-            tree.oval_tree.OvalNode(
-                2, 'value', "error"), tree.oval_tree.OvalNode(
-                3, 'value', "error"), tree.oval_tree.OvalNode(
-                    4, 'value', "false"), tree.oval_tree.OvalNode(
-                        5, 'value', "unknown"), tree.oval_tree.OvalNode(
-                            6, 'value', "noteval"), tree.oval_tree.OvalNode(
-                                7, 'value', "notappl"), tree.oval_tree.OvalNode(
-                                    8, 'value', "error")])
+    Tree = tree.oval_tree.OvalNode(1, 'operator', 'or', [
+                tree.oval_tree.OvalNode(2, 'value', "error"),
+                tree.oval_tree.OvalNode(3, 'value', "error"),
+                tree.oval_tree.OvalNode(4, 'value', "false"),
+                tree.oval_tree.OvalNode(5, 'value', "unknown"),
+                tree.oval_tree.OvalNode(6, 'value', "noteval"),
+                tree.oval_tree.OvalNode(7, 'value', "notappl"),
+                tree.oval_tree.OvalNode(8, 'value', "error")
+                ]
+                )
 
     any_test_treeEvaluation(Tree, "error")
 
 
 def test_ORTreeUnknown():
-    Tree = tree.oval_tree.OvalNode(
-        1, 'operator', 'or', [
-            tree.oval_tree.OvalNode(
-                2, 'value', "unknown"), tree.oval_tree.OvalNode(
-                3, 'value', "unknown"), tree.oval_tree.OvalNode(
-                    4, 'value', "false"), tree.oval_tree.OvalNode(
-                        5, 'value', "unknown"), tree.oval_tree.OvalNode(
-                            6, 'value', "noteval"), tree.oval_tree.OvalNode(
-                                7, 'value', "notappl"), tree.oval_tree.OvalNode(
-                                    8, 'value', "notappl")])
+    Tree = tree.oval_tree.OvalNode(1, 'operator', 'or', [
+                tree.oval_tree.OvalNode(2, 'value', "unknown"),
+                tree.oval_tree.OvalNode(3, 'value', "unknown"),
+                tree.oval_tree.OvalNode(4, 'value', "false"),
+                tree.oval_tree.OvalNode(5, 'value', "unknown"),
+                tree.oval_tree.OvalNode(6, 'value', "noteval"),
+                tree.oval_tree.OvalNode(7, 'value', "notappl"),
+                tree.oval_tree.OvalNode(8, 'value', "notappl")
+                ]
+                )
 
     any_test_treeEvaluation(Tree, "unknown")
 
 
 def test_ORTreeNoteval():
-    Tree = tree.oval_tree.OvalNode(
-        1, 'operator', 'or', [
-            tree.oval_tree.OvalNode(
-                2, 'value', "noteval"), tree.oval_tree.OvalNode(
-                3, 'value', "noteval"), tree.oval_tree.OvalNode(
-                    4, 'value', "false"), tree.oval_tree.OvalNode(
-                        5, 'value', "false"), tree.oval_tree.OvalNode(
-                            6, 'value', "noteval"), tree.oval_tree.OvalNode(
-                                7, 'value', "notappl"), tree.oval_tree.OvalNode(
-                                    8, 'value', "notappl")])
+    Tree = tree.oval_tree.OvalNode(1, 'operator', 'or', [
+                tree.oval_tree.OvalNode(2, 'value', "noteval"),
+                tree.oval_tree.OvalNode(3, 'value', "noteval"),
+                tree.oval_tree.OvalNode(4, 'value', "false"),
+                tree.oval_tree.OvalNode(5, 'value', "false"),
+                tree.oval_tree.OvalNode(6, 'value', "noteval"),
+                tree.oval_tree.OvalNode(7, 'value', "notappl"),
+                tree.oval_tree.OvalNode(8, 'value', "notappl")
+                ]
+                )
 
     any_test_treeEvaluation(Tree, "noteval")
 
@@ -402,46 +402,46 @@ def test_XORTreeFalse():
 
 
 def test_XORTreeError():
-    Tree = tree.oval_tree.OvalNode(
-        1, 'operator', 'xor', [
-            tree.oval_tree.OvalNode(
-                2, 'value', "error"), tree.oval_tree.OvalNode(
-                3, 'value', "error"), tree.oval_tree.OvalNode(
-                    4, 'value', "true"), tree.oval_tree.OvalNode(
-                        5, 'value', "unknown"), tree.oval_tree.OvalNode(
-                            6, 'value', "noteval"), tree.oval_tree.OvalNode(
-                                7, 'value', "notappl"), tree.oval_tree.OvalNode(
-                                    8, 'value', "false")])
+    Tree = tree.oval_tree.OvalNode(1, 'operator', 'xor', [
+                tree.oval_tree.OvalNode(2, 'value', "error"),
+                tree.oval_tree.OvalNode(3, 'value', "error"),
+                tree.oval_tree.OvalNode(4, 'value', "true"),
+                tree.oval_tree.OvalNode(5, 'value', "unknown"),
+                tree.oval_tree.OvalNode(6, 'value', "noteval"),
+                tree.oval_tree.OvalNode(7, 'value', "notappl"),
+                tree.oval_tree.OvalNode(8, 'value', "false")
+                ]
+                )
 
     any_test_treeEvaluation(Tree, "error")
 
 
 def test_xORTreeUnknown():
-    Tree = tree.oval_tree.OvalNode(
-        1, 'operator', 'xor', [
-            tree.oval_tree.OvalNode(
-                2, 'value', "unknown"), tree.oval_tree.OvalNode(
-                3, 'value', "unknown"), tree.oval_tree.OvalNode(
-                    4, 'value', "true"), tree.oval_tree.OvalNode(
-                        5, 'value', "unknown"), tree.oval_tree.OvalNode(
-                            6, 'value', "noteval"), tree.oval_tree.OvalNode(
-                                7, 'value', "notappl"), tree.oval_tree.OvalNode(
-                                    8, 'value', "notappl")])
+    Tree = tree.oval_tree.OvalNode(1, 'operator', 'xor', [
+                tree.oval_tree.OvalNode(2, 'value', "unknown"),
+                tree.oval_tree.OvalNode(3, 'value', "unknown"),
+                tree.oval_tree.OvalNode(4, 'value', "true"),
+                tree.oval_tree.OvalNode(5, 'value', "unknown"),
+                tree.oval_tree.OvalNode(6, 'value', "noteval"),
+                tree.oval_tree.OvalNode(7, 'value', "notappl"),
+                tree.oval_tree.OvalNode(8, 'value', "notappl")
+                ]
+                )
 
     any_test_treeEvaluation(Tree, "unknown")
 
 
 def test_XORTreeNoteval():
-    Tree = tree.oval_tree.OvalNode(
-        1, 'operator', 'xor', [
-            tree.oval_tree.OvalNode(
-                2, 'value', "noteval"), tree.oval_tree.OvalNode(
-                3, 'value', "noteval"), tree.oval_tree.OvalNode(
-                    4, 'value', "true"), tree.oval_tree.OvalNode(
-                        5, 'value', "true"), tree.oval_tree.OvalNode(
-                            6, 'value', "noteval"), tree.oval_tree.OvalNode(
-                                7, 'value', "notappl"), tree.oval_tree.OvalNode(
-                                    8, 'value', "notappl")])
+    Tree = tree.oval_tree.OvalNode(1, 'operator', 'xor', [
+                tree.oval_tree.OvalNode(2, 'value', "noteval"),
+                tree.oval_tree.OvalNode(3, 'value', "noteval"),
+                tree.oval_tree.OvalNode(4, 'value', "true"),
+                tree.oval_tree.OvalNode(5, 'value', "true"),
+                tree.oval_tree.OvalNode(6, 'value', "noteval"),
+                tree.oval_tree.OvalNode(7, 'value', "notappl"),
+                tree.oval_tree.OvalNode(8, 'value', "notappl")
+                ]
+                )
 
     any_test_treeEvaluation(Tree, "noteval")
 
@@ -458,23 +458,26 @@ def test_XORTreeNotappl():
 
 
 def test_bigOvalTree():
-    Tree = tree.oval_tree.OvalNode(
-        1, 'operator', 'and', [
-            tree.oval_tree.OvalNode(
-                2, 'value', "false"), tree.oval_tree.OvalNode(
-                3, 'operator', "xor", [
-                    tree.oval_tree.OvalNode(
-                        4, 'value', 'true'), tree.oval_tree.OvalNode(
-                            5, 'operator', 'one', [
-                                tree.oval_tree.OvalNode(
-                                    6, 'value', 'noteval'), tree.oval_tree.OvalNode(
-                                        7, 'value', 'true'), tree.oval_tree.OvalNode(
-                                            8, 'value', 'notappl')]), tree.oval_tree.OvalNode(
-                                                9, 'value', 'error')]), tree.oval_tree.OvalNode(
-                                                    10, 'operator', 'or', [
-                                                        tree.oval_tree.OvalNode(
-                                                            11, 'value', "unknown"), tree.oval_tree.OvalNode(
-                                                                12, 'value', "true")])])
+    Tree = tree.oval_tree.OvalNode(1, 'operator', 'and', [
+                tree.oval_tree.OvalNode(2, 'value', "false"),
+                tree.oval_tree.OvalNode(3, 'operator', "xor", [
+                            tree.oval_tree.OvalNode(4, 'value', 'true'),
+                            tree.oval_tree.OvalNode(5, 'operator', 'one', [
+                                        tree.oval_tree.OvalNode(6, 'value', 'noteval'),
+                                        tree.oval_tree.OvalNode(7, 'value', 'true'), 
+                                        tree.oval_tree.OvalNode(8, 'value', 'notappl')
+                                        ]
+                                        ),
+                            tree.oval_tree.OvalNode(9, 'value', 'error')
+                            ]
+                            ),
+                tree.oval_tree.OvalNode(10, 'operator', 'or', [
+                                        tree.oval_tree.OvalNode(11, 'value', "unknown"),
+                                        tree.oval_tree.OvalNode(12, 'value', "true")
+                                        ]
+                                        )
+                ]
+                )
 
     dict_of_tree = {'node_id': 1, 'type': 'operator', 'value': 'and',
                     'child': [

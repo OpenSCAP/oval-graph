@@ -161,13 +161,32 @@ class OvalNode(object):
     # Methods for interpreting oval tree with SigmaJS
 
     def _create_node(self, x, y):
-        return {
-            'id': self.node_id,
-            'label': self.value,
-            "x": x,
-            "y": y,
-            "size": 3
-        }
+        if(self.value=='true'):
+            return {
+                'id': self.node_id,
+                'label': self.node_id,
+                "x": x,
+                "y": y,
+                "size": 3,
+                "color":'#00ff00'
+            }
+        elif(self.value=='false'):
+            return {
+                'id': self.node_id,
+                'label': self.node_id,
+                "x": x,
+                "y": y,
+                "size": 3,
+                "color":'#ff0000'
+            }
+        else:
+            return {
+                'id': self.node_id,
+                'label': self.node_id + ' ' + self.value,
+                "x": x,
+                "y": y,
+                "size": 3,
+                }
 
     def _create_edge(self, id_source, id_target):
         return {
@@ -175,6 +194,13 @@ class OvalNode(object):
             "source": id_source,
             "target": id_target
         }
+
+    def _fix_graph(self, out):
+        for node in out['nodes']:
+            for node1 in out['nodes']:
+                if node['x']==node1['x'] and node['y']==node1['y']:
+                    node['x'] = node['x']-1
+        return out
 
     def to_sigma_dict(self, x, y, out=None):
         if out is None:
@@ -188,7 +214,7 @@ class OvalNode(object):
             x_row = x_row + 1
             if node.children is not None:
                 out = node.to_sigma_dict(x_row + 1, y_row + 1, out)
-        return out
+        return self._fix_graph(out)
 
     # ----Function for evaluation----
 
@@ -555,6 +581,23 @@ def get_used_rules(src):
     return rules
 
 # Function for transfer XML to OVAL_TREE
+def create_list_of_id(tree,ids=None):
+    if ids is None:
+        ids=[]
+    ids.append(tree.node_id)
+    for child in tree.children:
+        if child.node_type!="operator":
+            ids.append(child.node_id)
+        else:
+            create_list_of_id(child,ids)
+    return ids
+def fix_id(tree):
+    ids = create_list_of_id(tree)
+    import collections
+    duplicates=[item for item, count in collections.Counter(ids).items() if count > 1]
+    if duplicates!=[]:
+        for dup in duplicates:
+            print(tree.find_node_with_ID(dup)) 
 
 
 def xml_to_tree(xml_src):
@@ -563,4 +606,8 @@ def xml_to_tree(xml_src):
     out = []
     for rule in data['rules']:
         out.append(xml_dict_of_rule_to_node(rule))
+    """
+    for tree in out:
+        fix_id(tree)
+    """
     return out

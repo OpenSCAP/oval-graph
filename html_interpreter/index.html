@@ -54,6 +54,10 @@
 <script src="src/misc/sigma.misc.drawHovers.js"></script>
 <!-- END SIGMA IMPORTS -->
 <script src="plugins/sigma.parsers.json/sigma.parsers.json.js"></script>
+<script src="plugins/sigma.layout.forceAtlas2/worker.js"></script>
+<script src="plugins/sigma.layout.forceAtlas2/supervisor.js"></script>
+<script src="plugins/sigma.plugins.animate/sigma.plugins.animate.js"></script>
+<script src="plugins/sigma.layout.noverlap/sigma.layout.noverlap.js"></script>
 <div id="container">
   <style>
     #graph-container {
@@ -81,9 +85,27 @@
  * configuration object. The plugin will just add the "graph" key to it
  * before the instanciation.
  */
-sigma.parsers.json('data1.json', {
-  container: 'graph-container'
-});
+// Configure the noverlap layout:
+
+sigma.parsers.json('data.json', {
+  container: 'graph-container',
+  renderer: {
+        container: document.getElementById('graph-container'),
+        type: 'canvas'
+    },
+  settings: {
+        minNodeSize: 8,
+        maxNodeSize: 16
+    }
+}, function(s) {
+   //s.startForceAtlas2({worker: true, barnesHutOptimize: false})
+    var noverlapListener = s.configNoverlap({
+      nodeMargin: 0.1,
+      scaleNodes: 2.00,
+      gridSize: 150,
+      });
+    s.startNoverlap();
+    });
 </script>
 </body>
 </html>

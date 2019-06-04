@@ -166,6 +166,7 @@ f.close()
 
 src = 'data/ssg-fedora-ds-arf.xml'
 rule_id = 'xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny'
+#rule_id = 'xccdf_org.ssgproject.content_rule_disable_host_auth'
 result = 'false'
 
 
@@ -181,7 +182,7 @@ for oval_tree in oval_trees_array:
         f.write(json.dumps(oval_tree.tree_to_dict(), sort_keys=False, indent=4))
         f.close()
 
-        f = open("htmlOut/data.json", "w+")
+        f = open("html_interpreter/data.json", "w+")
         f.write(json.dumps(oval_tree.to_sigma_dict(0,0), sort_keys=False, indent=4))
         f.close()
 

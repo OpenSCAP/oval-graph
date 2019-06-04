@@ -27,3 +27,4 @@ https://oval.mitre.org/language/version5.11/ovaldefinition/documentation/oval-co
 10]fix ci
 11]interpret by html and js 50%
 12]find and fix 
+13] find duplicite nodes 

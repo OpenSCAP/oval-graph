@@ -2,6 +2,7 @@
     Module for parsing XML
 """
 import uuid
+import collections
 from lxml import etree as ET
 
 """
@@ -180,12 +181,31 @@ class OvalNode(object):
                 "color":'#ff0000'
             }
         else:
-            return {
-                'id': self.node_id,
-                'label': self.node_id + ' ' + self.value,
-                "x": x,
-                "y": y,
-                "size": 3,
+            if(self.evaluate_tree()=='true'):
+                return {
+                    'id': self.node_id,
+                    'label': self.value,
+                    "x": x,
+                    "y": y,
+                    "size": 3,
+                    "color":'#00ff00'
+                }
+            elif(self.evaluate_tree()=='false'):
+                return {
+                    'id': self.node_id,
+                    'label': self.value,
+                    "x": x,
+                    "y": y,
+                    "size": 3,
+                    "color":'#ff0000'
+                }
+            else:
+                return {
+                    'id': self.node_id,
+                    'label': self.node_id + ' ' + self.value,
+                    "x": x,
+                    "y": y,
+                    "size": 3,
                 }
 
     def _create_edge(self, id_source, id_target):
@@ -194,6 +214,34 @@ class OvalNode(object):
             "source": id_source,
             "target": id_target
         }
+
+    def create_list_of_id(self,ids=None):
+        if ids is None:
+            ids=[]
+            ids.append(self.node_id)
+        for child in self.children:
+            if child.node_type!="operator":
+                ids.append(child.node_id)
+            else:
+                child.create_list_of_id(ids)
+        return ids
+
+    def remove_Duplication(self, input):
+        ids=self.create_list_of_id()
+        out =dict(nodes=[],edges=input['edges'])
+        duplicate_ids= [item for item, count in collections.Counter(ids).items() if count > 1]
+    
+        for node in input['nodes']:
+            if node['id'] not in duplicate_ids:
+                out['nodes'].append(node)
+    
+        for id in duplicate_ids:
+            for node in input['nodes']:
+                if node['id'] == id:
+                    out['nodes'].append(node)
+                    break
+        return out
+
 
     def _fix_graph(self, out):
         for node in out['nodes']:
@@ -581,24 +629,6 @@ def get_used_rules(src):
     return rules
 
 # Function for transfer XML to OVAL_TREE
-def create_list_of_id(tree,ids=None):
-    if ids is None:
-        ids=[]
-    ids.append(tree.node_id)
-    for child in tree.children:
-        if child.node_type!="operator":
-            ids.append(child.node_id)
-        else:
-            create_list_of_id(child,ids)
-    return ids
-def fix_id(tree):
-    ids = create_list_of_id(tree)
-    import collections
-    duplicates=[item for item, count in collections.Counter(ids).items() if count > 1]
-    if duplicates!=[]:
-        for dup in duplicates:
-            print(tree.find_node_with_ID(dup)) 
-
 
 def xml_to_tree(xml_src):
     data = parse_data_to_dict(
@@ -606,8 +636,4 @@ def xml_to_tree(xml_src):
     out = []
     for rule in data['rules']:
         out.append(xml_dict_of_rule_to_node(rule))
-    """
-    for tree in out:
-        fix_id(tree)
-    """
     return out

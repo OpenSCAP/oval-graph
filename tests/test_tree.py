@@ -677,7 +677,7 @@ def test_parsing_and_evaluate_scan_with_11_rules():
     any_test_parsing_and_evaluate_scan_rule(src, rule_id, result)
 
 
-def test_transformation_tree_to_Json_for_SigmaJs():
+def _test_transformation_tree_to_Json_for_SigmaJs():
     test_data = {"nodes": [{"id": "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny",
                             "label": "and",
                             "x": 0,

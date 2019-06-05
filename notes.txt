@@ -10,11 +10,15 @@ PEP8-Fix
 autopep8 --in-place --aggressive --aggressive <filename>
 
 RUN
-python3 run.py data/ssg-fedora-ds-arf.xml html_interpreter/data4.json xccdf_org.ssgproject.content_rule_disable_host_auth
-python3 run.py data/ssg-fedora-ds-arf.xml html_interpreter/data4.json xccdf_org.ssgproject.content_rule_sshd_disable_rhosts
-python3 run.py data/ssg-fedora-ds-arf.xml html_interpreter/data4.json xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny
-python3 run.py data/ssg-fedora-ds-arf.xml html_interpreter/data4.json xccdf_org.ssgproject.content_rule_package_sendmail_removed
-python3 run.py data/ssg-fedora-ds-arf.xml html_interpreter/data4.json xccdf_org.ssgproject.content_rule_require_singleuser_auth
+python3 run.py data/ssg-fedora-ds-arf.xml xccdf_org.ssgproject.content_rule_disable_host_auth
+
+python3 run.py data/ssg-fedora-ds-arf.xml xccdf_org.ssgproject.content_rule_sshd_disable_rhosts
+
+python3 run.py data/ssg-fedora-ds-arf.xml xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny
+
+python3 run.py data/ssg-fedora-ds-arf.xml xccdf_org.ssgproject.content_rule_package_sendmail_removed
+
+python3 run.py data/ssg-fedora-ds-arf.xml xccdf_org.ssgproject.content_rule_require_singleuser_auth
 
 TODO
 1]id - done

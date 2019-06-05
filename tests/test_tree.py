@@ -654,6 +654,7 @@ def test_create_node_dict_for_sigmaJs_0():
         'size': 3,
         'text': 'null',
         'url': 'null',
+        'title': 1,
         'x': 0,
         'y': 0
     }
@@ -668,6 +669,7 @@ def test_create_node_dict_for_sigmaJs_1():
         'size': 3,
         'text': 'null',
         'url': 'null',
+        'title': 1,
         'x': 0,
         'y': 0
     }
@@ -682,10 +684,11 @@ def test_create_node_dict_for_sigmaJs_2():
     out = {
         'color': '#000000',
         'id': 1,
-        'label': '1 and',
+        'label': 'and',
         'size': 3,
         'text': 'null',
         'url': 'null',
+        'title': '1 and',
         'x': 0,
         'y': 0
     }
@@ -700,10 +703,11 @@ def test_create_node_dict_for_sigmaJs_3():
     out = {
         'color': '#ff0000',
         'id': 1,
-        'label': 1,
+        'label': 'false',
         'size': 3,
         'text': 'null',
         'url': 'null',
+        'title': 1,
         'x': 0,
         'y': 0
     }
@@ -715,10 +719,11 @@ def test_create_node_dict_for_sigmaJs_4():
     out = {
         'color': '#00ff00',
         'id': 1,
-        'label': 1,
+        'label': 'true',
         'size': 3,
         'text': 'null',
         'url': 'null',
+        'title': 1,
         'x': 0,
         'y': 0
     }
@@ -731,10 +736,11 @@ def test_create_node_dict_for_sigmaJs_5():
     out = {
         'color': '#000000',
         'id': 1,
-        'label': '1 error',
+        'label': 'error',
         'size': 3,
         'text': 'null',
         'url': 'null',
+        'title': '1 error',
         'x': 0,
         'y': 0
     }
@@ -809,200 +815,213 @@ def test_parsing_and_evaluate_scan_with_11_rules():
 def test_transformation_tree_to_Json_for_SigmaJs_0():
     test_data = {
         "nodes": [
-            {
-                "id": "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny",
-                "label": "and",
-                "url": 'null',
-                "text": 'null',
-                "x": -13,
-                "y": 0,
-                "size": 3,
-                "color": "#ff0000"
-            },
-            {
-                "id": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
-                "label": "and",
-                "url": 'null',
-                "text": 'null',
-                "x": -13,
-                "y": 1,
-                "size": 3,
-                "color": "#ff0000"
-            },
-            {
-                "id": "oval:ssg-test_accounts_passwords_pam_faillock_preauth_silent_system-auth:tst:1",
-                "label": "oval:ssg-test_accounts_passwords_pam_faillock_preauth_silent_system-auth:tst:1",
-                "url": 'null',
-                "text": 'null',
-                "x": -11,
-                "y": 3,
-                "size": 3,
-                "color": "#ff0000"
-            },
-            {
-                "id": "oval:ssg-test_accounts_passwords_pam_faillock_account_phase_system-auth:tst:1",
-                "label": "oval:ssg-test_accounts_passwords_pam_faillock_account_phase_system-auth:tst:1",
-                "url": 'null',
-                "text": 'null',
-                "x": -9,
-                "y": 3,
-                "size": 3,
-                "color": "#ff0000"
-            },
-            {
-                "id": "oval:ssg-test_accounts_passwords_pam_faillock_preauth_silent_password-auth:tst:1",
-                "label": "oval:ssg-test_accounts_passwords_pam_faillock_preauth_silent_password-auth:tst:1",
-                "url": 'null',
-                "text": 'null',
-                "x": -7,
-                "y": 3,
-                "size": 3,
-                "color": "#ff0000"
-            },
-            {
-                "id": "oval:ssg-test_accounts_passwords_pam_faillock_account_phase_password-auth:tst:1",
-                "label": "oval:ssg-test_accounts_passwords_pam_faillock_account_phase_password-auth:tst:1",
-                "url": 'null',
-                "text": 'null',
-                "x": -5,
-                "y": 3,
-                "size": 3,
-                "color": "#ff0000"
-            },
-            {
-                "id": "6c555a8c-e00e-4dff-8cff-52ecf5e33ffa",
-                "label": "and",
-                "url": 'null',
-                "text": 'null',
-                "x": -3,
-                "y": 3,
-                "size": 3,
-                "color": "#ff0000"
-            },
-            {
-                "id": "fc292b8b-0cea-4322-b997-3d9676b36da3",
-                "label": "or",
-                "url": 'null',
-                "text": 'null',
-                "x": -1,
-                "y": 5,
-                "size": 3,
-                "color": "#ff0000"
-            },
-            {
-                "id": "oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_system-auth:tst:1",
-                "label": "oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_system-auth:tst:1",
-                "url": 'null',
-                "text": 'null',
-                "x": 1,
-                "y": 7,
-                "size": 3,
-                "color": "#ff0000"
-            },
-            {
-                "id": "oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_system-auth:tst:1",
-                "label": "oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_system-auth:tst:1",
-                "url": 'null',
-                "text": 'null',
-                "x": 3,
-                "y": 7,
-                "size": 3,
-                "color": "#ff0000"
-            },
-            {
-                "id": "bd64de81-238e-4b6b-8f2c-9fb98c7026bc",
-                "label": "or",
-                "url": 'null',
-                "text": 'null',
-                "x": 3,
-                "y": 5,
-                "size": 3,
-                "color": "#ff0000"
-            },
-            {
-                "id": "oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_password-auth:tst:1",
-                "label": "oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_password-auth:tst:1",
-                "url": 'null',
-                "text": 'null',
-                "x": 5,
-                "y": 7,
-                "size": 3,
-                "color": "#ff0000"
-            },
-            {
-                "id": "oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_password-auth:tst:1",
-                "label": "oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_password-auth:tst:1",
-                "url": 'null',
-                "text": 'null',
-                "x": 7,
-                "y": 7,
-                "size": 3,
-                "color": "#ff0000"
-            }
+        {
+            "id": "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny",
+            "label": "and",
+            "url": "null",
+            "text": "null",
+            "title": "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny",
+            "x": -13,
+            "y": 0,
+            "size": 3,
+            "color": "#ff0000"
+        },
+        {
+            "id": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
+            "label": "and",
+            "url": "null",
+            "text": "null",
+            "title": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
+            "x": -13,
+            "y": 1,
+            "size": 3,
+            "color": "#ff0000"
+        },
+        {
+            "id": "oval:ssg-test_accounts_passwords_pam_faillock_preauth_silent_system-auth:tst:1",
+            "label": "false",
+            "url": "null",
+            "text": "null",
+            "title": "oval:ssg-test_accounts_passwords_pam_faillock_preauth_silent_system-auth:tst:1",
+            "x": -11,
+            "y": 3,
+            "size": 3,
+            "color": "#ff0000"
+        },
+        {
+            "id": "oval:ssg-test_accounts_passwords_pam_faillock_account_phase_system-auth:tst:1",
+            "label": "false",
+            "url": "null",
+            "text": "null",
+            "title": "oval:ssg-test_accounts_passwords_pam_faillock_account_phase_system-auth:tst:1",
+            "x": -9,
+            "y": 3,
+            "size": 3,
+            "color": "#ff0000"
+        },
+        {
+            "id": "oval:ssg-test_accounts_passwords_pam_faillock_preauth_silent_password-auth:tst:1",
+            "label": "false",
+            "url": "null",
+            "text": "null",
+            "title": "oval:ssg-test_accounts_passwords_pam_faillock_preauth_silent_password-auth:tst:1",
+            "x": -7,
+            "y": 3,
+            "size": 3,
+            "color": "#ff0000"
+        },
+        {
+            "id": "oval:ssg-test_accounts_passwords_pam_faillock_account_phase_password-auth:tst:1",
+            "label": "false",
+            "url": "null",
+            "text": "null",
+            "title": "oval:ssg-test_accounts_passwords_pam_faillock_account_phase_password-auth:tst:1",
+            "x": -5,
+            "y": 3,
+            "size": 3,
+            "color": "#ff0000"
+        },
+        {
+            "id": "b2eae097-2c22-4c0b-8796-4b76e9b1a8c0",
+            "label": "and",
+            "url": "null",
+            "text": "null",
+            "title": "b2eae097-2c22-4c0b-8796-4b76e9b1a8c0",
+            "x": -3,
+            "y": 3,
+            "size": 3,
+            "color": "#ff0000"
+        },
+        {
+            "id": "ece33afa-c675-4a43-9366-f946181937f4",
+            "label": "or",
+            "url": "null",
+            "text": "null",
+            "title": "ece33afa-c675-4a43-9366-f946181937f4",
+            "x": -1,
+            "y": 5,
+            "size": 3,
+            "color": "#ff0000"
+        },
+        {
+            "id": "oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_system-auth:tst:1",
+            "label": "false",
+            "url": "null",
+            "text": "null",
+            "title": "oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_system-auth:tst:1",
+            "x": 1,
+            "y": 7,
+            "size": 3,
+            "color": "#ff0000"
+        },
+        {
+            "id": "oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_system-auth:tst:1",
+            "label": "false",
+            "url": "null",
+            "text": "null",
+            "title": "oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_system-auth:tst:1",
+            "x": 3,
+            "y": 7,
+            "size": 3,
+            "color": "#ff0000"
+        },
+        {
+            "id": "c157ad0e-3326-4ae4-88d4-14a9bf7e6a84",
+            "label": "or",
+            "url": "null",
+            "text": "null",
+            "title": "c157ad0e-3326-4ae4-88d4-14a9bf7e6a84",
+            "x": 3,
+            "y": 5,
+            "size": 3,
+            "color": "#ff0000"
+        },
+        {
+            "id": "oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_password-auth:tst:1",
+            "label": "false",
+            "url": "null",
+            "text": "null",
+            "title": "oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_password-auth:tst:1",
+            "x": 5,
+            "y": 7,
+            "size": 3,
+            "color": "#ff0000"
+        },
+        {
+            "id": "oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_password-auth:tst:1",
+            "label": "false",
+            "url": "null",
+            "text": "null",
+            "title": "oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_password-auth:tst:1",
+            "x": 7,
+            "y": 7,
+            "size": 3,
+            "color": "#ff0000"
+        }
         ],
         "edges": [
-            {
-                "id": "7e89e0fa-419a-4344-80ed-7faf3edf966b",
-                "source": "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny",
-                "target": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1"
-            },
-            {
-                "id": "a670a87a-d697-445b-83b1-7b6016559cea",
-                "source": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
-                "target": "oval:ssg-test_accounts_passwords_pam_faillock_preauth_silent_system-auth:tst:1"
-            },
-            {
-                "id": "d71f1872-0915-4f6e-a10b-e0556d782932",
-                "source": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
-                "target": "oval:ssg-test_accounts_passwords_pam_faillock_account_phase_system-auth:tst:1"
-            },
-            {
-                "id": "5596b215-8bcc-4137-95bc-513bff340a59",
-                "source": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
-                "target": "oval:ssg-test_accounts_passwords_pam_faillock_preauth_silent_password-auth:tst:1"
-            },
-            {
-                "id": "b2977657-394f-41aa-8d1e-032c88d7dcc4",
-                "source": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
-                "target": "oval:ssg-test_accounts_passwords_pam_faillock_account_phase_password-auth:tst:1"
-            },
-            {
-                "id": "086e7c21-e7e2-4da9-88a0-aa6e6f55b0c1",
-                "source": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
-                "target": "6c555a8c-e00e-4dff-8cff-52ecf5e33ffa"
-            },
-            {
-                "id": "2ba424ef-b5c1-4743-9785-e315fbc81a63",
-                "source": "6c555a8c-e00e-4dff-8cff-52ecf5e33ffa",
-                "target": "fc292b8b-0cea-4322-b997-3d9676b36da3"
-            },
-            {
-                "id": "507d746a-50b0-4b98-9cde-749b8cc26976",
-                "source": "fc292b8b-0cea-4322-b997-3d9676b36da3",
-                "target": "oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_system-auth:tst:1"
-            },
-            {
-                "id": "b2aa01ba-07f9-44df-ac35-f1f9dcdea1c4",
-                "source": "fc292b8b-0cea-4322-b997-3d9676b36da3",
-                "target": "oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_system-auth:tst:1"
-            },
-            {
-                "id": "aa731ac9-7089-4de9-9186-7ede165cc37e",
-                "source": "6c555a8c-e00e-4dff-8cff-52ecf5e33ffa",
-                "target": "bd64de81-238e-4b6b-8f2c-9fb98c7026bc"
-            },
-            {
-                "id": "551725d6-4580-478f-a480-262a37ef35d5",
-                "source": "bd64de81-238e-4b6b-8f2c-9fb98c7026bc",
-                "target": "oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_password-auth:tst:1"
-            },
-            {
-                "id": "2fcc8d52-29ab-4028-8db3-c0127c996255",
-                "source": "bd64de81-238e-4b6b-8f2c-9fb98c7026bc",
-                "target": "oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_password-auth:tst:1"
-            }
+        {
+            "id": "f8e7e5c5-facf-4ba5-aa06-0cad749c1683",
+            "source": "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny",
+            "target": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1"
+        },
+        {
+            "id": "003367ab-2d0e-4ee2-8e04-a8d724c00b4f",
+            "source": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
+            "target": "oval:ssg-test_accounts_passwords_pam_faillock_preauth_silent_system-auth:tst:1"
+        },
+        {
+            "id": "d89082e6-4f27-4c1f-a1c2-faf6e59a49a0",
+            "source": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
+            "target": "oval:ssg-test_accounts_passwords_pam_faillock_account_phase_system-auth:tst:1"
+        },
+        {
+            "id": "a5b2dce5-35de-4060-b499-05dd517c993d",
+            "source": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
+            "target": "oval:ssg-test_accounts_passwords_pam_faillock_preauth_silent_password-auth:tst:1"
+        },
+        {
+            "id": "f62a2828-ed80-4f0d-8c1a-2fd6da231d58",
+            "source": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
+            "target": "oval:ssg-test_accounts_passwords_pam_faillock_account_phase_password-auth:tst:1"
+        },
+        {
+            "id": "436845ff-994c-4026-adc5-0841a2a61e51",
+            "source": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
+            "target": "b2eae097-2c22-4c0b-8796-4b76e9b1a8c0"
+        },
+        {
+            "id": "466ef345-9f61-4d70-8f0a-c0a3257cc253",
+            "source": "b2eae097-2c22-4c0b-8796-4b76e9b1a8c0",
+            "target": "ece33afa-c675-4a43-9366-f946181937f4"
+        },
+        {
+            "id": "2bed2247-8155-4a2e-b75a-35d5839d9db4",
+            "source": "ece33afa-c675-4a43-9366-f946181937f4",
+            "target": "oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_system-auth:tst:1"
+        },
+        {
+            "id": "be4e6a91-b874-4082-b077-ff74e286c91d",
+            "source": "ece33afa-c675-4a43-9366-f946181937f4",
+            "target": "oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_system-auth:tst:1"
+        },
+        {
+            "id": "29b9563c-2f8f-4554-8159-102ec4897ac1",
+            "source": "b2eae097-2c22-4c0b-8796-4b76e9b1a8c0",
+            "target": "c157ad0e-3326-4ae4-88d4-14a9bf7e6a84"
+        },
+        {
+            "id": "7d06f894-071e-4383-96e8-934513eb857c",
+            "source": "c157ad0e-3326-4ae4-88d4-14a9bf7e6a84",
+            "target": "oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_password-auth:tst:1"
+        },
+        {
+            "id": "e4c5ee00-5736-4b67-b19d-43472a5d6768",
+            "source": "c157ad0e-3326-4ae4-88d4-14a9bf7e6a84",
+            "target": "oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_password-auth:tst:1"
+        }
         ]
-    }
+        }
     src = 'data/ssg-fedora-ds-arf.xml'
     rule_id = 'xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny'
     result = 'false'
@@ -1025,6 +1044,7 @@ def test_transformation_tree_to_Json_for_SigmaJs_with_duplicated_test():
             "label": "and",
             "url": "null",
             "text": "null",
+            "title": "xccdf_org.ssgproject.content_rule_disable_host_auth",
             "x": -17,
             "y": 0,
             "size": 3,
@@ -1035,26 +1055,29 @@ def test_transformation_tree_to_Json_for_SigmaJs_with_duplicated_test():
             "label": "or",
             "url": "null",
             "text": "null",
+            "title": "oval:ssg-disable_host_auth:def:1",
             "x": -17,
             "y": 1,
             "size": 3,
             "color": "#00ff00"
         },
         {
-            "id": "8513f7fb-818b-48cd-8d5d-cdaaf7e545ea",
+            "id": "b688b097-7f93-4d38-be83-f8aee611a7ab",
             "label": "and",
             "url": "null",
             "text": "null",
+            "title": "b688b097-7f93-4d38-be83-f8aee611a7ab",
             "x": -15,
             "y": 3,
             "size": 3,
             "color": "#ff0000"
         },
         {
-            "id": "fcd586ce-b8bd-41e0-857d-04a315d0094e",
+            "id": "71e748eb-4f25-481d-8e03-d8b4b18c8cb3",
             "label": "or",
             "url": "null",
             "text": "null",
+            "title": "71e748eb-4f25-481d-8e03-d8b4b18c8cb3",
             "x": -13,
             "y": 5,
             "size": 3,
@@ -1062,29 +1085,32 @@ def test_transformation_tree_to_Json_for_SigmaJs_with_duplicated_test():
         },
         {
             "id": "oval:ssg-test_sshd_not_required:tst:1",
-            "label": "oval:ssg-test_sshd_not_required:tst:1",
+            "label": "false",
             "url": "null",
             "text": "null",
+            "title": "oval:ssg-test_sshd_not_required:tst:1",
             "x": -11,
             "y": 7,
             "size": 3,
             "color": "#ff0000"
         },
         {
-            "id": "7cbc49a3-771f-4ca5-81c2-376b72cf3625",
+            "id": "70d25e1d-3ac9-4f5a-8f86-1ad46b13ce09",
             "label": "and",
             "url": "null",
             "text": "null",
+            "title": "70d25e1d-3ac9-4f5a-8f86-1ad46b13ce09",
             "x": -9,
             "y": 7,
             "size": 3,
             "color": "#00ff00"
         },
         {
-            "id": "b0f1acf9-a7f1-456f-827f-20d2f3ce48ca",
+            "id": "d4ebfbf0-acec-41b7-83be-e98665b6f645",
             "label": "and",
             "url": "null",
             "text": "null",
+            "title": "d4ebfbf0-acec-41b7-83be-e98665b6f645",
             "x": -8,
             "y": 5,
             "size": 3,
@@ -1092,29 +1118,32 @@ def test_transformation_tree_to_Json_for_SigmaJs_with_duplicated_test():
         },
         {
             "id": "oval:ssg-test_package_openssh-server_removed:tst:1",
-            "label": "oval:ssg-test_package_openssh-server_removed:tst:1",
+            "label": "false",
             "url": "null",
             "text": "null",
+            "title": "oval:ssg-test_package_openssh-server_removed:tst:1",
             "x": -6,
             "y": 7,
             "size": 3,
             "color": "#ff0000"
         },
         {
-            "id": "c7d8b917-4172-4538-91f9-af31b5231f32",
+            "id": "fddd65d1-ec4d-4b8f-95d9-45eac3a8d502",
             "label": "and",
             "url": "null",
             "text": "null",
+            "title": "fddd65d1-ec4d-4b8f-95d9-45eac3a8d502",
             "x": -7,
             "y": 3,
             "size": 3,
             "color": "#00ff00"
         },
         {
-            "id": "f03f128f-20e7-471c-aabe-43789463b4d8",
+            "id": "bb5da04b-9b2f-4e54-b89f-8c871c404e87",
             "label": "or",
             "url": "null",
             "text": "null",
+            "title": "bb5da04b-9b2f-4e54-b89f-8c871c404e87",
             "x": -5,
             "y": 5,
             "size": 3,
@@ -1122,29 +1151,32 @@ def test_transformation_tree_to_Json_for_SigmaJs_with_duplicated_test():
         },
         {
             "id": "oval:ssg-test_sshd_required:tst:1",
-            "label": "oval:ssg-test_sshd_required:tst:1",
+            "label": "false",
             "url": "null",
             "text": "null",
+            "title": "oval:ssg-test_sshd_required:tst:1",
             "x": -3,
             "y": 7,
             "size": 3,
             "color": "#ff0000"
         },
         {
-            "id": "448cf546-ec52-4787-b51b-2c57791c1d78",
+            "id": "20886ece-396f-45fe-992a-563623f35b9b",
             "label": "and",
             "url": "null",
             "text": "null",
+            "title": "20886ece-396f-45fe-992a-563623f35b9b",
             "x": -1,
             "y": 7,
             "size": 3,
             "color": "#00ff00"
         },
         {
-            "id": "95bd04f6-999f-4276-b483-07acdb12c2f8",
+            "id": "fc1496fd-1097-4bed-8651-f8d7a3b82e3b",
             "label": "and",
             "url": "null",
             "text": "null",
+            "title": "fc1496fd-1097-4bed-8651-f8d7a3b82e3b",
             "x": 0,
             "y": 5,
             "size": 3,
@@ -1152,9 +1184,10 @@ def test_transformation_tree_to_Json_for_SigmaJs_with_duplicated_test():
         },
         {
             "id": "oval:ssg-test_package_openssh-server_installed:tst:1",
-            "label": "oval:ssg-test_package_openssh-server_installed:tst:1",
+            "label": "true",
             "url": "null",
             "text": "null",
+            "title": "oval:ssg-test_package_openssh-server_installed:tst:1",
             "x": 2,
             "y": 7,
             "size": 3,
@@ -1162,9 +1195,10 @@ def test_transformation_tree_to_Json_for_SigmaJs_with_duplicated_test():
         },
         {
             "id": "oval:ssg-test_sshd_hostbasedauthentication:tst:1",
-            "label": "oval:ssg-test_sshd_hostbasedauthentication:tst:1",
+            "label": "true",
             "url": "null",
             "text": "null",
+            "title": "oval:ssg-test_sshd_hostbasedauthentication:tst:1",
             "x": 3,
             "y": 5,
             "size": 3,
@@ -1172,9 +1206,10 @@ def test_transformation_tree_to_Json_for_SigmaJs_with_duplicated_test():
         },
         {
             "id": "oval:ssg-test_sshd_requirement_unset:tst:1",
-            "label": "oval:ssg-test_sshd_requirement_unset:tst:1",
+            "label": "true",
             "url": "null",
             "text": "null",
+            "title": "oval:ssg-test_sshd_requirement_unset:tst:1",
             "x": -7,
             "y": 9,
             "size": 3,
@@ -1183,87 +1218,87 @@ def test_transformation_tree_to_Json_for_SigmaJs_with_duplicated_test():
         ],
         "edges": [
         {
-            "id": "3703f50e-3d80-465a-afa2-74829833bd5d",
+            "id": "6fa59d60-26e4-439c-be15-0b1b2d69c1e3",
             "source": "xccdf_org.ssgproject.content_rule_disable_host_auth",
             "target": "oval:ssg-disable_host_auth:def:1"
         },
         {
-            "id": "7aed4e8d-f5ee-45b0-97ec-46023ed5898a",
+            "id": "79b0a3ff-5102-4c20-a625-a5cdecad378d",
             "source": "oval:ssg-disable_host_auth:def:1",
-            "target": "8513f7fb-818b-48cd-8d5d-cdaaf7e545ea"
+            "target": "b688b097-7f93-4d38-be83-f8aee611a7ab"
         },
         {
-            "id": "507843c4-e8e7-4947-99d2-46524e10cc6a",
-            "source": "8513f7fb-818b-48cd-8d5d-cdaaf7e545ea",
-            "target": "fcd586ce-b8bd-41e0-857d-04a315d0094e"
+            "id": "5fa8e26a-06a6-4ac9-948d-a7875c6476c7",
+            "source": "b688b097-7f93-4d38-be83-f8aee611a7ab",
+            "target": "71e748eb-4f25-481d-8e03-d8b4b18c8cb3"
         },
         {
-            "id": "643b9c1e-bc5c-4bf9-89b3-8acde2941ec1",
-            "source": "fcd586ce-b8bd-41e0-857d-04a315d0094e",
+            "id": "b93d6a68-bfca-4baf-9261-15569db9a0b7",
+            "source": "71e748eb-4f25-481d-8e03-d8b4b18c8cb3",
             "target": "oval:ssg-test_sshd_not_required:tst:1"
         },
         {
-            "id": "4094fe3e-5a81-451d-a4d1-97f930843940",
-            "source": "fcd586ce-b8bd-41e0-857d-04a315d0094e",
-            "target": "7cbc49a3-771f-4ca5-81c2-376b72cf3625"
+            "id": "b292dd59-38b7-4a82-b437-714b4aabd51a",
+            "source": "71e748eb-4f25-481d-8e03-d8b4b18c8cb3",
+            "target": "70d25e1d-3ac9-4f5a-8f86-1ad46b13ce09"
         },
         {
-            "id": "0b1c78c6-f359-4b54-9a2e-e8010db012cb",
-            "source": "7cbc49a3-771f-4ca5-81c2-376b72cf3625",
+            "id": "1895c211-8af2-476d-9a30-db25e5057507",
+            "source": "70d25e1d-3ac9-4f5a-8f86-1ad46b13ce09",
             "target": "oval:ssg-test_sshd_requirement_unset:tst:1"
         },
         {
-            "id": "a401bdf3-d549-4707-9f42-c9961ead9469",
-            "source": "8513f7fb-818b-48cd-8d5d-cdaaf7e545ea",
-            "target": "b0f1acf9-a7f1-456f-827f-20d2f3ce48ca"
+            "id": "aa0316a5-f0ce-44b3-bf79-1459b1cca894",
+            "source": "b688b097-7f93-4d38-be83-f8aee611a7ab",
+            "target": "d4ebfbf0-acec-41b7-83be-e98665b6f645"
         },
         {
-            "id": "de062e4a-6b70-45d6-b46f-587ba1a87828",
-            "source": "b0f1acf9-a7f1-456f-827f-20d2f3ce48ca",
+            "id": "42d2ecb9-b45e-4d20-ac92-75f9612f992f",
+            "source": "d4ebfbf0-acec-41b7-83be-e98665b6f645",
             "target": "oval:ssg-test_package_openssh-server_removed:tst:1"
         },
         {
-            "id": "7d033520-af48-4a8a-9c4e-290999d8673b",
+            "id": "c4cc7923-02b4-4277-8adb-aa792211faa8",
             "source": "oval:ssg-disable_host_auth:def:1",
-            "target": "c7d8b917-4172-4538-91f9-af31b5231f32"
+            "target": "fddd65d1-ec4d-4b8f-95d9-45eac3a8d502"
         },
         {
-            "id": "db167681-d0f3-47d7-a508-a74fd14e3e24",
-            "source": "c7d8b917-4172-4538-91f9-af31b5231f32",
-            "target": "f03f128f-20e7-471c-aabe-43789463b4d8"
+            "id": "b648737a-5082-4231-9790-5db1e51df8f9",
+            "source": "fddd65d1-ec4d-4b8f-95d9-45eac3a8d502",
+            "target": "bb5da04b-9b2f-4e54-b89f-8c871c404e87"
         },
         {
-            "id": "40751914-dae4-4676-8669-19da58543c55",
-            "source": "f03f128f-20e7-471c-aabe-43789463b4d8",
+            "id": "13f25b40-7410-4311-9f05-7a28a28e4511",
+            "source": "bb5da04b-9b2f-4e54-b89f-8c871c404e87",
             "target": "oval:ssg-test_sshd_required:tst:1"
         },
         {
-            "id": "8f7ecaf6-527e-45ea-9963-be87910914ba",
-            "source": "f03f128f-20e7-471c-aabe-43789463b4d8",
-            "target": "448cf546-ec52-4787-b51b-2c57791c1d78"
+            "id": "db8a73d8-aecb-4f84-b325-c1799a49af14",
+            "source": "bb5da04b-9b2f-4e54-b89f-8c871c404e87",
+            "target": "20886ece-396f-45fe-992a-563623f35b9b"
         },
         {
-            "id": "a8515a07-3710-4eda-b00b-65ec1cf442fd",
-            "source": "448cf546-ec52-4787-b51b-2c57791c1d78",
+            "id": "28ec9594-32c7-4ee2-9296-ebe728cc88be",
+            "source": "20886ece-396f-45fe-992a-563623f35b9b",
             "target": "oval:ssg-test_sshd_requirement_unset:tst:1"
         },
         {
-            "id": "425ef02f-ab95-4586-8fb7-e7fa4b34aaef",
-            "source": "c7d8b917-4172-4538-91f9-af31b5231f32",
-            "target": "95bd04f6-999f-4276-b483-07acdb12c2f8"
+            "id": "5350c294-9036-497a-bea5-2dbd47502c34",
+            "source": "fddd65d1-ec4d-4b8f-95d9-45eac3a8d502",
+            "target": "fc1496fd-1097-4bed-8651-f8d7a3b82e3b"
         },
         {
-            "id": "2dc39bd1-ff25-4881-bc7b-698e95a7c4a3",
-            "source": "95bd04f6-999f-4276-b483-07acdb12c2f8",
+            "id": "94492e77-6089-44d6-95d0-ff61421112a4",
+            "source": "fc1496fd-1097-4bed-8651-f8d7a3b82e3b",
             "target": "oval:ssg-test_package_openssh-server_installed:tst:1"
         },
         {
-            "id": "25d5aabd-f14a-405a-a372-f7a5b48c8911",
-            "source": "c7d8b917-4172-4538-91f9-af31b5231f32",
+            "id": "ae8a5250-93ca-4143-9812-8847dc8fac82",
+            "source": "fddd65d1-ec4d-4b8f-95d9-45eac3a8d502",
             "target": "oval:ssg-test_sshd_hostbasedauthentication:tst:1"
         }
         ]
-        }
+        }    
     src = 'data/ssg-fedora-ds-arf.xml'
     rule_id = 'xccdf_org.ssgproject.content_rule_disable_host_auth'
     result = 'true'

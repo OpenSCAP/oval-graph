@@ -165,9 +165,12 @@ f.close()
 """
 
 src = 'data/ssg-fedora-ds-arf.xml'
-#rule_id = 'xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny'
-rule_id = 'xccdf_org.ssgproject.content_rule_disable_host_auth'
-result = 'true'
+if True:
+    rule_id = 'xccdf_org.ssgproject.content_rule_disable_host_auth'
+    result = 'true'
+else:
+    rule_id = 'xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny'
+    result = 'false'
 
 
 oval_trees_array = tree.oval_tree.xml_to_tree(src)

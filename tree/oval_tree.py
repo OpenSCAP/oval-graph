@@ -166,8 +166,8 @@ class OvalNode(object):
             return {
                 'id': self.node_id,
                 'label': self.node_id,
-                'url':None,
-                'text':None,
+                'url': 'null',
+                'text':'null',
                 "x": x,
                 "y": y,
                 "size": 3,
@@ -177,8 +177,8 @@ class OvalNode(object):
             return {
                 'id': self.node_id,
                 'label': self.node_id,
-                'url':None,
-                'text':None,
+                'url': 'null',
+                'text':'null',
                 "x": x,
                 "y": y,
                 "size": 3,
@@ -189,8 +189,8 @@ class OvalNode(object):
                 return {
                     'id': self.node_id,
                     'label': self.value,
-                    'url':None,
-                    'text':None,
+                    'url':'null',
+                    'text':'null',
                     "x": x,
                     "y": y,
                     "size": 3,
@@ -200,8 +200,8 @@ class OvalNode(object):
                 return {
                     'id': self.node_id,
                     'label': self.value,
-                    'url':None,
-                    'text':None,
+                    'url':'null',
+                    'text':'null',
                     "x": x,
                     "y": y,
                     "size": 3,
@@ -210,12 +210,13 @@ class OvalNode(object):
             else:
                 return {
                     'id': self.node_id,
-                    'label': self.node_id + ' ' + self.value,
-                    'url':None,
-                    'text':None,
+                    'label': str(self.node_id) + ' ' + self.value,
+                    'url':'null',
+                    'text':'null',
                     "x": x,
                     "y": y,
                     "size": 3,
+                    "color":'#000000'
                 }
 
     def _create_edge(self, id_source, id_target):
@@ -233,6 +234,7 @@ class OvalNode(object):
             if child.node_type!="operator":
                 array_of_ids.append(child.node_id)
             else:
+                array_of_ids.append(child.node_id)
                 child.create_list_of_id(array_of_ids)
         return array_of_ids
 

@@ -166,6 +166,8 @@ class OvalNode(object):
             return {
                 'id': self.node_id,
                 'label': self.node_id,
+                'url':None,
+                'text':None,
                 "x": x,
                 "y": y,
                 "size": 3,
@@ -175,6 +177,8 @@ class OvalNode(object):
             return {
                 'id': self.node_id,
                 'label': self.node_id,
+                'url':None,
+                'text':None,
                 "x": x,
                 "y": y,
                 "size": 3,
@@ -185,6 +189,8 @@ class OvalNode(object):
                 return {
                     'id': self.node_id,
                     'label': self.value,
+                    'url':None,
+                    'text':None,
                     "x": x,
                     "y": y,
                     "size": 3,
@@ -194,6 +200,8 @@ class OvalNode(object):
                 return {
                     'id': self.node_id,
                     'label': self.value,
+                    'url':None,
+                    'text':None,
                     "x": x,
                     "y": y,
                     "size": 3,
@@ -203,6 +211,8 @@ class OvalNode(object):
                 return {
                     'id': self.node_id,
                     'label': self.node_id + ' ' + self.value,
+                    'url':None,
+                    'text':None,
                     "x": x,
                     "y": y,
                     "size": 3,
@@ -215,56 +225,63 @@ class OvalNode(object):
             "target": id_target
         }
 
-    def create_list_of_id(self,ids=None):
-        if ids is None:
-            ids=[]
-            ids.append(self.node_id)
+    def create_list_of_id(self,array_of_ids=None):
+        if array_of_ids is None:
+            array_of_ids=[]
+            array_of_ids.append(self.node_id)
         for child in self.children:
             if child.node_type!="operator":
-                ids.append(child.node_id)
+                array_of_ids.append(child.node_id)
             else:
-                child.create_list_of_id(ids)
-        return ids
+                child.create_list_of_id(array_of_ids)
+        return array_of_ids
 
-    def remove_Duplication(self, input):
-        ids=self.create_list_of_id()
-        out =dict(nodes=[],edges=input['edges'])
-        duplicate_ids= [item for item, count in collections.Counter(ids).items() if count > 1]
+    def _remove_Duplication(self, graph_data):
+        array_of_ids=self.create_list_of_id()
+        out = dict(nodes=[],edges=graph_data['edges'])
+        duplicate_ids= [item for item, count in collections.Counter(array_of_ids).items() if count > 1]
     
-        for node in input['nodes']:
+        for node in graph_data['nodes']:
             if node['id'] not in duplicate_ids:
                 out['nodes'].append(node)
     
         for id in duplicate_ids:
-            for node in input['nodes']:
+            for node in graph_data['nodes']:
                 if node['id'] == id:
                     out['nodes'].append(node)
                     break
         return out
 
 
-    def _fix_graph(self, out):
-        for node in out['nodes']:
-            for node1 in out['nodes']:
+    def _fix_graph(self, preprocessed_graph_data):
+        for node in preprocessed_graph_data['nodes']:
+            for node1 in preprocessed_graph_data['nodes']:
                 if node['x']==node1['x'] and node['y']==node1['y']:
                     node['x'] = node['x']-1
-        return out
+        return preprocessed_graph_data
 
-    def to_sigma_dict(self, x, y, out=None):
-        if out is None:
-            out = dict(nodes=[], edges=[])
-            out['nodes'].append(self._create_node(x, y))
+    def _help_to_sigma_dict(self, x, y, preprocessed_graph_data=None):
+        if preprocessed_graph_data is None:
+            preprocessed_graph_data = dict(nodes=[], edges=[])
+            preprocessed_graph_data['nodes'].append(self._create_node(x, y))
         y_row = y + 1
         x_row = x
         for node in self.children:
-            out['nodes'].append(node._create_node(x_row, y_row))
-            out['edges'].append(node._create_edge(self.node_id, node.node_id))
+            preprocessed_graph_data['nodes'].append(node._create_node(x_row, y_row))
+            preprocessed_graph_data['edges'].append(node._create_edge(self.node_id, node.node_id))
             x_row = x_row + 1
             if node.children is not None:
-                out = node.to_sigma_dict(x_row + 1, y_row + 1, out)
-        return self._fix_graph(out)
+                preprocessed_graph_data = node._help_to_sigma_dict(x_row + 1, y_row + 1, preprocessed_graph_data)
+        return self._fix_graph(preprocessed_graph_data)
 
-    # ----Function for evaluation----
+    #TODO - create center graph
+    def center_graph(self, out):
+        return out
+
+    def to_sigma_dict(self, x, y):
+        return self.center_graph(self._remove_Duplication(self._help_to_sigma_dict(x,y)))
+
+    # ----Function for evaluation----start----
 
     def _oval_operator_and(self, result):
         out_result = None
@@ -451,6 +468,7 @@ class OvalNode(object):
             return True
         return False
 
+    # ----Function for evaluation----end------
 
 def dict_to_tree(dict_of_tree):
     if dict_of_tree["child"] is None:
@@ -464,14 +482,14 @@ def dict_to_tree(dict_of_tree):
         dict_of_tree["value"],
         [dict_to_tree(i) for i in dict_of_tree["child"]])
 
-# Help function for transfer XML definition to OVAL_TREE
+# Helping function for transfer XML definition to OVAL_TREE
 
 
-def xml_dict_to_node(dict_of_definition):
+def _xml_dict_to_node(dict_of_definition):
     children = []
     for child in dict_of_definition['node']:
         if 'operator' in child and 'id':
-            children.append(xml_dict_to_node(child))
+            children.append(_xml_dict_to_node(child))
         else:
             children.append(
                 OvalNode(child['value_id'], 'value', child['value'])
@@ -496,17 +514,17 @@ def xml_dict_of_rule_to_node(rule):
         rule['rule_id'],
         'operator',
         'and',
-        [xml_dict_to_node(dict_of_definition)]
+        [_xml_dict_to_node(dict_of_definition)]
     )
 
 # Function for build dict form XML
 
 
-def build_node(tree):
+def _build_node(tree):
     node = dict(operator=tree.get('operator'), node=[])
     for child in tree:
         if child.get('operator') is not None:
-            node['node'].append(build_node(child))
+            node['node'].append(_build_node(child))
         else:
             if child.get('definition_ref') is not None:
                 node['node'].append(
@@ -522,7 +540,7 @@ def build_node(tree):
 def build_tree(tree_data):
     test = dict(id=tree_data.get('definition_id'), node=[])
     for tree in tree_data:
-        test['node'].append(build_node(tree))
+        test['node'].append(_build_node(tree))
     return test
 
 
@@ -540,7 +558,7 @@ def parse_data_to_dict(trees_data, used_rules):
     scan = dict(scan="none", definitions=[])
     for i in trees_data:
         scan['definitions'].append(build_tree(i))
-    return clean_definitions(fill_extend_definition(scan), used_rules)
+    return clean_definitions(_fill_extend_definition(scan), used_rules)
 
 
 # Function for remove extend definitions from dict
@@ -549,25 +567,25 @@ def parse_data_to_dict(trees_data, used_rules):
 def find_definition_by_id(scan, id):
     for definition in scan['definitions']:
         if definition['id'] == id:
-            return operator_as_child(definition['node'][0], scan)
+            return _operator_as_child(definition['node'][0], scan)
 
 
-def fill_extend_definition(scan):
+def _fill_extend_definition(scan):
     definitions = scan['definitions']
     out = dict(scan="none", definitions=[])
     for definition in scan['definitions']:
         nodes = []
         for value in definition['node']:
-            nodes.append(operator_as_child(value, scan))
+            nodes.append(_operator_as_child(value, scan))
         out['definitions'].append(dict(id=definition['id'], node=nodes))
     return out
 
 
-def operator_as_child(value, scan):
+def _operator_as_child(value, scan):
     out = dict(operator=value['operator'], node=[])
     for child in value['node']:
         if 'operator' in child:
-            out['node'].append(operator_as_child(child, scan))
+            out['node'].append(_operator_as_child(child, scan))
         elif 'extend_definition' in child:
             out['node'].append(
                 find_definition_by_id(
@@ -582,13 +600,13 @@ def operator_as_child(value, scan):
 # Mine data form XML
 
 
-def get_root_of_XML(src):
+def _get_root_of_XML(src):
     tree = ET.parse(src)
     return tree.getroot()
 
 
 def get_data_form_xml(src):
-    root = get_root_of_XML(src)
+    root = _get_root_of_XML(src)
 
     ns = {
         'ns0': 'http://oval.mitre.org/XMLSchema/oval-results-5',
@@ -607,7 +625,7 @@ def get_data_form_xml(src):
 
 
 def get_used_rules(src):
-    root = get_root_of_XML(src)
+    root = _get_root_of_XML(src)
 
     testResults = root.find(
         './/{http://checklists.nist.gov/xccdf/1.2}TestResult')

@@ -4,7 +4,6 @@ import os
 import py
 
 
-global results_counts
 results_counts = {
     'true_cnt': -1,
     'false_cnt': -1,
@@ -629,7 +628,21 @@ def any_test_parsing_and_evaluate_scan_rule(src, rule_id, result):
             any_test_treeEvaluation(oval_tree, result)
 
 
-def test_parsing_full_can_XML_and_evaluate():
+def get_simple_tree():
+    return tree.oval_tree.OvalNode(1, 'operator', 'and', [
+        tree.oval_tree.OvalNode(2, 'value', "true"),
+        tree.oval_tree.OvalNode(3, 'value', "false"),
+        tree.oval_tree.OvalNode(4, 'operator', 'or', [
+            tree.oval_tree.OvalNode(5, 'value', "false"),
+            tree.oval_tree.OvalNode(6, 'value', "true")
+        ]
+        )
+    ]
+    )
+def get_dict_of_simple_tree():
+    return get_simple_tree().tree_to_dict()
+    
+def _test_parsing_full_can_XML_and_evaluate():
     src = 'test_data/ssg-fedora-ds-arf.xml'
     rule_id = 'xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny'
     result = 'false'
@@ -637,7 +650,7 @@ def test_parsing_full_can_XML_and_evaluate():
     any_test_parsing_and_evaluate_scan_rule(src, rule_id, result)
 
 
-def test_parsing_and_evaluate_scan_with_extend_def():
+def _test_parsing_and_evaluate_scan_with_extend_def():
     src = 'test_data/ssg-fedora-ds-arf-scan-with-extend-definitions.xml'
     rule_id = 'xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_disable_ipv6'
     result = 'false'
@@ -645,7 +658,7 @@ def test_parsing_and_evaluate_scan_with_extend_def():
     any_test_parsing_and_evaluate_scan_rule(src, rule_id, result)
 
 
-def test_parsing_and_evaluate_scan_with_pasing_rule():
+def _test_parsing_and_evaluate_scan_with_pasing_rule():
     src = 'test_data/ssg-fedora-ds-arf-passing-scan.xml'
     rule_id = 'xccdf_org.ssgproject.content_rule_service_debug-shell_disabled'
     result = 'true'
@@ -653,7 +666,7 @@ def test_parsing_and_evaluate_scan_with_pasing_rule():
     any_test_parsing_and_evaluate_scan_rule(src, rule_id, result)
 
 
-def test_parsing_and_evaluate_scan_with_fail_rule():
+def _test_parsing_and_evaluate_scan_with_fail_rule():
     src = 'test_data/ssg-fedora-ds-arf-scan-fail.xml'
     rule_id = 'xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec'
     result = 'false'
@@ -661,7 +674,7 @@ def test_parsing_and_evaluate_scan_with_fail_rule():
     any_test_parsing_and_evaluate_scan_rule(src, rule_id, result)
 
 
-def test_parsing_and_evaluate_scan_with_rule_with_XOR():
+def _test_parsing_and_evaluate_scan_with_rule_with_XOR():
     src = 'test_data/ssg-fedora-ds-arf-scan-with-xor.xml'
     rule_id = 'xccdf_org.ssgproject.content_rule_mount_option_nosuid_removable_partitions'
     result = 'true'
@@ -669,7 +682,7 @@ def test_parsing_and_evaluate_scan_with_rule_with_XOR():
     any_test_parsing_and_evaluate_scan_rule(src, rule_id, result)
 
 
-def test_parsing_and_evaluate_scan_with_11_rules():
+def _test_parsing_and_evaluate_scan_with_11_rules():
     src = 'test_data/ssg-fedora-ds-arf-scan-with-11-rules.xml'
     rule_id = 'xccdf_org.ssgproject.content_rule_mount_option_tmp_nosuid'
     result = 'true'

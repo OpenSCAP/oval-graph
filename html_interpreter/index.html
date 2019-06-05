@@ -99,6 +99,11 @@ sigma.parsers.json('data.json', {
         maxNodeSize: 16
     }
 }, function(s) {
+    s.bind('clickNode', function(e) {
+      console.log(e);
+      //var url = e.data.node.urlField;
+      //goToSomeUrl(url);
+    });
    //s.startForceAtlas2({worker: true, barnesHutOptimize: false})
     var noverlapListener = s.configNoverlap({
       nodeMargin: 0.1,

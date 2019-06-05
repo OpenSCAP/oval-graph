@@ -162,61 +162,61 @@ class OvalNode(object):
     # Methods for interpreting oval tree with SigmaJS
 
     def _create_node(self, x, y):
-        if(self.value=='true'):
+        if self.value == 'true':
             return {
                 'id': self.node_id,
                 'label': self.node_id,
                 'url': 'null',
-                'text':'null',
+                'text': 'null',
                 "x": x,
                 "y": y,
                 "size": 3,
-                "color":'#00ff00'
+                "color": '#00ff00'
             }
-        elif(self.value=='false'):
+        elif self.value == 'false':
             return {
                 'id': self.node_id,
                 'label': self.node_id,
                 'url': 'null',
-                'text':'null',
+                'text': 'null',
                 "x": x,
                 "y": y,
                 "size": 3,
-                "color":'#ff0000'
+                "color": '#ff0000'
             }
         else:
-            if(self.evaluate_tree()=='true'):
+            if self.evaluate_tree() == 'true':
                 return {
                     'id': self.node_id,
                     'label': self.value,
-                    'url':'null',
-                    'text':'null',
+                    'url': 'null',
+                    'text': 'null',
                     "x": x,
                     "y": y,
                     "size": 3,
-                    "color":'#00ff00'
+                    "color": '#00ff00'
                 }
-            elif(self.evaluate_tree()=='false'):
+            elif self.evaluate_tree() == 'false':
                 return {
                     'id': self.node_id,
                     'label': self.value,
-                    'url':'null',
-                    'text':'null',
+                    'url': 'null',
+                    'text': 'null',
                     "x": x,
                     "y": y,
                     "size": 3,
-                    "color":'#ff0000'
+                    "color": '#ff0000'
                 }
             else:
                 return {
                     'id': self.node_id,
                     'label': str(self.node_id) + ' ' + self.value,
-                    'url':'null',
-                    'text':'null',
+                    'url': 'null',
+                    'text': 'null',
                     "x": x,
                     "y": y,
                     "size": 3,
-                    "color":'#000000'
+                    "color": '#000000'
                 }
 
     def _create_edge(self, id_source, id_target):
@@ -226,12 +226,12 @@ class OvalNode(object):
             "target": id_target
         }
 
-    def create_list_of_id(self,array_of_ids=None):
+    def create_list_of_id(self, array_of_ids=None):
         if array_of_ids is None:
-            array_of_ids=[]
+            array_of_ids = []
             array_of_ids.append(self.node_id)
         for child in self.children:
-            if child.node_type!="operator":
+            if child.node_type != "operator":
                 array_of_ids.append(child.node_id)
             else:
                 array_of_ids.append(child.node_id)
@@ -239,14 +239,15 @@ class OvalNode(object):
         return array_of_ids
 
     def _remove_Duplication(self, graph_data):
-        array_of_ids=self.create_list_of_id()
-        out = dict(nodes=[],edges=graph_data['edges'])
-        duplicate_ids= [item for item, count in collections.Counter(array_of_ids).items() if count > 1]
-    
+        array_of_ids = self.create_list_of_id()
+        out = dict(nodes=[], edges=graph_data['edges'])
+        duplicate_ids = [item for item, count in collections.Counter(
+            array_of_ids).items() if count > 1]
+
         for node in graph_data['nodes']:
             if node['id'] not in duplicate_ids:
                 out['nodes'].append(node)
-    
+
         for id in duplicate_ids:
             for node in graph_data['nodes']:
                 if node['id'] == id:
@@ -254,12 +255,11 @@ class OvalNode(object):
                     break
         return out
 
-
     def _fix_graph(self, preprocessed_graph_data):
         for node in preprocessed_graph_data['nodes']:
             for node1 in preprocessed_graph_data['nodes']:
-                if node['x']==node1['x'] and node['y']==node1['y']:
-                    node['x'] = node['x']-1
+                if node['x'] == node1['x'] and node['y'] == node1['y']:
+                    node['x'] = node['x'] - 1
         return preprocessed_graph_data
 
     def _help_to_sigma_dict(self, x, y, preprocessed_graph_data=None):
@@ -269,19 +269,25 @@ class OvalNode(object):
         y_row = y + 1
         x_row = x
         for node in self.children:
-            preprocessed_graph_data['nodes'].append(node._create_node(x_row, y_row))
-            preprocessed_graph_data['edges'].append(node._create_edge(self.node_id, node.node_id))
+            preprocessed_graph_data['nodes'].append(
+                node._create_node(x_row, y_row))
+            preprocessed_graph_data['edges'].append(
+                node._create_edge(self.node_id, node.node_id))
             x_row = x_row + 1
             if node.children is not None:
-                preprocessed_graph_data = node._help_to_sigma_dict(x_row + 1, y_row + 1, preprocessed_graph_data)
+                preprocessed_graph_data = node._help_to_sigma_dict(
+                    x_row + 1, y_row + 1, preprocessed_graph_data)
         return self._fix_graph(preprocessed_graph_data)
 
-    #TODO - create center graph
+    # TODO - create center graph
     def center_graph(self, out):
         return out
 
     def to_sigma_dict(self, x, y):
-        return self.center_graph(self._remove_Duplication(self._help_to_sigma_dict(x,y)))
+        return self.center_graph(
+            self._remove_Duplication(
+                self._help_to_sigma_dict(
+                    x, y)))
 
     # ----Function for evaluation----start----
 
@@ -472,6 +478,7 @@ class OvalNode(object):
 
     # ----Function for evaluation----end------
 
+
 def dict_to_tree(dict_of_tree):
     if dict_of_tree["child"] is None:
         return OvalNode(
@@ -649,6 +656,7 @@ def get_used_rules(src):
     return rules
 
 # Function for transfer XML to OVAL_TREE
+
 
 def xml_to_tree(xml_src):
     data = parse_data_to_dict(

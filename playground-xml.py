@@ -1,7 +1,9 @@
 import tree.oval_tree
-from lxml import etree as ET
 import pprint
 import json
+"""
+from lxml import etree as ET
+
 
 # Function for build dict
 
@@ -142,7 +144,7 @@ def get_used_rules(src):
 
 # interpret data
 src = 'data/ssg-fedora-ds-arf.xml'
-"""
+
 print(
     json.dumps(
         parse_data_to_dict(
@@ -165,12 +167,20 @@ f.close()
 """
 
 src = 'data/ssg-fedora-ds-arf.xml'
-if True:
+test=4
+if test==1:
+    #rule_id = 'xccdf_org.ssgproject.content_rule_sshd_disable_rhosts'
     rule_id = 'xccdf_org.ssgproject.content_rule_disable_host_auth'
     result = 'true'
-else:
+elif test==2:
     rule_id = 'xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny'
     result = 'false'
+elif test==3:
+    rule_id = 'xccdf_org.ssgproject.content_rule_package_sendmail_removed'
+    result = 'true'
+elif test==4:
+    rule_id = 'xccdf_org.ssgproject.content_rule_require_singleuser_auth'
+    result = 'true'
 
 
 oval_trees_array = tree.oval_tree.xml_to_tree(src)

@@ -23,8 +23,9 @@ https://oval.mitre.org/language/version5.11/ovaldefinition/documentation/oval-co
 6]pep8 - done
 7]fix id nodes in dicts - done
 8]rework parsing - done 
-9]TESTY
+9]TESTY - 50%
 10]fix ci
 11]interpret by html and js 50%
 12]find and fix 
-13] find duplicite nodes 
+13] find duplicated nodes - done 
+14]create console app 

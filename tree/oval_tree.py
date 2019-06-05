@@ -165,9 +165,10 @@ class OvalNode(object):
         if self.value == 'true':
             return {
                 'id': self.node_id,
-                'label': self.node_id,
+                'label': self.value,
                 'url': 'null',
                 'text': 'null',
+                'title': self.node_id,
                 "x": x,
                 "y": y,
                 "size": 3,
@@ -176,9 +177,10 @@ class OvalNode(object):
         elif self.value == 'false':
             return {
                 'id': self.node_id,
-                'label': self.node_id,
+                'label': self.value,
                 'url': 'null',
                 'text': 'null',
+                'title': self.node_id,
                 "x": x,
                 "y": y,
                 "size": 3,
@@ -191,6 +193,7 @@ class OvalNode(object):
                     'label': self.value,
                     'url': 'null',
                     'text': 'null',
+                    'title': self.node_id,
                     "x": x,
                     "y": y,
                     "size": 3,
@@ -202,6 +205,7 @@ class OvalNode(object):
                     'label': self.value,
                     'url': 'null',
                     'text': 'null',
+                    'title': self.node_id,
                     "x": x,
                     "y": y,
                     "size": 3,
@@ -210,9 +214,10 @@ class OvalNode(object):
             else:
                 return {
                     'id': self.node_id,
-                    'label': str(self.node_id) + ' ' + self.value,
+                    'label': self.value,
                     'url': 'null',
                     'text': 'null',
+                    'title': str(self.node_id) + ' ' + self.value,
                     "x": x,
                     "y": y,
                     "size": 3,

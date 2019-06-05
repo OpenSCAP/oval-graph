@@ -88,19 +88,18 @@
 // Configure the noverlap layout:
 
 sigma.parsers.json('data.json', {
-  container: 'graph-container',
-  renderer: {
-        container: document.getElementById('graph-container'),
-        type: 'canvas',
-        drawLabels: false
-    },
-  settings: {
-        minNodeSize: 8,
-        maxNodeSize: 16
+    container: 'graph-container',
+    settings: {
+      drawLabels: true,
+      enableHovering: true
     }
-}, function(s) {
+  },
+  function(s) {
     s.bind('clickNode', function(e) {
       console.log(e);
+      alert("title: "+e.data.node.title+"\n"+
+            "url: "+e.data.node.url+"\n"+
+            "text: "+e.data.node.text+"\n")
       //var url = e.data.node.urlField;
       //goToSomeUrl(url);
     });

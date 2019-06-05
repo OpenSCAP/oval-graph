@@ -63,27 +63,27 @@
     ],
     "edges": [
         {
-            "id": "e4c90940-b682-40e0-932c-69d9d2467d7c",
+            "id": "136a47a9-ed44-4ab4-b07c-961f33b73dd3",
             "source": "xccdf_org.ssgproject.content_rule_require_singleuser_auth",
             "target": "oval:ssg-require_singleuser_auth:def:1"
         },
         {
-            "id": "4f36d64c-e087-422e-8119-8082d45543af",
+            "id": "2d7e9adf-2436-495c-bc4b-775de0a46a23",
             "source": "oval:ssg-require_singleuser_auth:def:1",
             "target": "oval:ssg-test_require_rescue_service:tst:1"
         },
         {
-            "id": "07e05dd2-45bc-4c78-a152-11c44c99640f",
+            "id": "3c75db29-8081-46d2-bdf6-93f8a6ad1348",
             "source": "oval:ssg-require_singleuser_auth:def:1",
             "target": "oval:ssg-test_require_rescue_service_runlevel1:tst:1"
         },
         {
-            "id": "293ccaac-aae7-43a6-8141-b00ceac5de51",
+            "id": "e6777e7c-1dca-4a6f-8e9f-d8626ce23d96",
             "source": "oval:ssg-require_singleuser_auth:def:1",
             "target": "oval:ssg-test_no_custom_runlevel1_target:tst:1"
         },
         {
-            "id": "c048e42c-f6a9-4be6-9a1d-826baa9d1137",
+            "id": "b2093d8c-9424-4da3-8f6f-98386b35018e",
             "source": "oval:ssg-require_singleuser_auth:def:1",
             "target": "oval:ssg-test_no_custom_rescue_service:tst:1"
         }

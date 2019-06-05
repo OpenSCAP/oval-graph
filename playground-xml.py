@@ -167,7 +167,10 @@ f.close()
 """
 
 src = 'data/ssg-fedora-ds-arf.xml'
-test=4
+rule_id = 'xccdf_org.ssgproject.content_rule_disable_host_auth'
+result = 'true'
+
+test=1
 if test==1:
     #rule_id = 'xccdf_org.ssgproject.content_rule_sshd_disable_rhosts'
     rule_id = 'xccdf_org.ssgproject.content_rule_disable_host_auth'

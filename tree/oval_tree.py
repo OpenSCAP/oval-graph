@@ -162,6 +162,7 @@ class OvalNode(object):
     # Methods for interpreting oval tree with SigmaJS
 
     def _create_node(self, x, y):
+        #print(self.evaluate_tree(),self.value)
         if self.value == 'true':
             return {
                 'id': self.node_id,

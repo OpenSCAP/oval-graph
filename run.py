@@ -20,12 +20,16 @@ def parse_arguments():
 
 def run(args):
     oval_trees_array = tree.oval_tree.xml_to_tree(args.source_filename)
+    f = open('html_interpreter/data.json', "w+")
+    #f = open(args.out_filename, "w+")
+            
     for oval_tree in oval_trees_array:
         if oval_tree.node_id == args.rule_name:
-            f = open('html_interpreter/data.json', "w+")
-            #f = open(args.out_filename, "w+")
             f.write(json.dumps(oval_tree.to_sigma_dict(0,0), sort_keys=False, indent=4))
-            f.close()
+        elif "." == args.rule_name:
+            f.write(json.dumps(oval_tree.to_sigma_dict(0,0), sort_keys=False, indent=4))
+    f.close()
+    
     webbrowser.get('firefox').open_new_tab('html_interpreter/index.html')
 
 

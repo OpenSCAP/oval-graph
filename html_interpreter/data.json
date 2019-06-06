@@ -1,209 +1,97 @@
 {
     "nodes": [
         {
-            "id": "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny",
+            "id": "xccdf_org.ssgproject.content_rule_require_singleuser_auth",
             "label": "and",
             "url": "null",
             "text": "null",
-            "title": "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny",
-            "x": -13,
+            "title": "xccdf_org.ssgproject.content_rule_require_singleuser_auth",
+            "x": -6,
             "y": 0,
             "size": 3,
-            "color": "#ff0000"
+            "color": "#00ff00"
         },
         {
-            "id": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
+            "id": "oval:ssg-require_singleuser_auth:def:1",
             "label": "and",
             "url": "null",
             "text": "null",
-            "title": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
-            "x": -13,
+            "title": "oval:ssg-require_singleuser_auth:def:1",
+            "x": -6,
             "y": 1,
             "size": 3,
-            "color": "#ff0000"
+            "color": "#00ff00"
         },
         {
-            "id": "oval:ssg-test_accounts_passwords_pam_faillock_preauth_silent_system-auth:tst:1",
-            "label": "false",
+            "id": "oval:ssg-test_require_rescue_service:tst:1",
+            "label": "true",
             "url": "null",
             "text": "null",
-            "title": "oval:ssg-test_accounts_passwords_pam_faillock_preauth_silent_system-auth:tst:1",
-            "x": -11,
+            "title": "oval:ssg-test_require_rescue_service:tst:1",
+            "x": -4,
             "y": 3,
             "size": 3,
-            "color": "#ff0000"
+            "color": "#00ff00"
         },
         {
-            "id": "oval:ssg-test_accounts_passwords_pam_faillock_account_phase_system-auth:tst:1",
-            "label": "false",
+            "id": "oval:ssg-test_require_rescue_service_runlevel1:tst:1",
+            "label": "true",
             "url": "null",
             "text": "null",
-            "title": "oval:ssg-test_accounts_passwords_pam_faillock_account_phase_system-auth:tst:1",
-            "x": -9,
+            "title": "oval:ssg-test_require_rescue_service_runlevel1:tst:1",
+            "x": -2,
             "y": 3,
             "size": 3,
-            "color": "#ff0000"
+            "color": "#00ff00"
         },
         {
-            "id": "oval:ssg-test_accounts_passwords_pam_faillock_preauth_silent_password-auth:tst:1",
-            "label": "false",
+            "id": "oval:ssg-test_no_custom_runlevel1_target:tst:1",
+            "label": "true",
             "url": "null",
             "text": "null",
-            "title": "oval:ssg-test_accounts_passwords_pam_faillock_preauth_silent_password-auth:tst:1",
-            "x": -7,
+            "title": "oval:ssg-test_no_custom_runlevel1_target:tst:1",
+            "x": 0,
             "y": 3,
             "size": 3,
-            "color": "#ff0000"
+            "color": "#00ff00"
         },
         {
-            "id": "oval:ssg-test_accounts_passwords_pam_faillock_account_phase_password-auth:tst:1",
-            "label": "false",
+            "id": "oval:ssg-test_no_custom_rescue_service:tst:1",
+            "label": "true",
             "url": "null",
             "text": "null",
-            "title": "oval:ssg-test_accounts_passwords_pam_faillock_account_phase_password-auth:tst:1",
-            "x": -5,
+            "title": "oval:ssg-test_no_custom_rescue_service:tst:1",
+            "x": 2,
             "y": 3,
             "size": 3,
-            "color": "#ff0000"
-        },
-        {
-            "id": "b2eae097-2c22-4c0b-8796-4b76e9b1a8c0",
-            "label": "and",
-            "url": "null",
-            "text": "null",
-            "title": "b2eae097-2c22-4c0b-8796-4b76e9b1a8c0",
-            "x": -3,
-            "y": 3,
-            "size": 3,
-            "color": "#ff0000"
-        },
-        {
-            "id": "ece33afa-c675-4a43-9366-f946181937f4",
-            "label": "or",
-            "url": "null",
-            "text": "null",
-            "title": "ece33afa-c675-4a43-9366-f946181937f4",
-            "x": -1,
-            "y": 5,
-            "size": 3,
-            "color": "#ff0000"
-        },
-        {
-            "id": "oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_system-auth:tst:1",
-            "label": "false",
-            "url": "null",
-            "text": "null",
-            "title": "oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_system-auth:tst:1",
-            "x": 1,
-            "y": 7,
-            "size": 3,
-            "color": "#ff0000"
-        },
-        {
-            "id": "oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_system-auth:tst:1",
-            "label": "false",
-            "url": "null",
-            "text": "null",
-            "title": "oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_system-auth:tst:1",
-            "x": 3,
-            "y": 7,
-            "size": 3,
-            "color": "#ff0000"
-        },
-        {
-            "id": "c157ad0e-3326-4ae4-88d4-14a9bf7e6a84",
-            "label": "or",
-            "url": "null",
-            "text": "null",
-            "title": "c157ad0e-3326-4ae4-88d4-14a9bf7e6a84",
-            "x": 3,
-            "y": 5,
-            "size": 3,
-            "color": "#ff0000"
-        },
-        {
-            "id": "oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_password-auth:tst:1",
-            "label": "false",
-            "url": "null",
-            "text": "null",
-            "title": "oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_password-auth:tst:1",
-            "x": 5,
-            "y": 7,
-            "size": 3,
-            "color": "#ff0000"
-        },
-        {
-            "id": "oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_password-auth:tst:1",
-            "label": "false",
-            "url": "null",
-            "text": "null",
-            "title": "oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_password-auth:tst:1",
-            "x": 7,
-            "y": 7,
-            "size": 3,
-            "color": "#ff0000"
+            "color": "#00ff00"
         }
     ],
     "edges": [
         {
-            "id": "f8e7e5c5-facf-4ba5-aa06-0cad749c1683",
-            "source": "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny",
-            "target": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1"
+            "id": "d8cbf5c9-659f-49ef-a928-788cf067cd54",
+            "source": "xccdf_org.ssgproject.content_rule_require_singleuser_auth",
+            "target": "oval:ssg-require_singleuser_auth:def:1"
         },
         {
-            "id": "003367ab-2d0e-4ee2-8e04-a8d724c00b4f",
-            "source": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
-            "target": "oval:ssg-test_accounts_passwords_pam_faillock_preauth_silent_system-auth:tst:1"
+            "id": "7e41d40c-90c0-4965-b99c-a227a3e58db8",
+            "source": "oval:ssg-require_singleuser_auth:def:1",
+            "target": "oval:ssg-test_require_rescue_service:tst:1"
         },
         {
-            "id": "d89082e6-4f27-4c1f-a1c2-faf6e59a49a0",
-            "source": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
-            "target": "oval:ssg-test_accounts_passwords_pam_faillock_account_phase_system-auth:tst:1"
+            "id": "8c41afa2-71ae-466b-aa99-777bb772dbd2",
+            "source": "oval:ssg-require_singleuser_auth:def:1",
+            "target": "oval:ssg-test_require_rescue_service_runlevel1:tst:1"
         },
         {
-            "id": "a5b2dce5-35de-4060-b499-05dd517c993d",
-            "source": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
-            "target": "oval:ssg-test_accounts_passwords_pam_faillock_preauth_silent_password-auth:tst:1"
+            "id": "681686d8-c2b8-4da3-bece-f27f854a10bf",
+            "source": "oval:ssg-require_singleuser_auth:def:1",
+            "target": "oval:ssg-test_no_custom_runlevel1_target:tst:1"
         },
         {
-            "id": "f62a2828-ed80-4f0d-8c1a-2fd6da231d58",
-            "source": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
-            "target": "oval:ssg-test_accounts_passwords_pam_faillock_account_phase_password-auth:tst:1"
-        },
-        {
-            "id": "436845ff-994c-4026-adc5-0841a2a61e51",
-            "source": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
-            "target": "b2eae097-2c22-4c0b-8796-4b76e9b1a8c0"
-        },
-        {
-            "id": "466ef345-9f61-4d70-8f0a-c0a3257cc253",
-            "source": "b2eae097-2c22-4c0b-8796-4b76e9b1a8c0",
-            "target": "ece33afa-c675-4a43-9366-f946181937f4"
-        },
-        {
-            "id": "2bed2247-8155-4a2e-b75a-35d5839d9db4",
-            "source": "ece33afa-c675-4a43-9366-f946181937f4",
-            "target": "oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_system-auth:tst:1"
-        },
-        {
-            "id": "be4e6a91-b874-4082-b077-ff74e286c91d",
-            "source": "ece33afa-c675-4a43-9366-f946181937f4",
-            "target": "oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_system-auth:tst:1"
-        },
-        {
-            "id": "29b9563c-2f8f-4554-8159-102ec4897ac1",
-            "source": "b2eae097-2c22-4c0b-8796-4b76e9b1a8c0",
-            "target": "c157ad0e-3326-4ae4-88d4-14a9bf7e6a84"
-        },
-        {
-            "id": "7d06f894-071e-4383-96e8-934513eb857c",
-            "source": "c157ad0e-3326-4ae4-88d4-14a9bf7e6a84",
-            "target": "oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_password-auth:tst:1"
-        },
-        {
-            "id": "e4c5ee00-5736-4b67-b19d-43472a5d6768",
-            "source": "c157ad0e-3326-4ae4-88d4-14a9bf7e6a84",
-            "target": "oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_password-auth:tst:1"
+            "id": "77ad0f5c-caa4-4cab-adb3-50d09f6e8bec",
+            "source": "oval:ssg-require_singleuser_auth:def:1",
+            "target": "oval:ssg-test_no_custom_rescue_service:tst:1"
         }
     ]
 }

@@ -1,2 +1,2 @@
 # OVAL-visualization-as-graph
-Understanding result by blinking the eye 
+Understanding result in the blink of an eye

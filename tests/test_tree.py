@@ -1,4 +1,5 @@
 import tree.oval_tree
+import tree.evaluate 
 import pytest
 import os
 import py
@@ -590,32 +591,32 @@ def test_ChangeValueTree():
 
 def test_bad_operator_input_and():
     Tree = tree.oval_tree.OvalNode(0, 'value', "true")
-    assert Tree._oval_operator_and(results_counts) is None
+    assert tree.evaluate.oval_operator_and(results_counts) is None
 
 
 def test_bad_operator_input_one():
     Tree = tree.oval_tree.OvalNode(0, 'value', "true")
-    assert Tree._oval_operator_one(results_counts) is None
+    assert tree.evaluate.oval_operator_one(results_counts) is None
 
 
 def test_bad_operator_input_or():
     Tree = tree.oval_tree.OvalNode(0, 'value', "true")
-    assert Tree._oval_operator_or(results_counts) is None
+    assert tree.evaluate.oval_operator_or(results_counts) is None
 
 
 def test_bad_operator_input_xor():
     Tree = tree.oval_tree.OvalNode(0, 'value', "true")
-    assert Tree._oval_operator_xor(results_counts) is None
+    assert tree.evaluate.oval_operator_xor(results_counts) is None
 
 
 def test_false_noteval_greater_zero():
     Tree = tree.oval_tree.OvalNode(0, 'value', "true")
-    assert Tree._noteval_greater_zero(results_counts) == False
+    assert tree.evaluate.noteval_greater_zero(results_counts) == False
 
 
 def test_false_error_unknown_eq_noteval_greater_zero():
     Tree = tree.oval_tree.OvalNode(0, 'value', "true")
-    assert Tree._error_unknown_eq_noteval_greater_zero(results_counts) == False
+    assert tree.evaluate.error_unknown_eq_noteval_greater_zero(results_counts) == False
 
 
 def any_test_parsing_and_evaluate_scan_rule(src, rule_id, result):

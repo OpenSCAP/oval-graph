@@ -507,7 +507,7 @@ def test_bigOvalTree():
 
 
 def any_test_tree_to_dict_of_tree(tree, dict_of_tree):
-    assert tree.tree_to_dict() == dict_of_tree
+    assert tree.save_tree_to_dict() == dict_of_tree
 
 
 def find_any_node(Tree, node_id):
@@ -520,8 +520,8 @@ def any_test_treeEvaluation(tree, expect):
 
 
 def any_test_dict_to_tree(dict_of_tree):
-    treedict_of_tree = tree.oval_tree.dict_to_tree(dict_of_tree)
-    assert treedict_of_tree.tree_to_dict() == dict_of_tree
+    treedict_of_tree = tree.oval_tree.restore_dict_to_tree(dict_of_tree)
+    assert treedict_of_tree.save_tree_to_dict() == dict_of_tree
 
 
 def test_treeRepr():
@@ -563,7 +563,7 @@ def test_add_to_tree():
     )
     Tree1 = tree.oval_tree.OvalNode(3, 'value', "true")
     Tree.add_to_tree(1, Tree1)
-    assert Tree.tree_to_dict() == dict_of_tree
+    assert Tree.save_tree_to_dict() == dict_of_tree
 
 
 def test_ChangeValueTree():
@@ -642,7 +642,7 @@ def get_simple_tree():
     )
 
 def get_dict_of_simple_tree():
-    return get_simple_tree().tree_to_dict()
+    return get_simple_tree().save_tree_to_dict()
 
 def any_test_create_node_dict_for_sigmaJs(Tree,out):
     assert Tree._create_node(0,0)==out

@@ -1,4 +1,4 @@
-{
+var data_json ={
     "nodes": [
         {
             "id": "xccdf_org.ssgproject.content_rule_require_singleuser_auth",
@@ -69,29 +69,29 @@
     ],
     "edges": [
         {
-            "id": "d8cbf5c9-659f-49ef-a928-788cf067cd54",
+            "id": "e2e284a9-b0e9-4eea-9d1e-c76995260e4f",
             "source": "xccdf_org.ssgproject.content_rule_require_singleuser_auth",
             "target": "oval:ssg-require_singleuser_auth:def:1"
         },
         {
-            "id": "7e41d40c-90c0-4965-b99c-a227a3e58db8",
+            "id": "4ca7f7c0-dacb-43aa-9522-60f1f9ddecfb",
             "source": "oval:ssg-require_singleuser_auth:def:1",
             "target": "oval:ssg-test_require_rescue_service:tst:1"
         },
         {
-            "id": "8c41afa2-71ae-466b-aa99-777bb772dbd2",
+            "id": "946cab56-46c6-454c-a6be-85e254634c0f",
             "source": "oval:ssg-require_singleuser_auth:def:1",
             "target": "oval:ssg-test_require_rescue_service_runlevel1:tst:1"
         },
         {
-            "id": "681686d8-c2b8-4da3-bece-f27f854a10bf",
+            "id": "270c6e09-2691-4170-9b00-91d3564673ca",
             "source": "oval:ssg-require_singleuser_auth:def:1",
             "target": "oval:ssg-test_no_custom_runlevel1_target:tst:1"
         },
         {
-            "id": "77ad0f5c-caa4-4cab-adb3-50d09f6e8bec",
+            "id": "96076b69-9dbc-4497-9597-a23e9d82e4dc",
             "source": "oval:ssg-require_singleuser_auth:def:1",
             "target": "oval:ssg-test_no_custom_rescue_service:tst:1"
         }
     ]
-}
+};

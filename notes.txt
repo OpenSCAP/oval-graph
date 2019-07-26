@@ -39,6 +39,8 @@ https://oval.mitre.org/language/version5.11/ovaldefinition/documentation/oval-co
 12]find and fix 
 13] find duplicated nodes - done 
 14]create console app 
+15]Fix info in js 
+
 FIX = python3 run.py data/ssg-fedora-ds-arf.xml xccdf_org.ssgproject.content_rule_dconf_gnome_session_idle_user_locks
 
 

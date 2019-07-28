@@ -1,6 +1,17 @@
+'''
+    Module form my lib
+'''
 import tree.oval_tree
+
+'''
+    Module for create ID
+'''
 import uuid
-#import collections
+
+'''
+    Module for parsing XML
+'''
+
 from lxml import etree as ET
 
 def _xml_dict_to_node(dict_of_definition):
@@ -114,14 +125,53 @@ def _operator_as_child(value, scan):
 
 
 # Mine data form XML
+class xml_parser():
+    def __init__(self, src):
+        self.src = src
+        self.tree = ET.parse(self.src)    
+        self.root = self.tree.getroot()
 
+    def get_data_form_xml(self):
+        ns = {
+            'ns0': 'http://oval.mitre.org/XMLSchema/oval-results-5',
+            'ns1': 'http://scap.nist.gov/schema/asset-reporting-format/1.1'
+        }
 
+        report_data = None
+        reports = self.root.find('.//ns1:reports', ns)
+        for report in reports:
+            if report.get("id") == "oval0":
+                report_data = report
+
+        trees_data = report_data.find(
+            './/ns0:oval_results/ns0:results/ns0:system/ns0:definitions', ns)
+        return trees_data
+
+    def get_used_rules(self):
+        ns = {
+            'ns0': 'http://checklists.nist.gov/xccdf/1.2',
+        }
+        rulesResults = self.root.findall('.//ns0:TestResult/ns0:rule-result', ns)
+        rules = []
+        for ruleResult in rulesResults:
+            result = ruleResult.find('.//ns0:result',ns)
+            if(result.text != "notselected"):
+                check_content_ref = ruleResult.find('.//ns0:check/ns0:check-content-ref',ns)
+                if(check_content_ref is not None):
+                    print(check_content_ref.attrib)
+                    rules.append(dict(
+                            id_rule = ruleResult.get('idref'),
+                            id_def = check_content_ref.attrib.get('name'),
+                            href = check_content_ref.attrib.get('href'),
+                            result = result.text))
+        return rules
+'''
 def _get_root_of_XML(src):
     tree = ET.parse(src)
     return tree.getroot()
 
 
-def get_data_form_xml(src):
+def aget_data_form_xml(src):
     root = _get_root_of_XML(src)
 
     ns = {
@@ -161,3 +211,4 @@ def get_used_rules(src):
                                     id_rule=idk,
                                     id_def=r.get('name')))
     return rules
+'''

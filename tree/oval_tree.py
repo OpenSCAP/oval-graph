@@ -1,13 +1,12 @@
-"""
-    Module for parsing XML
-"""
+'''
+    Module for create ID
+'''
 import uuid
 import collections
-#from lxml import etree as ET
 
-"""
-    Module for create ID
-"""
+'''
+    Modules form my lib
+'''
 import tree.evaluate
 import tree.xml_parser
 

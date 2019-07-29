@@ -622,11 +622,9 @@ def test_false_error_unknown_eq_noteval_greater_zero():
 def any_test_parsing_and_evaluate_scan_rule(src, rule_id, result):
     _dir = os.path.dirname(os.path.realpath(__file__))
     FIXTURE_DIR = py.path.local(_dir) / src
-
-    oval_trees_array = tree.oval_tree.xml_to_tree(str(FIXTURE_DIR))
-    for oval_tree in oval_trees_array:
-        if oval_tree.node_id == rule_id:
-            any_test_treeEvaluation(oval_tree, result)
+    
+    oval_tree = tree.oval_tree.xml_to_tree(str(FIXTURE_DIR), rule_id)
+    any_test_treeEvaluation(oval_tree, result)
 
 
 def get_simple_tree():
@@ -1025,16 +1023,14 @@ def test_transformation_tree_to_Json_for_SigmaJs_0():
         }
     src = 'data/ssg-fedora-ds-arf.xml'
     rule_id = 'xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny'
-    result = 'false'
-
-    oval_trees_array = tree.oval_tree.xml_to_tree(src)
-    for oval_tree in oval_trees_array:
-        if oval_tree.node_id == rule_id:
-            out_data = oval_tree.to_sigma_dict(0, 0)
-            for i in range(len(out_data['nodes'])):
-                assert out_data['nodes'][i]['label']==test_data['nodes'][i]['label']
-                assert out_data['nodes'][i]['text']==test_data['nodes'][i]['text']
-                assert out_data['nodes'][i]['url']==test_data['nodes'][i]['url']
+    
+    oval_tree = tree.oval_tree.xml_to_tree(src, rule_id)
+    if oval_tree.node_id == rule_id:
+        out_data = oval_tree.to_sigma_dict(0, 0)
+        for i in range(len(out_data['nodes'])):
+            assert out_data['nodes'][i]['label']==test_data['nodes'][i]['label']
+            assert out_data['nodes'][i]['text']==test_data['nodes'][i]['text']
+            assert out_data['nodes'][i]['url']==test_data['nodes'][i]['url']
 
 
 def test_transformation_tree_to_Json_for_SigmaJs_with_duplicated_test():
@@ -1302,13 +1298,12 @@ def test_transformation_tree_to_Json_for_SigmaJs_with_duplicated_test():
         }    
     src = 'data/ssg-fedora-ds-arf.xml'
     rule_id = 'xccdf_org.ssgproject.content_rule_disable_host_auth'
-    result = 'true'
 
-    oval_trees_array = tree.oval_tree.xml_to_tree(src)
-    for oval_tree in oval_trees_array:
-        if oval_tree.node_id == rule_id:
-            out_data = oval_tree.to_sigma_dict(0, 0)
-            for i in range(len(out_data['nodes'])):
-                assert out_data['nodes'][i]['label']==test_data['nodes'][i]['label']
-                assert out_data['nodes'][i]['text']==test_data['nodes'][i]['text']
-                assert out_data['nodes'][i]['url']==test_data['nodes'][i]['url']
+    oval_tree = tree.oval_tree.xml_to_tree(src, rule_id)
+    
+    if oval_tree.node_id == rule_id:
+        out_data = oval_tree.to_sigma_dict(0, 0)
+        for i in range(len(out_data['nodes'])):
+            assert out_data['nodes'][i]['label']==test_data['nodes'][i]['label']
+            assert out_data['nodes'][i]['text']==test_data['nodes'][i]['text']
+            assert out_data['nodes'][i]['url']==test_data['nodes'][i]['url']

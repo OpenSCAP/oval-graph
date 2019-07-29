@@ -1,14 +1,14 @@
 '''
     Module for create ID
 '''
+import tree.xml_parser
+import tree.evaluate
 import uuid
 import collections
 
 '''
     Modules form my lib
 '''
-import tree.evaluate
-import tree.xml_parser
 
 '''
     This module contains methods and classes for
@@ -109,7 +109,7 @@ class OvalNode(object):
                 result['notappl_cnt'] += 1
             else:
                 if self.node_type == "operator":
-                    result[child.evaluate_tree() + "_cnt"] += 1
+                    result[str(child.evaluate_tree()) + "_cnt"] += 1
 
         if result['notappl_cnt'] > 0\
                 and tree.evaluate.noteval_eq_zero(result)\
@@ -163,7 +163,7 @@ class OvalNode(object):
     # Methods for interpreting oval tree with SigmaJS
 
     def _create_node(self, x, y):
-        #print(self.evaluate_tree(),self.value)
+        # print(self.evaluate_tree(),self.value)
         if self.value == 'true':
             return {
                 'id': self.node_id,
@@ -312,10 +312,6 @@ def restore_dict_to_tree(dict_of_tree):
 # Function for transfer XML to OVAL_TREE
 
 
-def xml_to_tree(xml_src):
-    data = tree.xml_parser.parse_data_to_dict(
-        tree.xml_parser.get_data_form_xml(xml_src), tree.xml_parser.get_used_rules(xml_src))
-    out = []
-    for rule in data['rules']:
-        out.append(tree.xml_parser.xml_dict_of_rule_to_node(rule))
-    return out
+def xml_to_tree(xml_src, rule_id):
+    parser = tree.xml_parser.xml_parser(xml_src)
+    return parser.xml_dict_of_rule_to_node(parser.parse_data_to_dict(rule_id))

@@ -1,5 +1,6 @@
-import tree.oval_tree
-import tree.evaluate 
+import graph.oval_graph
+import graph.evaluate 
+import graph.xml_parser
 import pytest
 import os
 import py
@@ -52,11 +53,11 @@ def badTree():
          |
          t
     """
-    t = tree.oval_tree.OvalNode(
+    t = graph.oval_graph.OvalNode(
         1, "value", "true", [
-            tree.oval_tree.OvalNode(
+            graph.oval_graph.OvalNode(
                 2, "operator", "and", [
-                    tree.oval_tree.OvalNode(
+                    graph.oval_graph.OvalNode(
                         3, "value", "true")])])
     return
 
@@ -65,7 +66,7 @@ def treeOnlyOr():
     """
         or
     """
-    Tree = tree.oval_tree.OvalNode(1, "operator", 'or')
+    Tree = graph.oval_graph.OvalNode(1, "operator", 'or')
     return
 
 
@@ -73,42 +74,42 @@ def treeOnlyAnd():
     """
         and
     """
-    Tree = tree.oval_tree.OvalNode(1, "operator", 'and')
+    Tree = graph.oval_graph.OvalNode(1, "operator", 'and')
     return
 
 
 def treeWithBadValueOfOperator():
-    Tree = tree.oval_tree.OvalNode(1, "operator", 'nad')
+    Tree = graph.oval_graph.OvalNode(1, "operator", 'nad')
     return
 
 
 def treeWithBadValueOfValue():
-    Tree = tree.oval_tree.OvalNode(1, "value", 'and')
+    Tree = graph.oval_graph.OvalNode(1, "value", 'and')
     return
 
 
 def treeWithBadType():
-    Tree = tree.oval_tree.OvalNode(1, "auto", 'and')
+    Tree = graph.oval_graph.OvalNode(1, "auto", 'and')
     return
 
 # normal trees
 
 
 def test_UPPERCASETree():
-    t = tree.oval_tree.OvalNode(
+    t = graph.oval_graph.OvalNode(
         1, "OPERATOR", "AND", [
-            tree.oval_tree.OvalNode(
-                2, "VALUE", "TRUE",), tree.oval_tree.OvalNode(
+            graph.oval_graph.OvalNode(
+                2, "VALUE", "TRUE",), graph.oval_graph.OvalNode(
                 3, "VALUE", "NOTAPPL")])
 
 # AND operator
 
 
 def test_ANDTreeTrue():
-    Tree = tree.oval_tree.OvalNode(1, 'operator', 'and', [
-        tree.oval_tree.OvalNode(2, 'value', "true"),
-        tree.oval_tree.OvalNode(3, 'value', "true"),
-        tree.oval_tree.OvalNode(4, 'value', "notappl")
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', [
+        graph.oval_graph.OvalNode(2, 'value', "true"),
+        graph.oval_graph.OvalNode(3, 'value', "true"),
+        graph.oval_graph.OvalNode(4, 'value', "notappl")
     ]
     )
 
@@ -116,15 +117,15 @@ def test_ANDTreeTrue():
 
 
 def test_ANDTreeFalse():
-    Tree = tree.oval_tree.OvalNode(1, 'operator', 'and', [
-        tree.oval_tree.OvalNode(2, 'value', "false"),
-        tree.oval_tree.OvalNode(3, 'value', "false"),
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', [
+        graph.oval_graph.OvalNode(2, 'value', "false"),
+        graph.oval_graph.OvalNode(3, 'value', "false"),
 
-        tree.oval_tree.OvalNode(4, 'value', "true"),
-        tree.oval_tree.OvalNode(5, 'value', "error"),
-        tree.oval_tree.OvalNode(6, 'value', "unknown"),
-        tree.oval_tree.OvalNode(7, 'value', "noteval"),
-        tree.oval_tree.OvalNode(8, 'value', "notappl")
+        graph.oval_graph.OvalNode(4, 'value', "true"),
+        graph.oval_graph.OvalNode(5, 'value', "error"),
+        graph.oval_graph.OvalNode(6, 'value', "unknown"),
+        graph.oval_graph.OvalNode(7, 'value', "noteval"),
+        graph.oval_graph.OvalNode(8, 'value', "notappl")
     ]
     )
 
@@ -132,28 +133,28 @@ def test_ANDTreeFalse():
 
 
 def test_ANDTreeError():
-    Tree = tree.oval_tree.OvalNode(1, 'operator', 'and', [
-                tree.oval_tree.OvalNode(2, 'value', "error"),
-                tree.oval_tree.OvalNode(3, 'value', "error"),
-                tree.oval_tree.OvalNode(4, 'value', "true"),
-                tree.oval_tree.OvalNode(5, 'value', "unknown"),
-                tree.oval_tree.OvalNode(6, 'value', "noteval"),
-                tree.oval_tree.OvalNode(7, 'value', "notappl"),
-                tree.oval_tree.OvalNode(8, 'value', "error")
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', [
+                graph.oval_graph.OvalNode(2, 'value', "error"),
+                graph.oval_graph.OvalNode(3, 'value', "error"),
+                graph.oval_graph.OvalNode(4, 'value', "true"),
+                graph.oval_graph.OvalNode(5, 'value', "unknown"),
+                graph.oval_graph.OvalNode(6, 'value', "noteval"),
+                graph.oval_graph.OvalNode(7, 'value', "notappl"),
+                graph.oval_graph.OvalNode(8, 'value', "error")
                 ])
 
     any_test_treeEvaluation(Tree, "error")
 
 
 def test_ANDTreeUnknown():
-    Tree = tree.oval_tree.OvalNode(1, 'operator', 'and', [
-                tree.oval_tree.OvalNode(2, 'value', "unknown"),
-                tree.oval_tree.OvalNode(3, 'value', "unknown"),
-                tree.oval_tree.OvalNode(4, 'value', "true"),
-                tree.oval_tree.OvalNode(5, 'value', "unknown"),
-                tree.oval_tree.OvalNode(6, 'value', "noteval"),
-                tree.oval_tree.OvalNode(7, 'value', "notappl"),
-                tree.oval_tree.OvalNode(8, 'value', "notappl")
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', [
+                graph.oval_graph.OvalNode(2, 'value', "unknown"),
+                graph.oval_graph.OvalNode(3, 'value', "unknown"),
+                graph.oval_graph.OvalNode(4, 'value', "true"),
+                graph.oval_graph.OvalNode(5, 'value', "unknown"),
+                graph.oval_graph.OvalNode(6, 'value', "noteval"),
+                graph.oval_graph.OvalNode(7, 'value', "notappl"),
+                graph.oval_graph.OvalNode(8, 'value', "notappl")
                 ]
                 )
 
@@ -161,14 +162,14 @@ def test_ANDTreeUnknown():
 
 
 def test_ANDTreeNoteval():
-    Tree = tree.oval_tree.OvalNode(1, 'operator', 'and', [
-                tree.oval_tree.OvalNode(2, 'value', "noteval"),
-                tree.oval_tree.OvalNode(3, 'value', "noteval"),
-                tree.oval_tree.OvalNode(4, 'value', "true"),
-                tree.oval_tree.OvalNode(5, 'value', "true"),
-                tree.oval_tree.OvalNode(6, 'value', "noteval"),
-                tree.oval_tree.OvalNode(7, 'value', "notappl"),
-                tree.oval_tree.OvalNode(8, 'value', "notappl")
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', [
+                graph.oval_graph.OvalNode(2, 'value', "noteval"),
+                graph.oval_graph.OvalNode(3, 'value', "noteval"),
+                graph.oval_graph.OvalNode(4, 'value', "true"),
+                graph.oval_graph.OvalNode(5, 'value', "true"),
+                graph.oval_graph.OvalNode(6, 'value', "noteval"),
+                graph.oval_graph.OvalNode(7, 'value', "notappl"),
+                graph.oval_graph.OvalNode(8, 'value', "notappl")
                 ]
                 )
 
@@ -176,10 +177,10 @@ def test_ANDTreeNoteval():
 
 
 def test_ANDTreeNotappl():
-    Tree = tree.oval_tree.OvalNode(1, 'operator', 'and', [
-        tree.oval_tree.OvalNode(2, 'value', "notappl"),
-        tree.oval_tree.OvalNode(3, 'value', "notappl"),
-        tree.oval_tree.OvalNode(4, 'value', "notappl")
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', [
+        graph.oval_graph.OvalNode(2, 'value', "notappl"),
+        graph.oval_graph.OvalNode(3, 'value', "notappl"),
+        graph.oval_graph.OvalNode(4, 'value', "notappl")
     ]
     )
 
@@ -189,11 +190,11 @@ def test_ANDTreeNotappl():
 
 
 def test_ONETreeTrue():
-    Tree = tree.oval_tree.OvalNode(1, 'operator', 'one', [
-        tree.oval_tree.OvalNode(2, 'value', "true"),
-        tree.oval_tree.OvalNode(3, 'value', "false"),
-        tree.oval_tree.OvalNode(4, 'value', "notappl"),
-        tree.oval_tree.OvalNode(5, 'value', "false")
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'one', [
+        graph.oval_graph.OvalNode(2, 'value', "true"),
+        graph.oval_graph.OvalNode(3, 'value', "false"),
+        graph.oval_graph.OvalNode(4, 'value', "notappl"),
+        graph.oval_graph.OvalNode(5, 'value', "false")
     ]
     )
 
@@ -201,15 +202,15 @@ def test_ONETreeTrue():
 
 
 def test_ONETreeFalse():
-    Tree = tree.oval_tree.OvalNode(1, 'operator', 'one', [
-        tree.oval_tree.OvalNode(2, 'value', "true"),
-        tree.oval_tree.OvalNode(3, 'value', "true"),
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'one', [
+        graph.oval_graph.OvalNode(2, 'value', "true"),
+        graph.oval_graph.OvalNode(3, 'value', "true"),
 
-        tree.oval_tree.OvalNode(4, 'value', "false"),
-        tree.oval_tree.OvalNode(5, 'value', "error"),
-        tree.oval_tree.OvalNode(6, 'value', "unknown"),
-        tree.oval_tree.OvalNode(7, 'value', "noteval"),
-        tree.oval_tree.OvalNode(8, 'value', "notappl")
+        graph.oval_graph.OvalNode(4, 'value', "false"),
+        graph.oval_graph.OvalNode(5, 'value', "error"),
+        graph.oval_graph.OvalNode(6, 'value', "unknown"),
+        graph.oval_graph.OvalNode(7, 'value', "noteval"),
+        graph.oval_graph.OvalNode(8, 'value', "notappl")
     ]
     )
 
@@ -217,10 +218,10 @@ def test_ONETreeFalse():
 
 
 def test_ONETreeFalse1():
-    Tree = tree.oval_tree.OvalNode(1, 'operator', 'one', [
-        tree.oval_tree.OvalNode(2, 'value', "false"),
-        tree.oval_tree.OvalNode(3, 'value', "false"),
-        tree.oval_tree.OvalNode(4, 'value', "notappl")
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'one', [
+        graph.oval_graph.OvalNode(2, 'value', "false"),
+        graph.oval_graph.OvalNode(3, 'value', "false"),
+        graph.oval_graph.OvalNode(4, 'value', "notappl")
     ]
     )
 
@@ -228,14 +229,14 @@ def test_ONETreeFalse1():
 
 
 def test_ONETreeError():
-    Tree = tree.oval_tree.OvalNode(1, 'operator', 'one', [
-                tree.oval_tree.OvalNode(2, 'value', "error"),
-                tree.oval_tree.OvalNode(3, 'value', "error"),
-                tree.oval_tree.OvalNode(4, 'value', "true"),
-                tree.oval_tree.OvalNode(5, 'value', "unknown"),
-                tree.oval_tree.OvalNode(6, 'value', "noteval"),
-                tree.oval_tree.OvalNode(7, 'value', "notappl"),
-                tree.oval_tree.OvalNode(8, 'value', "false")
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'one', [
+                graph.oval_graph.OvalNode(2, 'value', "error"),
+                graph.oval_graph.OvalNode(3, 'value', "error"),
+                graph.oval_graph.OvalNode(4, 'value', "true"),
+                graph.oval_graph.OvalNode(5, 'value', "unknown"),
+                graph.oval_graph.OvalNode(6, 'value', "noteval"),
+                graph.oval_graph.OvalNode(7, 'value', "notappl"),
+                graph.oval_graph.OvalNode(8, 'value', "false")
                 ]
                 )
 
@@ -243,28 +244,28 @@ def test_ONETreeError():
 
 
 def test_ONETreeUnknown():
-    Tree = tree.oval_tree.OvalNode(1, 'operator', 'one', [
-                tree.oval_tree.OvalNode(2, 'value', "unknown"),
-                tree.oval_tree.OvalNode(3, 'value', "unknown"),
-                tree.oval_tree.OvalNode(4, 'value', "true"),
-                tree.oval_tree.OvalNode(5, 'value', "unknown"),
-                tree.oval_tree.OvalNode(6, 'value', "noteval"),
-                tree.oval_tree.OvalNode(7, 'value', "notappl"),
-                tree.oval_tree.OvalNode(8, 'value', "false")
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'one', [
+                graph.oval_graph.OvalNode(2, 'value', "unknown"),
+                graph.oval_graph.OvalNode(3, 'value', "unknown"),
+                graph.oval_graph.OvalNode(4, 'value', "true"),
+                graph.oval_graph.OvalNode(5, 'value', "unknown"),
+                graph.oval_graph.OvalNode(6, 'value', "noteval"),
+                graph.oval_graph.OvalNode(7, 'value', "notappl"),
+                graph.oval_graph.OvalNode(8, 'value', "false")
                 ])
 
     any_test_treeEvaluation(Tree, "unknown")
 
 
 def test_ONETreeNoteval():
-    Tree = tree.oval_tree.OvalNode(1, 'operator', 'one', [
-                tree.oval_tree.OvalNode(2, 'value', "noteval"),
-                tree.oval_tree.OvalNode(3, 'value', "noteval"),
-                tree.oval_tree.OvalNode(4, 'value', "true"),
-                tree.oval_tree.OvalNode(5, 'value', "false"),
-                tree.oval_tree.OvalNode(6, 'value', "noteval"),
-                tree.oval_tree.OvalNode(7, 'value', "notappl"),
-                tree.oval_tree.OvalNode(8, 'value', "notappl")
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'one', [
+                graph.oval_graph.OvalNode(2, 'value', "noteval"),
+                graph.oval_graph.OvalNode(3, 'value', "noteval"),
+                graph.oval_graph.OvalNode(4, 'value', "true"),
+                graph.oval_graph.OvalNode(5, 'value', "false"),
+                graph.oval_graph.OvalNode(6, 'value', "noteval"),
+                graph.oval_graph.OvalNode(7, 'value', "notappl"),
+                graph.oval_graph.OvalNode(8, 'value', "notappl")
                 ]
                 )
 
@@ -272,10 +273,10 @@ def test_ONETreeNoteval():
 
 
 def test_ONETreeNotappl():
-    Tree = tree.oval_tree.OvalNode(1, 'operator', 'one', [
-        tree.oval_tree.OvalNode(2, 'value', "notappl"),
-        tree.oval_tree.OvalNode(3, 'value', "notappl"),
-        tree.oval_tree.OvalNode(4, 'value', "notappl")
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'one', [
+        graph.oval_graph.OvalNode(2, 'value', "notappl"),
+        graph.oval_graph.OvalNode(3, 'value', "notappl"),
+        graph.oval_graph.OvalNode(4, 'value', "notappl")
     ]
     )
 
@@ -285,15 +286,15 @@ def test_ONETreeNotappl():
 
 
 def test_ORTreeTrue():
-    Tree = tree.oval_tree.OvalNode(1, 'operator', 'or', [
-        tree.oval_tree.OvalNode(2, 'value', "true"),
-        tree.oval_tree.OvalNode(3, 'value', "false"),
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'or', [
+        graph.oval_graph.OvalNode(2, 'value', "true"),
+        graph.oval_graph.OvalNode(3, 'value', "false"),
 
-        tree.oval_tree.OvalNode(4, 'value', "true"),
-        tree.oval_tree.OvalNode(5, 'value', "error"),
-        tree.oval_tree.OvalNode(6, 'value', "unknown"),
-        tree.oval_tree.OvalNode(7, 'value', "noteval"),
-        tree.oval_tree.OvalNode(8, 'value', "notappl")
+        graph.oval_graph.OvalNode(4, 'value', "true"),
+        graph.oval_graph.OvalNode(5, 'value', "error"),
+        graph.oval_graph.OvalNode(6, 'value', "unknown"),
+        graph.oval_graph.OvalNode(7, 'value', "noteval"),
+        graph.oval_graph.OvalNode(8, 'value', "notappl")
     ]
     )
 
@@ -301,10 +302,10 @@ def test_ORTreeTrue():
 
 
 def test_ORTreeFalse():
-    Tree = tree.oval_tree.OvalNode(1, 'operator', 'or', [
-        tree.oval_tree.OvalNode(2, 'value', "false"),
-        tree.oval_tree.OvalNode(3, 'value', "false"),
-        tree.oval_tree.OvalNode(4, 'value', "notappl")
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'or', [
+        graph.oval_graph.OvalNode(2, 'value', "false"),
+        graph.oval_graph.OvalNode(3, 'value', "false"),
+        graph.oval_graph.OvalNode(4, 'value', "notappl")
     ]
     )
 
@@ -312,14 +313,14 @@ def test_ORTreeFalse():
 
 
 def test_ORTreeError():
-    Tree = tree.oval_tree.OvalNode(1, 'operator', 'or', [
-                tree.oval_tree.OvalNode(2, 'value', "error"),
-                tree.oval_tree.OvalNode(3, 'value', "error"),
-                tree.oval_tree.OvalNode(4, 'value', "false"),
-                tree.oval_tree.OvalNode(5, 'value', "unknown"),
-                tree.oval_tree.OvalNode(6, 'value', "noteval"),
-                tree.oval_tree.OvalNode(7, 'value', "notappl"),
-                tree.oval_tree.OvalNode(8, 'value', "error")
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'or', [
+                graph.oval_graph.OvalNode(2, 'value', "error"),
+                graph.oval_graph.OvalNode(3, 'value', "error"),
+                graph.oval_graph.OvalNode(4, 'value', "false"),
+                graph.oval_graph.OvalNode(5, 'value', "unknown"),
+                graph.oval_graph.OvalNode(6, 'value', "noteval"),
+                graph.oval_graph.OvalNode(7, 'value', "notappl"),
+                graph.oval_graph.OvalNode(8, 'value', "error")
                 ]
                 )
 
@@ -327,14 +328,14 @@ def test_ORTreeError():
 
 
 def test_ORTreeUnknown():
-    Tree = tree.oval_tree.OvalNode(1, 'operator', 'or', [
-                tree.oval_tree.OvalNode(2, 'value', "unknown"),
-                tree.oval_tree.OvalNode(3, 'value', "unknown"),
-                tree.oval_tree.OvalNode(4, 'value', "false"),
-                tree.oval_tree.OvalNode(5, 'value', "unknown"),
-                tree.oval_tree.OvalNode(6, 'value', "noteval"),
-                tree.oval_tree.OvalNode(7, 'value', "notappl"),
-                tree.oval_tree.OvalNode(8, 'value', "notappl")
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'or', [
+                graph.oval_graph.OvalNode(2, 'value', "unknown"),
+                graph.oval_graph.OvalNode(3, 'value', "unknown"),
+                graph.oval_graph.OvalNode(4, 'value', "false"),
+                graph.oval_graph.OvalNode(5, 'value', "unknown"),
+                graph.oval_graph.OvalNode(6, 'value', "noteval"),
+                graph.oval_graph.OvalNode(7, 'value', "notappl"),
+                graph.oval_graph.OvalNode(8, 'value', "notappl")
                 ]
                 )
 
@@ -342,14 +343,14 @@ def test_ORTreeUnknown():
 
 
 def test_ORTreeNoteval():
-    Tree = tree.oval_tree.OvalNode(1, 'operator', 'or', [
-                tree.oval_tree.OvalNode(2, 'value', "noteval"),
-                tree.oval_tree.OvalNode(3, 'value', "noteval"),
-                tree.oval_tree.OvalNode(4, 'value', "false"),
-                tree.oval_tree.OvalNode(5, 'value', "false"),
-                tree.oval_tree.OvalNode(6, 'value', "noteval"),
-                tree.oval_tree.OvalNode(7, 'value', "notappl"),
-                tree.oval_tree.OvalNode(8, 'value', "notappl")
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'or', [
+                graph.oval_graph.OvalNode(2, 'value', "noteval"),
+                graph.oval_graph.OvalNode(3, 'value', "noteval"),
+                graph.oval_graph.OvalNode(4, 'value', "false"),
+                graph.oval_graph.OvalNode(5, 'value', "false"),
+                graph.oval_graph.OvalNode(6, 'value', "noteval"),
+                graph.oval_graph.OvalNode(7, 'value', "notappl"),
+                graph.oval_graph.OvalNode(8, 'value', "notappl")
                 ]
                 )
 
@@ -357,10 +358,10 @@ def test_ORTreeNoteval():
 
 
 def test_ORTreeNotappl():
-    Tree = tree.oval_tree.OvalNode(1, 'operator', 'or', [
-        tree.oval_tree.OvalNode(2, 'value', "notappl"),
-        tree.oval_tree.OvalNode(3, 'value', "notappl"),
-        tree.oval_tree.OvalNode(4, 'value', "notappl")
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'or', [
+        graph.oval_graph.OvalNode(2, 'value', "notappl"),
+        graph.oval_graph.OvalNode(3, 'value', "notappl"),
+        graph.oval_graph.OvalNode(4, 'value', "notappl")
     ]
     )
 
@@ -370,15 +371,15 @@ def test_ORTreeNotappl():
 
 
 def test_XORTreeTrue():
-    Tree = tree.oval_tree.OvalNode(1, 'operator', 'xor', [
-        tree.oval_tree.OvalNode(2, 'value', "true"),
-        tree.oval_tree.OvalNode(3, 'value', "false"),
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'xor', [
+        graph.oval_graph.OvalNode(2, 'value', "true"),
+        graph.oval_graph.OvalNode(3, 'value', "false"),
 
-        tree.oval_tree.OvalNode(4, 'value', "false"),
-        tree.oval_tree.OvalNode(5, 'value', "false"),
-        tree.oval_tree.OvalNode(6, 'value', "true"),
-        tree.oval_tree.OvalNode(7, 'value', "true"),
-        tree.oval_tree.OvalNode(8, 'value', "notappl")
+        graph.oval_graph.OvalNode(4, 'value', "false"),
+        graph.oval_graph.OvalNode(5, 'value', "false"),
+        graph.oval_graph.OvalNode(6, 'value', "true"),
+        graph.oval_graph.OvalNode(7, 'value', "true"),
+        graph.oval_graph.OvalNode(8, 'value', "notappl")
     ]
     )
 
@@ -386,15 +387,15 @@ def test_XORTreeTrue():
 
 
 def test_XORTreeFalse():
-    Tree = tree.oval_tree.OvalNode(1, 'operator', 'xor', [
-        tree.oval_tree.OvalNode(2, 'value', "true"),
-        tree.oval_tree.OvalNode(3, 'value', "false"),
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'xor', [
+        graph.oval_graph.OvalNode(2, 'value', "true"),
+        graph.oval_graph.OvalNode(3, 'value', "false"),
 
-        tree.oval_tree.OvalNode(4, 'value', "false"),
-        tree.oval_tree.OvalNode(5, 'value', "true"),
-        tree.oval_tree.OvalNode(6, 'value', "true"),
-        tree.oval_tree.OvalNode(7, 'value', "true"),
-        tree.oval_tree.OvalNode(8, 'value', "notappl")
+        graph.oval_graph.OvalNode(4, 'value', "false"),
+        graph.oval_graph.OvalNode(5, 'value', "true"),
+        graph.oval_graph.OvalNode(6, 'value', "true"),
+        graph.oval_graph.OvalNode(7, 'value', "true"),
+        graph.oval_graph.OvalNode(8, 'value', "notappl")
     ]
     )
 
@@ -402,14 +403,14 @@ def test_XORTreeFalse():
 
 
 def test_XORTreeError():
-    Tree = tree.oval_tree.OvalNode(1, 'operator', 'xor', [
-                tree.oval_tree.OvalNode(2, 'value', "error"),
-                tree.oval_tree.OvalNode(3, 'value', "error"),
-                tree.oval_tree.OvalNode(4, 'value', "true"),
-                tree.oval_tree.OvalNode(5, 'value', "unknown"),
-                tree.oval_tree.OvalNode(6, 'value', "noteval"),
-                tree.oval_tree.OvalNode(7, 'value', "notappl"),
-                tree.oval_tree.OvalNode(8, 'value', "false")
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'xor', [
+                graph.oval_graph.OvalNode(2, 'value', "error"),
+                graph.oval_graph.OvalNode(3, 'value', "error"),
+                graph.oval_graph.OvalNode(4, 'value', "true"),
+                graph.oval_graph.OvalNode(5, 'value', "unknown"),
+                graph.oval_graph.OvalNode(6, 'value', "noteval"),
+                graph.oval_graph.OvalNode(7, 'value', "notappl"),
+                graph.oval_graph.OvalNode(8, 'value', "false")
                 ]
                 )
 
@@ -417,14 +418,14 @@ def test_XORTreeError():
 
 
 def test_xORTreeUnknown():
-    Tree = tree.oval_tree.OvalNode(1, 'operator', 'xor', [
-                tree.oval_tree.OvalNode(2, 'value', "unknown"),
-                tree.oval_tree.OvalNode(3, 'value', "unknown"),
-                tree.oval_tree.OvalNode(4, 'value', "true"),
-                tree.oval_tree.OvalNode(5, 'value', "unknown"),
-                tree.oval_tree.OvalNode(6, 'value', "noteval"),
-                tree.oval_tree.OvalNode(7, 'value', "notappl"),
-                tree.oval_tree.OvalNode(8, 'value', "notappl")
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'xor', [
+                graph.oval_graph.OvalNode(2, 'value', "unknown"),
+                graph.oval_graph.OvalNode(3, 'value', "unknown"),
+                graph.oval_graph.OvalNode(4, 'value', "true"),
+                graph.oval_graph.OvalNode(5, 'value', "unknown"),
+                graph.oval_graph.OvalNode(6, 'value', "noteval"),
+                graph.oval_graph.OvalNode(7, 'value', "notappl"),
+                graph.oval_graph.OvalNode(8, 'value', "notappl")
                 ]
                 )
 
@@ -432,14 +433,14 @@ def test_xORTreeUnknown():
 
 
 def test_XORTreeNoteval():
-    Tree = tree.oval_tree.OvalNode(1, 'operator', 'xor', [
-                tree.oval_tree.OvalNode(2, 'value', "noteval"),
-                tree.oval_tree.OvalNode(3, 'value', "noteval"),
-                tree.oval_tree.OvalNode(4, 'value', "true"),
-                tree.oval_tree.OvalNode(5, 'value', "true"),
-                tree.oval_tree.OvalNode(6, 'value', "noteval"),
-                tree.oval_tree.OvalNode(7, 'value', "notappl"),
-                tree.oval_tree.OvalNode(8, 'value', "notappl")
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'xor', [
+                graph.oval_graph.OvalNode(2, 'value', "noteval"),
+                graph.oval_graph.OvalNode(3, 'value', "noteval"),
+                graph.oval_graph.OvalNode(4, 'value', "true"),
+                graph.oval_graph.OvalNode(5, 'value', "true"),
+                graph.oval_graph.OvalNode(6, 'value', "noteval"),
+                graph.oval_graph.OvalNode(7, 'value', "notappl"),
+                graph.oval_graph.OvalNode(8, 'value', "notappl")
                 ]
                 )
 
@@ -447,10 +448,10 @@ def test_XORTreeNoteval():
 
 
 def test_XORTreeNotappl():
-    Tree = tree.oval_tree.OvalNode(1, 'operator', 'xor', [
-        tree.oval_tree.OvalNode(2, 'value', "notappl"),
-        tree.oval_tree.OvalNode(3, 'value', "notappl"),
-        tree.oval_tree.OvalNode(4, 'value', "notappl")
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'xor', [
+        graph.oval_graph.OvalNode(2, 'value', "notappl"),
+        graph.oval_graph.OvalNode(3, 'value', "notappl"),
+        graph.oval_graph.OvalNode(4, 'value', "notappl")
     ]
     )
 
@@ -458,22 +459,22 @@ def test_XORTreeNotappl():
 
 
 def test_bigOvalTree():
-    Tree = tree.oval_tree.OvalNode(1, 'operator', 'and', [
-                tree.oval_tree.OvalNode(2, 'value', "false"),
-                tree.oval_tree.OvalNode(3, 'operator', "xor", [
-                            tree.oval_tree.OvalNode(4, 'value', 'true'),
-                            tree.oval_tree.OvalNode(5, 'operator', 'one', [
-                                        tree.oval_tree.OvalNode(6, 'value', 'noteval'),
-                                        tree.oval_tree.OvalNode(7, 'value', 'true'), 
-                                        tree.oval_tree.OvalNode(8, 'value', 'notappl')
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', [
+                graph.oval_graph.OvalNode(2, 'value', "false"),
+                graph.oval_graph.OvalNode(3, 'operator', "xor", [
+                            graph.oval_graph.OvalNode(4, 'value', 'true'),
+                            graph.oval_graph.OvalNode(5, 'operator', 'one', [
+                                        graph.oval_graph.OvalNode(6, 'value', 'noteval'),
+                                        graph.oval_graph.OvalNode(7, 'value', 'true'), 
+                                        graph.oval_graph.OvalNode(8, 'value', 'notappl')
                                         ]
                                         ),
-                            tree.oval_tree.OvalNode(9, 'value', 'error')
+                            graph.oval_graph.OvalNode(9, 'value', 'error')
                             ]
                             ),
-                tree.oval_tree.OvalNode(10, 'operator', 'or', [
-                                        tree.oval_tree.OvalNode(11, 'value', "unknown"),
-                                        tree.oval_tree.OvalNode(12, 'value', "true")
+                graph.oval_graph.OvalNode(10, 'operator', 'or', [
+                                        graph.oval_graph.OvalNode(11, 'value', "unknown"),
+                                        graph.oval_graph.OvalNode(12, 'value', "true")
                                         ]
                                         )
                 ]
@@ -520,7 +521,7 @@ def any_test_treeEvaluation(tree, expect):
 
 
 def any_test_dict_to_tree(dict_of_tree):
-    treedict_of_tree = tree.oval_tree.restore_dict_to_tree(dict_of_tree)
+    treedict_of_tree = graph.oval_graph.restore_dict_to_tree(dict_of_tree)
     assert treedict_of_tree.save_tree_to_dict() == dict_of_tree
 
 
@@ -530,8 +531,8 @@ def test_treeRepr():
          |
          f
     """
-    Tree = tree.oval_tree.OvalNode(1, 'operator', 'and', [
-        tree.oval_tree.OvalNode(2, 'value', "false")
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', [
+        graph.oval_graph.OvalNode(2, 'value', "false")
     ]
     )
     assert str(Tree) == "and"
@@ -557,11 +558,11 @@ def test_add_to_tree():
                                'child':  None},
                               ]}
 
-    Tree = tree.oval_tree.OvalNode(1, 'operator', 'and', [
-        tree.oval_tree.OvalNode(2, 'value', "false")
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', [
+        graph.oval_graph.OvalNode(2, 'value', "false")
     ]
     )
-    Tree1 = tree.oval_tree.OvalNode(3, 'value', "true")
+    Tree1 = graph.oval_graph.OvalNode(3, 'value', "true")
     Tree.add_to_tree(1, Tree1)
     assert Tree.save_tree_to_dict() == dict_of_tree
 
@@ -574,12 +575,12 @@ def test_ChangeValueTree():
           / \
          f   t
     """
-    Tree = tree.oval_tree.OvalNode(1, 'operator', 'and', [
-        tree.oval_tree.OvalNode(2, 'value', "true"),
-        tree.oval_tree.OvalNode(3, 'value', "false"),
-        tree.oval_tree.OvalNode(4, 'operator', 'or', [
-            tree.oval_tree.OvalNode(5, 'value', "false"),
-            tree.oval_tree.OvalNode(6, 'value', "true")
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', [
+        graph.oval_graph.OvalNode(2, 'value', "true"),
+        graph.oval_graph.OvalNode(3, 'value', "false"),
+        graph.oval_graph.OvalNode(4, 'operator', 'or', [
+            graph.oval_graph.OvalNode(5, 'value', "false"),
+            graph.oval_graph.OvalNode(6, 'value', "true")
         ]
         )
     ]
@@ -590,50 +591,50 @@ def test_ChangeValueTree():
 
 
 def test_bad_operator_input_and():
-    Tree = tree.oval_tree.OvalNode(0, 'value', "true")
-    assert tree.evaluate.oval_operator_and(results_counts) is None
+    Tree = graph.oval_graph.OvalNode(0, 'value', "true")
+    assert graph.evaluate.oval_operator_and(results_counts) is None
 
 
 def test_bad_operator_input_one():
-    Tree = tree.oval_tree.OvalNode(0, 'value', "true")
-    assert tree.evaluate.oval_operator_one(results_counts) is None
+    Tree = graph.oval_graph.OvalNode(0, 'value', "true")
+    assert graph.evaluate.oval_operator_one(results_counts) is None
 
 
 def test_bad_operator_input_or():
-    Tree = tree.oval_tree.OvalNode(0, 'value', "true")
-    assert tree.evaluate.oval_operator_or(results_counts) is None
+    Tree = graph.oval_graph.OvalNode(0, 'value', "true")
+    assert graph.evaluate.oval_operator_or(results_counts) is None
 
 
 def test_bad_operator_input_xor():
-    Tree = tree.oval_tree.OvalNode(0, 'value', "true")
-    assert tree.evaluate.oval_operator_xor(results_counts) is None
+    Tree = graph.oval_graph.OvalNode(0, 'value', "true")
+    assert graph.evaluate.oval_operator_xor(results_counts) is None
 
 
 def test_false_noteval_greater_zero():
-    Tree = tree.oval_tree.OvalNode(0, 'value', "true")
-    assert tree.evaluate.noteval_greater_zero(results_counts) == False
+    Tree = graph.oval_graph.OvalNode(0, 'value', "true")
+    assert graph.evaluate.noteval_greater_zero(results_counts) == False
 
 
 def test_false_error_unknown_eq_noteval_greater_zero():
-    Tree = tree.oval_tree.OvalNode(0, 'value', "true")
-    assert tree.evaluate.error_unknown_eq_noteval_greater_zero(results_counts) == False
+    Tree = graph.oval_graph.OvalNode(0, 'value', "true")
+    assert graph.evaluate.error_unknown_eq_noteval_greater_zero(results_counts) == False
 
 
 def any_test_parsing_and_evaluate_scan_rule(src, rule_id, result):
     _dir = os.path.dirname(os.path.realpath(__file__))
     FIXTURE_DIR = py.path.local(_dir) / src
     
-    oval_tree = tree.oval_tree.xml_to_tree(str(FIXTURE_DIR), rule_id)
+    oval_tree = graph.oval_graph.build_nodes_form_xml(str(FIXTURE_DIR), rule_id)
     any_test_treeEvaluation(oval_tree, result)
 
 
 def get_simple_tree():
-    return tree.oval_tree.OvalNode(1, 'operator', 'and', [
-        tree.oval_tree.OvalNode(2, 'value', "true"),
-        tree.oval_tree.OvalNode(3, 'value', "false"),
-        tree.oval_tree.OvalNode(4, 'operator', 'or', [
-            tree.oval_tree.OvalNode(5, 'value', "false"),
-            tree.oval_tree.OvalNode(6, 'value', "true")
+    return graph.oval_graph.OvalNode(1, 'operator', 'and', [
+        graph.oval_graph.OvalNode(2, 'value', "true"),
+        graph.oval_graph.OvalNode(3, 'value', "false"),
+        graph.oval_graph.OvalNode(4, 'operator', 'or', [
+            graph.oval_graph.OvalNode(5, 'value', "false"),
+            graph.oval_graph.OvalNode(6, 'value', "true")
         ]
         )
     ]
@@ -672,8 +673,8 @@ def test_create_node_dict_for_sigmaJs_1():
         'x': 0,
         'y': 0
     }
-    Tree=tree.oval_tree.OvalNode(1, 'operator', 'and', [
-                tree.oval_tree.OvalNode(2, 'value', "true")
+    Tree=graph.oval_graph.OvalNode(1, 'operator', 'and', [
+                graph.oval_graph.OvalNode(2, 'value', "true")
             ]
             )
 
@@ -691,8 +692,8 @@ def test_create_node_dict_for_sigmaJs_2():
         'x': 0,
         'y': 0
     }
-    Tree=tree.oval_tree.OvalNode(1, 'operator', 'and', [
-                tree.oval_tree.OvalNode(2, 'value', "noteval")
+    Tree=graph.oval_graph.OvalNode(1, 'operator', 'and', [
+                graph.oval_graph.OvalNode(2, 'value', "noteval")
             ]
             )
 
@@ -710,7 +711,7 @@ def test_create_node_dict_for_sigmaJs_3():
         'x': 0,
         'y': 0
     }
-    Tree=tree.oval_tree.OvalNode(1, 'value', 'false')
+    Tree=graph.oval_graph.OvalNode(1, 'value', 'false')
 
     any_test_create_node_dict_for_sigmaJs(Tree,out)
 
@@ -726,7 +727,7 @@ def test_create_node_dict_for_sigmaJs_4():
         'x': 0,
         'y': 0
     }
-    Tree=tree.oval_tree.OvalNode(1, 'value', 'true')
+    Tree=graph.oval_graph.OvalNode(1, 'value', 'true')
 
     any_test_create_node_dict_for_sigmaJs(Tree,out)
 
@@ -743,7 +744,7 @@ def test_create_node_dict_for_sigmaJs_5():
         'x': 0,
         'y': 0
     }
-    Tree=tree.oval_tree.OvalNode(1, 'value', 'error')
+    Tree=graph.oval_graph.OvalNode(1, 'value', 'error')
 
     any_test_create_node_dict_for_sigmaJs(Tree,out)
 
@@ -1024,7 +1025,7 @@ def test_transformation_tree_to_Json_for_SigmaJs_0():
     src = 'data/ssg-fedora-ds-arf.xml'
     rule_id = 'xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny'
     
-    oval_tree = tree.oval_tree.xml_to_tree(src, rule_id)
+    oval_tree = graph.oval_graph.build_nodes_form_xml(src, rule_id)
     if oval_tree.node_id == rule_id:
         out_data = oval_tree.to_sigma_dict(0, 0)
         for i in range(len(out_data['nodes'])):
@@ -1299,7 +1300,7 @@ def test_transformation_tree_to_Json_for_SigmaJs_with_duplicated_test():
     src = 'data/ssg-fedora-ds-arf.xml'
     rule_id = 'xccdf_org.ssgproject.content_rule_disable_host_auth'
 
-    oval_tree = tree.oval_tree.xml_to_tree(src, rule_id)
+    oval_tree = graph.oval_graph.build_nodes_form_xml(src, rule_id)
     
     if oval_tree.node_id == rule_id:
         out_data = oval_tree.to_sigma_dict(0, 0)
@@ -1307,3 +1308,22 @@ def test_transformation_tree_to_Json_for_SigmaJs_with_duplicated_test():
             assert out_data['nodes'][i]['label']==test_data['nodes'][i]['label']
             assert out_data['nodes'][i]['text']==test_data['nodes'][i]['text']
             assert out_data['nodes'][i]['url']==test_data['nodes'][i]['url']
+
+
+def test_and_or_eq_zero():
+    assert graph.evaluate.and_or_eq_zero('and',results_counts) == False
+    assert graph.evaluate.and_or_eq_zero('or',results_counts) == False  
+    assert graph.evaluate.and_or_eq_zero('xor',results_counts) == None  
+
+
+def test_get_def_id_by_rule_id():
+    src = 'test_data/ssg-fedora-ds-arf.xml'
+    _dir = os.path.dirname(os.path.realpath(__file__))
+    FIXTURE_DIR = py.path.local(_dir) / src
+
+    parser = graph.xml_parser.xml_parser(str(FIXTURE_DIR))
+    
+    with pytest.raises(ValueError) as e:
+        parser.get_def_id_by_rule_id('hello')
+    assert str(
+        e.value) == 'err- 404 rule not found!'

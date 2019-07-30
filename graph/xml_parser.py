@@ -4,7 +4,7 @@
 
 from lxml import etree as ET
 import uuid
-import tree.oval_tree
+import graph.oval_graph
 
 
 class xml_parser():
@@ -67,7 +67,7 @@ class xml_parser():
                 children.append(self._xml_dict_to_node(child))
             else:
                 children.append(
-                    tree.oval_tree.OvalNode(
+                    graph.oval_graph.OvalNode(
                         child['value_id'],
                         'value',
                         child['value']))
@@ -76,7 +76,7 @@ class xml_parser():
             children[0].node_id = dict_of_definition['id']
             return children[0]
         else:
-            return tree.oval_tree.OvalNode(
+            return graph.oval_graph.OvalNode(
                 str(uuid.uuid4()),
                 'operator',
                 dict_of_definition['operator'],
@@ -92,7 +92,7 @@ class xml_parser():
 
     def xml_dict_of_rule_to_node(self, rule):
         dict_of_definition = rule['definition']
-        return tree.oval_tree.OvalNode(
+        return graph.oval_graph.OvalNode(
             rule['rule_id'],
             'operator',
             'and',

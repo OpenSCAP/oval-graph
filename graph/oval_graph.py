@@ -1,8 +1,7 @@
 '''
     Module for create ID
 '''
-import tree.xml_parser
-import tree.evaluate
+import graph.xml_parser
 import uuid
 import collections
 
@@ -18,7 +17,7 @@ import collections
 
 class OvalNode(object):
     '''
-    The OvalNode object is one node of oval tree.
+    The OvalNode object is one node of oval graph.
 
     Args:
         node_id (str|int): identifies node
@@ -112,21 +111,21 @@ class OvalNode(object):
                     result[child.evaluate_tree() + "_cnt"] += 1
 
         if result['notappl_cnt'] > 0\
-                and tree.evaluate.noteval_eq_zero(result)\
-                and tree.evaluate.false_eq_zero(result)\
-                and tree.evaluate.error_eq_zero(result)\
-                and tree.evaluate.unknown_eq_zero(result)\
-                and tree.evaluate.true_eq_zero(result):
+                and graph.evaluate.noteval_eq_zero(result)\
+                and graph.evaluate.false_eq_zero(result)\
+                and graph.evaluate.error_eq_zero(result)\
+                and graph.evaluate.unknown_eq_zero(result)\
+                and graph.evaluate.true_eq_zero(result):
             return "notappl"
         else:
             if self.value == "or":
-                return tree.evaluate.oval_operator_or(result)
+                return graph.evaluate.oval_operator_or(result)
             elif self.value == "and":
-                return tree.evaluate.oval_operator_and(result)
+                return graph.evaluate.oval_operator_and(result)
             elif self.value == "one":
-                return tree.evaluate.oval_operator_one(result)
+                return graph.evaluate.oval_operator_one(result)
             elif self.value == "xor":
-                return tree.evaluate.oval_operator_xor(result)
+                return graph.evaluate.oval_operator_xor(result)
 
     def save_tree_to_dict(self):
         if not self.children:
@@ -286,15 +285,15 @@ class OvalNode(object):
                     x_row + 1, y_row + 1, preprocessed_graph_data)
         return self._fix_graph(preprocessed_graph_data)
 
-    # TODO - create center graph
-    def center_graph(self, out):
-        return out
 
     def to_sigma_dict(self, x, y):
-        return self.center_graph(
-            self._remove_Duplication(
+        return self._remove_Duplication(
                 self._help_to_sigma_dict(
-                    x, y)))
+                    x, y))
+
+def build_nodes_form_xml(xml_src, rule_id):
+    parser = graph.xml_parser.xml_parser(xml_src)
+    return parser.get_oval_graph(rule_id)
 
 
 def restore_dict_to_tree(dict_of_tree):
@@ -309,9 +308,3 @@ def restore_dict_to_tree(dict_of_tree):
         dict_of_tree["value"],
         [restore_dict_to_tree(i) for i in dict_of_tree["child"]])
 
-# Function for transfer XML to OVAL_TREE
-
-
-def xml_to_tree(xml_src, rule_id):
-    parser = tree.xml_parser.xml_parser(xml_src)
-    return parser.xml_dict_of_rule_to_node(parser.parse_data_to_dict(rule_id))

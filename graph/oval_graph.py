@@ -285,11 +285,11 @@ class OvalNode(object):
                     x_row + 1, y_row + 1, preprocessed_graph_data)
         return self._fix_graph(preprocessed_graph_data)
 
-
     def to_sigma_dict(self, x, y):
         return self._remove_Duplication(
-                self._help_to_sigma_dict(
-                    x, y))
+            self._help_to_sigma_dict(
+                x, y))
+
 
 def build_nodes_form_xml(xml_src, rule_id):
     parser = graph.xml_parser.xml_parser(xml_src)
@@ -307,4 +307,3 @@ def restore_dict_to_tree(dict_of_tree):
         dict_of_tree["type"],
         dict_of_tree["value"],
         [restore_dict_to_tree(i) for i in dict_of_tree["child"]])
-

@@ -103,6 +103,7 @@ def oval_operator_xor(result):
         out_result = None
     return out_result
 
+
 def error_unknown_noteval_for_operators_and_or(result, operator):
     out_result = None
     if and_or_eq_zero(operator, result)\
@@ -118,13 +119,14 @@ def error_unknown_noteval_for_operators_and_or(result, operator):
         out_result = None
     return out_result
 
+
 def and_or_eq_zero(operator, result):
-    if(operator=='and'):
+    if operator == 'and':
         return false_eq_zero(result)
-    if(operator=='or'):
+    if operator == 'or':
         return true_eq_zero(result)
     return None
-    
+
 
 def noteval_eq_zero(result):
     if result['noteval_cnt'] == 0:

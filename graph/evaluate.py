@@ -4,6 +4,9 @@
 
 
 def oval_operator_and(result):
+    """
+        The AND operator produces a true result if every argument is true. If one or more arguments are false, the result of the AND is false. If one or more of the arguments are unknown, and if none of the arguments are false, then the AND operator produces a result of unknown.
+    """
     out_result = None
     if false_eq_zero(result)\
             and true_greater_zero(result)\
@@ -17,12 +20,13 @@ def oval_operator_and(result):
 
 
 def oval_operator_one(result):
+    """
+        The ONE operator produces a true result if one and only one argument is true. If there are more than argument is true (or if there are no true arguments), the result of the ONE is false. If one or more of the arguments are unknown, then the ONE operator produces a result of unknown.
+    """
     out_result = None
     if result['true_cnt'] == 1\
             and result['false_cnt'] >= 0\
-            and error_eq_zero(result)\
-            and unknown_eq_zero(result)\
-            and noteval_eq_zero(result)\
+            and error_unknown_noteval_eq_zero(result)\
             and result['notappl_cnt'] >= 0:
         out_result = 'true'
     elif result['true_cnt'] >= 2\
@@ -66,6 +70,9 @@ def oval_operator_one(result):
 
 
 def oval_operator_or(result):
+    """
+        The OR operator produces a true result if one or more arguments is true. If every argument is false, the result of the OR is false. If one or more of the arguments are unknown and if none of arguments are true, then the OR operator produces a result of unknown.
+    """
     out_result = None
     if true_greater_zero(result):
         out_result = 'true'
@@ -79,6 +86,9 @@ def oval_operator_or(result):
 
 
 def oval_operator_xor(result):
+    """
+        XOR is defined to be true if an odd number of its arguments are true, and false otherwise. If any of the arguments are unknown, then the XOR operator produces a result of unknown.
+    """
     out_result = None
     if (result['true_cnt'] % 2) == 1\
             and error_eq_zero(result)\

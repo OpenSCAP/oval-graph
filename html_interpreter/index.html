@@ -74,22 +74,9 @@
   <div id="graph-container"></div>
 </div>
 <script>
-/**
- * Here is just a basic example on how to properly display a graph
- * exported from Gephi as a JSON file, with the JSON Exporter plugin from
- * the Oxford Internet Institute:
- *
- *  > https://marketplace.gephi.org/plugin/json-exporter/
- *
- * The plugin sigma.parsers.json can load and parse the JSON graph file,
- * and instantiate sigma when the graph is received.
- *
- * The object given as the second parameter is the base of the instance
- * configuration object. The plugin will just add the "graph" key to it
- * before the instanciation.
- */
-// Configure the noverlap layout:
+// Prepare data form data.js 
 var data = JSON.parse(JSON.stringify(data_json));
+
 // Instantiate sigma:
 s = new sigma({
     graph: data,
@@ -98,24 +85,26 @@ s = new sigma({
           drawLabels: true,
           enableHovering: true
         }
-      },
-      function(s) {
-        s.bind('clickNode', function(e) {
-          console.log(e);
-          alert("title: "+e.data.node.title+"\n"+
-                "url: "+e.data.node.url+"\n"+
-                "text: "+e.data.node.text+"\n")
-          //var url = e.data.node.urlField;
-          //goToSomeUrl(url);
-        });
-       //s.startForceAtlas2({worker: true, barnesHutOptimize: false})
-        var noverlapListener = s.configNoverlap({
-          nodeMargin: 0.1,
-          scaleNodes: 2.00,
-          gridSize: 150,
-          });
-        s.startNoverlap();
-        });
+      });
+      
+s.bind('clickNode', function(e) {
+  console.log(e);
+  alert("title: "+e.data.node.title+"\n"+
+  "url: "+e.data.node.url+"\n"+
+  "text: "+e.data.node.text+"\n")
+  //var url = e.data.node.urlField;
+  //goToSomeUrl(url);
+  });
+
+//s.startForceAtlas2({worker: true, barnesHutOptimize: false})
+
+var noverlapListener = s.configNoverlap({
+  nodeMargin: 0.1,
+  scaleNodes: 2.00,
+  gridSize: 150,
+  });
+
+s.startNoverlap();
 </script>
 </body>
 </html>

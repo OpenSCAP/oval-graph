@@ -2,6 +2,7 @@
     Module for create ID
 '''
 import graph.xml_parser
+import graph.evaluate
 import uuid
 import collections
 

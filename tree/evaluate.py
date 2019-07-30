@@ -11,17 +11,8 @@ def oval_operator_and(result):
         out_result = 'true'
     elif false_greater_zero(result):
         out_result = 'false'
-    elif false_eq_zero(result)\
-            and error_greater_zero(result):
-        out_result = 'error'
-    elif false_eq_zero(result)\
-            and error_unknown_eq_zero(result):
-        out_result = 'unknown'
-    elif false_eq_zero(result)\
-            and error_unknown_eq_noteval_greater_zero(result):
-        out_result = 'noteval'
     else:
-        out_result = None
+        out_result = error_unknown_noteval_for_operators_and_or(result, 'and')
     return out_result
 
 
@@ -82,17 +73,8 @@ def oval_operator_or(result):
             and false_greater_zero(result)\
             and error_unknown_noteval_eq_zero(result):
         out_result = 'false'
-    elif true_eq_zero(result)\
-            and error_greater_zero(result):
-        out_result = 'error'
-    elif true_eq_zero(result)\
-            and error_unknown_eq_zero(result):
-        out_result = 'unknown'
-    elif true_eq_zero(result)\
-            and error_unknown_eq_noteval_greater_zero(result):
-        out_result = 'noteval'
     else:
-        out_result = None
+        out_result = error_unknown_noteval_for_operators_and_or(result, 'or')
     return out_result
 
 
@@ -121,6 +103,28 @@ def oval_operator_xor(result):
         out_result = None
     return out_result
 
+def error_unknown_noteval_for_operators_and_or(result, operator):
+    out_result = None
+    if and_or_eq_zero(operator, result)\
+            and error_greater_zero(result):
+        out_result = 'error'
+    elif and_or_eq_zero(operator, result)\
+            and error_unknown_eq_zero(result):
+        out_result = 'unknown'
+    elif and_or_eq_zero(operator, result)\
+            and error_unknown_eq_noteval_greater_zero(result):
+        out_result = 'noteval'
+    else:
+        out_result = None
+    return out_result
+
+def and_or_eq_zero(operator, result):
+    if(operator=='and'):
+        return false_eq_zero(result)
+    if(operator=='or'):
+        return true_eq_zero(result)
+    return None
+    
 
 def noteval_eq_zero(result):
     if result['noteval_cnt'] == 0:

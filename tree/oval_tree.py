@@ -109,7 +109,7 @@ class OvalNode(object):
                 result['notappl_cnt'] += 1
             else:
                 if self.node_type == "operator":
-                    result[str(child.evaluate_tree()) + "_cnt"] += 1
+                    result[child.evaluate_tree() + "_cnt"] += 1
 
         if result['notappl_cnt'] > 0\
                 and tree.evaluate.noteval_eq_zero(result)\

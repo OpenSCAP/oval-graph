@@ -1,20 +1,11 @@
 '''
-    Module form my lib
+    Modules for create node IDs and parsing xml
 '''
+
 from lxml import etree as ET
 import uuid
 import tree.oval_tree
 
-'''
-    Module for create ID
-'''
-
-'''
-    Module for parsing XML
-'''
-
-
-# Mine data form XML
 
 class xml_parser():
     def __init__(self, src):
@@ -47,10 +38,10 @@ class xml_parser():
         rules = []
         for ruleResult in rulesResults:
             result = ruleResult.find('.//ns0:result', ns)
-            if(result.text != "notselected"):
+            if result.text != "notselected":
                 check_content_ref = ruleResult.find(
                     './/ns0:check/ns0:check-content-ref', ns)
-                if(check_content_ref is not None):
+                if check_content_ref is not None:
                     rules.append(dict(
                         id_rule=ruleResult.get('idref'),
                         id_def=check_content_ref.attrib.get('name'),
@@ -65,7 +56,6 @@ class xml_parser():
             scan['definitions'].append(self.build_graph(i))
 
         definitions = self._fill_extend_definition(scan)
-        print(definitions)
         for definition in definitions['definitions']:
             if self.get_def_id_by_rule_id(rule_id) == definition['id']:
                 return dict(rule_id=rule_id, definition=definition)

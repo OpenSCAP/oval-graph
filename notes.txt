@@ -33,13 +33,22 @@ https://oval.mitre.org/language/version5.11/ovaldefinition/documentation/oval-co
 6]pep8 - done
 7]fix id nodes in dicts - done
 8]rework parsing - done 
+
 9]TESTY - 50%
-10]fix ci
-11]interpret by html and js 50%
-12]find and fix 
-13] find duplicated nodes - done 
-14]create console app 
-15]Fix info in js 
+10]interpret by html and js 50%
+
+11]find duplicated nodes - done 
+
+12]create console app - 50% 
+
+14]info in js 
+
+TODO2
+1] center graph
+2] Html report
+3] negation
+4] overlap
+
 
 FIX = python3 run.py data/ssg-fedora-ds-arf.xml xccdf_org.ssgproject.content_rule_dconf_gnome_session_idle_user_locks
 

@@ -77,6 +77,9 @@
 // Prepare data form data.js 
 var data = JSON.parse(JSON.stringify(data_json));
 
+sigma.settings.nodesPowRatio = 0.5;
+sigma.settings.autoRescale = true;
+
 // Instantiate sigma:
 s = new sigma({
     graph: data,
@@ -96,8 +99,6 @@ s.bind('clickNode', function(e) {
   //goToSomeUrl(url);
   });
 
-//s.startForceAtlas2({worker: true, barnesHutOptimize: false})
-
 var noverlapListener = s.configNoverlap({
   nodeMargin: 0.1,
   scaleNodes: 2.00,
@@ -105,6 +106,7 @@ var noverlapListener = s.configNoverlap({
   });
 
 s.startNoverlap();
+//s.startForceAtlas2({worker: true, barnesHutOptimize: false});
 </script>
 </body>
 </html>

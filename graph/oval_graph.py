@@ -166,26 +166,42 @@ class OvalNode(object):
             return {
                 'id': self.node_id,
                 'label': self.value,
+                'label': self.node_id.replace(
+                    'xccdf_org.ssgproject.content_rule_',
+                    '').replace(
+                    'oval:ssg-',
+                    '').replace(
+                    ':def:1',
+                    '').replace(
+                    ':tst:1',
+                    ''),
                 'url': 'null',
                 'text': 'null',
                 'title': self.node_id,
                 "x": x,
                 "y": y,
                 "size": 3,
-                "color": '#00ff00'
-            }
+                "color": '#00ff00'}
         elif self.value == 'false':
             return {
                 'id': self.node_id,
                 'label': self.value,
+                'label': self.node_id.replace(
+                    'xccdf_org.ssgproject.content_rule_',
+                    '').replace(
+                    'oval:ssg-',
+                    '').replace(
+                    ':def:1',
+                    '').replace(
+                    ':tst:1',
+                    ''),
                 'url': 'null',
                 'text': 'null',
                 'title': self.node_id,
                 "x": x,
                 "y": y,
                 "size": 3,
-                "color": '#ff0000'
-            }
+                "color": '#ff0000'}
         else:
             if self.evaluate_tree() == 'true':
                 return {

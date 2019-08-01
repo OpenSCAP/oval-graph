@@ -23,22 +23,22 @@ var data_json ={
             "color": "#00ff00"
         },
         {
-            "id": "96bdb8b3-4d9c-4546-9732-67227f131100",
+            "id": "ee42cc55-bd5c-47a5-93df-d8922c5ebf52",
             "label": "and",
             "url": "null",
             "text": "null",
-            "title": "96bdb8b3-4d9c-4546-9732-67227f131100",
+            "title": "ee42cc55-bd5c-47a5-93df-d8922c5ebf52",
             "x": -15,
             "y": 3,
             "size": 3,
             "color": "#ff0000"
         },
         {
-            "id": "b3bc349e-4930-418c-bf1f-9f433657af09",
+            "id": "21c11dd3-635f-47ff-adeb-da72104ff5fb",
             "label": "or",
             "url": "null",
             "text": "null",
-            "title": "b3bc349e-4930-418c-bf1f-9f433657af09",
+            "title": "21c11dd3-635f-47ff-adeb-da72104ff5fb",
             "x": -13,
             "y": 5,
             "size": 3,
@@ -46,7 +46,7 @@ var data_json ={
         },
         {
             "id": "oval:ssg-test_sshd_not_required:tst:1",
-            "label": "false",
+            "label": "test_sshd_not_required",
             "url": "null",
             "text": "null",
             "title": "oval:ssg-test_sshd_not_required:tst:1",
@@ -56,22 +56,22 @@ var data_json ={
             "color": "#ff0000"
         },
         {
-            "id": "9706d717-7d92-4631-b8c3-23d168e9f162",
+            "id": "9d581250-e995-41ad-83bd-8cbd297ecb12",
             "label": "and",
             "url": "null",
             "text": "null",
-            "title": "9706d717-7d92-4631-b8c3-23d168e9f162",
+            "title": "9d581250-e995-41ad-83bd-8cbd297ecb12",
             "x": -9,
             "y": 7,
             "size": 3,
             "color": "#00ff00"
         },
         {
-            "id": "c336b850-679b-4e95-964d-37e7d58f89e4",
+            "id": "b529eeef-a9ae-4714-b138-933a06e63af9",
             "label": "and",
             "url": "null",
             "text": "null",
-            "title": "c336b850-679b-4e95-964d-37e7d58f89e4",
+            "title": "b529eeef-a9ae-4714-b138-933a06e63af9",
             "x": -8,
             "y": 5,
             "size": 3,
@@ -79,7 +79,7 @@ var data_json ={
         },
         {
             "id": "oval:ssg-test_package_openssh-server_removed:tst:1",
-            "label": "false",
+            "label": "test_package_openssh-server_removed",
             "url": "null",
             "text": "null",
             "title": "oval:ssg-test_package_openssh-server_removed:tst:1",
@@ -89,22 +89,22 @@ var data_json ={
             "color": "#ff0000"
         },
         {
-            "id": "912a1471-72cf-49e1-a054-d55781a0c191",
+            "id": "feae3049-c8fc-465b-bbdf-2c5172b43561",
             "label": "and",
             "url": "null",
             "text": "null",
-            "title": "912a1471-72cf-49e1-a054-d55781a0c191",
+            "title": "feae3049-c8fc-465b-bbdf-2c5172b43561",
             "x": -7,
             "y": 3,
             "size": 3,
             "color": "#00ff00"
         },
         {
-            "id": "b1372f91-6f2c-4edc-8913-19d1f227a0db",
+            "id": "8b779d02-3706-44dd-91b9-b4d5b63ba1b5",
             "label": "or",
             "url": "null",
             "text": "null",
-            "title": "b1372f91-6f2c-4edc-8913-19d1f227a0db",
+            "title": "8b779d02-3706-44dd-91b9-b4d5b63ba1b5",
             "x": -5,
             "y": 5,
             "size": 3,
@@ -112,7 +112,7 @@ var data_json ={
         },
         {
             "id": "oval:ssg-test_sshd_required:tst:1",
-            "label": "false",
+            "label": "test_sshd_required",
             "url": "null",
             "text": "null",
             "title": "oval:ssg-test_sshd_required:tst:1",
@@ -122,22 +122,22 @@ var data_json ={
             "color": "#ff0000"
         },
         {
-            "id": "4acff7c6-b693-4652-8592-a735786a9927",
+            "id": "8bcf281f-84f4-437c-a62c-66e8392c26e5",
             "label": "and",
             "url": "null",
             "text": "null",
-            "title": "4acff7c6-b693-4652-8592-a735786a9927",
+            "title": "8bcf281f-84f4-437c-a62c-66e8392c26e5",
             "x": -1,
             "y": 7,
             "size": 3,
             "color": "#00ff00"
         },
         {
-            "id": "c57402d1-55b7-42e2-a2eb-5dfdeb55ae99",
+            "id": "e01d9064-41fa-444e-bd20-ee65c04df11e",
             "label": "and",
             "url": "null",
             "text": "null",
-            "title": "c57402d1-55b7-42e2-a2eb-5dfdeb55ae99",
+            "title": "e01d9064-41fa-444e-bd20-ee65c04df11e",
             "x": 0,
             "y": 5,
             "size": 3,
@@ -145,7 +145,7 @@ var data_json ={
         },
         {
             "id": "oval:ssg-test_package_openssh-server_installed:tst:1",
-            "label": "true",
+            "label": "test_package_openssh-server_installed",
             "url": "null",
             "text": "null",
             "title": "oval:ssg-test_package_openssh-server_installed:tst:1",
@@ -156,7 +156,7 @@ var data_json ={
         },
         {
             "id": "oval:ssg-test_sshd_hostbasedauthentication:tst:1",
-            "label": "true",
+            "label": "test_sshd_hostbasedauthentication",
             "url": "null",
             "text": "null",
             "title": "oval:ssg-test_sshd_hostbasedauthentication:tst:1",
@@ -167,7 +167,7 @@ var data_json ={
         },
         {
             "id": "oval:ssg-test_sshd_requirement_unset:tst:1",
-            "label": "true",
+            "label": "test_sshd_requirement_unset",
             "url": "null",
             "text": "null",
             "title": "oval:ssg-test_sshd_requirement_unset:tst:1",
@@ -179,83 +179,83 @@ var data_json ={
     ],
     "edges": [
         {
-            "id": "4ae9f842-0f46-460f-8728-ac435d8e65e5",
+            "id": "a26f56cc-2283-4415-aa53-c2dd373f1e7f",
             "source": "xccdf_org.ssgproject.content_rule_disable_host_auth",
             "target": "oval:ssg-disable_host_auth:def:1"
         },
         {
-            "id": "43a9f878-4376-4bc1-a7fd-db802597d91c",
+            "id": "5e999b99-02ff-40ed-9f01-9c6fea3ab66d",
             "source": "oval:ssg-disable_host_auth:def:1",
-            "target": "96bdb8b3-4d9c-4546-9732-67227f131100"
+            "target": "ee42cc55-bd5c-47a5-93df-d8922c5ebf52"
         },
         {
-            "id": "337e875c-1c96-45dd-919e-26d012f6f153",
-            "source": "96bdb8b3-4d9c-4546-9732-67227f131100",
-            "target": "b3bc349e-4930-418c-bf1f-9f433657af09"
+            "id": "4240f6af-5520-44d1-aca0-b3ca22979454",
+            "source": "ee42cc55-bd5c-47a5-93df-d8922c5ebf52",
+            "target": "21c11dd3-635f-47ff-adeb-da72104ff5fb"
         },
         {
-            "id": "237b106a-4879-4400-8200-016b452505de",
-            "source": "b3bc349e-4930-418c-bf1f-9f433657af09",
+            "id": "613bc5fd-ee06-4a58-8a4d-84ce3be8d2a8",
+            "source": "21c11dd3-635f-47ff-adeb-da72104ff5fb",
             "target": "oval:ssg-test_sshd_not_required:tst:1"
         },
         {
-            "id": "c9a8d4ee-70c6-4f6a-b7ef-8381dae35740",
-            "source": "b3bc349e-4930-418c-bf1f-9f433657af09",
-            "target": "9706d717-7d92-4631-b8c3-23d168e9f162"
+            "id": "928dfd48-241e-4f8b-bf2d-a5468546c27a",
+            "source": "21c11dd3-635f-47ff-adeb-da72104ff5fb",
+            "target": "9d581250-e995-41ad-83bd-8cbd297ecb12"
         },
         {
-            "id": "f1ebe72f-3db9-4a81-b3a3-aee3dcc2eb49",
-            "source": "9706d717-7d92-4631-b8c3-23d168e9f162",
+            "id": "2f8101d4-4cf7-44b7-b343-30c74e6af89f",
+            "source": "9d581250-e995-41ad-83bd-8cbd297ecb12",
             "target": "oval:ssg-test_sshd_requirement_unset:tst:1"
         },
         {
-            "id": "c225c505-50f3-4423-a121-cf72f0bab44a",
-            "source": "96bdb8b3-4d9c-4546-9732-67227f131100",
-            "target": "c336b850-679b-4e95-964d-37e7d58f89e4"
+            "id": "6d90f3bb-b7d8-4016-8177-859dc0d35fa2",
+            "source": "ee42cc55-bd5c-47a5-93df-d8922c5ebf52",
+            "target": "b529eeef-a9ae-4714-b138-933a06e63af9"
         },
         {
-            "id": "77a72430-2918-4feb-93a8-c24f81556799",
-            "source": "c336b850-679b-4e95-964d-37e7d58f89e4",
+            "id": "5c933b22-1ae9-4a6c-ae75-14ee8984b077",
+            "source": "b529eeef-a9ae-4714-b138-933a06e63af9",
             "target": "oval:ssg-test_package_openssh-server_removed:tst:1"
         },
         {
-            "id": "864d88ca-5fd6-404f-af3a-addecd0a048a",
+            "id": "8e294ba6-2bd1-4dd7-a6b2-90f16b8bd959",
             "source": "oval:ssg-disable_host_auth:def:1",
-            "target": "912a1471-72cf-49e1-a054-d55781a0c191"
+            "target": "feae3049-c8fc-465b-bbdf-2c5172b43561"
         },
         {
-            "id": "0c65f824-b7cc-4532-95d9-bd93f7c9e8b1",
-            "source": "912a1471-72cf-49e1-a054-d55781a0c191",
-            "target": "b1372f91-6f2c-4edc-8913-19d1f227a0db"
+            "id": "840a2b8d-d1d0-4d39-b42e-b465d6f5690b",
+            "source": "feae3049-c8fc-465b-bbdf-2c5172b43561",
+            "target": "8b779d02-3706-44dd-91b9-b4d5b63ba1b5"
         },
         {
-            "id": "1987c86f-a159-4439-89ad-52f5cf2de8cd",
-            "source": "b1372f91-6f2c-4edc-8913-19d1f227a0db",
+            "id": "c7ad94c7-a7dc-4257-8fd9-0b0cc58afc8d",
+            "source": "8b779d02-3706-44dd-91b9-b4d5b63ba1b5",
             "target": "oval:ssg-test_sshd_required:tst:1"
         },
         {
-            "id": "ddc0c3b4-20a5-4acc-81db-d924ef78fd1f",
-            "source": "b1372f91-6f2c-4edc-8913-19d1f227a0db",
-            "target": "4acff7c6-b693-4652-8592-a735786a9927"
+            "id": "7cc68543-068e-475c-b440-66efd58a5e2f",
+            "source": "8b779d02-3706-44dd-91b9-b4d5b63ba1b5",
+            "target": "8bcf281f-84f4-437c-a62c-66e8392c26e5"
         },
         {
-            "id": "2a946c3e-b4e5-42a3-a32c-4114e9467642",
-            "source": "4acff7c6-b693-4652-8592-a735786a9927",
+            "id": "1af2728d-502b-41cc-9716-4c4f65b2481f",
+            "source": "8bcf281f-84f4-437c-a62c-66e8392c26e5",
             "target": "oval:ssg-test_sshd_requirement_unset:tst:1"
         },
         {
-            "id": "04e6abd1-4516-46b2-8efe-615f42b8d35b",
-            "source": "912a1471-72cf-49e1-a054-d55781a0c191",
-            "target": "c57402d1-55b7-42e2-a2eb-5dfdeb55ae99"
+            "id": "34c04ba6-ce41-43b5-b7fa-2c5f9c8bf938",
+            "source": "feae3049-c8fc-465b-bbdf-2c5172b43561",
+            "target": "e01d9064-41fa-444e-bd20-ee65c04df11e"
         },
         {
-            "id": "9c1eefdb-ecb4-43f5-916f-fe6204ae468b",
-            "source": "c57402d1-55b7-42e2-a2eb-5dfdeb55ae99",
+            "id": "a4e1f20b-5ed2-4e46-808f-701b5c5f94b4",
+            "source": "e01d9064-41fa-444e-bd20-ee65c04df11e",
             "target": "oval:ssg-test_package_openssh-server_installed:tst:1"
         },
         {
-            "id": "c91eee3e-fdb9-4a15-b3f0-2568e4ee6af1",
-            "source": "912a1471-72cf-49e1-a054-d55781a0c191",
+            "id": "eef0f45b-92ff-4dc5-8e62-29a199a23316",
+            "source": "feae3049-c8fc-465b-bbdf-2c5172b43561",
             "target": "oval:ssg-test_sshd_hostbasedauthentication:tst:1"
         }
     ]

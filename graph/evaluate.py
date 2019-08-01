@@ -47,19 +47,19 @@ def oval_operator_one(result):
             and error_unknown_noteval_eq_zero(result)\
             and result['notappl_cnt'] >= 0:
         out_result = 'false'
-    elif result['true_cnt'] < 2\
+    elif smaller_than_two(result, 'true_cnt')\
             and eq_or_greater_zero(result, 'false_cnt')\
             and greater_zero(result, 'error_cnt')\
             and eq_or_greater_zero_unknown_noteval_notappl(result):
         out_result = 'error'
-    elif result['true_cnt'] < 2\
+    elif smaller_than_two(result, 'true_cnt')\
             and eq_or_greater_zero(result, 'false_cnt')\
             and eq_zero(result, 'error_cnt')\
             and result['unknown_cnt'] >= 1\
             and eq_or_greater_zero(result, 'noteval_cnt')\
             and eq_or_greater_zero(result, 'notappl_cnt'):
         out_result = 'unknown'
-    elif result['true_cnt'] < 2\
+    elif smaller_than_two(result, 'true_cnt')\
             and eq_or_greater_zero(result, 'false_cnt')\
             and eq_zero(result, 'error_cnt')\
             and eq_zero(result, 'unknown_cnt')\
@@ -153,6 +153,10 @@ def eq_or_greater_zero(result, cnt):
         return True
     return False
 
+def smaller_than_two(result, cnt):
+    if result[cnt] < 2:
+        return True
+    return False
 
 def eq_or_greater_zero_unknown_noteval_notappl(result):
     if eq_or_greater_zero(result, 'unknown_cnt')\

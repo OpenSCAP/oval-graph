@@ -15,6 +15,14 @@ results_counts = {
     'notappl_cnt': -1
 }
 
+results_counts1 = {
+    'true_cnt': 3,
+    'false_cnt': 3,
+    'error_cnt': 3,
+    'unknown_cnt': 0,
+    'noteval_cnt': -1,
+    'notappl_cnt': 3
+}
 
 def test_bad_tree():
     with pytest.raises(ValueError) as e:
@@ -608,6 +616,14 @@ def test_bad_results_counts_for_operator_xor():
 
 def test_false_noteval_greater_zero():
     assert graph.evaluate.greater_zero(results_counts,'noteval_cnt') == False
+
+
+def test_false_smaller_then_two():
+    assert graph.evaluate.smaller_than_two(results_counts1, 'true_cnt') == False
+
+
+def test_false_eq_or_greater_zero_unknown_noteval_notappl():
+    assert graph.evaluate.eq_or_greater_zero_unknown_noteval_notappl(results_counts1) == False
 
 
 def test_false_error_unknown_eq_noteval_greater_zero():

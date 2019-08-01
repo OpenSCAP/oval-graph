@@ -1,5 +1,5 @@
 TESTY
-python3 -m pytest --cov tree --cov-report html --cov-branch
+python3 -m pytest --cov graph --cov-report html --cov-branch
 python3 -m pytest 
  
 PEP8 

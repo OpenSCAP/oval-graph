@@ -590,33 +590,27 @@ def test_ChangeValueTree():
     any_test_treeEvaluation(Tree, "true")
 
 
-def test_bad_operator_input_and():
-    Tree = graph.oval_graph.OvalNode(0, 'value', "true")
+def test_bad_results_counts_for_operator_and():
     assert graph.evaluate.oval_operator_and(results_counts) is None
 
 
-def test_bad_operator_input_one():
-    Tree = graph.oval_graph.OvalNode(0, 'value', "true")
+def test_bad_results_counts_for_operator_one():
     assert graph.evaluate.oval_operator_one(results_counts) is None
 
 
-def test_bad_operator_input_or():
-    Tree = graph.oval_graph.OvalNode(0, 'value', "true")
+def test_bad_results_counts_for_operator_or():
     assert graph.evaluate.oval_operator_or(results_counts) is None
 
 
-def test_bad_operator_input_xor():
-    Tree = graph.oval_graph.OvalNode(0, 'value', "true")
+def test_bad_results_counts_for_operator_xor():
     assert graph.evaluate.oval_operator_xor(results_counts) is None
 
 
 def test_false_noteval_greater_zero():
-    Tree = graph.oval_graph.OvalNode(0, 'value', "true")
-    assert graph.evaluate.noteval_greater_zero(results_counts) == False
+    assert graph.evaluate.greater_zero(results_counts,'noteval_cnt') == False
 
 
 def test_false_error_unknown_eq_noteval_greater_zero():
-    Tree = graph.oval_graph.OvalNode(0, 'value', "true")
     assert graph.evaluate.error_unknown_eq_noteval_greater_zero(results_counts) == False
 
 

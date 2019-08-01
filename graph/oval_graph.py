@@ -112,11 +112,11 @@ class OvalNode(object):
                     result[child.evaluate_tree() + "_cnt"] += 1
 
         if result['notappl_cnt'] > 0\
-                and graph.evaluate.noteval_eq_zero(result)\
-                and graph.evaluate.false_eq_zero(result)\
-                and graph.evaluate.error_eq_zero(result)\
-                and graph.evaluate.unknown_eq_zero(result)\
-                and graph.evaluate.true_eq_zero(result):
+                and graph.evaluate.eq_zero(result,'noteval_cnt')\
+                and graph.evaluate.eq_zero(result, 'false_cnt')\
+                and graph.evaluate.eq_zero(result, 'error_cnt')\
+                and graph.evaluate.eq_zero(result, 'unknown_cnt')\
+                and graph.evaluate.eq_zero(result, 'true_cnt'):
             return "notappl"
         else:
             if self.value == "or":

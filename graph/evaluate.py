@@ -44,9 +44,7 @@ def oval_operator_one(result):
         out_result = 'false'
     elif eq_zero(result, 'true_cnt')\
             and eq_or_greater_zero(result, 'false_cnt')\
-            and eq_zero(result, 'error_cnt')\
-            and eq_zero(result, 'unknown_cnt')\
-            and eq_zero(result, 'noteval_cnt')\
+            and error_unknown_noteval_eq_zero(result)\
             and result['notappl_cnt'] >= 0:
         out_result = 'false'
     elif result['true_cnt'] < 2\

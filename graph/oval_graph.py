@@ -112,10 +112,8 @@ class OvalNode(object):
                     result[child.evaluate_tree() + "_cnt"] += 1
 
         if result['notappl_cnt'] > 0\
-                and graph.evaluate.eq_zero(result,'noteval_cnt')\
                 and graph.evaluate.eq_zero(result, 'false_cnt')\
-                and graph.evaluate.eq_zero(result, 'error_cnt')\
-                and graph.evaluate.eq_zero(result, 'unknown_cnt')\
+                and graph.evaluate.error_unknown_noteval_eq_zero(result)\
                 and graph.evaluate.eq_zero(result, 'true_cnt'):
             return "notappl"
         else:

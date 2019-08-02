@@ -166,7 +166,7 @@ class OvalNode(object):
             return {
                 'id': self.node_id,
                 'label': self.value,
-                'label': self.node_id.replace(
+                'label': str(self.node_id).replace(
                     'xccdf_org.ssgproject.content_rule_',
                     '').replace(
                     'oval:ssg-',
@@ -186,7 +186,7 @@ class OvalNode(object):
             return {
                 'id': self.node_id,
                 'label': self.value,
-                'label': self.node_id.replace(
+                'label': str(self.node_id).replace(
                     'xccdf_org.ssgproject.content_rule_',
                     '').replace(
                     'oval:ssg-',

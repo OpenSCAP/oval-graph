@@ -47,7 +47,8 @@ TODO2
 1] center graph
 2] Html report
 3] negation
-4] overlap
+4] overlap 
+5] fix tests
 
 
 FIX = python3 run.py data/ssg-fedora-ds-arf.xml xccdf_org.ssgproject.content_rule_dconf_gnome_session_idle_user_locks

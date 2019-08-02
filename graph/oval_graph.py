@@ -174,7 +174,7 @@ class OvalNode(object):
                     ':def:1',
                     '').replace(
                     ':tst:1',
-                    ''),
+                    '').replace('test_',''),
                 'url': 'null',
                 'text': 'null',
                 'title': self.node_id,
@@ -194,7 +194,7 @@ class OvalNode(object):
                     ':def:1',
                     '').replace(
                     ':tst:1',
-                    ''),
+                    '').replace('test_',''),
                 'url': 'null',
                 'text': 'null',
                 'title': self.node_id,
@@ -300,10 +300,90 @@ class OvalNode(object):
                     x_row + 1, y_row + 1, preprocessed_graph_data)
         return self._fix_graph(preprocessed_graph_data)
 
+    def center_graph(self, out):
+        import json
+        maxY=0
+        for node in out['nodes']:
+            if(maxY<node['y']):
+                maxY=node['y']
+        nodesInRows = dict()
+        for i in range(maxY+1):
+            nodesInRows[i]=[]
+        for node in out['nodes']:
+            nodesInRows[node['y']].append(node)
+        for row in range(maxY+1):
+            if not nodesInRows[row]:
+                del nodesInRows[row]
+        count=0
+        nodesInRows1=dict()
+        for row in nodesInRows:
+            nodesInRows1[count]=nodesInRows[row]
+            for node in nodesInRows1[count]:
+                node['y'] = count
+            count+=1
+        
+        for row in nodesInRows1:
+            lenOfRow=len(nodesInRows1[row])
+            if lenOfRow>1:
+                if (lenOfRow % 2) == 1:
+                    lenOfRow+=1
+                positions=[]
+                for i in range((int(-(lenOfRow/2)))*2,(int(+(lenOfRow/2))+1)*2,2):
+                    positions.append(i)
+                if lenOfRow==2:
+                    positions.remove(0)
+                if len(nodesInRows1[row])<len(positions):
+                    positions.pop()
+                    if len(nodesInRows1[row])<len(positions):
+                        positions.pop(0)
+                count1=0
+                for pos in positions:
+                    nodesInRows1[row][count1]['x']=pos
+                    count1+=1
+            else:
+                nodesInRows1[row][0]['x'] = 0
+        x=0.6
+        idk=True
+        idk2=False
+        idk3=False
+        for row in nodesInRows1:
+            for node in nodesInRows1[row]:
+                if len(node['label'])>6 and len(node['label'])<40:
+                    if idk:
+                        node['y']=node['y']+(0.6*x)
+                        idk=False
+                    else:
+                        idk=True
+                elif len(node['label'])>30:
+                        node['y']=node['y']+(0.6*x)
+                        x+=0.6
+                        saveX=x
+                        idk2 = True
+                else:
+                    if idk2:
+                        node['y']=node['y']+(0.6*saveX)
+                    if idk3:
+                        node['y']=node['y']+(0.6*saveX)-0.7
+
+            if idk2:
+                idk2=False
+                idk3=True
+            x=0.6
+                
+        nodes=[]
+        for row in nodesInRows1:
+            for node in nodesInRows1[row]:
+                nodes.append(node)
+
+        out['nodes']=nodes
+        
+        return out
+
     def to_sigma_dict(self, x, y):
-        return self._remove_Duplication(
-            self._help_to_sigma_dict(
-                x, y))
+        return self.center_graph(
+            self._remove_Duplication(
+                self._help_to_sigma_dict(
+                    x, y)))
 
 
 def build_nodes_form_xml(xml_src, rule_id):

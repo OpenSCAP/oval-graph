@@ -63,12 +63,16 @@
 
 <div id="container">
   <style>
+    body {
+      margin: 0;
+    }
     #graph-container {
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
+      top: 30%;
+      bottom: 30%;
+      left: 50px;
+      right: 50px;
       position: absolute;
+      background: #fff;
     }
   </style>
   <div id="graph-container"></div>
@@ -84,6 +88,10 @@ sigma.settings.autoRescale = true;
 s = new sigma({
     graph: data,
     container: 'graph-container',
+        renderer: {
+            container: document.getElementById('graph-container'),
+            type: 'display',
+        },
         settings: {
           drawLabels: true,
           enableHovering: true
@@ -99,13 +107,14 @@ s.bind('clickNode', function(e) {
   //goToSomeUrl(url);
   });
 
+
 var noverlapListener = s.configNoverlap({
   nodeMargin: 0.1,
   scaleNodes: 2.00,
   gridSize: 150,
   });
 
-s.startNoverlap();
+//s.startNoverlap();
 //s.startForceAtlas2({worker: true, barnesHutOptimize: false});
 </script>
 </body>

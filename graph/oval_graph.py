@@ -370,15 +370,7 @@ class OvalNode(object):
                 nodes.append(node)
         return nodes
 
-    def center_graph(self, out):
-        maxY = self.countMaxY(out)
-        nodesInRows = self.createNodesInRows(maxY)
-        self.pushNodesToNodesInRow(out, nodesInRows)
-        self.removeEmptyRows(nodesInRows, maxY)
-        nodesInRows = self.moveRows(nodesInRows)
-
-        positions=self.createPositions(nodesInRows)
-        
+    def changePosition(self, positions, nodesInRows):
         x = 0.6
         upAndDown = True
         down = False
@@ -409,8 +401,15 @@ class OvalNode(object):
                 downRow = True
             x = 0.6
         
+    def center_graph(self, out):
+        maxY = self.countMaxY(out)
+        nodesInRows = self.createNodesInRows(maxY)
+        self.pushNodesToNodesInRow(out, nodesInRows)
+        self.removeEmptyRows(nodesInRows, maxY)
+        nodesInRows = self.moveRows(nodesInRows)
+        positions=self.createPositions(nodesInRows)
+        self.changePosition(positions,nodesInRows)
         out['nodes'] = self.convertNodesInRowsToNodes(nodesInRows)
-
         return out
 
     def to_sigma_dict(self, x, y):

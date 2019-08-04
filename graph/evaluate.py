@@ -5,7 +5,7 @@
 
 def oval_operator_and(result):
     """
-        The AND operator produces a true result if every argument is true. If one or more arguments 
+        The AND operator produces a true result if every argument is true. If one or more arguments
         are false, the result of the AND is false. If one or more of the arguments are unknown, and
         if none of the arguments are false, then the AND operator produces a result of unknown.
     """
@@ -24,8 +24,8 @@ def oval_operator_and(result):
 def oval_operator_one(result):
     """
         The ONE operator produces a true result if one and only one argument is true. If there are
-        more than argument is true (or if there are no true arguments), the result of the ONE 
-        is false. If one or more of the arguments are unknown, then the ONE operator produces 
+        more than argument is true (or if there are no true arguments), the result of the ONE
+        is false. If one or more of the arguments are unknown, then the ONE operator produces
         a result of unknown.
     """
     out_result = None
@@ -70,8 +70,8 @@ def oval_operator_one(result):
 
 def oval_operator_or(result):
     """
-        The OR operator produces a true result if one or more arguments is true. If every argument 
-        is false, the result of the OR is false. If one or more of the arguments are unknown and 
+        The OR operator produces a true result if one or more arguments is true. If every argument
+        is false, the result of the OR is false. If one or more of the arguments are unknown and
         if none of arguments are true, then the OR operator produces a result of unknown.
     """
     out_result = None
@@ -153,10 +153,12 @@ def eq_or_greater_zero(result, cnt):
         return True
     return False
 
+
 def smaller_than_two(result, cnt):
     if result[cnt] < 2:
         return True
     return False
+
 
 def eq_or_greater_zero_unknown_noteval_notappl(result):
     if eq_or_greater_zero(result, 'unknown_cnt')\

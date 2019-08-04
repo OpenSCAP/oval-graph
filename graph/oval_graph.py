@@ -300,25 +300,31 @@ class OvalNode(object):
                     x_row + 1, y_row + 1, preprocessed_graph_data)
         return self._fix_graph(preprocessed_graph_data)
 
-    def center_graph(self, out):
+    def countMaxY(self, out):
         maxY = 0
 
         for node in out['nodes']:
             if(maxY < node['y']):
                 maxY = node['y']
+        return maxY
 
+    def createNodesInRows(self, rows):
         nodesInRows = dict()
 
-        for i in range(maxY + 1):
+        for i in range(rows + 1):
             nodesInRows[i] = []
+        return nodesInRows
 
+    def pushNodesToNodesInRow(self, out, nodesInRows):
         for node in out['nodes']:
             nodesInRows[node['y']].append(node)
 
+    def removeEmptyRows(self, nodesInRows,maxY):
         for row in range(maxY + 1):
             if not nodesInRows[row]:
                 del nodesInRows[row]
 
+    def moveRows(self, nodesInRows):
         count = 0
         nodesInRows1 = dict()
 
@@ -327,9 +333,11 @@ class OvalNode(object):
             for node in nodesInRows1[count]:
                 node['y'] = count
             count += 1
+        return nodesInRows1
 
-        for row in nodesInRows1:
-            lenOfRow = len(nodesInRows1[row])
+    def createPositions(self, nodesInRows):
+        for row in nodesInRows:
+            lenOfRow = len(nodesInRows[row])
             if lenOfRow > 1:
                 if (lenOfRow % 2) == 1:
                     lenOfRow += 1
@@ -341,28 +349,44 @@ class OvalNode(object):
 
                 if lenOfRow == 2:
                     positions.remove(0)
-
-                if len(nodesInRows1[row]) < len(positions):
+                
+                if len(nodesInRows[row]) < len(positions):
                     positions.pop()
-                    if len(nodesInRows1[row]) < len(positions):
+                    if len(nodesInRows[row]) < len(positions):
                         positions.pop(0)
 
                 count1 = 0
 
                 for pos in positions:
-                    nodesInRows1[row][count1]['x'] = pos
+                    nodesInRows[row][count1]['x'] = pos
                     count1 += 1
             else:
-                nodesInRows1[row][0]['x'] = 0
+                nodesInRows[row][0]['x'] = 0
+        return positions
+    def convertNodesInRowsToNodes(self, nodesInRows):
+        nodes = []
+        for row in nodesInRows:
+            for node in nodesInRows[row]:
+                nodes.append(node)
+        return nodes
 
+    def center_graph(self, out):
+        maxY = self.countMaxY(out)
+        nodesInRows = self.createNodesInRows(maxY)
+        self.pushNodesToNodesInRow(out, nodesInRows)
+        self.removeEmptyRows(nodesInRows, maxY)
+        nodesInRows = self.moveRows(nodesInRows)
+
+        positions=self.createPositions(nodesInRows)
+        
         x = 0.6
         upAndDown = True
         down = False
         downRow = False
-        saveX = 0.1
+        saveX = 0
 
-        for row in nodesInRows1:
-            for node in nodesInRows1[row]:
+        for row in nodesInRows:
+            for node in nodesInRows[row]:
                 if len(node['label']) > 6 and len(node['label']) < 40:
                     if upAndDown:
                         node['y'] = node['y'] + (0.6 * x)
@@ -384,13 +408,8 @@ class OvalNode(object):
                 down = False
                 downRow = True
             x = 0.6
-
-        nodes = []
-        for row in nodesInRows1:
-            for node in nodesInRows1[row]:
-                nodes.append(node)
-
-        out['nodes'] = nodes
+        
+        out['nodes'] = self.convertNodesInRowsToNodes(nodesInRows)
 
         return out
 

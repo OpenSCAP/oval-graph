@@ -1,19 +1,13 @@
 """
     Function for evaluate oval operators.
-
-    AND operator - The AND operator produces a true result if every argument is true. If one or more arguments are     false, the result of the AND is false. If one or more of the arguments are unknown, and if none of              the arguments are false, then the AND operator produces a result of unknown.
-
-    ONE operator - The ONE operator produces a true result if one and only one argument is true. If there are more than argument is true (or if there are no true arguments), the result of the ONE is false. If one or more of the arguments are unknown, then the ONE operator produces a result of unknown.
-
-    OR operator - The OR operator produces a true result if one or more arguments is true. If every argument is false, the result of the OR is false. If one or more of the arguments are unknown and if none of arguments are true, then the OR operator produces a result of unknown.
-
-    XOR operator - XOR is defined to be true if an odd number of its arguments are true, and false otherwise. If any of the arguments are unknown, then the XOR operator produces a result of unknown.
 """
 
 
 def oval_operator_and(result):
     """
-        AND operator
+        The AND operator produces a true result if every argument is true. If one or more arguments 
+        are false, the result of the AND is false. If one or more of the arguments are unknown, and
+        if none of the arguments are false, then the AND operator produces a result of unknown.
     """
     out_result = None
     if eq_zero(result, 'false_cnt')\
@@ -29,7 +23,10 @@ def oval_operator_and(result):
 
 def oval_operator_one(result):
     """
-        ONE operator
+        The ONE operator produces a true result if one and only one argument is true. If there are
+        more than argument is true (or if there are no true arguments), the result of the ONE 
+        is false. If one or more of the arguments are unknown, then the ONE operator produces 
+        a result of unknown.
     """
     out_result = None
     if result['true_cnt'] == 1\
@@ -73,7 +70,9 @@ def oval_operator_one(result):
 
 def oval_operator_or(result):
     """
-        OR operator
+        The OR operator produces a true result if one or more arguments is true. If every argument 
+        is false, the result of the OR is false. If one or more of the arguments are unknown and 
+        if none of arguments are true, then the OR operator produces a result of unknown.
     """
     out_result = None
     if greater_zero(result, 'true_cnt'):
@@ -89,7 +88,8 @@ def oval_operator_or(result):
 
 def oval_operator_xor(result):
     """
-        XOR operator
+        XOR is defined to be true if an odd number of its arguments are true, and false otherwise.
+        If any of the arguments are unknown, then the XOR operator produces a result of unknown.
     """
     out_result = None
     if (result['true_cnt'] % 2) == 1\

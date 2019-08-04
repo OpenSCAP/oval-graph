@@ -28,7 +28,7 @@ var data_json ={
             "url": "null",
             "text": "null",
             "title": "oval:ssg-test_require_rescue_service:tst:1",
-            "x": -4,
+            "x": -2,
             "y": 2.36,
             "size": 3,
             "color": "#00ff00"
@@ -39,7 +39,7 @@ var data_json ={
             "url": "null",
             "text": "null",
             "title": "oval:ssg-test_require_rescue_service_runlevel1:tst:1",
-            "x": -2,
+            "x": -1,
             "y": 2,
             "size": 3,
             "color": "#00ff00"
@@ -61,7 +61,7 @@ var data_json ={
             "url": "null",
             "text": "null",
             "title": "oval:ssg-test_no_custom_rescue_service:tst:1",
-            "x": 2,
+            "x": 1,
             "y": 2,
             "size": 3,
             "color": "#00ff00"
@@ -69,27 +69,27 @@ var data_json ={
     ],
     "edges": [
         {
-            "id": "728a4ff0-e176-4077-9c7d-9540ef8d324b",
+            "id": "c7a7f477-760c-4526-9e9e-982b40f5dcf9",
             "source": "xccdf_org.ssgproject.content_rule_require_singleuser_auth",
             "target": "oval:ssg-require_singleuser_auth:def:1"
         },
         {
-            "id": "28108091-48f0-4e58-9504-0f2067db5cb2",
+            "id": "bcad6b9a-0b35-4a21-a9ff-1177fd7aaefe",
             "source": "oval:ssg-require_singleuser_auth:def:1",
             "target": "oval:ssg-test_require_rescue_service:tst:1"
         },
         {
-            "id": "8a1872fc-5324-4836-ac9c-62a0d6287482",
+            "id": "db55e891-6af4-4c0e-8def-5457a18d4745",
             "source": "oval:ssg-require_singleuser_auth:def:1",
             "target": "oval:ssg-test_require_rescue_service_runlevel1:tst:1"
         },
         {
-            "id": "889008c9-e86d-4224-9a41-7b582fa1c930",
+            "id": "1371c102-08e3-4fd1-b870-bf9e82f58065",
             "source": "oval:ssg-require_singleuser_auth:def:1",
             "target": "oval:ssg-test_no_custom_runlevel1_target:tst:1"
         },
         {
-            "id": "4ec9d4d7-85bc-47e3-bcb8-5456e613ed5e",
+            "id": "61009772-4c98-49b0-8f53-a8cd8a17a1ab",
             "source": "oval:ssg-require_singleuser_auth:def:1",
             "target": "oval:ssg-test_no_custom_rescue_service:tst:1"
         }

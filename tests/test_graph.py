@@ -1,5 +1,5 @@
 import graph.oval_graph
-import graph.evaluate 
+import graph.evaluate
 import graph.xml_parser
 import pytest
 import os
@@ -23,6 +23,7 @@ results_counts1 = {
     'noteval_cnt': -1,
     'notappl_cnt': 3
 }
+
 
 def test_bad_tree():
     with pytest.raises(ValueError) as e:
@@ -142,44 +143,44 @@ def test_ANDTreeFalse():
 
 def test_ANDTreeError():
     Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', [
-                graph.oval_graph.OvalNode(2, 'value', "error"),
-                graph.oval_graph.OvalNode(3, 'value', "error"),
-                graph.oval_graph.OvalNode(4, 'value', "true"),
-                graph.oval_graph.OvalNode(5, 'value', "unknown"),
-                graph.oval_graph.OvalNode(6, 'value', "noteval"),
-                graph.oval_graph.OvalNode(7, 'value', "notappl"),
-                graph.oval_graph.OvalNode(8, 'value', "error")
-                ])
+        graph.oval_graph.OvalNode(2, 'value', "error"),
+        graph.oval_graph.OvalNode(3, 'value', "error"),
+        graph.oval_graph.OvalNode(4, 'value', "true"),
+        graph.oval_graph.OvalNode(5, 'value', "unknown"),
+        graph.oval_graph.OvalNode(6, 'value', "noteval"),
+        graph.oval_graph.OvalNode(7, 'value', "notappl"),
+        graph.oval_graph.OvalNode(8, 'value', "error")
+    ])
 
     any_test_treeEvaluation(Tree, "error")
 
 
 def test_ANDTreeUnknown():
     Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', [
-                graph.oval_graph.OvalNode(2, 'value', "unknown"),
-                graph.oval_graph.OvalNode(3, 'value', "unknown"),
-                graph.oval_graph.OvalNode(4, 'value', "true"),
-                graph.oval_graph.OvalNode(5, 'value', "unknown"),
-                graph.oval_graph.OvalNode(6, 'value', "noteval"),
-                graph.oval_graph.OvalNode(7, 'value', "notappl"),
-                graph.oval_graph.OvalNode(8, 'value', "notappl")
-                ]
-                )
+        graph.oval_graph.OvalNode(2, 'value', "unknown"),
+        graph.oval_graph.OvalNode(3, 'value', "unknown"),
+        graph.oval_graph.OvalNode(4, 'value', "true"),
+        graph.oval_graph.OvalNode(5, 'value', "unknown"),
+        graph.oval_graph.OvalNode(6, 'value', "noteval"),
+        graph.oval_graph.OvalNode(7, 'value', "notappl"),
+        graph.oval_graph.OvalNode(8, 'value', "notappl")
+    ]
+    )
 
     any_test_treeEvaluation(Tree, "unknown")
 
 
 def test_ANDTreeNoteval():
     Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', [
-                graph.oval_graph.OvalNode(2, 'value', "noteval"),
-                graph.oval_graph.OvalNode(3, 'value', "noteval"),
-                graph.oval_graph.OvalNode(4, 'value', "true"),
-                graph.oval_graph.OvalNode(5, 'value', "true"),
-                graph.oval_graph.OvalNode(6, 'value', "noteval"),
-                graph.oval_graph.OvalNode(7, 'value', "notappl"),
-                graph.oval_graph.OvalNode(8, 'value', "notappl")
-                ]
-                )
+        graph.oval_graph.OvalNode(2, 'value', "noteval"),
+        graph.oval_graph.OvalNode(3, 'value', "noteval"),
+        graph.oval_graph.OvalNode(4, 'value', "true"),
+        graph.oval_graph.OvalNode(5, 'value', "true"),
+        graph.oval_graph.OvalNode(6, 'value', "noteval"),
+        graph.oval_graph.OvalNode(7, 'value', "notappl"),
+        graph.oval_graph.OvalNode(8, 'value', "notappl")
+    ]
+    )
 
     any_test_treeEvaluation(Tree, "noteval")
 
@@ -238,44 +239,44 @@ def test_ONETreeFalse1():
 
 def test_ONETreeError():
     Tree = graph.oval_graph.OvalNode(1, 'operator', 'one', [
-                graph.oval_graph.OvalNode(2, 'value', "error"),
-                graph.oval_graph.OvalNode(3, 'value', "error"),
-                graph.oval_graph.OvalNode(4, 'value', "true"),
-                graph.oval_graph.OvalNode(5, 'value', "unknown"),
-                graph.oval_graph.OvalNode(6, 'value', "noteval"),
-                graph.oval_graph.OvalNode(7, 'value', "notappl"),
-                graph.oval_graph.OvalNode(8, 'value', "false")
-                ]
-                )
+        graph.oval_graph.OvalNode(2, 'value', "error"),
+        graph.oval_graph.OvalNode(3, 'value', "error"),
+        graph.oval_graph.OvalNode(4, 'value', "true"),
+        graph.oval_graph.OvalNode(5, 'value', "unknown"),
+        graph.oval_graph.OvalNode(6, 'value', "noteval"),
+        graph.oval_graph.OvalNode(7, 'value', "notappl"),
+        graph.oval_graph.OvalNode(8, 'value', "false")
+    ]
+    )
 
     any_test_treeEvaluation(Tree, "error")
 
 
 def test_ONETreeUnknown():
     Tree = graph.oval_graph.OvalNode(1, 'operator', 'one', [
-                graph.oval_graph.OvalNode(2, 'value', "unknown"),
-                graph.oval_graph.OvalNode(3, 'value', "unknown"),
-                graph.oval_graph.OvalNode(4, 'value', "true"),
-                graph.oval_graph.OvalNode(5, 'value', "unknown"),
-                graph.oval_graph.OvalNode(6, 'value', "noteval"),
-                graph.oval_graph.OvalNode(7, 'value', "notappl"),
-                graph.oval_graph.OvalNode(8, 'value', "false")
-                ])
+        graph.oval_graph.OvalNode(2, 'value', "unknown"),
+        graph.oval_graph.OvalNode(3, 'value', "unknown"),
+        graph.oval_graph.OvalNode(4, 'value', "true"),
+        graph.oval_graph.OvalNode(5, 'value', "unknown"),
+        graph.oval_graph.OvalNode(6, 'value', "noteval"),
+        graph.oval_graph.OvalNode(7, 'value', "notappl"),
+        graph.oval_graph.OvalNode(8, 'value', "false")
+    ])
 
     any_test_treeEvaluation(Tree, "unknown")
 
 
 def test_ONETreeNoteval():
     Tree = graph.oval_graph.OvalNode(1, 'operator', 'one', [
-                graph.oval_graph.OvalNode(2, 'value', "noteval"),
-                graph.oval_graph.OvalNode(3, 'value', "noteval"),
-                graph.oval_graph.OvalNode(4, 'value', "true"),
-                graph.oval_graph.OvalNode(5, 'value', "false"),
-                graph.oval_graph.OvalNode(6, 'value', "noteval"),
-                graph.oval_graph.OvalNode(7, 'value', "notappl"),
-                graph.oval_graph.OvalNode(8, 'value', "notappl")
-                ]
-                )
+        graph.oval_graph.OvalNode(2, 'value', "noteval"),
+        graph.oval_graph.OvalNode(3, 'value', "noteval"),
+        graph.oval_graph.OvalNode(4, 'value', "true"),
+        graph.oval_graph.OvalNode(5, 'value', "false"),
+        graph.oval_graph.OvalNode(6, 'value', "noteval"),
+        graph.oval_graph.OvalNode(7, 'value', "notappl"),
+        graph.oval_graph.OvalNode(8, 'value', "notappl")
+    ]
+    )
 
     any_test_treeEvaluation(Tree, "noteval")
 
@@ -322,45 +323,45 @@ def test_ORTreeFalse():
 
 def test_ORTreeError():
     Tree = graph.oval_graph.OvalNode(1, 'operator', 'or', [
-                graph.oval_graph.OvalNode(2, 'value', "error"),
-                graph.oval_graph.OvalNode(3, 'value', "error"),
-                graph.oval_graph.OvalNode(4, 'value', "false"),
-                graph.oval_graph.OvalNode(5, 'value', "unknown"),
-                graph.oval_graph.OvalNode(6, 'value', "noteval"),
-                graph.oval_graph.OvalNode(7, 'value', "notappl"),
-                graph.oval_graph.OvalNode(8, 'value', "error")
-                ]
-                )
+        graph.oval_graph.OvalNode(2, 'value', "error"),
+        graph.oval_graph.OvalNode(3, 'value', "error"),
+        graph.oval_graph.OvalNode(4, 'value', "false"),
+        graph.oval_graph.OvalNode(5, 'value', "unknown"),
+        graph.oval_graph.OvalNode(6, 'value', "noteval"),
+        graph.oval_graph.OvalNode(7, 'value', "notappl"),
+        graph.oval_graph.OvalNode(8, 'value', "error")
+    ]
+    )
 
     any_test_treeEvaluation(Tree, "error")
 
 
 def test_ORTreeUnknown():
     Tree = graph.oval_graph.OvalNode(1, 'operator', 'or', [
-                graph.oval_graph.OvalNode(2, 'value', "unknown"),
-                graph.oval_graph.OvalNode(3, 'value', "unknown"),
-                graph.oval_graph.OvalNode(4, 'value', "false"),
-                graph.oval_graph.OvalNode(5, 'value', "unknown"),
-                graph.oval_graph.OvalNode(6, 'value', "noteval"),
-                graph.oval_graph.OvalNode(7, 'value', "notappl"),
-                graph.oval_graph.OvalNode(8, 'value', "notappl")
-                ]
-                )
+        graph.oval_graph.OvalNode(2, 'value', "unknown"),
+        graph.oval_graph.OvalNode(3, 'value', "unknown"),
+        graph.oval_graph.OvalNode(4, 'value', "false"),
+        graph.oval_graph.OvalNode(5, 'value', "unknown"),
+        graph.oval_graph.OvalNode(6, 'value', "noteval"),
+        graph.oval_graph.OvalNode(7, 'value', "notappl"),
+        graph.oval_graph.OvalNode(8, 'value', "notappl")
+    ]
+    )
 
     any_test_treeEvaluation(Tree, "unknown")
 
 
 def test_ORTreeNoteval():
     Tree = graph.oval_graph.OvalNode(1, 'operator', 'or', [
-                graph.oval_graph.OvalNode(2, 'value', "noteval"),
-                graph.oval_graph.OvalNode(3, 'value', "noteval"),
-                graph.oval_graph.OvalNode(4, 'value', "false"),
-                graph.oval_graph.OvalNode(5, 'value', "false"),
-                graph.oval_graph.OvalNode(6, 'value', "noteval"),
-                graph.oval_graph.OvalNode(7, 'value', "notappl"),
-                graph.oval_graph.OvalNode(8, 'value', "notappl")
-                ]
-                )
+        graph.oval_graph.OvalNode(2, 'value', "noteval"),
+        graph.oval_graph.OvalNode(3, 'value', "noteval"),
+        graph.oval_graph.OvalNode(4, 'value', "false"),
+        graph.oval_graph.OvalNode(5, 'value', "false"),
+        graph.oval_graph.OvalNode(6, 'value', "noteval"),
+        graph.oval_graph.OvalNode(7, 'value', "notappl"),
+        graph.oval_graph.OvalNode(8, 'value', "notappl")
+    ]
+    )
 
     any_test_treeEvaluation(Tree, "noteval")
 
@@ -412,45 +413,45 @@ def test_XORTreeFalse():
 
 def test_XORTreeError():
     Tree = graph.oval_graph.OvalNode(1, 'operator', 'xor', [
-                graph.oval_graph.OvalNode(2, 'value', "error"),
-                graph.oval_graph.OvalNode(3, 'value', "error"),
-                graph.oval_graph.OvalNode(4, 'value', "true"),
-                graph.oval_graph.OvalNode(5, 'value', "unknown"),
-                graph.oval_graph.OvalNode(6, 'value', "noteval"),
-                graph.oval_graph.OvalNode(7, 'value', "notappl"),
-                graph.oval_graph.OvalNode(8, 'value', "false")
-                ]
-                )
+        graph.oval_graph.OvalNode(2, 'value', "error"),
+        graph.oval_graph.OvalNode(3, 'value', "error"),
+        graph.oval_graph.OvalNode(4, 'value', "true"),
+        graph.oval_graph.OvalNode(5, 'value', "unknown"),
+        graph.oval_graph.OvalNode(6, 'value', "noteval"),
+        graph.oval_graph.OvalNode(7, 'value', "notappl"),
+        graph.oval_graph.OvalNode(8, 'value', "false")
+    ]
+    )
 
     any_test_treeEvaluation(Tree, "error")
 
 
 def test_xORTreeUnknown():
     Tree = graph.oval_graph.OvalNode(1, 'operator', 'xor', [
-                graph.oval_graph.OvalNode(2, 'value', "unknown"),
-                graph.oval_graph.OvalNode(3, 'value', "unknown"),
-                graph.oval_graph.OvalNode(4, 'value', "true"),
-                graph.oval_graph.OvalNode(5, 'value', "unknown"),
-                graph.oval_graph.OvalNode(6, 'value', "noteval"),
-                graph.oval_graph.OvalNode(7, 'value', "notappl"),
-                graph.oval_graph.OvalNode(8, 'value', "notappl")
-                ]
-                )
+        graph.oval_graph.OvalNode(2, 'value', "unknown"),
+        graph.oval_graph.OvalNode(3, 'value', "unknown"),
+        graph.oval_graph.OvalNode(4, 'value', "true"),
+        graph.oval_graph.OvalNode(5, 'value', "unknown"),
+        graph.oval_graph.OvalNode(6, 'value', "noteval"),
+        graph.oval_graph.OvalNode(7, 'value', "notappl"),
+        graph.oval_graph.OvalNode(8, 'value', "notappl")
+    ]
+    )
 
     any_test_treeEvaluation(Tree, "unknown")
 
 
 def test_XORTreeNoteval():
     Tree = graph.oval_graph.OvalNode(1, 'operator', 'xor', [
-                graph.oval_graph.OvalNode(2, 'value', "noteval"),
-                graph.oval_graph.OvalNode(3, 'value', "noteval"),
-                graph.oval_graph.OvalNode(4, 'value', "true"),
-                graph.oval_graph.OvalNode(5, 'value', "true"),
-                graph.oval_graph.OvalNode(6, 'value', "noteval"),
-                graph.oval_graph.OvalNode(7, 'value', "notappl"),
-                graph.oval_graph.OvalNode(8, 'value', "notappl")
-                ]
-                )
+        graph.oval_graph.OvalNode(2, 'value', "noteval"),
+        graph.oval_graph.OvalNode(3, 'value', "noteval"),
+        graph.oval_graph.OvalNode(4, 'value', "true"),
+        graph.oval_graph.OvalNode(5, 'value', "true"),
+        graph.oval_graph.OvalNode(6, 'value', "noteval"),
+        graph.oval_graph.OvalNode(7, 'value', "notappl"),
+        graph.oval_graph.OvalNode(8, 'value', "notappl")
+    ]
+    )
 
     any_test_treeEvaluation(Tree, "noteval")
 
@@ -468,40 +469,47 @@ def test_XORTreeNotappl():
 
 def test_bigOvalTree():
     Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', [
-                graph.oval_graph.OvalNode(2, 'value', "false"),
-                graph.oval_graph.OvalNode(3, 'operator', "xor", [
-                            graph.oval_graph.OvalNode(4, 'value', 'true'),
-                            graph.oval_graph.OvalNode(5, 'operator', 'one', [
-                                        graph.oval_graph.OvalNode(6, 'value', 'noteval'),
-                                        graph.oval_graph.OvalNode(7, 'value', 'true'), 
-                                        graph.oval_graph.OvalNode(8, 'value', 'notappl')
-                                        ]
-                                        ),
-                            graph.oval_graph.OvalNode(9, 'value', 'error')
-                            ]
-                            ),
-                graph.oval_graph.OvalNode(10, 'operator', 'or', [
-                                        graph.oval_graph.OvalNode(11, 'value', "unknown"),
-                                        graph.oval_graph.OvalNode(12, 'value', "true")
-                                        ]
-                                        )
-                ]
-                )
+        graph.oval_graph.OvalNode(2, 'value', "false"),
+        graph.oval_graph.OvalNode(3, 'operator', "xor", [
+            graph.oval_graph.OvalNode(4, 'value', 'true'),
+            graph.oval_graph.OvalNode(5, 'operator', 'one', [
+                graph.oval_graph.OvalNode(6, 'value', 'noteval'),
+                graph.oval_graph.OvalNode(7, 'value', 'true'),
+                graph.oval_graph.OvalNode(8, 'value', 'notappl')
+            ]
+            ),
+            graph.oval_graph.OvalNode(9, 'value', 'error')
+        ]
+        ),
+        graph.oval_graph.OvalNode(10, 'operator', 'or', [
+            graph.oval_graph.OvalNode(11, 'value', "unknown"),
+            graph.oval_graph.OvalNode(12, 'value', "true")
+        ]
+        )
+    ]
+    )
 
     dict_of_tree = {'node_id': 1, 'type': 'operator', 'value': 'and',
                     'child': [
-                        {'node_id': 2, 'type': 'value', 'value': "false", 'child':  None},
+                        {'node_id': 2, 'type': 'value',
+                            'value': "false", 'child': None},
                         {'node_id': 3, 'type': 'operator', 'value': "xor", 'child': [
-                            {'node_id': 4, 'type': 'value', 'value': "true", 'child':  None},
+                            {'node_id': 4, 'type': 'value',
+                                'value': "true", 'child': None},
                             {'node_id': 5, 'type': 'operator', 'value': "one", 'child': [
-                                {'node_id': 6, 'type': 'value', 'value': "noteval", 'child':  None},
-                                {'node_id': 7, 'type': 'value', 'value': "true", 'child':  None},
-                                {'node_id': 8, 'type': 'value', 'value': "notappl", 'child':  None}
+                                {'node_id': 6, 'type': 'value',
+                                    'value': "noteval", 'child': None},
+                                {'node_id': 7, 'type': 'value',
+                                    'value': "true", 'child': None},
+                                {'node_id': 8, 'type': 'value',
+                                    'value': "notappl", 'child': None}
                             ]},
-                            {'node_id': 9, 'type': 'value', 'value': "error", 'child':  None}]},
+                            {'node_id': 9, 'type': 'value', 'value': "error", 'child': None}]},
                         {'node_id': 10, 'type': 'operator', 'value': 'or', 'child': [
-                            {'node_id': 11, 'type': 'value', 'value': "unknown", 'child':  None},
-                            {'node_id': 12, 'type': 'value', 'value': "true", 'child':  None}
+                            {'node_id': 11, 'type': 'value',
+                                'value': "unknown", 'child': None},
+                            {'node_id': 12, 'type': 'value',
+                                'value': "true", 'child': None}
                         ]
                         }
                     ]
@@ -559,11 +567,11 @@ def test_add_to_tree():
                     'child': [{'node_id': 2,
                                'type': 'value',
                                'value': "false",
-                               'child':  None},
+                               'child': None},
                               {'node_id': 3,
                                'type': 'value',
                                'value': "true",
-                               'child':  None},
+                               'child': None},
                               ]}
 
     Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', [
@@ -615,26 +623,30 @@ def test_bad_results_counts_for_operator_xor():
 
 
 def test_false_noteval_greater_zero():
-    assert graph.evaluate.greater_zero(results_counts,'noteval_cnt') == False
+    assert graph.evaluate.greater_zero(results_counts, 'noteval_cnt') == False
 
 
 def test_false_smaller_then_two():
-    assert graph.evaluate.smaller_than_two(results_counts1, 'true_cnt') == False
+    assert graph.evaluate.smaller_than_two(
+        results_counts1, 'true_cnt') == False
 
 
 def test_false_eq_or_greater_zero_unknown_noteval_notappl():
-    assert graph.evaluate.eq_or_greater_zero_unknown_noteval_notappl(results_counts1) == False
+    assert graph.evaluate.eq_or_greater_zero_unknown_noteval_notappl(
+        results_counts1) == False
 
 
 def test_false_error_unknown_eq_noteval_greater_zero():
-    assert graph.evaluate.error_unknown_eq_noteval_greater_zero(results_counts) == False
+    assert graph.evaluate.error_unknown_eq_noteval_greater_zero(
+        results_counts) == False
 
 
 def any_test_parsing_and_evaluate_scan_rule(src, rule_id, result):
     _dir = os.path.dirname(os.path.realpath(__file__))
     FIXTURE_DIR = py.path.local(_dir) / src
-    
-    oval_tree = graph.oval_graph.build_nodes_form_xml(str(FIXTURE_DIR), rule_id)
+
+    oval_tree = graph.oval_graph.build_nodes_form_xml(
+        str(FIXTURE_DIR), rule_id)
     any_test_treeEvaluation(oval_tree, result)
 
 
@@ -650,11 +662,15 @@ def get_simple_tree():
     ]
     )
 
+
 def get_dict_of_simple_tree():
     return get_simple_tree().save_tree_to_dict()
 
-def any_test_create_node_dict_for_sigmaJs(Tree,out):
-    assert Tree._create_node(0,0)==out
+
+def any_test_create_node_dict_for_sigmaJs(Tree, out):
+
+    assert Tree._create_node(0, 0) == out
+
 
 def test_create_node_dict_for_sigmaJs_0():
     out = {
@@ -668,8 +684,9 @@ def test_create_node_dict_for_sigmaJs_0():
         'x': 0,
         'y': 0
     }
-    Tree=get_simple_tree()
-    any_test_create_node_dict_for_sigmaJs(Tree,out)
+    Tree = get_simple_tree()
+    any_test_create_node_dict_for_sigmaJs(Tree, out)
+
 
 def test_create_node_dict_for_sigmaJs_1():
     out = {
@@ -683,12 +700,13 @@ def test_create_node_dict_for_sigmaJs_1():
         'x': 0,
         'y': 0
     }
-    Tree=graph.oval_graph.OvalNode(1, 'operator', 'and', [
-                graph.oval_graph.OvalNode(2, 'value', "true")
-            ]
-            )
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', [
+        graph.oval_graph.OvalNode(2, 'value', "true")
+    ]
+    )
 
-    any_test_create_node_dict_for_sigmaJs(Tree,out)
+    any_test_create_node_dict_for_sigmaJs(Tree, out)
+
 
 def test_create_node_dict_for_sigmaJs_2():
     out = {
@@ -702,18 +720,19 @@ def test_create_node_dict_for_sigmaJs_2():
         'x': 0,
         'y': 0
     }
-    Tree=graph.oval_graph.OvalNode(1, 'operator', 'and', [
-                graph.oval_graph.OvalNode(2, 'value', "noteval")
-            ]
-            )
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', [
+        graph.oval_graph.OvalNode(2, 'value', "noteval")
+    ]
+    )
 
-    any_test_create_node_dict_for_sigmaJs(Tree,out)
+    any_test_create_node_dict_for_sigmaJs(Tree, out)
+
 
 def test_create_node_dict_for_sigmaJs_3():
     out = {
         'color': '#ff0000',
         'id': 1,
-        'label': 'false',
+        'label': '1',
         'size': 3,
         'text': 'null',
         'url': 'null',
@@ -721,15 +740,16 @@ def test_create_node_dict_for_sigmaJs_3():
         'x': 0,
         'y': 0
     }
-    Tree=graph.oval_graph.OvalNode(1, 'value', 'false')
+    Tree = graph.oval_graph.OvalNode(1, 'value', 'false')
 
-    any_test_create_node_dict_for_sigmaJs(Tree,out)
+    any_test_create_node_dict_for_sigmaJs(Tree, out)
+
 
 def test_create_node_dict_for_sigmaJs_4():
     out = {
         'color': '#00ff00',
         'id': 1,
-        'label': 'true',
+        'label': '1',
         'size': 3,
         'text': 'null',
         'url': 'null',
@@ -737,9 +757,9 @@ def test_create_node_dict_for_sigmaJs_4():
         'x': 0,
         'y': 0
     }
-    Tree=graph.oval_graph.OvalNode(1, 'value', 'true')
+    Tree = graph.oval_graph.OvalNode(1, 'value', 'true')
 
-    any_test_create_node_dict_for_sigmaJs(Tree,out)
+    any_test_create_node_dict_for_sigmaJs(Tree, out)
 
 
 def test_create_node_dict_for_sigmaJs_5():
@@ -754,25 +774,27 @@ def test_create_node_dict_for_sigmaJs_5():
         'x': 0,
         'y': 0
     }
-    Tree=graph.oval_graph.OvalNode(1, 'value', 'error')
+    Tree = graph.oval_graph.OvalNode(1, 'value', 'error')
 
-    any_test_create_node_dict_for_sigmaJs(Tree,out)
+    any_test_create_node_dict_for_sigmaJs(Tree, out)
 
 
 def test_create_edge_dict_for_sigmaJs():
-    print(get_simple_tree()._create_edge(1,2))
+    print(get_simple_tree()._create_edge(1, 2))
     out = {
         'id': 'random_ID',
         'source': 1,
         'target': 2
-        }
+    }
 
-    assert get_simple_tree()._create_edge(1,2)['source']==out['source']
-    assert get_simple_tree()._create_edge(1,2)['target']==out['target']   
+    assert get_simple_tree()._create_edge(1, 2)['source'] == out['source']
+    assert get_simple_tree()._create_edge(1, 2)['target'] == out['target']
+
 
 def test_create_array_of_ids_form_tree():
-     array=get_simple_tree().create_list_of_id()
-     assert array==[1,2,3,4,5,6]
+    array = get_simple_tree().create_list_of_id()
+    assert array == [1, 2, 3, 4, 5, 6]
+
 
 def test_parsing_full_can_XML_and_evaluate():
     src = 'test_data/ssg-fedora-ds-arf.xml'
@@ -823,507 +845,445 @@ def test_parsing_and_evaluate_scan_with_11_rules():
 
 
 def test_transformation_tree_to_Json_for_SigmaJs_0():
-    test_data = {
-        "nodes": [
+    test_data = {'nodes': [
         {
-            "id": "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny",
-            "label": "and",
-            "url": "null",
-            "text": "null",
-            "title": "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny",
-            "x": -13,
-            "y": 0,
-            "size": 3,
-            "color": "#ff0000"
-        },
+            'id': 'xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny',
+            'label': 'and',
+            'url': 'null',
+            'text': 'null',
+            'title': 'xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny',
+            'x': 0,
+            'y': 0,
+            'size': 3,
+            'color': '#ff0000'},
         {
-            "id": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
-            "label": "and",
-            "url": "null",
-            "text": "null",
-            "title": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
-            "x": -13,
-            "y": 1,
-            "size": 3,
-            "color": "#ff0000"
-        },
+            'id': 'oval:ssg-accounts_passwords_pam_faillock_deny:def:1',
+            'label': 'and',
+            'url': 'null',
+            'text': 'null',
+            'title': 'oval:ssg-accounts_passwords_pam_faillock_deny:def:1',
+            'x': 0,
+            'y': 1,
+            'size': 3,
+            'color': '#ff0000'},
         {
-            "id": "oval:ssg-test_accounts_passwords_pam_faillock_preauth_silent_system-auth:tst:1",
-            "label": "false",
-            "url": "null",
-            "text": "null",
-            "title": "oval:ssg-test_accounts_passwords_pam_faillock_preauth_silent_system-auth:tst:1",
-            "x": -11,
-            "y": 3,
-            "size": 3,
-            "color": "#ff0000"
-        },
+            'id': 'oval:ssg-test_accounts_passwords_pam_faillock_preauth_silent_system-auth:tst:1',
+            'label': 'accounts_passwords_pam_faillock_preauth_silent_system-auth',
+            'url': 'null',
+            'text': 'null',
+            'title': 'oval:ssg-test_accounts_passwords_pam_faillock_preauth_silent_system-auth:tst:1',
+            'x': -4,
+            'y': 2.36,
+            'size': 3,
+            'color': '#ff0000'},
         {
-            "id": "oval:ssg-test_accounts_passwords_pam_faillock_account_phase_system-auth:tst:1",
-            "label": "false",
-            "url": "null",
-            "text": "null",
-            "title": "oval:ssg-test_accounts_passwords_pam_faillock_account_phase_system-auth:tst:1",
-            "x": -9,
-            "y": 3,
-            "size": 3,
-            "color": "#ff0000"
-        },
+            'id': 'oval:ssg-test_accounts_passwords_pam_faillock_account_phase_system-auth:tst:1',
+            'label': 'accounts_passwords_pam_faillock_account_phase_system-auth',
+            'url': 'null',
+            'text': 'null',
+            'title': 'oval:ssg-test_accounts_passwords_pam_faillock_account_phase_system-auth:tst:1',
+            'x': -2,
+            'y': 2.7199999999999998,
+            'size': 3,
+            'color': '#ff0000'},
+       {
+           'id': 'oval:ssg-test_accounts_passwords_pam_faillock_preauth_silent_password-auth:tst:1',
+            'label': 'accounts_passwords_pam_faillock_preauth_silent_password-auth',
+            'url': 'null',
+            'text': 'null',
+            'title': 'oval:ssg-test_accounts_passwords_pam_faillock_preauth_silent_password-auth:tst:1',
+            'x': 0,
+            'y': 3.08,
+            'size': 3,
+            'color': '#ff0000'},
         {
-            "id": "oval:ssg-test_accounts_passwords_pam_faillock_preauth_silent_password-auth:tst:1",
-            "label": "false",
-            "url": "null",
-            "text": "null",
-            "title": "oval:ssg-test_accounts_passwords_pam_faillock_preauth_silent_password-auth:tst:1",
-            "x": -7,
-            "y": 3,
-            "size": 3,
-            "color": "#ff0000"
-        },
+            'id': 'oval:ssg-test_accounts_passwords_pam_faillock_account_phase_password-auth:tst:1',
+            'label': 'accounts_passwords_pam_faillock_account_phase_password-auth',
+            'url': 'null',
+            'text': 'null',
+            'title': 'oval:ssg-test_accounts_passwords_pam_faillock_account_phase_password-auth:tst:1',
+            'x': 2,
+            'y': 3.44,
+            'size': 3,
+            'color': '#ff0000'},
         {
-            "id": "oval:ssg-test_accounts_passwords_pam_faillock_account_phase_password-auth:tst:1",
-            "label": "false",
-            "url": "null",
-            "text": "null",
-            "title": "oval:ssg-test_accounts_passwords_pam_faillock_account_phase_password-auth:tst:1",
-            "x": -5,
-            "y": 3,
-            "size": 3,
-            "color": "#ff0000"
-        },
+            'id': '53d15de4-262b-469f-8df6-dd93d8d9a2de',
+            'label': 'and',
+            'url': 'null',
+            'text': 'null',
+            'title': '53d15de4-262b-469f-8df6-dd93d8d9a2de',
+            'x': 4,
+            'y': 3.8,
+            'size': 3,
+            'color': '#ff0000'},
         {
-            "id": "b2eae097-2c22-4c0b-8796-4b76e9b1a8c0",
-            "label": "and",
-            "url": "null",
-            "text": "null",
-            "title": "b2eae097-2c22-4c0b-8796-4b76e9b1a8c0",
-            "x": -3,
-            "y": 3,
-            "size": 3,
-            "color": "#ff0000"
-        },
+            'id': '551bbfca-b55f-4b67-a6ca-fefa9a886ec8',
+            'label': 'or',
+            'url': 'null',
+            'text': 'null',
+            'title': '551bbfca-b55f-4b67-a6ca-fefa9a886ec8',
+            'x': -2,
+            'y': 4.1,
+            'size': 3,
+            'color': '#ff0000'},
         {
-            "id": "ece33afa-c675-4a43-9366-f946181937f4",
-            "label": "or",
-            "url": "null",
-            "text": "null",
-            "title": "ece33afa-c675-4a43-9366-f946181937f4",
-            "x": -1,
-            "y": 5,
-            "size": 3,
-            "color": "#ff0000"
-        },
+            'id': '1b9f74b8-1c58-4b09-969b-2413e9594f08',
+            'label': 'or',
+            'url': 'null',
+            'text': 'null',
+            'title': '1b9f74b8-1c58-4b09-969b-2413e9594f08',
+            'x': 2,
+            'y': 4.1,
+            'size': 3,
+            'color': '#ff0000'},
         {
-            "id": "oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_system-auth:tst:1",
-            "label": "false",
-            "url": "null",
-            "text": "null",
-            "title": "oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_system-auth:tst:1",
-            "x": 1,
-            "y": 7,
-            "size": 3,
-            "color": "#ff0000"
-        },
+            'id': 'oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_system-auth:tst:1',
+            'label': 'accounts_passwords_pam_faillock_numeric_default_check_system-auth',
+            'url': 'null',
+            'text': 'null',
+            'title': 'oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_system-auth:tst:1',
+            'x': -4,
+            'y': 4.36,
+            'size': 3,
+            'color': '#ff0000'},
         {
-            "id": "oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_system-auth:tst:1",
-            "label": "false",
-            "url": "null",
-            "text": "null",
-            "title": "oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_system-auth:tst:1",
-            "x": 3,
-            "y": 7,
-            "size": 3,
-            "color": "#ff0000"
-        },
+            'id': 'oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_system-auth:tst:1',
+            'label': 'accounts_passwords_pam_faillock_authfail_deny_system-auth',
+            'url': 'null',
+            'text': 'null',
+            'title': 'oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_system-auth:tst:1',
+            'x': -2,
+            'y': 4.72,
+            'size': 3,
+            'color': '#ff0000'},
         {
-            "id": "c157ad0e-3326-4ae4-88d4-14a9bf7e6a84",
-            "label": "or",
-            "url": "null",
-            "text": "null",
-            "title": "c157ad0e-3326-4ae4-88d4-14a9bf7e6a84",
-            "x": 3,
-            "y": 5,
-            "size": 3,
-            "color": "#ff0000"
-        },
+            'id': 'oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_password-auth:tst:1',
+            'label': 'accounts_passwords_pam_faillock_numeric_default_check_password-auth',
+            'url': 'null',
+            'text': 'null',
+            'title': 'oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_password-auth:tst:1',
+            'x': 0,
+            'y': 5.08,
+            'size': 3,
+            'color': '#ff0000'},
         {
-            "id": "oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_password-auth:tst:1",
-            "label": "false",
-            "url": "null",
-            "text": "null",
-            "title": "oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_password-auth:tst:1",
-            "x": 5,
-            "y": 7,
-            "size": 3,
-            "color": "#ff0000"
-        },
+            'id': 'oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_password-auth:tst:1',
+            'label': 'accounts_passwords_pam_faillock_authfail_deny_password-auth',
+            'url': 'null',
+            'text': 'null',
+            'title': 'oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_password-auth:tst:1',
+            'x': 2,
+            'y': 5.4399999999999995,
+            'size': 3,
+            'color': '#ff0000'}],
+        'edges': [
         {
-            "id": "oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_password-auth:tst:1",
-            "label": "false",
-            "url": "null",
-            "text": "null",
-            "title": "oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_password-auth:tst:1",
-            "x": 7,
-            "y": 7,
-            "size": 3,
-            "color": "#ff0000"
-        }
-        ],
-        "edges": [
+            'id': 'b56a7fd0-f53e-45d3-83af-bd0c4bfa87cb',
+            'source': 'xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny',
+            'target': 'oval:ssg-accounts_passwords_pam_faillock_deny:def:1'},
         {
-            "id": "f8e7e5c5-facf-4ba5-aa06-0cad749c1683",
-            "source": "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny",
-            "target": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1"
-        },
+            'id': '7107c6c9-b22e-4bf0-a67f-9c79f48825be',
+            'source': 'oval:ssg-accounts_passwords_pam_faillock_deny:def:1',
+            'target': 'oval:ssg-test_accounts_passwords_pam_faillock_preauth_silent_system-auth:tst:1'},
         {
-            "id": "003367ab-2d0e-4ee2-8e04-a8d724c00b4f",
-            "source": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
-            "target": "oval:ssg-test_accounts_passwords_pam_faillock_preauth_silent_system-auth:tst:1"
-        },
+            'id': '693179e3-2aea-4d9b-b021-65488993e39a',
+            'source': 'oval:ssg-accounts_passwords_pam_faillock_deny:def:1',
+            'target': 'oval:ssg-test_accounts_passwords_pam_faillock_account_phase_system-auth:tst:1'},
         {
-            "id": "d89082e6-4f27-4c1f-a1c2-faf6e59a49a0",
-            "source": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
-            "target": "oval:ssg-test_accounts_passwords_pam_faillock_account_phase_system-auth:tst:1"
-        },
+            'id': 'd179dff2-9c03-4455-a59e-6fb2ad15cdf4',
+            'source': 'oval:ssg-accounts_passwords_pam_faillock_deny:def:1',
+            'target': 'oval:ssg-test_accounts_passwords_pam_faillock_preauth_silent_password-auth:tst:1'},
         {
-            "id": "a5b2dce5-35de-4060-b499-05dd517c993d",
-            "source": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
-            "target": "oval:ssg-test_accounts_passwords_pam_faillock_preauth_silent_password-auth:tst:1"
-        },
+            'id': '792c8d34-84f5-49c7-be98-965a977466ac',
+            'source': 'oval:ssg-accounts_passwords_pam_faillock_deny:def:1',
+            'target': 'oval:ssg-test_accounts_passwords_pam_faillock_account_phase_password-auth:tst:1'},
         {
-            "id": "f62a2828-ed80-4f0d-8c1a-2fd6da231d58",
-            "source": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
-            "target": "oval:ssg-test_accounts_passwords_pam_faillock_account_phase_password-auth:tst:1"
-        },
+            'id': 'd8eee053-a0f6-4a73-8867-f17ffbc4b095',
+            'source': 'oval:ssg-accounts_passwords_pam_faillock_deny:def:1',
+            'target': '53d15de4-262b-469f-8df6-dd93d8d9a2de'},
         {
-            "id": "436845ff-994c-4026-adc5-0841a2a61e51",
-            "source": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
-            "target": "b2eae097-2c22-4c0b-8796-4b76e9b1a8c0"
-        },
+            'id': 'ff763a4b-2a9f-4f72-be96-f8cc0dcbdfbf',
+            'source': '53d15de4-262b-469f-8df6-dd93d8d9a2de',
+            'target': '551bbfca-b55f-4b67-a6ca-fefa9a886ec8'},
         {
-            "id": "466ef345-9f61-4d70-8f0a-c0a3257cc253",
-            "source": "b2eae097-2c22-4c0b-8796-4b76e9b1a8c0",
-            "target": "ece33afa-c675-4a43-9366-f946181937f4"
-        },
+            'id': 'dfdfcb00-97aa-4280-bc16-7f82c151373e',
+            'source': '551bbfca-b55f-4b67-a6ca-fefa9a886ec8',
+            'target': 'oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_system-auth:tst:1'},
         {
-            "id": "2bed2247-8155-4a2e-b75a-35d5839d9db4",
-            "source": "ece33afa-c675-4a43-9366-f946181937f4",
-            "target": "oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_system-auth:tst:1"
-        },
+            'id': '05e35e95-f42a-419b-acd8-dff9726956f8',
+            'source': '551bbfca-b55f-4b67-a6ca-fefa9a886ec8',
+            'target': 'oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_system-auth:tst:1'},
         {
-            "id": "be4e6a91-b874-4082-b077-ff74e286c91d",
-            "source": "ece33afa-c675-4a43-9366-f946181937f4",
-            "target": "oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_system-auth:tst:1"
-        },
+            'id': 'ddbc2340-bbc1-4a0f-be9f-2a4884b40408',
+            'source': '53d15de4-262b-469f-8df6-dd93d8d9a2de',
+            'target': '1b9f74b8-1c58-4b09-969b-2413e9594f08'},
         {
-            "id": "29b9563c-2f8f-4554-8159-102ec4897ac1",
-            "source": "b2eae097-2c22-4c0b-8796-4b76e9b1a8c0",
-            "target": "c157ad0e-3326-4ae4-88d4-14a9bf7e6a84"
-        },
+            'id': 'b973e01b-33f6-4a75-a2b1-c3b478ef4890',
+            'source': '1b9f74b8-1c58-4b09-969b-2413e9594f08',
+            'target': 'oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_password-auth:tst:1'},
         {
-            "id": "7d06f894-071e-4383-96e8-934513eb857c",
-            "source": "c157ad0e-3326-4ae4-88d4-14a9bf7e6a84",
-            "target": "oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_password-auth:tst:1"
-        },
-        {
-            "id": "e4c5ee00-5736-4b67-b19d-43472a5d6768",
-            "source": "c157ad0e-3326-4ae4-88d4-14a9bf7e6a84",
-            "target": "oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_password-auth:tst:1"
-        }
-        ]
-        }
+            'id': '6acd02b8-7c44-49c4-8040-94f0305721d6',
+            'source': '1b9f74b8-1c58-4b09-969b-2413e9594f08',
+            'target': 'oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_password-auth:tst:1'}]}
+
     src = 'data/ssg-fedora-ds-arf.xml'
     rule_id = 'xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny'
-    
+
     oval_tree = graph.oval_graph.build_nodes_form_xml(src, rule_id)
     if oval_tree.node_id == rule_id:
         out_data = oval_tree.to_sigma_dict(0, 0)
+        print(out_data)
         for i in range(len(out_data['nodes'])):
-            assert out_data['nodes'][i]['label']==test_data['nodes'][i]['label']
-            assert out_data['nodes'][i]['text']==test_data['nodes'][i]['text']
-            assert out_data['nodes'][i]['url']==test_data['nodes'][i]['url']
+            assert out_data['nodes'][i]['label'] == test_data['nodes'][i]['label']
+            assert out_data['nodes'][i]['text'] == test_data['nodes'][i]['text']
+            assert out_data['nodes'][i]['url'] == test_data['nodes'][i]['url']
 
 
 def test_transformation_tree_to_Json_for_SigmaJs_with_duplicated_test():
-    test_data = {
-        "nodes": [
+    test_data = {'nodes': [
         {
-            "id": "xccdf_org.ssgproject.content_rule_disable_host_auth",
-            "label": "and",
-            "url": "null",
-            "text": "null",
-            "title": "xccdf_org.ssgproject.content_rule_disable_host_auth",
-            "x": -17,
-            "y": 0,
-            "size": 3,
-            "color": "#00ff00"
-        },
+            'id': 'xccdf_org.ssgproject.content_rule_disable_host_auth',
+            'label': 'and',
+            'url': 'null',
+            'text': 'null',
+            'title': 'xccdf_org.ssgproject.content_rule_disable_host_auth',
+            'x': 0,
+            'y': 0,
+            'size': 3,
+            'color': '#00ff00'},
         {
-            "id": "oval:ssg-disable_host_auth:def:1",
-            "label": "or",
-            "url": "null",
-            "text": "null",
-            "title": "oval:ssg-disable_host_auth:def:1",
-            "x": -17,
-            "y": 1,
-            "size": 3,
-            "color": "#00ff00"
-        },
+            'id': 'oval:ssg-disable_host_auth:def:1',
+            'label': 'or',
+            'url': 'null',
+            'text': 'null',
+            'title': 'oval:ssg-disable_host_auth:def:1',
+            'x': 0,
+            'y': 1,
+            'size': 3,
+            'color': '#00ff00'},
         {
-            "id": "b688b097-7f93-4d38-be83-f8aee611a7ab",
-            "label": "and",
-            "url": "null",
-            "text": "null",
-            "title": "b688b097-7f93-4d38-be83-f8aee611a7ab",
-            "x": -15,
-            "y": 3,
-            "size": 3,
-            "color": "#ff0000"
-        },
+            'id': '877adf97-04e6-4e2f-af1a-2b75f4b5c0ac',
+            'label': 'and',
+            'url': 'null',
+            'text': 'null',
+            'title': '877adf97-04e6-4e2f-af1a-2b75f4b5c0ac',
+            'x': -2,
+            'y': 2,
+            'size': 3,
+            'color': '#ff0000'},
         {
-            "id": "71e748eb-4f25-481d-8e03-d8b4b18c8cb3",
-            "label": "or",
-            "url": "null",
-            "text": "null",
-            "title": "71e748eb-4f25-481d-8e03-d8b4b18c8cb3",
-            "x": -13,
-            "y": 5,
-            "size": 3,
-            "color": "#00ff00"
-        },
+            'id': '5eb52597-0ad6-44b0-9df9-1782c8429962',
+            'label': 'and',
+            'url': 'null',
+            'text': 'null',
+            'title': '5eb52597-0ad6-44b0-9df9-1782c8429962',
+            'x': 2,
+            'y': 2,
+            'size': 3,
+            'color': '#00ff00'},
         {
-            "id": "oval:ssg-test_sshd_not_required:tst:1",
-            "label": "false",
-            "url": "null",
-            "text": "null",
-            "title": "oval:ssg-test_sshd_not_required:tst:1",
-            "x": -11,
-            "y": 7,
-            "size": 3,
-            "color": "#ff0000"
-        },
+            'id': '49024905-176a-4acd-9218-4f7966fa4f76',
+            'label': 'or',
+            'url': 'null',
+            'text': 'null',
+            'title': '49024905-176a-4acd-9218-4f7966fa4f76',
+            'x': -4,
+            'y': 3,
+            'size': 3,
+            'color': '#00ff00'},
         {
-            "id": "70d25e1d-3ac9-4f5a-8f86-1ad46b13ce09",
-            "label": "and",
-            "url": "null",
-            "text": "null",
-            "title": "70d25e1d-3ac9-4f5a-8f86-1ad46b13ce09",
-            "x": -9,
-            "y": 7,
-            "size": 3,
-            "color": "#00ff00"
-        },
+            'id': '300c4561-ca86-49db-ac8d-4c7471f2aafd',
+            'label': 'and',
+            'url': 'null',
+            'text': 'null',
+            'title': '300c4561-ca86-49db-ac8d-4c7471f2aafd',
+            'x': -2,
+            'y': 3,
+            'size': 3,
+            'color': '#ff0000'},
+       {
+            'id': 'a11311fb-f598-41ef-82da-80f96a4b0db3',
+            'label': 'or',
+            'url': 'null',
+            'text': 'null',
+            'title': 'a11311fb-f598-41ef-82da-80f96a4b0db3',
+            'x': 0,
+            'y': 3,
+            'size': 3,
+            'color': '#00ff00'},
         {
-            "id": "d4ebfbf0-acec-41b7-83be-e98665b6f645",
-            "label": "and",
-            "url": "null",
-            "text": "null",
-            "title": "d4ebfbf0-acec-41b7-83be-e98665b6f645",
-            "x": -8,
-            "y": 5,
-            "size": 3,
-            "color": "#ff0000"
-        },
+            'id': '5ccd4201-a08d-4c77-8593-089a30024435',
+            'label': 'and',
+            'url': 'null',
+            'text': 'null',
+            'title': '5ccd4201-a08d-4c77-8593-089a30024435',
+            'x': 2,
+            'y': 3,
+            'size': 3,
+            'color': '#00ff00'},
         {
-            "id": "oval:ssg-test_package_openssh-server_removed:tst:1",
-            "label": "false",
-            "url": "null",
-            "text": "null",
-            "title": "oval:ssg-test_package_openssh-server_removed:tst:1",
-            "x": -6,
-            "y": 7,
-            "size": 3,
-            "color": "#ff0000"
-        },
+            'id': 'oval:ssg-test_sshd_hostbasedauthentication:tst:1',
+            'label': 'sshd_hostbasedauthentication',
+            'url': 'null',
+            'text': 'null',
+            'title': 'oval:ssg-test_sshd_hostbasedauthentication:tst:1',
+            'x': 4,
+            'y': 3.36,
+            'size': 3,
+            'color': '#00ff00'},
         {
-            "id": "fddd65d1-ec4d-4b8f-95d9-45eac3a8d502",
-            "label": "and",
-            "url": "null",
-            "text": "null",
-            "title": "fddd65d1-ec4d-4b8f-95d9-45eac3a8d502",
-            "x": -7,
-            "y": 3,
-            "size": 3,
-            "color": "#00ff00"
-        },
+            'id': 'oval:ssg-test_sshd_not_required:tst:1',
+            'label': 'sshd_not_required',
+            'url': 'null',
+            'text': 'null',
+            'title': 'oval:ssg-test_sshd_not_required:tst:1',
+            'x': -6,
+            'y': 4,
+            'size': 3,
+            'color': '#ff0000'},
         {
-            "id": "bb5da04b-9b2f-4e54-b89f-8c871c404e87",
-            "label": "or",
-            "url": "null",
-            "text": "null",
-            "title": "bb5da04b-9b2f-4e54-b89f-8c871c404e87",
-            "x": -5,
-            "y": 5,
-            "size": 3,
-            "color": "#00ff00"
-        },
+            'id': 'e1a2009b-1612-4580-b72b-482873e6ba5e',
+            'label': 'and',
+            'url': 'null',
+            'text': 'null',
+            'title': 'e1a2009b-1612-4580-b72b-482873e6ba5e',
+            'x': -4,
+            'y': 4,
+            'size': 3,
+            'color': '#00ff00'},
         {
-            "id": "oval:ssg-test_sshd_required:tst:1",
-            "label": "false",
-            "url": "null",
-            "text": "null",
-            "title": "oval:ssg-test_sshd_required:tst:1",
-            "x": -3,
-            "y": 7,
-            "size": 3,
-            "color": "#ff0000"
-        },
+            'id': 'oval:ssg-test_package_openssh-server_removed:tst:1',
+            'label': 'package_openssh-server_removed',
+            'url': 'null',
+            'text': 'null',
+            'title': 'oval:ssg-test_package_openssh-server_removed:tst:1',
+            'x': -2,
+            'y': 4.36,
+            'size': 3,
+            'color': '#ff0000'},
         {
-            "id": "20886ece-396f-45fe-992a-563623f35b9b",
-            "label": "and",
-            "url": "null",
-            "text": "null",
-            "title": "20886ece-396f-45fe-992a-563623f35b9b",
-            "x": -1,
-            "y": 7,
-            "size": 3,
-            "color": "#00ff00"
-        },
+            'id': 'oval:ssg-test_sshd_required:tst:1',
+            'label': 'sshd_required',
+            'url': 'null',
+            'text': 'null',
+            'title': 'oval:ssg-test_sshd_required:tst:1',
+            'x': 0,
+            'y': 4,
+            'size': 3,
+            'color': '#ff0000'},
         {
-            "id": "fc1496fd-1097-4bed-8651-f8d7a3b82e3b",
-            "label": "and",
-            "url": "null",
-            "text": "null",
-            "title": "fc1496fd-1097-4bed-8651-f8d7a3b82e3b",
-            "x": 0,
-            "y": 5,
-            "size": 3,
-            "color": "#00ff00"
-        },
+            'id': '54318a01-99bb-4b72-8111-3600e99cbc64',
+            'label': 'and',
+            'url': 'null',
+            'text': 'null',
+            'title': '54318a01-99bb-4b72-8111-3600e99cbc64',
+            'x': 2,
+            'y': 4,
+            'size': 3,
+            'color': '#00ff00'},
         {
-            "id": "oval:ssg-test_package_openssh-server_installed:tst:1",
-            "label": "true",
-            "url": "null",
-            "text": "null",
-            "title": "oval:ssg-test_package_openssh-server_installed:tst:1",
-            "x": 2,
-            "y": 7,
-            "size": 3,
-            "color": "#00ff00"
-        },
+            'id': 'oval:ssg-test_package_openssh-server_installed:tst:1',
+            'label': 'package_openssh-server_installed',
+            'url': 'null',
+            'text': 'null',
+            'title': 'oval:ssg-test_package_openssh-server_installed:tst:1',
+            'x': 4,
+            'y': 4.36,
+            'size': 3,
+            'color': '#00ff00'},
         {
-            "id": "oval:ssg-test_sshd_hostbasedauthentication:tst:1",
-            "label": "true",
-            "url": "null",
-            "text": "null",
-            "title": "oval:ssg-test_sshd_hostbasedauthentication:tst:1",
-            "x": 3,
-            "y": 5,
-            "size": 3,
-            "color": "#00ff00"
-        },
-        {
-            "id": "oval:ssg-test_sshd_requirement_unset:tst:1",
-            "label": "true",
-            "url": "null",
-            "text": "null",
-            "title": "oval:ssg-test_sshd_requirement_unset:tst:1",
-            "x": -7,
-            "y": 9,
-            "size": 3,
-            "color": "#00ff00"
-        }
-        ],
-        "edges": [
-        {
-            "id": "6fa59d60-26e4-439c-be15-0b1b2d69c1e3",
-            "source": "xccdf_org.ssgproject.content_rule_disable_host_auth",
-            "target": "oval:ssg-disable_host_auth:def:1"
-        },
-        {
-            "id": "79b0a3ff-5102-4c20-a625-a5cdecad378d",
-            "source": "oval:ssg-disable_host_auth:def:1",
-            "target": "b688b097-7f93-4d38-be83-f8aee611a7ab"
-        },
-        {
-            "id": "5fa8e26a-06a6-4ac9-948d-a7875c6476c7",
-            "source": "b688b097-7f93-4d38-be83-f8aee611a7ab",
-            "target": "71e748eb-4f25-481d-8e03-d8b4b18c8cb3"
-        },
-        {
-            "id": "b93d6a68-bfca-4baf-9261-15569db9a0b7",
-            "source": "71e748eb-4f25-481d-8e03-d8b4b18c8cb3",
-            "target": "oval:ssg-test_sshd_not_required:tst:1"
-        },
-        {
-            "id": "b292dd59-38b7-4a82-b437-714b4aabd51a",
-            "source": "71e748eb-4f25-481d-8e03-d8b4b18c8cb3",
-            "target": "70d25e1d-3ac9-4f5a-8f86-1ad46b13ce09"
-        },
-        {
-            "id": "1895c211-8af2-476d-9a30-db25e5057507",
-            "source": "70d25e1d-3ac9-4f5a-8f86-1ad46b13ce09",
-            "target": "oval:ssg-test_sshd_requirement_unset:tst:1"
-        },
-        {
-            "id": "aa0316a5-f0ce-44b3-bf79-1459b1cca894",
-            "source": "b688b097-7f93-4d38-be83-f8aee611a7ab",
-            "target": "d4ebfbf0-acec-41b7-83be-e98665b6f645"
-        },
-        {
-            "id": "42d2ecb9-b45e-4d20-ac92-75f9612f992f",
-            "source": "d4ebfbf0-acec-41b7-83be-e98665b6f645",
-            "target": "oval:ssg-test_package_openssh-server_removed:tst:1"
-        },
-        {
-            "id": "c4cc7923-02b4-4277-8adb-aa792211faa8",
-            "source": "oval:ssg-disable_host_auth:def:1",
-            "target": "fddd65d1-ec4d-4b8f-95d9-45eac3a8d502"
-        },
-        {
-            "id": "b648737a-5082-4231-9790-5db1e51df8f9",
-            "source": "fddd65d1-ec4d-4b8f-95d9-45eac3a8d502",
-            "target": "bb5da04b-9b2f-4e54-b89f-8c871c404e87"
-        },
-        {
-            "id": "13f25b40-7410-4311-9f05-7a28a28e4511",
-            "source": "bb5da04b-9b2f-4e54-b89f-8c871c404e87",
-            "target": "oval:ssg-test_sshd_required:tst:1"
-        },
-        {
-            "id": "db8a73d8-aecb-4f84-b325-c1799a49af14",
-            "source": "bb5da04b-9b2f-4e54-b89f-8c871c404e87",
-            "target": "20886ece-396f-45fe-992a-563623f35b9b"
-        },
-        {
-            "id": "28ec9594-32c7-4ee2-9296-ebe728cc88be",
-            "source": "20886ece-396f-45fe-992a-563623f35b9b",
-            "target": "oval:ssg-test_sshd_requirement_unset:tst:1"
-        },
-        {
-            "id": "5350c294-9036-497a-bea5-2dbd47502c34",
-            "source": "fddd65d1-ec4d-4b8f-95d9-45eac3a8d502",
-            "target": "fc1496fd-1097-4bed-8651-f8d7a3b82e3b"
-        },
-        {
-            "id": "94492e77-6089-44d6-95d0-ff61421112a4",
-            "source": "fc1496fd-1097-4bed-8651-f8d7a3b82e3b",
-            "target": "oval:ssg-test_package_openssh-server_installed:tst:1"
-        },
-        {
-            "id": "ae8a5250-93ca-4143-9812-8847dc8fac82",
-            "source": "fddd65d1-ec4d-4b8f-95d9-45eac3a8d502",
-            "target": "oval:ssg-test_sshd_hostbasedauthentication:tst:1"
-        }
-        ]
-        }    
+            'id': 'oval:ssg-test_sshd_requirement_unset:tst:1',
+            'label': 'sshd_requirement_unset',
+            'url': 'null',
+            'text': 'null',
+            'title': 'oval:ssg-test_sshd_requirement_unset:tst:1',
+            'x': 0,
+            'y': 5,
+            'size': 3,
+            'color': '#00ff00'}],
+        'edges': [
+            {
+                'id': 'eea56f4a-7cef-4be9-b0fc-0f472e56fccf',
+                'source': 'xccdf_org.ssgproject.content_rule_disable_host_auth',
+                'target': 'oval:ssg-disable_host_auth:def:1'},
+            {
+                'id': '95d39f35-5e43-417a-9be6-fe2d534648eb',
+                'source': 'oval:ssg-disable_host_auth:def:1',
+                'target': '877adf97-04e6-4e2f-af1a-2b75f4b5c0ac'},
+            {
+                'id': '81bee78f-0040-45cd-ac6f-391d7d3b5c4b',
+                'source': '877adf97-04e6-4e2f-af1a-2b75f4b5c0ac',
+                'target': '49024905-176a-4acd-9218-4f7966fa4f76'},
+            {
+                'id': '0fa824cf-3a0b-4b2c-8142-c6a1398b8854',
+                'source': '49024905-176a-4acd-9218-4f7966fa4f76',
+                'target': 'oval:ssg-test_sshd_not_required:tst:1'},
+            {
+                'id': '2a8aeff8-c9d0-46bf-ba6f-53781a511aa6',
+                'source': '49024905-176a-4acd-9218-4f7966fa4f76',
+                'target': 'e1a2009b-1612-4580-b72b-482873e6ba5e'},
+            {
+                'id': '02bcdc1b-bdc2-4562-872b-a2f48c047b4a',
+                'source': 'e1a2009b-1612-4580-b72b-482873e6ba5e',
+                'target': 'oval:ssg-test_sshd_requirement_unset:tst:1'},
+            {
+                'id': '5a85614d-ec49-43e4-b193-e4ab9915de37',
+                'source': '877adf97-04e6-4e2f-af1a-2b75f4b5c0ac',
+                'target': '300c4561-ca86-49db-ac8d-4c7471f2aafd'},
+            {
+                'id': 'b07ceea7-fbef-4a7d-870f-7b2f732e2dc4',
+                'source': '300c4561-ca86-49db-ac8d-4c7471f2aafd',
+                'target': 'oval:ssg-test_package_openssh-server_removed:tst:1'},
+            {
+                'id': '2c82da7f-321f-4cdb-a26e-bda1e0c770eb',
+                'source': 'oval:ssg-disable_host_auth:def:1',
+                'target': '5eb52597-0ad6-44b0-9df9-1782c8429962'},
+            {
+                'id': '04e08f99-7dc4-4ec0-9f61-c095a5d31149',
+                'source': '5eb52597-0ad6-44b0-9df9-1782c8429962',
+                'target': 'a11311fb-f598-41ef-82da-80f96a4b0db3'},
+            {
+                'id': 'db01fc1a-6575-4501-8694-88799fd6aa22',
+                'source': 'a11311fb-f598-41ef-82da-80f96a4b0db3',
+                'target': 'oval:ssg-test_sshd_required:tst:1'},
+            {
+                'id': 'e781cbf0-923f-40a1-8f0d-62af77b6657e',
+                'source': 'a11311fb-f598-41ef-82da-80f96a4b0db3',
+                'target': '54318a01-99bb-4b72-8111-3600e99cbc64'},
+            {
+                'id': 'f71355af-8b58-4508-8e4a-fb643a004461',
+                'source': '54318a01-99bb-4b72-8111-3600e99cbc64',
+                'target': 'oval:ssg-test_sshd_requirement_unset:tst:1'},
+            {
+                'id': 'f1737acb-0bf9-418f-973a-4148ce971d80',
+                'source': '5eb52597-0ad6-44b0-9df9-1782c8429962',
+                'target': '5ccd4201-a08d-4c77-8593-089a30024435'},
+            {
+                'id': '8218b9ac-c8f6-461b-a25e-e57c33bdb96f',
+                'source': '5ccd4201-a08d-4c77-8593-089a30024435',
+                'target': 'oval:ssg-test_package_openssh-server_installed:tst:1'},
+            {
+                'id': '6d357f2f-2b98-44f1-a8ae-f7f7d4accaf2',
+                'source': '5eb52597-0ad6-44b0-9df9-1782c8429962',
+                'target': 'oval:ssg-test_sshd_hostbasedauthentication:tst:1'}]}
+
     src = 'data/ssg-fedora-ds-arf.xml'
     rule_id = 'xccdf_org.ssgproject.content_rule_disable_host_auth'
 
     oval_tree = graph.oval_graph.build_nodes_form_xml(src, rule_id)
-    
+
     if oval_tree.node_id == rule_id:
         out_data = oval_tree.to_sigma_dict(0, 0)
         for i in range(len(out_data['nodes'])):
-            assert out_data['nodes'][i]['label']==test_data['nodes'][i]['label']
-            assert out_data['nodes'][i]['text']==test_data['nodes'][i]['text']
-            assert out_data['nodes'][i]['url']==test_data['nodes'][i]['url']
+            assert out_data['nodes'][i]['label'] == test_data['nodes'][i]['label']
+            assert out_data['nodes'][i]['text'] == test_data['nodes'][i]['text']
+            assert out_data['nodes'][i]['url'] == test_data['nodes'][i]['url']
 
 
 def test_and_or_eq_zero():
-    assert graph.evaluate.and_or_eq_zero('and',results_counts) == False
-    assert graph.evaluate.and_or_eq_zero('or',results_counts) == False  
-    assert graph.evaluate.and_or_eq_zero('xor',results_counts) == None  
+    assert graph.evaluate.and_or_eq_zero('and', results_counts) == False
+    assert graph.evaluate.and_or_eq_zero('or', results_counts) == False
+    assert graph.evaluate.and_or_eq_zero('xor', results_counts) is None
 
 
 def test_get_def_id_by_rule_id():
@@ -1332,7 +1292,7 @@ def test_get_def_id_by_rule_id():
     FIXTURE_DIR = py.path.local(_dir) / src
 
     parser = graph.xml_parser.xml_parser(str(FIXTURE_DIR))
-    
+
     with pytest.raises(ValueError) as e:
         parser.get_def_id_by_rule_id('hello')
     assert str(

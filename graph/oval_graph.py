@@ -166,26 +166,42 @@ class OvalNode(object):
             return {
                 'id': self.node_id,
                 'label': self.value,
+                'label': str(self.node_id).replace(
+                    'xccdf_org.ssgproject.content_rule_',
+                    '').replace(
+                    'oval:ssg-',
+                    '').replace(
+                    ':def:1',
+                    '').replace(
+                    ':tst:1',
+                    '').replace('test_', ''),
                 'url': 'null',
                 'text': 'null',
                 'title': self.node_id,
                 "x": x,
                 "y": y,
                 "size": 3,
-                "color": '#00ff00'
-            }
+                "color": '#00ff00'}
         elif self.value == 'false':
             return {
                 'id': self.node_id,
                 'label': self.value,
+                'label': str(self.node_id).replace(
+                    'xccdf_org.ssgproject.content_rule_',
+                    '').replace(
+                    'oval:ssg-',
+                    '').replace(
+                    ':def:1',
+                    '').replace(
+                    ':tst:1',
+                    '').replace('test_', ''),
                 'url': 'null',
                 'text': 'null',
                 'title': self.node_id,
                 "x": x,
                 "y": y,
                 "size": 3,
-                "color": '#ff0000'
-            }
+                "color": '#ff0000'}
         else:
             if self.evaluate_tree() == 'true':
                 return {
@@ -284,10 +300,126 @@ class OvalNode(object):
                     x_row + 1, y_row + 1, preprocessed_graph_data)
         return self._fix_graph(preprocessed_graph_data)
 
+    def countMaxY(self, out):
+        maxY = 0
+
+        for node in out['nodes']:
+            if(maxY < node['y']):
+                maxY = node['y']
+        return maxY
+
+    def createNodesInRows(self, rows):
+        nodesInRows = dict()
+
+        for i in range(rows + 1):
+            nodesInRows[i] = []
+        return nodesInRows
+
+    def pushNodesToNodesInRow(self, out, nodesInRows):
+        for node in out['nodes']:
+            nodesInRows[node['y']].append(node)
+
+    def removeEmptyRows(self, nodesInRows, maxY):
+        for row in range(maxY + 1):
+            if not nodesInRows[row]:
+                del nodesInRows[row]
+
+    def moveRows(self, nodesInRows):
+        count = 0
+        nodesInRows1 = dict()
+
+        for row in nodesInRows:
+            nodesInRows1[count] = nodesInRows[row]
+            for node in nodesInRows1[count]:
+                node['y'] = count
+            count += 1
+        return nodesInRows1
+
+    def createPositions(self, nodesInRows):
+        positions = []
+        for row in nodesInRows:
+            lenOfRow = len(nodesInRows[row])
+            if lenOfRow > 1:
+                if (lenOfRow % 2) == 1:
+                    lenOfRow += 1
+
+                for i in range((int(-(lenOfRow / 2))) * 2,
+                               (int(+(lenOfRow / 2)) + 1) * 2, 2):
+                    positions.append(i)
+
+                if lenOfRow == 2:
+                    positions.remove(0)
+
+                if len(nodesInRows[row]) < len(positions):
+                    positions.pop()
+                    if len(nodesInRows[row]) < len(positions):
+                        positions.pop(0)
+
+                count = 0
+
+                for pos in positions:
+                    nodesInRows[row][count]['x'] = pos
+                    count += 1
+                positions = []
+            else:
+                nodesInRows[row][0]['x'] = 0
+
+        return positions
+
+    def convertNodesInRowsToNodes(self, nodesInRows):
+        nodes = []
+        for row in nodesInRows:
+            for node in nodesInRows[row]:
+                nodes.append(node)
+        return nodes
+
+    def changePosition(self, positions, nodesInRows):
+        x = 0.6
+        upAndDown = True
+        down = False
+        downRow = False
+        saveX = 0
+
+        for row in nodesInRows:
+            for node in nodesInRows[row]:
+                if len(node['label']) > 6 and len(node['label']) < 40:
+                    if upAndDown:
+                        node['y'] = node['y'] + (0.6 * x)
+                        upAndDown = False
+                    else:
+                        upAndDown = True
+                elif len(node['label']) > 30:
+                    node['y'] = node['y'] + (0.6 * x)
+                    x += 0.6
+                    saveX = x
+                    down = True
+                else:
+                    if down:
+                        node['y'] = node['y'] + (0.6 * saveX)
+
+                    if downRow:
+                        node['y'] = node['y'] + (0.6 * saveX) - 0.7
+            if down:
+                down = False
+                downRow = True
+            x = 0.6
+
+    def center_graph(self, out):
+        maxY = self.countMaxY(out)
+        nodesInRows = self.createNodesInRows(maxY)
+        self.pushNodesToNodesInRow(out, nodesInRows)
+        self.removeEmptyRows(nodesInRows, maxY)
+        nodesInRows = self.moveRows(nodesInRows)
+        positions = self.createPositions(nodesInRows)
+        self.changePosition(positions, nodesInRows)
+        out['nodes'] = self.convertNodesInRowsToNodes(nodesInRows)
+        return out
+
     def to_sigma_dict(self, x, y):
-        return self._remove_Duplication(
-            self._help_to_sigma_dict(
-                x, y))
+        return self.center_graph(
+            self._remove_Duplication(
+                self._help_to_sigma_dict(
+                    x, y)))
 
 
 def build_nodes_form_xml(xml_src, rule_id):

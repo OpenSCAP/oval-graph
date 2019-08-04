@@ -344,31 +344,31 @@ class OvalNode(object):
             else:
                 nodesInRows1[row][0]['x'] = 0
         x = 0.6
-        idk = True
-        idk2 = False
-        idk3 = False
+        upAndDown = True
+        down = False
+        downRow = False
         for row in nodesInRows1:
             for node in nodesInRows1[row]:
                 if len(node['label']) > 6 and len(node['label']) < 40:
-                    if idk:
+                    if upAndDown:
                         node['y'] = node['y'] + (0.6 * x)
-                        idk = False
+                        upAndDown = False
                     else:
-                        idk = True
+                        upAndDown = True
                 elif len(node['label']) > 30:
                     node['y'] = node['y'] + (0.6 * x)
                     x += 0.6
                     saveX = x
-                    idk2 = True
+                    down = True
                 else:
-                    if idk2:
+                    if down:
                         node['y'] = node['y'] + (0.6 * saveX)
-                    if idk3:
+                    if downRow:
                         node['y'] = node['y'] + (0.6 * saveX) - 0.7
 
-            if idk2:
-                idk2 = False
-                idk3 = True
+            if down:
+                down = False
+                downRow = True
             x = 0.6
 
         nodes = []

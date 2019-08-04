@@ -319,7 +319,7 @@ class OvalNode(object):
         for node in out['nodes']:
             nodesInRows[node['y']].append(node)
 
-    def removeEmptyRows(self, nodesInRows,maxY):
+    def removeEmptyRows(self, nodesInRows, maxY):
         for row in range(maxY + 1):
             if not nodesInRows[row]:
                 del nodesInRows[row]
@@ -336,12 +336,12 @@ class OvalNode(object):
         return nodesInRows1
 
     def createPositions(self, nodesInRows):
+        positions = []
         for row in nodesInRows:
             lenOfRow = len(nodesInRows[row])
             if lenOfRow > 1:
                 if (lenOfRow % 2) == 1:
                     lenOfRow += 1
-                positions = []
 
                 for i in range((int(-(lenOfRow / 2))) * 2,
                                (int(+(lenOfRow / 2)) + 1) * 2, 2):
@@ -349,20 +349,23 @@ class OvalNode(object):
 
                 if lenOfRow == 2:
                     positions.remove(0)
-                
+
                 if len(nodesInRows[row]) < len(positions):
                     positions.pop()
                     if len(nodesInRows[row]) < len(positions):
                         positions.pop(0)
 
-                count1 = 0
+                count = 0
 
                 for pos in positions:
-                    nodesInRows[row][count1]['x'] = pos
-                    count1 += 1
+                    nodesInRows[row][count]['x'] = pos
+                    count += 1
+                positions = []
             else:
                 nodesInRows[row][0]['x'] = 0
+
         return positions
+
     def convertNodesInRowsToNodes(self, nodesInRows):
         nodes = []
         for row in nodesInRows:
@@ -400,15 +403,15 @@ class OvalNode(object):
                 down = False
                 downRow = True
             x = 0.6
-        
+
     def center_graph(self, out):
         maxY = self.countMaxY(out)
         nodesInRows = self.createNodesInRows(maxY)
         self.pushNodesToNodesInRow(out, nodesInRows)
         self.removeEmptyRows(nodesInRows, maxY)
         nodesInRows = self.moveRows(nodesInRows)
-        positions=self.createPositions(nodesInRows)
-        self.changePosition(positions,nodesInRows)
+        positions = self.createPositions(nodesInRows)
+        self.changePosition(positions, nodesInRows)
         out['nodes'] = self.convertNodesInRowsToNodes(nodesInRows)
         return out
 

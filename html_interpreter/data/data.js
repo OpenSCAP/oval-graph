@@ -23,66 +23,66 @@ var data_json ={
             "color": "#00ff00"
         },
         {
-            "id": "400128f8-bafc-4289-9f93-f6b7c49d2faa",
+            "id": "1527e169-c5b2-4111-8c4f-c58507cda0c8",
             "label": "and",
             "url": "null",
             "text": "null",
-            "title": "400128f8-bafc-4289-9f93-f6b7c49d2faa",
+            "title": "1527e169-c5b2-4111-8c4f-c58507cda0c8",
             "x": -2,
             "y": 2,
             "size": 3,
             "color": "#ff0000"
         },
         {
-            "id": "1c534cdb-0da4-498e-b4f3-380796cbc033",
+            "id": "86934566-71ba-47c0-ba90-8a15ba7d5b7e",
             "label": "and",
             "url": "null",
             "text": "null",
-            "title": "1c534cdb-0da4-498e-b4f3-380796cbc033",
+            "title": "86934566-71ba-47c0-ba90-8a15ba7d5b7e",
             "x": 2,
             "y": 2,
             "size": 3,
             "color": "#00ff00"
         },
         {
-            "id": "d1442427-a18c-4c0f-abcf-54d72bece221",
+            "id": "e5161588-2225-4301-98a9-3ffa72757d16",
             "label": "or",
             "url": "null",
             "text": "null",
-            "title": "d1442427-a18c-4c0f-abcf-54d72bece221",
+            "title": "e5161588-2225-4301-98a9-3ffa72757d16",
             "x": -4,
             "y": 3,
             "size": 3,
             "color": "#00ff00"
         },
         {
-            "id": "e7270dd2-3bd0-4dec-802b-45c5b8dd8505",
+            "id": "78c3f144-272f-43f9-b23f-6b0552f91f48",
             "label": "and",
             "url": "null",
             "text": "null",
-            "title": "e7270dd2-3bd0-4dec-802b-45c5b8dd8505",
+            "title": "78c3f144-272f-43f9-b23f-6b0552f91f48",
             "x": -2,
             "y": 3,
             "size": 3,
             "color": "#ff0000"
         },
         {
-            "id": "c5693343-59b7-4733-b911-80001d399cde",
+            "id": "f4f1d79a-6ddb-4062-8408-2114375b5d9a",
             "label": "or",
             "url": "null",
             "text": "null",
-            "title": "c5693343-59b7-4733-b911-80001d399cde",
+            "title": "f4f1d79a-6ddb-4062-8408-2114375b5d9a",
             "x": 0,
             "y": 3,
             "size": 3,
             "color": "#00ff00"
         },
         {
-            "id": "f88b5822-1c73-43b3-9512-73bcf7f51740",
+            "id": "d9d62542-2d01-48ea-b986-8d2715288054",
             "label": "and",
             "url": "null",
             "text": "null",
-            "title": "f88b5822-1c73-43b3-9512-73bcf7f51740",
+            "title": "d9d62542-2d01-48ea-b986-8d2715288054",
             "x": 2,
             "y": 3,
             "size": 3,
@@ -111,11 +111,11 @@ var data_json ={
             "color": "#ff0000"
         },
         {
-            "id": "10bb9698-6849-4966-967d-a2e240d57ce0",
+            "id": "e72318f6-cdb9-4d13-b010-74626be83985",
             "label": "and",
             "url": "null",
             "text": "null",
-            "title": "10bb9698-6849-4966-967d-a2e240d57ce0",
+            "title": "e72318f6-cdb9-4d13-b010-74626be83985",
             "x": -4,
             "y": 4,
             "size": 3,
@@ -144,11 +144,11 @@ var data_json ={
             "color": "#ff0000"
         },
         {
-            "id": "eca76528-348b-44e3-97b5-d56e582dbd64",
+            "id": "c2fd0f0f-a355-465c-90e3-2fe3b9433f58",
             "label": "and",
             "url": "null",
             "text": "null",
-            "title": "eca76528-348b-44e3-97b5-d56e582dbd64",
+            "title": "c2fd0f0f-a355-465c-90e3-2fe3b9433f58",
             "x": 2,
             "y": 4,
             "size": 3,
@@ -179,83 +179,83 @@ var data_json ={
     ],
     "edges": [
         {
-            "id": "e585e123-e153-4bd5-8e45-9adf84146d69",
+            "id": "5acdd0c1-974b-4ada-a6de-e9e608c8f888",
             "source": "xccdf_org.ssgproject.content_rule_disable_host_auth",
             "target": "oval:ssg-disable_host_auth:def:1"
         },
         {
-            "id": "886fcab4-a8f8-4af6-bc2d-f1e67f75c18d",
+            "id": "91eb33a4-5750-4930-a7f9-a617c02d6e49",
             "source": "oval:ssg-disable_host_auth:def:1",
-            "target": "400128f8-bafc-4289-9f93-f6b7c49d2faa"
+            "target": "1527e169-c5b2-4111-8c4f-c58507cda0c8"
         },
         {
-            "id": "1e175602-c151-468b-bd4d-a897e8226c43",
-            "source": "400128f8-bafc-4289-9f93-f6b7c49d2faa",
-            "target": "d1442427-a18c-4c0f-abcf-54d72bece221"
+            "id": "7870d2bb-8234-4278-b4c5-c1f3fc024a02",
+            "source": "1527e169-c5b2-4111-8c4f-c58507cda0c8",
+            "target": "e5161588-2225-4301-98a9-3ffa72757d16"
         },
         {
-            "id": "b592d96b-9722-4e85-8a9b-0822ecf15523",
-            "source": "d1442427-a18c-4c0f-abcf-54d72bece221",
+            "id": "a652931c-bf8b-44b7-bf24-5f7d112a10a4",
+            "source": "e5161588-2225-4301-98a9-3ffa72757d16",
             "target": "oval:ssg-test_sshd_not_required:tst:1"
         },
         {
-            "id": "3236856b-2046-49c4-9fd1-1d77f6a9aa95",
-            "source": "d1442427-a18c-4c0f-abcf-54d72bece221",
-            "target": "10bb9698-6849-4966-967d-a2e240d57ce0"
+            "id": "d93b1e2a-31f4-4879-a392-dc703883f1d6",
+            "source": "e5161588-2225-4301-98a9-3ffa72757d16",
+            "target": "e72318f6-cdb9-4d13-b010-74626be83985"
         },
         {
-            "id": "0e7c0b64-8e16-450c-b281-62feaf4e3ecf",
-            "source": "10bb9698-6849-4966-967d-a2e240d57ce0",
+            "id": "a732005c-d2e3-43d7-b97f-d66e80786532",
+            "source": "e72318f6-cdb9-4d13-b010-74626be83985",
             "target": "oval:ssg-test_sshd_requirement_unset:tst:1"
         },
         {
-            "id": "7514a273-a928-46e8-ade7-23d0eff1b7dd",
-            "source": "400128f8-bafc-4289-9f93-f6b7c49d2faa",
-            "target": "e7270dd2-3bd0-4dec-802b-45c5b8dd8505"
+            "id": "91b402e7-5edf-4f27-aef5-8cecd85c85bd",
+            "source": "1527e169-c5b2-4111-8c4f-c58507cda0c8",
+            "target": "78c3f144-272f-43f9-b23f-6b0552f91f48"
         },
         {
-            "id": "c0478cbb-4dd1-422e-8a3a-9822a4719b1d",
-            "source": "e7270dd2-3bd0-4dec-802b-45c5b8dd8505",
+            "id": "1815e3bf-d166-4dd8-a912-a5057e6a93ad",
+            "source": "78c3f144-272f-43f9-b23f-6b0552f91f48",
             "target": "oval:ssg-test_package_openssh-server_removed:tst:1"
         },
         {
-            "id": "058695e2-3dca-4fc9-ac7b-51ce3300392a",
+            "id": "b9bf5a86-3522-49d8-8182-a2733534a167",
             "source": "oval:ssg-disable_host_auth:def:1",
-            "target": "1c534cdb-0da4-498e-b4f3-380796cbc033"
+            "target": "86934566-71ba-47c0-ba90-8a15ba7d5b7e"
         },
         {
-            "id": "2b3dbbcd-e096-4a81-8679-b9878c58c5ae",
-            "source": "1c534cdb-0da4-498e-b4f3-380796cbc033",
-            "target": "c5693343-59b7-4733-b911-80001d399cde"
+            "id": "c0e870be-a60d-4c6f-b00d-51fdc8b33727",
+            "source": "86934566-71ba-47c0-ba90-8a15ba7d5b7e",
+            "target": "f4f1d79a-6ddb-4062-8408-2114375b5d9a"
         },
         {
-            "id": "82e7e858-926b-42d9-b83d-c5e303001fc0",
-            "source": "c5693343-59b7-4733-b911-80001d399cde",
+            "id": "87828bb6-c248-4e6c-a9cd-c8e7ed8da0c0",
+            "source": "f4f1d79a-6ddb-4062-8408-2114375b5d9a",
             "target": "oval:ssg-test_sshd_required:tst:1"
         },
         {
-            "id": "7e8e3a2b-60b3-4e3a-bf3b-b90a28f57995",
-            "source": "c5693343-59b7-4733-b911-80001d399cde",
-            "target": "eca76528-348b-44e3-97b5-d56e582dbd64"
+            "id": "d0c81283-c50e-4633-b1d7-8156ce596ba8",
+            "source": "f4f1d79a-6ddb-4062-8408-2114375b5d9a",
+            "target": "c2fd0f0f-a355-465c-90e3-2fe3b9433f58"
         },
         {
-            "id": "50b82e6a-fcfa-4c54-9b1e-0e963a0436b2",
-            "source": "eca76528-348b-44e3-97b5-d56e582dbd64",
+            "id": "334bc4d4-9b2d-427e-9abb-024ff6875322",
+            "source": "c2fd0f0f-a355-465c-90e3-2fe3b9433f58",
             "target": "oval:ssg-test_sshd_requirement_unset:tst:1"
         },
         {
-            "id": "68572eb9-8acb-46b6-a831-fca269aa483a",
-            "source": "1c534cdb-0da4-498e-b4f3-380796cbc033",
-            "target": "f88b5822-1c73-43b3-9512-73bcf7f51740"
+            "id": "5a962b6d-9c94-44a3-b069-1d38cb72f03a",
+            "source": "86934566-71ba-47c0-ba90-8a15ba7d5b7e",
+            "target": "d9d62542-2d01-48ea-b986-8d2715288054"
         },
         {
-            "id": "0764a6d2-8a0f-459c-8301-d1e6fe588b2e",
-            "source": "f88b5822-1c73-43b3-9512-73bcf7f51740",
+            "id": "7eec26e4-7f49-46c2-a14b-a6f41a321a65",
+            "source": "d9d62542-2d01-48ea-b986-8d2715288054",
             "target": "oval:ssg-test_package_openssh-server_installed:tst:1"
         },
         {
-            "id": "a77e1473-f1d6-4557-9730-6546017d2838",
-            "source": "1c534cdb-0da4-498e-b4f3-380796cbc033",
+            "id": "c57a9fb8-c89e-4472-b5c2-91b8d82ac564",
+            "source": "86934566-71ba-47c0-ba90-8a15ba7d5b7e",
             "target": "oval:ssg-test_sshd_hostbasedauthentication:tst:1"
         }
     ]

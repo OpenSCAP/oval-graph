@@ -357,6 +357,7 @@ def test_XORTreeNotappl():
 
     tests.any_test_help.any_test_treeEvaluation(Tree, "notappl")
 
+
 results_counts = {
     'true_cnt': -1,
     'false_cnt': -1,
@@ -375,10 +376,12 @@ results_counts1 = {
     'notappl_cnt': 3
 }
 
+
 def test_and_or_eq_zero():
     assert graph.evaluate.and_or_eq_zero('and', results_counts) == False
     assert graph.evaluate.and_or_eq_zero('or', results_counts) == False
     assert graph.evaluate.and_or_eq_zero('xor', results_counts) is None
+
 
 def test_bad_results_counts_for_operator_and():
     assert graph.evaluate.oval_operator_and(results_counts) is None

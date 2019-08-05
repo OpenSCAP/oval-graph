@@ -4,6 +4,7 @@ import os
 import py
 import pytest
 
+
 def test_create_node_dict_for_sigmaJs_0():
     out = {
         'color': '#ff0000',
@@ -119,20 +120,24 @@ def test_create_edge_dict_for_sigmaJs():
         'target': 2
     }
 
-    assert tests.any_test_help.get_simple_tree()._create_edge(1, 2)['source'] == out['source']
-    assert tests.any_test_help.get_simple_tree()._create_edge(1, 2)['target'] == out['target']
+    assert tests.any_test_help.get_simple_tree()._create_edge(1, 2)[
+        'source'] == out['source']
+    assert tests.any_test_help.get_simple_tree()._create_edge(1, 2)[
+        'target'] == out['target']
 
 
 def test_create_array_of_ids_form_tree():
     array = tests.any_test_help.get_simple_tree().create_list_of_id()
     assert array == [1, 2, 3, 4, 5, 6]
 
+
 def test_parsing_full_can_XML_and_evaluate():
     src = 'test_data/ssg-fedora-ds-arf.xml'
     rule_id = 'xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny'
     result = 'false'
 
-    tests.any_test_help.any_test_parsing_and_evaluate_scan_rule(src, rule_id, result)
+    tests.any_test_help.any_test_parsing_and_evaluate_scan_rule(
+        src, rule_id, result)
 
 
 def test_parsing_and_evaluate_scan_with_extend_def():
@@ -140,7 +145,8 @@ def test_parsing_and_evaluate_scan_with_extend_def():
     rule_id = 'xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_disable_ipv6'
     result = 'false'
 
-    tests.any_test_help.any_test_parsing_and_evaluate_scan_rule(src, rule_id, result)
+    tests.any_test_help.any_test_parsing_and_evaluate_scan_rule(
+        src, rule_id, result)
 
 
 def test_parsing_and_evaluate_scan_with_pasing_rule():
@@ -148,7 +154,8 @@ def test_parsing_and_evaluate_scan_with_pasing_rule():
     rule_id = 'xccdf_org.ssgproject.content_rule_service_debug-shell_disabled'
     result = 'true'
 
-    tests.any_test_help.any_test_parsing_and_evaluate_scan_rule(src, rule_id, result)
+    tests.any_test_help.any_test_parsing_and_evaluate_scan_rule(
+        src, rule_id, result)
 
 
 def test_parsing_and_evaluate_scan_with_fail_rule():
@@ -156,7 +163,8 @@ def test_parsing_and_evaluate_scan_with_fail_rule():
     rule_id = 'xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec'
     result = 'false'
 
-    tests.any_test_help.any_test_parsing_and_evaluate_scan_rule(src, rule_id, result)
+    tests.any_test_help.any_test_parsing_and_evaluate_scan_rule(
+        src, rule_id, result)
 
 
 def test_parsing_and_evaluate_scan_with_rule_with_XOR():
@@ -164,7 +172,8 @@ def test_parsing_and_evaluate_scan_with_rule_with_XOR():
     rule_id = 'xccdf_org.ssgproject.content_rule_mount_option_nosuid_removable_partitions'
     result = 'true'
 
-    tests.any_test_help.any_test_parsing_and_evaluate_scan_rule(src, rule_id, result)
+    tests.any_test_help.any_test_parsing_and_evaluate_scan_rule(
+        src, rule_id, result)
 
 
 def test_parsing_and_evaluate_scan_with_11_rules():
@@ -172,39 +181,27 @@ def test_parsing_and_evaluate_scan_with_11_rules():
     rule_id = 'xccdf_org.ssgproject.content_rule_mount_option_tmp_nosuid'
     result = 'true'
 
-    tests.any_test_help.any_test_parsing_and_evaluate_scan_rule(src, rule_id, result)
+    tests.any_test_help.any_test_parsing_and_evaluate_scan_rule(
+        src, rule_id, result)
 
 
 def test_transformation_tree_to_Json_for_SigmaJs_0():
-    test_data_src='test_data/sigmaJs_json0.json'
-    test_data = tests.any_test_help.any_get_test_data_json(test_data_src)
+    test_data_src = 'test_data/sigmaJs_json0.json'
     src = 'data/ssg-fedora-ds-arf.xml'
     rule_id = 'xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny'
 
-    oval_tree = graph.oval_graph.build_nodes_form_xml(src, rule_id)
-    if oval_tree.node_id == rule_id:
-        out_data = oval_tree.to_sigma_dict(0, 0)
-        print(out_data)
-        for i in range(len(out_data['nodes'])):
-            assert out_data['nodes'][i]['label'] == test_data['nodes'][i]['label']
-            assert out_data['nodes'][i]['text'] == test_data['nodes'][i]['text']
-            assert out_data['nodes'][i]['url'] == test_data['nodes'][i]['url']
+    tests.any_test_help.any_test_transformation_tree_to_Json_for_SigmaJs(
+        src, test_data_src, rule_id)
 
 
 def test_transformation_tree_to_Json_for_SigmaJs_with_duplicated_test():
-    test_data_src='test_data/sigmaJs_json1.json'
-    test_data = tests.any_test_help.any_get_test_data_json(test_data_src)
+    test_data_src = 'test_data/sigmaJs_json1.json'
     src = 'data/ssg-fedora-ds-arf.xml'
     rule_id = 'xccdf_org.ssgproject.content_rule_disable_host_auth'
 
-    oval_tree = graph.oval_graph.build_nodes_form_xml(src, rule_id)
+    tests.any_test_help.any_test_transformation_tree_to_Json_for_SigmaJs(
+        src, test_data_src, rule_id)
 
-    if oval_tree.node_id == rule_id:
-        out_data = oval_tree.to_sigma_dict(0, 0)
-        for i in range(len(out_data['nodes'])):
-            assert out_data['nodes'][i]['label'] == test_data['nodes'][i]['label']
-            assert out_data['nodes'][i]['text'] == test_data['nodes'][i]['text']
-            assert out_data['nodes'][i]['url'] == test_data['nodes'][i]['url']
 
 def test_get_def_id_by_rule_id():
     src = 'test_data/ssg-fedora-ds-arf.xml'

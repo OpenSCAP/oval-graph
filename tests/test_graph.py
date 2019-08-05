@@ -3,7 +3,6 @@ import pytest
 import tests.any_test_help
 
 
-
 def test_bad_tree():
     with pytest.raises(ValueError) as e:
         badTree()
@@ -113,7 +112,7 @@ def test_bigOvalTree():
     ]
     )
 
-    test_data_src='test_data/bigOvalTree.json'
+    test_data_src = 'test_data/bigOvalTree.json'
     dict_of_tree = tests.any_test_help.any_get_test_data_json(test_data_src)
     any_test_treeEvaluation(Tree, "false")
     any_test_tree_to_dict_of_tree(Tree, dict_of_tree)
@@ -161,9 +160,9 @@ def test_add_to_tree():
          f
     """
 
-    test_data_src='test_data/add_to_tree.json'
+    test_data_src = 'test_data/add_to_tree.json'
     dict_of_tree = tests.any_test_help.any_get_test_data_json(test_data_src)
-     
+
     Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', [
         graph.oval_graph.OvalNode(2, 'value', "false")
     ]
@@ -194,16 +193,3 @@ def test_ChangeValueTree():
 
     Tree.change_tree_value(3, "true")
     any_test_treeEvaluation(Tree, "true")
-
-
-
-
-
-
-
-
-
-
-
-
-

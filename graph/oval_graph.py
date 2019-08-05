@@ -1,5 +1,5 @@
 '''
-    Module for create ID
+    Modules form my lib and for create ID
 '''
 import graph.xml_parser
 import graph.evaluate
@@ -7,16 +7,12 @@ import uuid
 import collections
 
 '''
-    Modules form my lib
-'''
-
-'''
     This module contains methods and classes for
     constructing and controlling an oval tree.
 '''
 
 
-class OvalNode(object):
+class OvalNode():
     '''
     The OvalNode object is one node of oval graph.
 
@@ -305,108 +301,108 @@ class OvalNode(object):
                     x_row + 1, y_row + 1, preprocessed_graph_data)
         return self._fix_graph(preprocessed_graph_data)
 
-    def countMaxY(self, out):
-        maxY = 0
+    def count_max_y(self, out):
+        max_y = 0
 
         for node in out['nodes']:
-            if maxY < node['y']:
-                maxY = node['y']
-        return maxY
+            if max_y < node['y']:
+                max_y = node['y']
+        return max_y
 
-    def createNodesInRows(self, rows):
-        nodesInRows = dict()
+    def create_nodes_in_rows(self, rows):
+        nodes_in_rows = dict()
 
         for i in range(rows + 1):
-            nodesInRows[i] = []
-        return nodesInRows
+            nodes_in_rows[i] = []
+        return nodes_in_rows
 
-    def pushNodesToNodesInRow(self, out, nodesInRows):
+    def push_nodes_to_nodes_in_row(self, out, nodes_in_rows):
         for node in out['nodes']:
-            nodesInRows[node['y']].append(node)
+            nodes_in_rows[node['y']].append(node)
 
-    def removeEmptyRows(self, nodesInRows, maxY):
-        for row in range(maxY + 1):
-            if not nodesInRows[row]:
-                del nodesInRows[row]
+    def remove_empty_rows(self, nodes_in_rows, max_y):
+        for row in range(max_y + 1):
+            if not nodes_in_rows[row]:
+                del nodes_in_rows[row]
 
-    def moveRows(self, nodesInRows):
+    def move_rows(self, nodes_in_rows):
         count = 0
-        nodesInRows1 = dict()
+        nodes_in_rows1 = dict()
 
-        for row in nodesInRows:
-            nodesInRows1[count] = nodesInRows[row]
-            for node in nodesInRows1[count]:
+        for row in nodes_in_rows:
+            nodes_in_rows1[count] = nodes_in_rows[row]
+            for node in nodes_in_rows1[count]:
                 node['y'] = count
             count += 1
-        return nodesInRows1
+        return nodes_in_rows1
 
-    def createPositions(self, nodesInRows):
+    def create_positions(self, nodes_in_rows):
         positions = []
-        for row in nodesInRows:
-            lenOfRow = len(nodesInRows[row])
-            if lenOfRow > 1:
-                if (lenOfRow % 2) == 1:
-                    lenOfRow += 1
+        for row in nodes_in_rows:
+            len_of_row = len(nodes_in_rows[row])
+            if len_of_row > 1:
+                if (len_of_row % 2) == 1:
+                    len_of_row += 1
 
-                for i in range((int(-(lenOfRow / 2))) * 2,
-                               (int(+(lenOfRow / 2)) + 1) * 2, 2):
+                for i in range((int(-(len_of_row / 2))) * 2,
+                               (int(+(len_of_row / 2)) + 1) * 2, 2):
                     positions.append(i)
 
-                if lenOfRow == 2:
+                if len_of_row == 2:
                     positions.remove(0)
 
-                if len(nodesInRows[row]) < len(positions):
+                if len(nodes_in_rows[row]) < len(positions):
                     positions.pop()
-                    if len(nodesInRows[row]) < len(positions):
+                    if len(nodes_in_rows[row]) < len(positions):
                         positions.pop(0)
 
                 count = 0
 
                 for pos in positions:
-                    nodesInRows[row][count]['x'] = pos
+                    nodes_in_rows[row][count]['x'] = pos
                     count += 1
                 positions = []
             else:
-                nodesInRows[row][0]['x'] = 0
+                nodes_in_rows[row][0]['x'] = 0
 
         return positions
 
-    def convertNodesInRowsToNodes(self, nodesInRows):
+    def convert_nodes_in_rows_to_nodes(self, nodes_in_rows):
         nodes = []
-        for row in nodesInRows:
-            for node in nodesInRows[row]:
+        for row in nodes_in_rows:
+            for node in nodes_in_rows[row]:
                 nodes.append(node)
         return nodes
 
-    def changePosition(self, positions, nodesInRows):
+    def change_position(self, positions, nodes_in_rows):
         x = 0.6
-        upAndDown = True
+        up_and_down = True
         down = False
-        downRow = False
-        saveX = 0
+        down_row = False
+        save_x = 0
 
-        for row in nodesInRows:
-            for node in nodesInRows[row]:
+        for row in nodes_in_rows:
+            for node in nodes_in_rows[row]:
                 if len(node['label']) > 6 and len(node['label']) < 40:
-                    if upAndDown:
+                    if up_and_down:
                         node['y'] = node['y'] + (0.6 * x)
-                        upAndDown = False
+                        up_and_down = False
                     else:
-                        upAndDown = True
+                        up_and_down = True
                 elif len(node['label']) > 30:
                     node['y'] = node['y'] + (0.6 * x)
                     x += 0.6
-                    saveX = x
+                    save_x = x
                     down = True
                 else:
                     if down:
-                        node['y'] = node['y'] + (0.6 * saveX)
+                        node['y'] = node['y'] + (0.6 * save_x)
 
-                    if downRow:
-                        node['y'] = node['y'] + (0.6 * saveX) - 0.7
+                    if down_row:
+                        node['y'] = node['y'] + (0.6 * save_x) - 0.7
             if down:
                 down = False
-                downRow = True
+                down_row = True
             x = 0.6
 
     def sort(self, array):
@@ -416,31 +412,31 @@ class OvalNode(object):
 
         if len(array) > 1:
             pivot = array[0]['x']
-            for x in array:
-                if x['x'] < pivot:
-                    less.append(x)
-                if x['x'] == pivot:
-                    equal.append(x)
-                if x['x'] > pivot:
-                    greater.append(x)
+            for node in array:
+                if node['x'] < pivot:
+                    less.append(node)
+                if node['x'] == pivot:
+                    equal.append(node)
+                if node['x'] > pivot:
+                    greater.append(node)
             return self.sort(less) + equal + self.sort(greater)
         else:
             return array
 
-    def sortNodes(self, nodesInRows):
-        for row in nodesInRows:
-            nodesInRows[row] = self.sort(nodesInRows[row])
+    def sort_nodes(self, nodes_in_rows):
+        for row in nodes_in_rows:
+            nodes_in_rows[row] = self.sort(nodes_in_rows[row])
 
     def center_graph(self, out):
-        maxY = self.countMaxY(out)
-        nodesInRows = self.createNodesInRows(maxY)
-        self.pushNodesToNodesInRow(out, nodesInRows)
-        self.removeEmptyRows(nodesInRows, maxY)
-        nodesInRows = self.moveRows(nodesInRows)
-        self.sortNodes(nodesInRows)
-        positions = self.createPositions(nodesInRows)
-        self.changePosition(positions, nodesInRows)
-        out['nodes'] = self.convertNodesInRowsToNodes(nodesInRows)
+        max_y = self.count_max_y(out)
+        nodes_in_rows = self.create_nodes_in_rows(max_y)
+        self.push_nodes_to_nodes_in_row(out, nodes_in_rows)
+        self.remove_empty_rows(nodes_in_rows, max_y)
+        nodes_in_rows = self.move_rows(nodes_in_rows)
+        self.sort_nodes(nodes_in_rows)
+        positions = self.create_positions(nodes_in_rows)
+        self.change_position(positions, nodes_in_rows)
+        out['nodes'] = self.convert_nodes_in_rows_to_nodes(nodes_in_rows)
         return out
 
     def to_sigma_dict(self, x, y):

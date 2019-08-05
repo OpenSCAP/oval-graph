@@ -404,12 +404,36 @@ class OvalNode(object):
                 downRow = True
             x = 0.6
 
+    def sort(self, array):
+        less = []
+        equal = []
+        greater = []
+
+        if len(array) > 1:
+            pivot = array[0]['x']
+            for x in array:
+                if x['x'] < pivot:
+                    less.append(x)
+                if x['x'] == pivot:
+                    equal.append(x)
+                if x['x'] > pivot:
+                    greater.append(x)
+            return self.sort(less) + equal + self.sort(greater)
+        else:
+            return array
+
+    def sortNodes(self, nodesInRows):
+        for row in nodesInRows:
+            nodesInRows[row] = self.sort(nodesInRows[row])
+
+
     def center_graph(self, out):
         maxY = self.countMaxY(out)
         nodesInRows = self.createNodesInRows(maxY)
         self.pushNodesToNodesInRow(out, nodesInRows)
         self.removeEmptyRows(nodesInRows, maxY)
         nodesInRows = self.moveRows(nodesInRows)
+        self.sortNodes(nodesInRows)
         positions = self.createPositions(nodesInRows)
         self.changePosition(positions, nodesInRows)
         out['nodes'] = self.convertNodesInRowsToNodes(nodesInRows)

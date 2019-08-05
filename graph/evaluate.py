@@ -30,13 +30,11 @@ def oval_operator_one(result):
     """
     out_result = None
     if result['true_cnt'] == 1\
-            and eq_or_greater_zero(result, 'false_cnt')\
-            and error_unknown_noteval_eq_zero(result)\
-            and eq_or_greater_zero(result, 'notappl_cnt'):
+            and eq_or_greater_zero_duo(result,'false_cnt','notappl_cnt')\
+            and error_unknown_noteval_eq_zero(result):
         out_result = 'true'
     elif result['true_cnt'] >= 2\
-            and eq_or_greater_zero(result, 'false_cnt')\
-            and eq_or_greater_zero(result, 'error_cnt')\
+            and eq_or_greater_zero_duo(result, 'false_cnt', 'error_cnt')\
             and eq_or_greater_zero_unknown_noteval_notappl(result):
         out_result = 'false'
     elif eq_zero(result, 'true_cnt')\
@@ -53,15 +51,12 @@ def oval_operator_one(result):
             and eq_or_greater_zero(result, 'false_cnt')\
             and eq_zero(result, 'error_cnt')\
             and result['unknown_cnt'] >= 1\
-            and eq_or_greater_zero(result, 'noteval_cnt')\
-            and eq_or_greater_zero(result, 'notappl_cnt'):
+            and eq_or_greater_zero_duo(result, 'noteval_cnt','notappl_cnt'):
         out_result = 'unknown'
     elif smaller_than_two(result, 'true_cnt')\
-            and eq_or_greater_zero(result, 'false_cnt')\
-            and eq_zero(result, 'error_cnt')\
-            and eq_zero(result, 'unknown_cnt')\
-            and greater_zero(result, 'noteval_cnt')\
-            and eq_or_greater_zero(result, 'notappl_cnt'):
+            and eq_or_greater_zero_duo(result, 'false_cnt','notappl_cnt')\
+            and eq_zero_duo(result, 'error_cnt', 'unknown_cnt')\
+            and greater_zero(result, 'noteval_cnt'):
         out_result = 'noteval'
     else:
         out_result = None
@@ -142,6 +137,12 @@ def eq_zero(result, cnt):
     return False
 
 
+def eq_zero_duo(result, cnt0, cnt1):
+    if result[cnt0] == 0 and result[cnt1] == 0:
+        return True
+    return False
+
+
 def greater_zero(result, cnt):
     if result[cnt] > 0:
         return True
@@ -152,6 +153,12 @@ def eq_or_greater_zero(result, cnt):
     if result[cnt] >= 0:
         return True
     return False
+
+def eq_or_greater_zero_duo(result, cnt0, cnt1):
+    if result[cnt0] >= 0 and result[cnt1] >= 0:
+        return True
+    return False
+
 
 
 def smaller_than_two(result, cnt):

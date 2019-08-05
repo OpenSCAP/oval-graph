@@ -43,16 +43,12 @@ https://oval.mitre.org/language/version5.11/ovaldefinition/documentation/oval-co
 
 14]info in js 
 
-TODO2
-1] center graph
-2] Html report
-3] negation
-4] overlap 
-5] fix tests
+15] center graph - done
+16] Html report
+17] negation
+18] overlap - done 
+19] rework tests - done
 
 
 FIX = python3 run.py data/ssg-fedora-ds-arf.xml xccdf_org.ssgproject.content_rule_dconf_gnome_session_idle_user_locks
 
-
-
-test_result

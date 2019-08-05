@@ -84,7 +84,7 @@ class OvalNode(object):
             raise ValueError(
                 "err- true, false, error, unknown. noteval, notappl have not child!")
 
-    def evaluate_tree(self):
+    def get_result_counts(self):
         result = {
             'true_cnt': 0,
             'false_cnt': 0,
@@ -110,6 +110,11 @@ class OvalNode(object):
             else:
                 if self.node_type == "operator":
                     result[child.evaluate_tree() + "_cnt"] += 1
+
+        return result
+
+    def evaluate_tree(self):
+        result = self.get_result_counts()
 
         if result['notappl_cnt'] > 0\
                 and graph.evaluate.eq_zero(result, 'false_cnt')\
@@ -304,7 +309,7 @@ class OvalNode(object):
         maxY = 0
 
         for node in out['nodes']:
-            if(maxY < node['y']):
+            if maxY < node['y']:
                 maxY = node['y']
         return maxY
 
@@ -425,7 +430,6 @@ class OvalNode(object):
     def sortNodes(self, nodesInRows):
         for row in nodesInRows:
             nodesInRows[row] = self.sort(nodesInRows[row])
-
 
     def center_graph(self, out):
         maxY = self.countMaxY(out)

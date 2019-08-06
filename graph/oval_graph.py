@@ -233,16 +233,16 @@ class OvalNode():
                     "color": '#000000'
                 }
 
-    def _create_edge(self, id_source, id_target, target):
+    def _create_edge(self, id_source, id_target, target_node):
         return {
             "id": str(uuid.uuid4()),
             "source": id_source,
             "target": id_target,
-            "color": self._get_color_edge(target)
+            "color": self._get_color_edge(target_node)
         }
 
-    def _get_color_edge(self, target):
-        return target['color']
+    def _get_color_edge(self, target_node):
+        return target_node['color']
 
     def create_list_of_id(self, array_of_ids=None):
         if array_of_ids is None:

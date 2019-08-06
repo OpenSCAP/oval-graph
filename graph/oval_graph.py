@@ -161,15 +161,13 @@ class OvalNode():
     # Methods for interpreting oval tree with SigmaJS
 
     def _get_label(self):
-        return str(self.node_id).replace(
-            'xccdf_org.ssgproject.content_rule_',
-            '').replace(
-            'oval:ssg-',
-            '').replace(
-            ':def:1',
-            '').replace(
-            ':tst:1',
-            '').replace('test_', '')
+        return \
+            str(self.node_id).\
+            replace('xccdf_org.ssgproject.content_rule_', '').\
+            replace('oval:ssg-', '').\
+            replace(':def:1', '').\
+            replace(':tst:1', '').\
+            replace('test_', '')
 
     def _create_node(self, x, y):
         # print(self.evaluate_tree(),self.value)

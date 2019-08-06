@@ -155,7 +155,6 @@ results_counts1 = {
 }
 
 
-
 def test_and_or_eq_zero():
     assert not graph.evaluate.and_or_eq_zero('and', results_counts)
     assert not graph.evaluate.and_or_eq_zero('or', results_counts)
@@ -186,8 +185,11 @@ def test_false_smaller_then_two():
     assert not graph.evaluate.smaller_than_two(
         results_counts1, 'true_cnt')
 
+
 def test_false_eq_zero_duo():
-        assert not graph.evaluate.eq_zero_duo(results_counts, 'noteval_cnt', 'error_cnt')
+    assert not graph.evaluate.eq_zero_duo(
+        results_counts, 'noteval_cnt', 'error_cnt')
+
 
 def test_false_eq_or_greater_zero_unknown_noteval_notappl():
     assert not graph.evaluate.eq_or_greater_zero_unknown_noteval_notappl(

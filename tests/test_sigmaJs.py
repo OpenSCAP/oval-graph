@@ -117,7 +117,7 @@ def test_create_edge_dict_for_sigmaJs():
         'id': 'random_ID',
         'source': 1,
         'target': 2,
-        'color':'#000000'
+        'color': '#000000'
     }
 
     target_node = {
@@ -132,12 +132,13 @@ def test_create_edge_dict_for_sigmaJs():
         'y': 0
     }
 
-    assert tests.any_test_help.get_simple_tree()._create_edge(1, 2, target_node)[
-        'source'] == out['source']
-    assert tests.any_test_help.get_simple_tree()._create_edge(1, 2, target_node)[
-        'target'] == out['target']
-    assert tests.any_test_help.get_simple_tree()._create_edge(1, 2, target_node)[
-        'color'] == out['color']
+    assert tests.any_test_help.get_simple_tree()._create_edge(
+        1, 2, target_node)['source'] == out['source']
+    assert tests.any_test_help.get_simple_tree()._create_edge(
+        1, 2, target_node)['target'] == out['target']
+    assert tests.any_test_help.get_simple_tree()._create_edge(
+        1, 2, target_node)['color'] == out['color']
+
 
 def test_create_array_of_ids_form_tree():
     array = tests.any_test_help.get_simple_tree().create_list_of_id()

@@ -383,7 +383,9 @@ class OvalNode():
 
         for row in nodes_in_rows:
             for node in nodes_in_rows[row]:
-                if len(node['label']) > 6 and len(node['label']) < 40 or continue_move:
+                if len(
+                        node['label']) > 6 and len(
+                        node['label']) < 40 or continue_move:
                     if up_and_down:
                         node['y'] = node['y'] + (0.6 * x)
                         up_and_down = False

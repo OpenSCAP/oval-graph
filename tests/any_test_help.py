@@ -4,26 +4,27 @@ import py
 import json
 
 
-def any_test_treeEvaluation(tree, expect,file_name=None):
+def any_test_treeEvaluation(tree, expect, file_name=None):
     if file_name is not None and tree is None:
         if file_name.startswith('AND'):
-            dir='test_data_and'
+            dir = 'test_data_and'
         elif file_name.startswith('OR'):
-            dir='test_data_or'
+            dir = 'test_data_or'
         elif file_name.startswith('XOR'):
-            dir='test_data_xor'
+            dir = 'test_data_xor'
         elif file_name.startswith('ONE'):
-            dir='test_data_one'
+            dir = 'test_data_one'
         else:
-            dir='test_data_NONE'
+            dir = 'test_data_NONE'
 
-        src='test_data/'+dir+'/'+file_name
+        src = 'test_data/' + dir + '/' + file_name
         _dir = os.path.dirname(os.path.realpath(__file__))
         FIXTURE_DIR = py.path.local(_dir) / src
         data = dict()
         with open(str(FIXTURE_DIR), "r") as f:
             data = json.load(f)
-        assert graph.oval_graph.restore_dict_to_tree(data).evaluate_tree() == expect
+        assert graph.oval_graph.restore_dict_to_tree(
+            data).evaluate_tree() == expect
     else:
         assert tree.evaluate_tree() == expect
 

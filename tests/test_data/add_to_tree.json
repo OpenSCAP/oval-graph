@@ -1,0 +1,19 @@
+{
+    "node_id": 1,
+    "type": "operator",
+    "value": "and",
+    "child": [
+        {
+            "node_id": 2,
+            "type": "value",
+            "value": "false",
+            "child": null
+        },
+        {
+            "node_id": 3,
+            "type": "value",
+            "value": "true",
+            "child": null
+        }
+    ]
+}

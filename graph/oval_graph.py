@@ -1,5 +1,5 @@
 '''
-    Module for create ID
+    Modules form my lib and for create ID
 '''
 import graph.xml_parser
 import graph.evaluate
@@ -7,16 +7,12 @@ import uuid
 import collections
 
 '''
-    Modules form my lib
-'''
-
-'''
     This module contains methods and classes for
     constructing and controlling an oval tree.
 '''
 
 
-class OvalNode(object):
+class OvalNode():
     '''
     The OvalNode object is one node of oval graph.
 
@@ -84,7 +80,7 @@ class OvalNode(object):
             raise ValueError(
                 "err- true, false, error, unknown. noteval, notappl have not child!")
 
-    def evaluate_tree(self):
+    def get_result_counts(self):
         result = {
             'true_cnt': 0,
             'false_cnt': 0,
@@ -110,12 +106,14 @@ class OvalNode(object):
             else:
                 if self.node_type == "operator":
                     result[child.evaluate_tree() + "_cnt"] += 1
+        return result
+
+    def evaluate_tree(self):
+        result = self.get_result_counts()
 
         if result['notappl_cnt'] > 0\
-                and graph.evaluate.eq_zero(result,'noteval_cnt')\
                 and graph.evaluate.eq_zero(result, 'false_cnt')\
-                and graph.evaluate.eq_zero(result, 'error_cnt')\
-                and graph.evaluate.eq_zero(result, 'unknown_cnt')\
+                and graph.evaluate.error_unknown_noteval_eq_zero(result)\
                 and graph.evaluate.eq_zero(result, 'true_cnt'):
             return "notappl"
         else:
@@ -162,32 +160,39 @@ class OvalNode(object):
 
     # Methods for interpreting oval tree with SigmaJS
 
+    def _get_label(self):
+        return \
+            str(self.node_id).\
+            replace('xccdf_org.ssgproject.content_rule_', '').\
+            replace('oval:ssg-', '').\
+            replace(':def:1', '').\
+            replace(':tst:1', '').\
+            replace('test_', '')
+
     def _create_node(self, x, y):
         # print(self.evaluate_tree(),self.value)
         if self.value == 'true':
             return {
                 'id': self.node_id,
-                'label': self.value,
+                'label': self._get_label(),
                 'url': 'null',
                 'text': 'null',
                 'title': self.node_id,
                 "x": x,
                 "y": y,
                 "size": 3,
-                "color": '#00ff00'
-            }
+                "color": '#00ff00'}
         elif self.value == 'false':
             return {
                 'id': self.node_id,
-                'label': self.value,
+                'label': self._get_label(),
                 'url': 'null',
                 'text': 'null',
                 'title': self.node_id,
                 "x": x,
                 "y": y,
                 "size": 3,
-                "color": '#ff0000'
-            }
+                "color": '#ff0000'}
         else:
             if self.evaluate_tree() == 'true':
                 return {
@@ -226,12 +231,16 @@ class OvalNode(object):
                     "color": '#000000'
                 }
 
-    def _create_edge(self, id_source, id_target):
+    def _create_edge(self, id_source, id_target, target_node):
         return {
             "id": str(uuid.uuid4()),
             "source": id_source,
-            "target": id_target
+            "target": id_target,
+            "color": self._get_color_edge(target_node)
         }
+
+    def _get_color_edge(self, target_node):
+        return target_node['color']
 
     def create_list_of_id(self, array_of_ids=None):
         if array_of_ids is None:
@@ -278,18 +287,162 @@ class OvalNode(object):
         for node in self.children:
             preprocessed_graph_data['nodes'].append(
                 node._create_node(x_row, y_row))
-            preprocessed_graph_data['edges'].append(
-                node._create_edge(self.node_id, node.node_id))
+            preprocessed_graph_data['edges'].append(node._create_edge(
+                self.node_id, node.node_id, preprocessed_graph_data['nodes'][-1]))
             x_row = x_row + 1
             if node.children is not None:
                 preprocessed_graph_data = node._help_to_sigma_dict(
                     x_row + 1, y_row + 1, preprocessed_graph_data)
         return self._fix_graph(preprocessed_graph_data)
 
+    def count_max_y(self, out):
+        max_y = 0
+
+        for node in out['nodes']:
+            if max_y < node['y']:
+                max_y = node['y']
+        return max_y
+
+    def create_nodes_in_rows(self, rows):
+        nodes_in_rows = dict()
+
+        for i in range(rows + 1):
+            nodes_in_rows[i] = []
+        return nodes_in_rows
+
+    def push_nodes_to_nodes_in_row(self, out, nodes_in_rows):
+        for node in out['nodes']:
+            nodes_in_rows[node['y']].append(node)
+
+    def remove_empty_rows(self, nodes_in_rows, max_y):
+        for row in range(max_y + 1):
+            if not nodes_in_rows[row]:
+                del nodes_in_rows[row]
+
+    def move_rows(self, nodes_in_rows):
+        count = 0
+        nodes_in_rows1 = dict()
+
+        for row in nodes_in_rows:
+            nodes_in_rows1[count] = nodes_in_rows[row]
+            for node in nodes_in_rows1[count]:
+                node['y'] = count
+            count += 1
+        return nodes_in_rows1
+
+    def create_positions(self, nodes_in_rows):
+        positions = []
+        for row in nodes_in_rows:
+            len_of_row = len(nodes_in_rows[row])
+            if len_of_row > 1:
+                if (len_of_row % 2) == 1:
+                    len_of_row += 1
+
+                for i in range((int(-(len_of_row / 2))) * 2,
+                               (int(+(len_of_row / 2)) + 1) * 2, 2):
+                    positions.append(i)
+
+                if len_of_row == 2:
+                    positions.remove(0)
+
+                if len(nodes_in_rows[row]) < len(positions):
+                    positions.pop()
+                    if len(nodes_in_rows[row]) < len(positions):
+                        positions.pop(0)
+
+                count = 0
+
+                for pos in positions:
+                    nodes_in_rows[row][count]['x'] = pos
+                    count += 1
+                positions = []
+            else:
+                nodes_in_rows[row][0]['x'] = 0
+
+        return positions
+
+    def convert_nodes_in_rows_to_nodes(self, nodes_in_rows):
+        nodes = []
+        for row in nodes_in_rows:
+            for node in nodes_in_rows[row]:
+                nodes.append(node)
+        return nodes
+
+    def change_position(self, positions, nodes_in_rows):
+        x = 0.6
+        up_and_down = True
+        down = False
+        down_row = False
+        save_x = 0
+        continue_move = False
+
+        for row in nodes_in_rows:
+            for node in nodes_in_rows[row]:
+                if len(
+                        node['label']) > 6 and len(
+                        node['label']) < 40 or continue_move:
+                    if up_and_down:
+                        node['y'] = node['y'] + (0.6 * x)
+                        up_and_down = False
+                    else:
+                        up_and_down = True
+                    continue_move = True
+                elif len(node['label']) > 30:
+                    node['y'] = node['y'] + (0.6 * x)
+                    x += 0.6
+                    save_x = x
+                    down = True
+                else:
+                    if down:
+                        node['y'] = node['y'] + (0.6 * save_x)
+
+                    if down_row:
+                        node['y'] = node['y'] + (0.6 * save_x) - 0.7
+            if down:
+                down = False
+                down_row = True
+            continue_move = False
+            x = 0.6
+
+    def sort(self, array):
+        less = []
+        equal = []
+        greater = []
+
+        if len(array) > 1:
+            pivot = array[0]['x']
+            for node in array:
+                if node['x'] < pivot:
+                    less.append(node)
+                if node['x'] == pivot:
+                    equal.append(node)
+                if node['x'] > pivot:
+                    greater.append(node)
+            return self.sort(less) + equal + self.sort(greater)
+        else:
+            return array
+
+    def sort_nodes(self, nodes_in_rows):
+        for row in nodes_in_rows:
+            nodes_in_rows[row] = self.sort(nodes_in_rows[row])
+
+    def center_graph(self, out):
+        max_y = self.count_max_y(out)
+        nodes_in_rows = self.create_nodes_in_rows(max_y)
+        self.push_nodes_to_nodes_in_row(out, nodes_in_rows)
+        self.remove_empty_rows(nodes_in_rows, max_y)
+        nodes_in_rows = self.move_rows(nodes_in_rows)
+        self.sort_nodes(nodes_in_rows)
+        positions = self.create_positions(nodes_in_rows)
+        self.change_position(positions, nodes_in_rows)
+        out['nodes'] = self.convert_nodes_in_rows_to_nodes(nodes_in_rows)
+        return out
+
     def to_sigma_dict(self, x, y):
-        return self._remove_Duplication(
-            self._help_to_sigma_dict(
-                x, y))
+        return self.center_graph(
+            self._remove_Duplication(
+                self._help_to_sigma_dict(
+                    x, y)))
 
 
 def build_nodes_form_xml(xml_src, rule_id):

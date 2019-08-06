@@ -63,27 +63,45 @@
 
 <div id="container">
   <style>
+    body {
+      margin: 0;
+    }
     #graph-container {
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
+      top: 20%;
+      bottom: 20%;
+      left: 10px;
+      right: 10px;
       position: absolute;
+      background: #fff;
+    }
+    .sigma-scene, .sigma-labels, .sigma-mouse {
+      left: 0;
     }
   </style>
+  <button onclick="zoomIn()">+</button>
+  <button onclick="zoomOut()">-</button>
   <div id="graph-container"></div>
 </div>
 <script>
+
 // Prepare data form data.js 
 var data = JSON.parse(JSON.stringify(data_json));
+
+sigma.settings.nodesPowRatio = 0.5;
+sigma.settings.autoRescale = true;
 
 // Instantiate sigma:
 s = new sigma({
     graph: data,
     container: 'graph-container',
+        renderer: {
+            container: document.getElementById('graph-container'),
+            type: 'display',
+        },
         settings: {
           drawLabels: true,
-          enableHovering: true
+          enableHovering: true,
+          labelThreshold: 8
         }
       });
       
@@ -96,7 +114,6 @@ s.bind('clickNode', function(e) {
   //goToSomeUrl(url);
   });
 
-//s.startForceAtlas2({worker: true, barnesHutOptimize: false})
 
 var noverlapListener = s.configNoverlap({
   nodeMargin: 0.1,
@@ -105,6 +122,25 @@ var noverlapListener = s.configNoverlap({
   });
 
 s.startNoverlap();
+//s.startForceAtlas2({worker: true, barnesHutOptimize: false});
+
+//Zoom in and Zoom out function
+var c = s.camera;
+
+function zoomIn() {
+  // Zoom in - single frame :
+  c.goTo({
+    ratio: c.ratio / c.settings('zoomingRatio')
+  });
+}
+
+function zoomOut(){
+  // Zoom out - single frame :
+  c.goTo({
+    ratio: c.ratio * c.settings('zoomingRatio')
+  });
+}
+
 </script>
 </body>
 </html>

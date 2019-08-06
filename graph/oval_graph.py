@@ -106,7 +106,6 @@ class OvalNode():
             else:
                 if self.node_type == "operator":
                     result[child.evaluate_tree() + "_cnt"] += 1
-
         return result
 
     def evaluate_tree(self):

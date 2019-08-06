@@ -131,8 +131,8 @@ results_counts1 = {
 
 
 def test_and_or_eq_zero():
-    assert graph.evaluate.and_or_eq_zero('and', results_counts) == False
-    assert graph.evaluate.and_or_eq_zero('or', results_counts) == False
+    assert not graph.evaluate.and_or_eq_zero('and', results_counts)
+    assert not graph.evaluate.and_or_eq_zero('or', results_counts)
     assert graph.evaluate.and_or_eq_zero('xor', results_counts) is None
 
 
@@ -153,19 +153,19 @@ def test_bad_results_counts_for_operator_xor():
 
 
 def test_false_noteval_greater_zero():
-    assert graph.evaluate.greater_zero(results_counts, 'noteval_cnt') == False
+    assert not graph.evaluate.greater_zero(results_counts, 'noteval_cnt')
 
 
 def test_false_smaller_then_two():
-    assert graph.evaluate.smaller_than_two(
-        results_counts1, 'true_cnt') == False
+    assert not graph.evaluate.smaller_than_two(
+        results_counts1, 'true_cnt')
 
 
 def test_false_eq_or_greater_zero_unknown_noteval_notappl():
-    assert graph.evaluate.eq_or_greater_zero_unknown_noteval_notappl(
-        results_counts1) == False
+    assert not graph.evaluate.eq_or_greater_zero_unknown_noteval_notappl(
+        results_counts1) 
 
 
 def test_false_error_unknown_eq_noteval_greater_zero():
-    assert graph.evaluate.error_unknown_eq_noteval_greater_zero(
-        results_counts) == False
+    assert not graph.evaluate.error_unknown_eq_noteval_greater_zero(
+        results_counts)

@@ -162,14 +162,14 @@ class OvalNode():
 
     def _get_label(self):
         return str(self.node_id).replace(
-                'xccdf_org.ssgproject.content_rule_',
-                '').replace(
-                'oval:ssg-',
-                '').replace(
-                ':def:1',
-                '').replace(
-                ':tst:1',
-                '').replace('test_', '')
+            'xccdf_org.ssgproject.content_rule_',
+            '').replace(
+            'oval:ssg-',
+            '').replace(
+            ':def:1',
+            '').replace(
+            ':tst:1',
+            '').replace('test_', '')
 
     def _create_node(self, x, y):
         # print(self.evaluate_tree(),self.value)
@@ -233,12 +233,16 @@ class OvalNode():
                     "color": '#000000'
                 }
 
-    def _create_edge(self, id_source, id_target):
+    def _create_edge(self, id_source, id_target, target):
         return {
             "id": str(uuid.uuid4()),
             "source": id_source,
-            "target": id_target
+            "target": id_target,
+            "color": self._get_color_edge(target)
         }
+
+    def _get_color_edge(self, target):
+        return target['color']
 
     def create_list_of_id(self, array_of_ids=None):
         if array_of_ids is None:
@@ -285,8 +289,8 @@ class OvalNode():
         for node in self.children:
             preprocessed_graph_data['nodes'].append(
                 node._create_node(x_row, y_row))
-            preprocessed_graph_data['edges'].append(
-                node._create_edge(self.node_id, node.node_id))
+            preprocessed_graph_data['edges'].append(node._create_edge(
+                self.node_id, node.node_id, preprocessed_graph_data['nodes'][-1]))
             x_row = x_row + 1
             if node.children is not None:
                 preprocessed_graph_data = node._help_to_sigma_dict(

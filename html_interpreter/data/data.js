@@ -1,132 +1,132 @@
 var data_json ={
     "nodes": [
         {
-            "id": "xccdf_org.ssgproject.content_rule_audit_rules_unsuccessful_file_modification_chown",
+            "id": "xccdf_org.ssgproject.content_rule_audit_rules_unsuccessful_file_modification_openat",
             "label": "and",
             "url": "null",
             "text": "null",
-            "title": "xccdf_org.ssgproject.content_rule_audit_rules_unsuccessful_file_modification_chown",
+            "title": "xccdf_org.ssgproject.content_rule_audit_rules_unsuccessful_file_modification_openat",
             "x": 0,
             "y": 0,
             "size": 3,
             "color": "#ff0000"
         },
         {
-            "id": "oval:ssg-audit_rules_unsuccessful_file_modification_chown:def:1",
+            "id": "oval:ssg-audit_rules_unsuccessful_file_modification_openat:def:1",
             "label": "or",
             "url": "null",
             "text": "null",
-            "title": "oval:ssg-audit_rules_unsuccessful_file_modification_chown:def:1",
+            "title": "oval:ssg-audit_rules_unsuccessful_file_modification_openat:def:1",
             "x": 0,
             "y": 1,
             "size": 3,
             "color": "#ff0000"
         },
         {
-            "id": "e1195a60-87bb-4b50-bb90-818c2335e32d",
+            "id": "2853f300-4a54-43c7-9ebd-411db1fc32b1",
             "label": "and",
             "url": "null",
             "text": "null",
-            "title": "e1195a60-87bb-4b50-bb90-818c2335e32d",
+            "title": "2853f300-4a54-43c7-9ebd-411db1fc32b1",
             "x": -2,
             "y": 2,
             "size": 3,
             "color": "#ff0000"
         },
         {
-            "id": "ce2c712b-166e-4f36-9682-4c35b56b3438",
+            "id": "19f83dc5-2ba3-4b9b-9993-98a452148f65",
             "label": "and",
             "url": "null",
             "text": "null",
-            "title": "ce2c712b-166e-4f36-9682-4c35b56b3438",
+            "title": "19f83dc5-2ba3-4b9b-9993-98a452148f65",
             "x": 2,
             "y": 2,
             "size": 3,
             "color": "#ff0000"
         },
         {
-            "id": "dfec3113-37bc-4750-a8f5-88adf0e16123",
+            "id": "14e07d4f-5b8c-412c-9c9e-2f2bbc16dbe4",
             "label": "and",
             "url": "null",
             "text": "null",
-            "title": "dfec3113-37bc-4750-a8f5-88adf0e16123",
+            "title": "14e07d4f-5b8c-412c-9c9e-2f2bbc16dbe4",
             "x": -8,
             "y": 3,
             "size": 3,
             "color": "#00ff00"
         },
         {
-            "id": "oval:ssg-test_32bit_arufm_eacces_chown_augenrules:tst:1",
-            "label": "32bit_arufm_eacces_chown_augenrules",
+            "id": "oval:ssg-test_32bit_arufm_eacces_openat_augenrules:tst:1",
+            "label": "32bit_arufm_eacces_openat_augenrules",
             "url": "null",
             "text": "null",
-            "title": "oval:ssg-test_32bit_arufm_eacces_chown_augenrules:tst:1",
+            "title": "oval:ssg-test_32bit_arufm_eacces_openat_augenrules:tst:1",
             "x": -6,
             "y": 3.36,
             "size": 3,
             "color": "#ff0000"
         },
         {
-            "id": "oval:ssg-test_32bit_arufm_eperm_chown_augenrules:tst:1",
-            "label": "32bit_arufm_eperm_chown_augenrules",
+            "id": "oval:ssg-test_32bit_arufm_eperm_openat_augenrules:tst:1",
+            "label": "32bit_arufm_eperm_openat_augenrules",
             "url": "null",
             "text": "null",
-            "title": "oval:ssg-test_32bit_arufm_eperm_chown_augenrules:tst:1",
+            "title": "oval:ssg-test_32bit_arufm_eperm_openat_augenrules:tst:1",
             "x": -4,
             "y": 3,
             "size": 3,
             "color": "#ff0000"
         },
         {
-            "id": "078a3293-b99e-4474-b664-c88620451a9e",
+            "id": "00233433-9505-4636-8f82-318e38b325dd",
             "label": "or",
             "url": "null",
             "text": "null",
-            "title": "078a3293-b99e-4474-b664-c88620451a9e",
+            "title": "00233433-9505-4636-8f82-318e38b325dd",
             "x": -2,
             "y": 3.36,
             "size": 3,
             "color": "#00ff00"
         },
         {
-            "id": "86cecd7d-52e7-4829-8b88-6967cf6efa41",
+            "id": "49eb4dca-6080-454f-8739-aa6a3dbeabb6",
             "label": "and",
             "url": "null",
             "text": "null",
-            "title": "86cecd7d-52e7-4829-8b88-6967cf6efa41",
+            "title": "49eb4dca-6080-454f-8739-aa6a3dbeabb6",
             "x": 0,
             "y": 3,
             "size": 3,
             "color": "#ff0000"
         },
         {
-            "id": "oval:ssg-test_32bit_arufm_eacces_chown_auditctl:tst:1",
-            "label": "32bit_arufm_eacces_chown_auditctl",
+            "id": "oval:ssg-test_32bit_arufm_eacces_openat_auditctl:tst:1",
+            "label": "32bit_arufm_eacces_openat_auditctl",
             "url": "null",
             "text": "null",
-            "title": "oval:ssg-test_32bit_arufm_eacces_chown_auditctl:tst:1",
+            "title": "oval:ssg-test_32bit_arufm_eacces_openat_auditctl:tst:1",
             "x": 2,
             "y": 3.36,
             "size": 3,
             "color": "#ff0000"
         },
         {
-            "id": "oval:ssg-test_32bit_arufm_eperm_chown_auditctl:tst:1",
-            "label": "32bit_arufm_eperm_chown_auditctl",
+            "id": "oval:ssg-test_32bit_arufm_eperm_openat_auditctl:tst:1",
+            "label": "32bit_arufm_eperm_openat_auditctl",
             "url": "null",
             "text": "null",
-            "title": "oval:ssg-test_32bit_arufm_eperm_chown_auditctl:tst:1",
+            "title": "oval:ssg-test_32bit_arufm_eperm_openat_auditctl:tst:1",
             "x": 4,
             "y": 3,
             "size": 3,
             "color": "#ff0000"
         },
         {
-            "id": "698231a5-f4ed-4744-8de2-0c15d1de9b80",
+            "id": "b221f0bb-d183-4cc5-9818-269713e70a5f",
             "label": "or",
             "url": "null",
             "text": "null",
-            "title": "698231a5-f4ed-4744-8de2-0c15d1de9b80",
+            "title": "b221f0bb-d183-4cc5-9818-269713e70a5f",
             "x": 6,
             "y": 3.36,
             "size": 3,
@@ -144,22 +144,22 @@ var data_json ={
             "color": "#00ff00"
         },
         {
-            "id": "5146f40f-a9f1-451e-bc00-948abecfc005",
+            "id": "d962cbac-74f8-46b4-a0ac-114005e861a7",
             "label": "or",
             "url": "null",
             "text": "null",
-            "title": "5146f40f-a9f1-451e-bc00-948abecfc005",
+            "title": "d962cbac-74f8-46b4-a0ac-114005e861a7",
             "x": -4,
             "y": 4.36,
             "size": 3,
             "color": "#00ff00"
         },
         {
-            "id": "5b17befa-f4aa-4604-bb45-9c1566527e02",
+            "id": "b0b0da3c-9a82-462b-ab4f-4ef193b525cd",
             "label": "and",
             "url": "null",
             "text": "null",
-            "title": "5b17befa-f4aa-4604-bb45-9c1566527e02",
+            "title": "b0b0da3c-9a82-462b-ab4f-4ef193b525cd",
             "x": -2,
             "y": 4,
             "size": 3,
@@ -177,132 +177,132 @@ var data_json ={
             "color": "#ff0000"
         },
         {
-            "id": "a6226418-ad9a-4c3b-aca6-f6f73033f2a5",
+            "id": "e328a438-f18a-44d9-bcf8-9d2d5943a3b9",
             "label": "or",
             "url": "null",
             "text": "null",
-            "title": "a6226418-ad9a-4c3b-aca6-f6f73033f2a5",
+            "title": "e328a438-f18a-44d9-bcf8-9d2d5943a3b9",
             "x": 2,
             "y": 4,
             "size": 3,
             "color": "#00ff00"
         },
         {
-            "id": "5c5648b4-6c79-4f53-a324-91ba17805e31",
+            "id": "b842c6de-8028-4699-af29-08f06d52cb2b",
             "label": "and",
             "url": "null",
             "text": "null",
-            "title": "5c5648b4-6c79-4f53-a324-91ba17805e31",
+            "title": "b842c6de-8028-4699-af29-08f06d52cb2b",
             "x": 4,
             "y": 4.36,
             "size": 3,
             "color": "#ff0000"
         },
         {
-            "id": "09310619-12ab-4a03-9e08-7d13bc7bc5f1",
+            "id": "c61bd999-8fe9-4ab7-a515-c60d2f1d7d86",
             "label": "and",
             "url": "null",
             "text": "null",
-            "title": "09310619-12ab-4a03-9e08-7d13bc7bc5f1",
+            "title": "c61bd999-8fe9-4ab7-a515-c60d2f1d7d86",
             "x": -10,
             "y": 5,
             "size": 3,
             "color": "#00ff00"
         },
         {
-            "id": "a83bf50c-1fb1-4f20-832d-069fc0e90c1a",
+            "id": "635edeaf-71dd-4a05-bee8-0ad17d8375d6",
             "label": "or",
             "url": "null",
             "text": "null",
-            "title": "a83bf50c-1fb1-4f20-832d-069fc0e90c1a",
+            "title": "635edeaf-71dd-4a05-bee8-0ad17d8375d6",
             "x": -8,
             "y": 5,
             "size": 3,
             "color": "#ff0000"
         },
         {
-            "id": "59e8c8d7-5ef2-446c-ac8d-14411fe9e8d7",
+            "id": "a2b8ecbf-5fea-42dd-8f62-62e392c713ce",
             "label": "and",
             "url": "null",
             "text": "null",
-            "title": "59e8c8d7-5ef2-446c-ac8d-14411fe9e8d7",
+            "title": "a2b8ecbf-5fea-42dd-8f62-62e392c713ce",
             "x": -6,
             "y": 5,
             "size": 3,
             "color": "#ff0000"
         },
         {
-            "id": "oval:ssg-test_64bit_arufm_eacces_chown_augenrules:tst:1",
-            "label": "64bit_arufm_eacces_chown_augenrules",
+            "id": "oval:ssg-test_64bit_arufm_eacces_openat_augenrules:tst:1",
+            "label": "64bit_arufm_eacces_openat_augenrules",
             "url": "null",
             "text": "null",
-            "title": "oval:ssg-test_64bit_arufm_eacces_chown_augenrules:tst:1",
+            "title": "oval:ssg-test_64bit_arufm_eacces_openat_augenrules:tst:1",
             "x": -4,
             "y": 5,
             "size": 3,
             "color": "#ff0000"
         },
         {
-            "id": "oval:ssg-test_64bit_arufm_eperm_chown_augenrules:tst:1",
-            "label": "64bit_arufm_eperm_chown_augenrules",
+            "id": "oval:ssg-test_64bit_arufm_eperm_openat_augenrules:tst:1",
+            "label": "64bit_arufm_eperm_openat_augenrules",
             "url": "null",
             "text": "null",
-            "title": "oval:ssg-test_64bit_arufm_eperm_chown_augenrules:tst:1",
+            "title": "oval:ssg-test_64bit_arufm_eperm_openat_augenrules:tst:1",
             "x": -2,
             "y": 5.36,
             "size": 3,
             "color": "#ff0000"
         },
         {
-            "id": "0f7d9fe0-6a5b-437c-8f57-2cfa8a09ae1f",
+            "id": "01f9e1ca-8e51-45d3-8d51-908eb2e78482",
             "label": "and",
             "url": "null",
             "text": "null",
-            "title": "0f7d9fe0-6a5b-437c-8f57-2cfa8a09ae1f",
+            "title": "01f9e1ca-8e51-45d3-8d51-908eb2e78482",
             "x": 0,
             "y": 5,
             "size": 3,
             "color": "#00ff00"
         },
         {
-            "id": "325c053f-f8fe-4bf1-b96e-65f61ae6b66e",
+            "id": "9142f3ed-1ea4-4ca7-bc64-1456b719ad36",
             "label": "or",
             "url": "null",
             "text": "null",
-            "title": "325c053f-f8fe-4bf1-b96e-65f61ae6b66e",
+            "title": "9142f3ed-1ea4-4ca7-bc64-1456b719ad36",
             "x": 2,
             "y": 5.36,
             "size": 3,
             "color": "#ff0000"
         },
         {
-            "id": "78ba9fa9-1c24-48bb-bd94-e525df03bf80",
+            "id": "8c2d81cc-cec4-4ab2-95a1-6ec1aa7af12a",
             "label": "and",
             "url": "null",
             "text": "null",
-            "title": "78ba9fa9-1c24-48bb-bd94-e525df03bf80",
+            "title": "8c2d81cc-cec4-4ab2-95a1-6ec1aa7af12a",
             "x": 4,
             "y": 5,
             "size": 3,
             "color": "#ff0000"
         },
         {
-            "id": "oval:ssg-test_64bit_arufm_eacces_chown_auditctl:tst:1",
-            "label": "64bit_arufm_eacces_chown_auditctl",
+            "id": "oval:ssg-test_64bit_arufm_eacces_openat_auditctl:tst:1",
+            "label": "64bit_arufm_eacces_openat_auditctl",
             "url": "null",
             "text": "null",
-            "title": "oval:ssg-test_64bit_arufm_eacces_chown_auditctl:tst:1",
+            "title": "oval:ssg-test_64bit_arufm_eacces_openat_auditctl:tst:1",
             "x": 6,
             "y": 5.36,
             "size": 3,
             "color": "#ff0000"
         },
         {
-            "id": "oval:ssg-test_64bit_arufm_eperm_chown_auditctl:tst:1",
-            "label": "64bit_arufm_eperm_chown_auditctl",
+            "id": "oval:ssg-test_64bit_arufm_eperm_openat_auditctl:tst:1",
+            "label": "64bit_arufm_eperm_openat_auditctl",
             "url": "null",
             "text": "null",
-            "title": "oval:ssg-test_64bit_arufm_eperm_chown_auditctl:tst:1",
+            "title": "oval:ssg-test_64bit_arufm_eperm_openat_auditctl:tst:1",
             "x": 8,
             "y": 5,
             "size": 3,
@@ -355,179 +355,214 @@ var data_json ={
     ],
     "edges": [
         {
-            "id": "c2a8aae1-c45a-4f32-8cd9-9ce625213192",
-            "source": "xccdf_org.ssgproject.content_rule_audit_rules_unsuccessful_file_modification_chown",
-            "target": "oval:ssg-audit_rules_unsuccessful_file_modification_chown:def:1"
+            "id": "119c5fd8-11ab-4825-b547-4b7757e15737",
+            "source": "xccdf_org.ssgproject.content_rule_audit_rules_unsuccessful_file_modification_openat",
+            "target": "oval:ssg-audit_rules_unsuccessful_file_modification_openat:def:1",
+            "color": "#ff0000"
         },
         {
-            "id": "aa0ea45b-46f6-4eb1-9ad9-34d7afb9644a",
-            "source": "oval:ssg-audit_rules_unsuccessful_file_modification_chown:def:1",
-            "target": "e1195a60-87bb-4b50-bb90-818c2335e32d"
+            "id": "65a46f70-3a60-4efa-a75a-2ef4481f8313",
+            "source": "oval:ssg-audit_rules_unsuccessful_file_modification_openat:def:1",
+            "target": "2853f300-4a54-43c7-9ebd-411db1fc32b1",
+            "color": "#ff0000"
         },
         {
-            "id": "d530997d-7f37-4470-838c-deec075d116b",
-            "source": "e1195a60-87bb-4b50-bb90-818c2335e32d",
-            "target": "dfec3113-37bc-4750-a8f5-88adf0e16123"
+            "id": "3b7f5939-f5ea-4624-ac55-733c6e3f2118",
+            "source": "2853f300-4a54-43c7-9ebd-411db1fc32b1",
+            "target": "14e07d4f-5b8c-412c-9c9e-2f2bbc16dbe4",
+            "color": "#00ff00"
         },
         {
-            "id": "41828b2f-64b9-4f2d-bdc4-9528610718d8",
-            "source": "dfec3113-37bc-4750-a8f5-88adf0e16123",
-            "target": "oval:ssg-test_audit_rules_augenrules:tst:1"
+            "id": "f7337a08-a8d0-41d0-82be-77ed60c3bce0",
+            "source": "14e07d4f-5b8c-412c-9c9e-2f2bbc16dbe4",
+            "target": "oval:ssg-test_audit_rules_augenrules:tst:1",
+            "color": "#00ff00"
         },
         {
-            "id": "6c46a739-0d6a-4a41-bc1b-147a47da52ab",
-            "source": "e1195a60-87bb-4b50-bb90-818c2335e32d",
-            "target": "oval:ssg-test_32bit_arufm_eacces_chown_augenrules:tst:1"
+            "id": "6d51328a-525f-4177-8f2c-4b80e169969b",
+            "source": "2853f300-4a54-43c7-9ebd-411db1fc32b1",
+            "target": "oval:ssg-test_32bit_arufm_eacces_openat_augenrules:tst:1",
+            "color": "#ff0000"
         },
         {
-            "id": "6f43a8c6-24a6-404d-8629-9f339d9753ca",
-            "source": "e1195a60-87bb-4b50-bb90-818c2335e32d",
-            "target": "oval:ssg-test_32bit_arufm_eperm_chown_augenrules:tst:1"
+            "id": "f5731395-45f7-4d86-978e-b5fc5d81205b",
+            "source": "2853f300-4a54-43c7-9ebd-411db1fc32b1",
+            "target": "oval:ssg-test_32bit_arufm_eperm_openat_augenrules:tst:1",
+            "color": "#ff0000"
         },
         {
-            "id": "be263bda-1977-4faa-a504-9360c4f4694e",
-            "source": "e1195a60-87bb-4b50-bb90-818c2335e32d",
-            "target": "078a3293-b99e-4474-b664-c88620451a9e"
+            "id": "e0746424-646e-4afc-9b1d-5e144451f234",
+            "source": "2853f300-4a54-43c7-9ebd-411db1fc32b1",
+            "target": "00233433-9505-4636-8f82-318e38b325dd",
+            "color": "#00ff00"
         },
         {
-            "id": "15336cfe-87b7-4111-8437-47263a9eb7f2",
-            "source": "078a3293-b99e-4474-b664-c88620451a9e",
-            "target": "5146f40f-a9f1-451e-bc00-948abecfc005"
+            "id": "d2cd4385-2a5a-4f1e-8eed-c9c87778c3aa",
+            "source": "00233433-9505-4636-8f82-318e38b325dd",
+            "target": "d962cbac-74f8-46b4-a0ac-114005e861a7",
+            "color": "#00ff00"
         },
         {
-            "id": "1d1288fb-6485-4f81-8b7d-6f4104fc12aa",
-            "source": "5146f40f-a9f1-451e-bc00-948abecfc005",
-            "target": "09310619-12ab-4a03-9e08-7d13bc7bc5f1"
+            "id": "84522656-46c0-494c-81e3-86e5343bacb5",
+            "source": "d962cbac-74f8-46b4-a0ac-114005e861a7",
+            "target": "c61bd999-8fe9-4ab7-a515-c60d2f1d7d86",
+            "color": "#00ff00"
         },
         {
-            "id": "0de1e4ae-7895-486f-9568-891b4194cc48",
-            "source": "09310619-12ab-4a03-9e08-7d13bc7bc5f1",
-            "target": "oval:ssg-test_system_info_architecture_x86_64:tst:1"
+            "id": "9f208c6d-7058-4241-86bb-699bffc0be17",
+            "source": "c61bd999-8fe9-4ab7-a515-c60d2f1d7d86",
+            "target": "oval:ssg-test_system_info_architecture_x86_64:tst:1",
+            "color": "#00ff00"
         },
         {
-            "id": "8f5ed028-e1bf-48ca-b20c-7cf7b9e01ad2",
-            "source": "5146f40f-a9f1-451e-bc00-948abecfc005",
-            "target": "a83bf50c-1fb1-4f20-832d-069fc0e90c1a"
+            "id": "bff6e359-b129-4265-b2a9-368f7868060f",
+            "source": "d962cbac-74f8-46b4-a0ac-114005e861a7",
+            "target": "635edeaf-71dd-4a05-bee8-0ad17d8375d6",
+            "color": "#ff0000"
         },
         {
-            "id": "c4618520-f3aa-4788-87c1-71b066e64559",
-            "source": "a83bf50c-1fb1-4f20-832d-069fc0e90c1a",
-            "target": "oval:ssg-test_system_info_architecture_ppc_64:tst:1"
+            "id": "7878733a-7c8a-4940-8a26-540fb095ec5b",
+            "source": "635edeaf-71dd-4a05-bee8-0ad17d8375d6",
+            "target": "oval:ssg-test_system_info_architecture_ppc_64:tst:1",
+            "color": "#ff0000"
         },
         {
-            "id": "d0a3af82-e9f7-44ae-a879-3e3f73dc1529",
-            "source": "a83bf50c-1fb1-4f20-832d-069fc0e90c1a",
-            "target": "oval:ssg-test_system_info_architecture_ppcle_64:tst:1"
+            "id": "9f2b9f98-7aca-4195-86dc-5d03fe13ded3",
+            "source": "635edeaf-71dd-4a05-bee8-0ad17d8375d6",
+            "target": "oval:ssg-test_system_info_architecture_ppcle_64:tst:1",
+            "color": "#ff0000"
         },
         {
-            "id": "4555fd38-2293-4e8c-ac72-ea0c1c0539fa",
-            "source": "5146f40f-a9f1-451e-bc00-948abecfc005",
-            "target": "59e8c8d7-5ef2-446c-ac8d-14411fe9e8d7"
+            "id": "96de9bf6-97e1-47f9-a1fb-bcf89be89ba8",
+            "source": "d962cbac-74f8-46b4-a0ac-114005e861a7",
+            "target": "a2b8ecbf-5fea-42dd-8f62-62e392c713ce",
+            "color": "#ff0000"
         },
         {
-            "id": "eb155b1c-e8c4-40e0-9d0f-2b7970276941",
-            "source": "59e8c8d7-5ef2-446c-ac8d-14411fe9e8d7",
-            "target": "oval:ssg-test_system_info_architecture_aarch_64:tst:1"
+            "id": "b91f3438-c29b-4b96-8125-fc79020648f6",
+            "source": "a2b8ecbf-5fea-42dd-8f62-62e392c713ce",
+            "target": "oval:ssg-test_system_info_architecture_aarch_64:tst:1",
+            "color": "#ff0000"
         },
         {
-            "id": "15691ff0-1533-461a-aff6-2483d17823a2",
-            "source": "078a3293-b99e-4474-b664-c88620451a9e",
-            "target": "5b17befa-f4aa-4604-bb45-9c1566527e02"
+            "id": "c27c7a7b-b0a7-4db1-9ac4-6017954b45e3",
+            "source": "00233433-9505-4636-8f82-318e38b325dd",
+            "target": "b0b0da3c-9a82-462b-ab4f-4ef193b525cd",
+            "color": "#ff0000"
         },
         {
-            "id": "5925e2d4-9648-4643-8eaa-281b0a70b9b6",
-            "source": "5b17befa-f4aa-4604-bb45-9c1566527e02",
-            "target": "oval:ssg-test_64bit_arufm_eacces_chown_augenrules:tst:1"
+            "id": "dfdafa76-5d8d-4923-90b5-0546ca3d3306",
+            "source": "b0b0da3c-9a82-462b-ab4f-4ef193b525cd",
+            "target": "oval:ssg-test_64bit_arufm_eacces_openat_augenrules:tst:1",
+            "color": "#ff0000"
         },
         {
-            "id": "8ee0c718-e999-436b-b5bf-ef4c4bc464a5",
-            "source": "5b17befa-f4aa-4604-bb45-9c1566527e02",
-            "target": "oval:ssg-test_64bit_arufm_eperm_chown_augenrules:tst:1"
+            "id": "89750b62-2e3e-48ef-8c9e-f1497778153b",
+            "source": "b0b0da3c-9a82-462b-ab4f-4ef193b525cd",
+            "target": "oval:ssg-test_64bit_arufm_eperm_openat_augenrules:tst:1",
+            "color": "#ff0000"
         },
         {
-            "id": "bd8e00a4-3382-407d-9b76-cb8058ee8ed4",
-            "source": "oval:ssg-audit_rules_unsuccessful_file_modification_chown:def:1",
-            "target": "ce2c712b-166e-4f36-9682-4c35b56b3438"
+            "id": "579097ad-7ce8-4b24-95ca-6093db40d202",
+            "source": "oval:ssg-audit_rules_unsuccessful_file_modification_openat:def:1",
+            "target": "19f83dc5-2ba3-4b9b-9993-98a452148f65",
+            "color": "#ff0000"
         },
         {
-            "id": "86331cc7-a6e7-4b4a-9ec2-bd3e8ac0eb39",
-            "source": "ce2c712b-166e-4f36-9682-4c35b56b3438",
-            "target": "86cecd7d-52e7-4829-8b88-6967cf6efa41"
+            "id": "5d5006c2-4ac9-4876-888b-f01f2799700e",
+            "source": "19f83dc5-2ba3-4b9b-9993-98a452148f65",
+            "target": "49eb4dca-6080-454f-8739-aa6a3dbeabb6",
+            "color": "#ff0000"
         },
         {
-            "id": "c3f8c620-65f2-4d11-8fa7-2be3b7456917",
-            "source": "86cecd7d-52e7-4829-8b88-6967cf6efa41",
-            "target": "oval:ssg-test_audit_rules_auditctl:tst:1"
+            "id": "1ed12ab0-5383-4e0f-b0e2-cfe1b485f214",
+            "source": "49eb4dca-6080-454f-8739-aa6a3dbeabb6",
+            "target": "oval:ssg-test_audit_rules_auditctl:tst:1",
+            "color": "#ff0000"
         },
         {
-            "id": "d370bdf1-cfe8-40ce-90ac-1f236c4cf6f4",
-            "source": "ce2c712b-166e-4f36-9682-4c35b56b3438",
-            "target": "oval:ssg-test_32bit_arufm_eacces_chown_auditctl:tst:1"
+            "id": "c8f46c80-c444-4c95-8b25-45bb79cf7741",
+            "source": "19f83dc5-2ba3-4b9b-9993-98a452148f65",
+            "target": "oval:ssg-test_32bit_arufm_eacces_openat_auditctl:tst:1",
+            "color": "#ff0000"
         },
         {
-            "id": "9501db4f-c87c-4e18-8e3c-e33fd53bd27d",
-            "source": "ce2c712b-166e-4f36-9682-4c35b56b3438",
-            "target": "oval:ssg-test_32bit_arufm_eperm_chown_auditctl:tst:1"
+            "id": "bde29383-c942-4d49-a073-13b01826a76d",
+            "source": "19f83dc5-2ba3-4b9b-9993-98a452148f65",
+            "target": "oval:ssg-test_32bit_arufm_eperm_openat_auditctl:tst:1",
+            "color": "#ff0000"
         },
         {
-            "id": "3d949562-1d54-4e2d-810f-e7bca519f9f6",
-            "source": "ce2c712b-166e-4f36-9682-4c35b56b3438",
-            "target": "698231a5-f4ed-4744-8de2-0c15d1de9b80"
+            "id": "bc5633e0-57c5-4fe4-adfd-3c5cbf48d17d",
+            "source": "19f83dc5-2ba3-4b9b-9993-98a452148f65",
+            "target": "b221f0bb-d183-4cc5-9818-269713e70a5f",
+            "color": "#00ff00"
         },
         {
-            "id": "54f2f7b9-315a-4472-b49d-98bd68a7b08b",
-            "source": "698231a5-f4ed-4744-8de2-0c15d1de9b80",
-            "target": "a6226418-ad9a-4c3b-aca6-f6f73033f2a5"
+            "id": "e73deb4f-1df9-4731-89e4-0aec34db3568",
+            "source": "b221f0bb-d183-4cc5-9818-269713e70a5f",
+            "target": "e328a438-f18a-44d9-bcf8-9d2d5943a3b9",
+            "color": "#00ff00"
         },
         {
-            "id": "e0cc6eb8-c404-46ee-9e48-0c3f0bdc884c",
-            "source": "a6226418-ad9a-4c3b-aca6-f6f73033f2a5",
-            "target": "0f7d9fe0-6a5b-437c-8f57-2cfa8a09ae1f"
+            "id": "cf877c3b-9e57-4b77-b6d4-6c29b3763534",
+            "source": "e328a438-f18a-44d9-bcf8-9d2d5943a3b9",
+            "target": "01f9e1ca-8e51-45d3-8d51-908eb2e78482",
+            "color": "#00ff00"
         },
         {
-            "id": "5949970c-c207-43d8-933a-049e4e01fefe",
-            "source": "0f7d9fe0-6a5b-437c-8f57-2cfa8a09ae1f",
-            "target": "oval:ssg-test_system_info_architecture_x86_64:tst:1"
+            "id": "60902814-5e3b-4f3f-9284-9064e6b8c850",
+            "source": "01f9e1ca-8e51-45d3-8d51-908eb2e78482",
+            "target": "oval:ssg-test_system_info_architecture_x86_64:tst:1",
+            "color": "#00ff00"
         },
         {
-            "id": "f972b484-4593-4793-9dce-ef9f89def540",
-            "source": "a6226418-ad9a-4c3b-aca6-f6f73033f2a5",
-            "target": "325c053f-f8fe-4bf1-b96e-65f61ae6b66e"
+            "id": "f10ca3b6-acba-4ffc-ba3a-dacd7b8bef1e",
+            "source": "e328a438-f18a-44d9-bcf8-9d2d5943a3b9",
+            "target": "9142f3ed-1ea4-4ca7-bc64-1456b719ad36",
+            "color": "#ff0000"
         },
         {
-            "id": "9b3d8fde-45a7-4015-8c68-1479c2a76c10",
-            "source": "325c053f-f8fe-4bf1-b96e-65f61ae6b66e",
-            "target": "oval:ssg-test_system_info_architecture_ppc_64:tst:1"
+            "id": "2503351a-8fd7-42ad-b76b-d1eb20d6711e",
+            "source": "9142f3ed-1ea4-4ca7-bc64-1456b719ad36",
+            "target": "oval:ssg-test_system_info_architecture_ppc_64:tst:1",
+            "color": "#ff0000"
         },
         {
-            "id": "21d75dab-7caf-495f-a1bf-a76efbe05dcd",
-            "source": "325c053f-f8fe-4bf1-b96e-65f61ae6b66e",
-            "target": "oval:ssg-test_system_info_architecture_ppcle_64:tst:1"
+            "id": "9a512e31-b527-4894-8858-c27ecef79d39",
+            "source": "9142f3ed-1ea4-4ca7-bc64-1456b719ad36",
+            "target": "oval:ssg-test_system_info_architecture_ppcle_64:tst:1",
+            "color": "#ff0000"
         },
         {
-            "id": "d8148400-e13c-4845-a38c-051808eb1624",
-            "source": "a6226418-ad9a-4c3b-aca6-f6f73033f2a5",
-            "target": "78ba9fa9-1c24-48bb-bd94-e525df03bf80"
+            "id": "727ef0c7-9c59-4cf6-a6bc-21afe2134ba3",
+            "source": "e328a438-f18a-44d9-bcf8-9d2d5943a3b9",
+            "target": "8c2d81cc-cec4-4ab2-95a1-6ec1aa7af12a",
+            "color": "#ff0000"
         },
         {
-            "id": "671533da-77c5-49d1-89ca-5ec4583fcc8b",
-            "source": "78ba9fa9-1c24-48bb-bd94-e525df03bf80",
-            "target": "oval:ssg-test_system_info_architecture_aarch_64:tst:1"
+            "id": "8163ca25-79b1-4459-83e9-1dda984a2d18",
+            "source": "8c2d81cc-cec4-4ab2-95a1-6ec1aa7af12a",
+            "target": "oval:ssg-test_system_info_architecture_aarch_64:tst:1",
+            "color": "#ff0000"
         },
         {
-            "id": "b4926dc4-b929-425a-88fa-40396dda8ac2",
-            "source": "698231a5-f4ed-4744-8de2-0c15d1de9b80",
-            "target": "5c5648b4-6c79-4f53-a324-91ba17805e31"
+            "id": "f70199c6-4f6b-49d8-bfa9-8792faf12c1a",
+            "source": "b221f0bb-d183-4cc5-9818-269713e70a5f",
+            "target": "b842c6de-8028-4699-af29-08f06d52cb2b",
+            "color": "#ff0000"
         },
         {
-            "id": "bc425b21-c2ec-4b38-8f2c-1cc07321292f",
-            "source": "5c5648b4-6c79-4f53-a324-91ba17805e31",
-            "target": "oval:ssg-test_64bit_arufm_eacces_chown_auditctl:tst:1"
+            "id": "f408a346-413a-414b-aaa2-9167de4cc0d9",
+            "source": "b842c6de-8028-4699-af29-08f06d52cb2b",
+            "target": "oval:ssg-test_64bit_arufm_eacces_openat_auditctl:tst:1",
+            "color": "#ff0000"
         },
         {
-            "id": "585d291b-8eaf-44a3-a922-0468cd797d17",
-            "source": "5c5648b4-6c79-4f53-a324-91ba17805e31",
-            "target": "oval:ssg-test_64bit_arufm_eperm_chown_auditctl:tst:1"
+            "id": "bc265382-dbe2-4da6-9d65-5220137f853e",
+            "source": "b842c6de-8028-4699-af29-08f06d52cb2b",
+            "target": "oval:ssg-test_64bit_arufm_eperm_openat_auditctl:tst:1",
+            "color": "#ff0000"
         }
     ]
 };

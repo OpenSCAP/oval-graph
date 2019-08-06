@@ -74,10 +74,16 @@
       position: absolute;
       background: #fff;
     }
+    .sigma-scene, .sigma-labels, .sigma-mouse {
+      left: 0;
+    }
   </style>
+  <button onclick="zoomIn()">+</button>
+  <button onclick="zoomOut()">-</button>
   <div id="graph-container"></div>
 </div>
 <script>
+
 // Prepare data form data.js 
 var data = JSON.parse(JSON.stringify(data_json));
 
@@ -94,7 +100,8 @@ s = new sigma({
         },
         settings: {
           drawLabels: true,
-          enableHovering: true
+          enableHovering: true,
+          labelThreshold: 8
         }
       });
       
@@ -116,6 +123,24 @@ var noverlapListener = s.configNoverlap({
 
 s.startNoverlap();
 //s.startForceAtlas2({worker: true, barnesHutOptimize: false});
+
+//Zoom in and Zoom out function
+var c = s.camera;
+
+function zoomIn() {
+  // Zoom in - single frame :
+  c.goTo({
+    ratio: c.ratio / c.settings('zoomingRatio')
+  });
+}
+
+function zoomOut(){
+  // Zoom out - single frame :
+  c.goTo({
+    ratio: c.ratio * c.settings('zoomingRatio')
+  });
+}
+
 </script>
 </body>
 </html>

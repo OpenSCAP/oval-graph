@@ -380,15 +380,17 @@ class OvalNode():
         down = False
         down_row = False
         save_x = 0
+        continue_move = False
 
         for row in nodes_in_rows:
             for node in nodes_in_rows[row]:
-                if len(node['label']) > 6 and len(node['label']) < 40:
+                if len(node['label']) > 6 and len(node['label']) < 40 or continue_move:
                     if up_and_down:
                         node['y'] = node['y'] + (0.6 * x)
                         up_and_down = False
                     else:
                         up_and_down = True
+                    continue_move = True
                 elif len(node['label']) > 30:
                     node['y'] = node['y'] + (0.6 * x)
                     x += 0.6
@@ -403,6 +405,7 @@ class OvalNode():
             if down:
                 down = False
                 down_row = True
+            continue_move = False
             x = 0.6
 
     def sort(self, array):

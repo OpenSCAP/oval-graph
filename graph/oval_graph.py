@@ -174,6 +174,7 @@ class OvalNode():
                     'xccdf_org.ssgproject.content_rule_'):
                 return \
                     str(self.node_id).\
+<<<<<<< HEAD
                     replace('xccdf_org.ssgproject.content_', '')
             return self.value
 
@@ -198,6 +199,28 @@ class OvalNode():
         if value == 'true' or value == 'false':
             return self.node_id
         return str(self.node_id) + ' ' + self.value
+=======
+                    replace('xccdf_org.ssgproject.content_rule_', '')
+            return self.value
+
+    def _get_color_node(self):
+        if self.value == 'true':
+            return '#00ff00'
+        elif self.value == 'false':
+            return '#ff0000'
+        else:
+            if self.evaluate_tree() == 'true':
+                return '#00ff00'
+            elif self.evaluate_tree() == 'false':
+                return '#ff0000'
+            else:
+                return '#000000'
+
+    def _get_node_title(self):
+        if self._get_color_node() == '#000000':
+            return str(self.node_id) + ' ' + self.value
+        return self.node_id
+>>>>>>> ac7e8c7... Change the top node label to name of rule.
 
     def _create_node(self, x, y):
         # print(self.evaluate_tree(),self.value)
@@ -210,7 +233,11 @@ class OvalNode():
             "x": x,
             "y": y,
             "size": 3,
+<<<<<<< HEAD
             "color": self._get_node_color()}
+=======
+            "color": self._get_color_node()}
+>>>>>>> ac7e8c7... Change the top node label to name of rule.
 
     def _create_edge(self, id_source, id_target, target_node):
         return {
@@ -359,9 +386,15 @@ class OvalNode():
 
         for row in nodes_in_rows:
             for node in nodes_in_rows[row]:
+<<<<<<< HEAD
                 if (len(node['label']) > 6
                         and len(node['label']) < 40
                         or continue_move):
+=======
+                if len(node['label']) > 6\
+                        and len(node['label']) < 40\
+                        or continue_move:
+>>>>>>> ac7e8c7... Change the top node label to name of rule.
                     if up_and_down:
                         node['y'] = node['y'] + (0.6 * x)
                         up_and_down = False

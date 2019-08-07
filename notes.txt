@@ -48,7 +48,7 @@ https://oval.mitre.org/language/version5.11/ovaldefinition/documentation/oval-co
 14]info in js 
 
 15] center graph - done
-16] Html report
+16] change name of top node
 17] negation
 18] overlap - done 
 19] rework tests - done

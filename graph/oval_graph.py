@@ -161,75 +161,52 @@ class OvalNode():
     # Methods for interpreting oval tree with SigmaJS
 
     def _get_label(self):
-        return \
-            str(self.node_id).\
-            replace('xccdf_org.ssgproject.content_rule_', '').\
-            replace('oval:ssg-', '').\
-            replace(':def:1', '').\
-            replace(':tst:1', '').\
-            replace('test_', '')
+        if self.node_type == 'value':
+            return \
+                str(self.node_id).\
+                replace('xccdf_org.ssgproject.content_rule_', '').\
+                replace('oval:ssg-', '').\
+                replace(':def:1', '').\
+                replace(':tst:1', '').\
+                replace('test_', '')
+        else:
+            if str(self.node_id).startswith(
+                    'xccdf_org.ssgproject.content_rule_'):
+                return \
+                    str(self.node_id).\
+                    replace('xccdf_org.ssgproject.content_rule_', '')
+            return self.value
+
+    def _get_color_node(self):
+        if self.value == 'true':
+            return '#00ff00'
+        elif self.value == 'false':
+            return '#ff0000'
+        else:
+            if self.evaluate_tree() == 'true':
+                return '#00ff00'
+            elif self.evaluate_tree() == 'false':
+                return '#ff0000'
+            else:
+                return '#000000'
+
+    def _get_node_title(self):
+        if self._get_color_node() == '#000000':
+            return str(self.node_id) + ' ' + self.value
+        return self.node_id
 
     def _create_node(self, x, y):
         # print(self.evaluate_tree(),self.value)
-        if self.value == 'true':
-            return {
-                'id': self.node_id,
-                'label': self._get_label(),
-                'url': 'null',
-                'text': 'null',
-                'title': self.node_id,
-                "x": x,
-                "y": y,
-                "size": 3,
-                "color": '#00ff00'}
-        elif self.value == 'false':
-            return {
-                'id': self.node_id,
-                'label': self._get_label(),
-                'url': 'null',
-                'text': 'null',
-                'title': self.node_id,
-                "x": x,
-                "y": y,
-                "size": 3,
-                "color": '#ff0000'}
-        else:
-            if self.evaluate_tree() == 'true':
-                return {
-                    'id': self.node_id,
-                    'label': self.value,
-                    'url': 'null',
-                    'text': 'null',
-                    'title': self.node_id,
-                    "x": x,
-                    "y": y,
-                    "size": 3,
-                    "color": '#00ff00'
-                }
-            elif self.evaluate_tree() == 'false':
-                return {
-                    'id': self.node_id,
-                    'label': self.value,
-                    'url': 'null',
-                    'text': 'null',
-                    'title': self.node_id,
-                    "x": x,
-                    "y": y,
-                    "size": 3,
-                    "color": '#ff0000'
-                }
-            else:
-                return {
-                    'id': self.node_id,
-                    'label': self.value,
-                    'url': 'null',
-                    'text': 'null',
-                    'title': str(self.node_id) + ' ' + self.value,
-                    "x": x,
-                    "y": y,
-                    "size": 3,
-                    "color": '#000000'
-                }
+        return {
+            'id': self.node_id,
+            'label': self._get_label(),
+            'url': 'null',
+            'text': 'null',
+            'title': self._get_node_title(),
+            "x": x,
+            "y": y,
+            "size": 3,
+            "color": self._get_color_node()}
 
     def _create_edge(self, id_source, id_target, target_node):
         return {
@@ -378,9 +355,9 @@ class OvalNode():
 
         for row in nodes_in_rows:
             for node in nodes_in_rows[row]:
-                if len(
-                        node['label']) > 6 and len(
-                        node['label']) < 40 or continue_move:
+                if len(node['label']) > 6\
+                        and len(node['label']) < 40\
+                        or continue_move:
                     if up_and_down:
                         node['y'] = node['y'] + (0.6 * x)
                         up_and_down = False

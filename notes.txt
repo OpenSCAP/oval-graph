@@ -48,7 +48,11 @@ https://oval.mitre.org/language/version5.11/ovaldefinition/documentation/oval-co
 14]info in js 
 
 15] center graph - done
+<<<<<<< HEAD
 16] change name of top node
+=======
+16] change label of top node
+>>>>>>> e4d2623... Change the top node label to name of rule.
 17] negation
 18] overlap - done 
 19] rework tests - done

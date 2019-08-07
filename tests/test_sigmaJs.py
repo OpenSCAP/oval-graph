@@ -99,7 +99,7 @@ def test_create_node_dict_for_sigmaJs_5():
     out = {
         'color': '#000000',
         'id': 1,
-        'label': 'error',
+        'label': '1',
         'size': 3,
         'text': 'null',
         'url': 'null',

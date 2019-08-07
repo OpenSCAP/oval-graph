@@ -2,7 +2,7 @@
     "nodes": [
         {
             "id": "xccdf_org.ssgproject.content_rule_disable_host_auth",
-            "label": "and",
+            "label": "disable_host_auth",
             "url": "null",
             "text": "null",
             "title": "xccdf_org.ssgproject.content_rule_disable_host_auth",

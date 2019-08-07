@@ -7,6 +7,7 @@ import uuid
 import graph.oval_graph
 
 
+
 class xml_parser():
     def __init__(self, src):
         self.src = src
@@ -68,7 +69,6 @@ class xml_parser():
         used_rules = self.get_used_rules()
         for i in self.get_data(used_rules[0]['href']):
             scan['definitions'].append(self.build_graph(i))
-
         definitions = self._fill_extend_definition(scan)
         for definition in definitions['definitions']:
             if self.get_def_id_by_rule_id(rule_id) == definition['id']:
@@ -105,6 +105,7 @@ class xml_parser():
         raise ValueError('err- 404 rule not found!')
 
     def xml_dict_of_rule_to_node(self, rule):
+        print(rule)
         dict_of_definition = rule['definition']
         return graph.oval_graph.OvalNode(
             rule['rule_id'],
@@ -128,14 +129,19 @@ class xml_parser():
             if child.get('operator') is not None:
                 node['node'].append(self._build_node(child))
             else:
+                negate_status = False
+                if child.get('negate') is not None:
+                    negate_status = True
+                    
                 if child.get('definition_ref') is not None:
                     node['node'].append(
-                        dict(extend_definition=child.get('definition_ref')))
+                        dict(extend_definition=child.get('definition_ref'),negate=negate_status))
                 else:
                     node['node'].append(
                         dict(
                             value_id=child.get('test_ref'),
-                            value=child.get('result')))
+                            value=child.get('result'),
+                            negate=negate_status))
         return node
 
     def _fill_extend_definition(self, scan):
@@ -155,14 +161,15 @@ class xml_parser():
             elif 'extend_definition' in child:
                 out['node'].append(
                     self._find_definition_by_id(
-                        scan, child['extend_definition']))
+                        scan, child['extend_definition'], child['negate']))
             elif 'value_id' in child:
                 out['node'].append(child)
             else:
                 raise ValueError('error - unknown child')
         return out
 
-    def _find_definition_by_id(self, scan, id):
+    def _find_definition_by_id(self, scan, id, negate_status):
         for definition in scan['definitions']:
             if definition['id'] == id:
+                definition['node'][0]['negate']=negate_status
                 return self._operator_as_child(definition['node'][0], scan)

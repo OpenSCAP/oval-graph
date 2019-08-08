@@ -174,7 +174,7 @@ class OvalNode():
                     'xccdf_org.ssgproject.content_rule_'):
                 return \
                     str(self.node_id).\
-                    replace('xccdf_org.ssgproject.content_rule_', '')
+                    replace('xccdf_org.ssgproject.content_', '')
             return self.value
 
     def _get_node_color(self):

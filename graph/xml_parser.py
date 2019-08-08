@@ -12,6 +12,18 @@ class xml_parser():
         self.src = src
         self.tree = ET.parse(self.src)
         self.root = self.tree.getroot()
+        if not self.validate(
+                './schemas/arf/1.1/asset-reporting-format_1.1.0.xsd'):
+            raise ValueError("err- This is not arf report file.")
+
+    def validate(self, xsd_path):
+        xmlschema_doc = ET.parse(xsd_path)
+        xmlschema = ET.XMLSchema(xmlschema_doc)
+
+        xml_doc = self.tree
+        result = xmlschema.validate(xml_doc)
+
+        return result
 
     def get_data_form_xml(self, href):
         ns = {
@@ -29,7 +41,6 @@ class xml_parser():
 
         trees_data = report_data.find(
             './/ns0:oval_results/ns0:results/ns0:system/ns0:definitions', ns)
-        print(trees_data)
         return trees_data
 
     def get_used_rules(self):

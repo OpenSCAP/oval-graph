@@ -21,12 +21,15 @@ class xml_parser():
 
         report_data = None
         reports = self.root.find('.//ns1:reports', ns)
+        if reports is None:
+            raise ValueError("err- In file is missing arf reports")
         for report in reports:
             if "#" + str(report.get("id")) == href:
                 report_data = report
 
         trees_data = report_data.find(
             './/ns0:oval_results/ns0:results/ns0:system/ns0:definitions', ns)
+        print(trees_data)
         return trees_data
 
     def get_used_rules(self):

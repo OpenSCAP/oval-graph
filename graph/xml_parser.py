@@ -12,6 +12,18 @@ class xml_parser():
         self.src = src
         self.tree = ET.parse(self.src)
         self.root = self.tree.getroot()
+        if not self.validate(
+                './schemas/arf/1.1/asset-reporting-format_1.1.0.xsd'):
+            raise ValueError("err- This is not arf report file.")
+
+    def validate(self, xsd_path):
+        xmlschema_doc = ET.parse(xsd_path)
+        xmlschema = ET.XMLSchema(xmlschema_doc)
+
+        xml_doc = self.tree
+        result = xmlschema.validate(xml_doc)
+
+        return result
 
     def get_data_form_xml(self, href):
         ns = {
@@ -21,6 +33,8 @@ class xml_parser():
 
         report_data = None
         reports = self.root.find('.//ns1:reports', ns)
+        if reports is None:
+            raise ValueError("err- In file is missing arf reports")
         for report in reports:
             if "#" + str(report.get("id")) == href:
                 report_data = report

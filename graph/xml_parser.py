@@ -7,7 +7,6 @@ import uuid
 import graph.oval_graph
 
 
-
 class xml_parser():
     def __init__(self, src):
         self.src = src
@@ -104,7 +103,6 @@ class xml_parser():
                 return rule['id_def']
         raise ValueError('err- 404 rule not found!')
 
-
     def get_rule_dict(self, rule_id):
         return self.parse_data_to_dict(rule_id)
 
@@ -125,7 +123,10 @@ class xml_parser():
         negate_status = False
         if tree_data.get('negate') is not None:
             negate_status = True
-        graph = dict(id=tree_data.get('definition_id'), negate = negate_status, node=[])
+        graph = dict(
+            id=tree_data.get('definition_id'),
+            negate=negate_status,
+            node=[])
         for tree in tree_data:
             negate_status = False
             if tree.get('negate') is not None:
@@ -138,8 +139,12 @@ class xml_parser():
         negate_status = False
         if tree.get('negate') is not None:
             negate_status = True
-               
-        node = dict(operator=tree.get('operator'), negate=negate_status, result=tree.get('result'), node=[])
+
+        node = dict(
+            operator=tree.get('operator'),
+            negate=negate_status,
+            result=tree.get('result'),
+            node=[])
         for child in tree:
             if child.get('operator') is not None:
                 node['node'].append(self._build_node(child))
@@ -147,10 +152,13 @@ class xml_parser():
                 negate_status = False
                 if child.get('negate') is not None:
                     negate_status = True
-                    
+
                 if child.get('definition_ref') is not None:
                     node['node'].append(
-                        dict(extend_definition=child.get('definition_ref'),result=child.get('result'),negate=negate_status))
+                        dict(
+                            extend_definition=child.get('definition_ref'),
+                            result=child.get('result'),
+                            negate=negate_status))
                 else:
                     node['node'].append(
                         dict(
@@ -169,7 +177,11 @@ class xml_parser():
         return out
 
     def _operator_as_child(self, value, scan):
-        out = dict(operator=value['operator'],negate=value['negate'], result=value['negate'], node=[])
+        out = dict(
+            operator=value['operator'],
+            negate=value['negate'],
+            result=value['negate'],
+            node=[])
         for child in value['node']:
             if 'operator' in child:
                 out['node'].append(self._operator_as_child(child, scan))
@@ -186,5 +198,5 @@ class xml_parser():
     def _find_definition_by_id(self, scan, id, negate_status):
         for definition in scan['definitions']:
             if definition['id'] == id:
-                definition['node'][0]['negate']=negate_status
+                definition['node'][0]['negate'] = negate_status
                 return self._operator_as_child(definition['node'][0], scan)

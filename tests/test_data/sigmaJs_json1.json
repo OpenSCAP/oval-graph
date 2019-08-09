@@ -2,11 +2,7 @@
     "nodes": [
         {
             "id": "xccdf_org.ssgproject.content_rule_disable_host_auth",
-<<<<<<< HEAD
             "label": "rule_disable_host_auth",
-=======
-            "label": "disable_host_auth",
->>>>>>> ac7e8c7... Change the top node label to name of rule.
             "url": "null",
             "text": "null",
             "title": "xccdf_org.ssgproject.content_rule_disable_host_auth",

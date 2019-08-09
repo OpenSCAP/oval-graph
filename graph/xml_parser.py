@@ -25,7 +25,7 @@ class xml_parser():
 
         return result
 
-    def get_data_form_xml(self, href):
+    def get_data(self, href):
         ns = {
             'ns0': 'http://oval.mitre.org/XMLSchema/oval-results-5',
             'ns1': 'http://scap.nist.gov/schema/asset-reporting-format/1.1'
@@ -66,7 +66,7 @@ class xml_parser():
     def parse_data_to_dict(self, rule_id):
         scan = dict(definitions=[])
         used_rules = self.get_used_rules()
-        for i in self.get_data_form_xml(used_rules[0]['href']):
+        for i in self.get_data(used_rules[0]['href']):
             scan['definitions'].append(self.build_graph(i))
 
         definitions = self._fill_extend_definition(scan)

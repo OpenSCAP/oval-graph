@@ -22,17 +22,13 @@ def run(args):
             args.source_filename, args.rule_name)
         with open('html_interpreter/data/data.js', "w+") as file:
             file.write(
-                "var data_json =" + str(
-                    json.dumps(
-                        oval_tree.to_sigma_dict(
-                            0,
-                            0),
-                        sort_keys=False,
-                        indent=4) + ";"))
+                "var data_json ="+
+                str(json.dumps(oval_tree.to_sigma_dict(0, 0), sort_keys=False, indent=4)+
+                    ";"))
 
         webbrowser.get('firefox').open_new_tab('html_interpreter/index.html')
-    except (RuntimeError, TypeError, NameError, ValueError) as e:
-        print(e)
+    except (RuntimeError, TypeError, NameError, ValueError) as error:
+        print(error)
 
 
 arg = parse_arguments()

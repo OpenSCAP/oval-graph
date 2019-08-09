@@ -104,7 +104,12 @@ class xml_parser():
                 return rule['id_def']
         raise ValueError('err- 404 rule not found!')
 
+
+    def get_rule_dict(self, rule_id):
+        return self.parse_data_to_dict(rule_id)
+
     def xml_dict_of_rule_to_node(self, rule):
+        print(rule)
         dict_of_definition = rule['definition']
         return graph.oval_graph.OvalNode(
             rule['rule_id'],
@@ -134,7 +139,7 @@ class xml_parser():
         if tree.get('negate') is not None:
             negate_status = True
                
-        node = dict(operator=tree.get('operator'), negate=negate_status, node=[])
+        node = dict(operator=tree.get('operator'), negate=negate_status, result=tree.get('result'), node=[])
         for child in tree:
             if child.get('operator') is not None:
                 node['node'].append(self._build_node(child))
@@ -145,7 +150,7 @@ class xml_parser():
                     
                 if child.get('definition_ref') is not None:
                     node['node'].append(
-                        dict(extend_definition=child.get('definition_ref'),negate=negate_status))
+                        dict(extend_definition=child.get('definition_ref'),result=child.get('result'),negate=negate_status))
                 else:
                     node['node'].append(
                         dict(
@@ -164,7 +169,7 @@ class xml_parser():
         return out
 
     def _operator_as_child(self, value, scan):
-        out = dict(operator=value['operator'],negate=value['negate'], node=[])
+        out = dict(operator=value['operator'],negate=value['negate'], result=value['negate'], node=[])
         for child in value['node']:
             if 'operator' in child:
                 out['node'].append(self._operator_as_child(child, scan))

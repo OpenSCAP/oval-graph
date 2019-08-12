@@ -30,8 +30,12 @@ class OvalNode():
         children ([OvalNode]): children of node
     '''
 
-    def __init__(self, node_id, input_node_type, input_value, children=None):
+    def __init__(self, node_id, input_node_type, input_value, input_negation, children=None):
         self.node_id = node_id
+        if isinstance(input_negation, bool):
+            self.negation = input_negation
+        else:
+            raise ValueError("err- negation si bool (only True or False)", input_negation)
         value = input_value.lower()
         node_type = input_node_type.lower()
         if node_type == "value" or node_type == "operator":
@@ -111,10 +115,10 @@ class OvalNode():
     def evaluate_tree(self):
         result = self.get_result_counts()
 
-        if result['notappl_cnt'] > 0\
-                and graph.evaluate.eq_zero(result, 'false_cnt')\
-                and graph.evaluate.error_unknown_noteval_eq_zero(result)\
-                and graph.evaluate.eq_zero(result, 'true_cnt'):
+        if (result['notappl_cnt'] > 0
+                and graph.evaluate.eq_zero(result, 'false_cnt')
+                and graph.evaluate.error_unknown_noteval_eq_zero(result)
+                and graph.evaluate.eq_zero(result, 'true_cnt')):
             return "notappl"
         else:
             if self.value == "or":
@@ -132,12 +136,14 @@ class OvalNode():
                 'node_id': self.node_id,
                 'type': self.node_type,
                 'value': self.value,
+                'negation': self.negation,
                 'child': None
             }
         return {
             'node_id': self.node_id,
             'type': self.node_type,
             'value': self.value,
+            'negation': self.negation,
             'child': [child.save_tree_to_dict() for child in self.children]
         }
 
@@ -162,19 +168,19 @@ class OvalNode():
 
     def _get_label(self):
         if self.node_type == 'value':
-            return \
-                str(self.node_id).\
-                replace('xccdf_org.ssgproject.content_rule_', '').\
-                replace('oval:ssg-', '').\
-                replace(':def:1', '').\
-                replace(':tst:1', '').\
-                replace('test_', '')
+            return (
+                str(self.node_id).
+                replace('xccdf_org.ssgproject.content_rule_', '').
+                replace('oval:ssg-', '').
+                replace(':def:1', '').
+                replace(':tst:1', '').
+                replace('test_', ''))
         else:
             if str(self.node_id).startswith(
                     'xccdf_org.ssgproject.content_rule_'):
-                return \
-                    str(self.node_id).\
-                    replace('xccdf_org.ssgproject.content_', '')
+                return (
+                    str(self.node_id).
+                    replace('xccdf_org.ssgproject.content_', ''))
             return self.value
 
     def _get_node_color(self):
@@ -436,9 +442,11 @@ def restore_dict_to_tree(dict_of_tree):
         return OvalNode(
             dict_of_tree["node_id"],
             dict_of_tree["type"],
-            dict_of_tree["value"])
+            dict_of_tree["value"],
+            dict_of_tree["negation"])
     return OvalNode(
         dict_of_tree["node_id"],
         dict_of_tree["type"],
         dict_of_tree["value"],
+        dict_of_tree["negation"],
         [restore_dict_to_tree(i) for i in dict_of_tree["child"]])

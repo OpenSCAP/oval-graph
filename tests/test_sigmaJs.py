@@ -33,8 +33,8 @@ def test_create_node_dict_for_sigmaJs_1():
         'x': 0,
         'y': 0
     }
-    Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', [
-        graph.oval_graph.OvalNode(2, 'value', "true")
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', False, [
+        graph.oval_graph.OvalNode(2, 'value', "true", False)
     ]
     )
 
@@ -53,8 +53,8 @@ def test_create_node_dict_for_sigmaJs_2():
         'x': 0,
         'y': 0
     }
-    Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', [
-        graph.oval_graph.OvalNode(2, 'value', "noteval")
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', False, [
+        graph.oval_graph.OvalNode(2, 'value', "noteval", False)
     ]
     )
 
@@ -73,7 +73,7 @@ def test_create_node_dict_for_sigmaJs_3():
         'x': 0,
         'y': 0
     }
-    Tree = graph.oval_graph.OvalNode(1, 'value', 'false')
+    Tree = graph.oval_graph.OvalNode(1, 'value', 'false', False)
 
     tests.any_test_help.any_test_create_node_dict_for_sigmaJs(Tree, out)
 
@@ -90,7 +90,7 @@ def test_create_node_dict_for_sigmaJs_4():
         'x': 0,
         'y': 0
     }
-    Tree = graph.oval_graph.OvalNode(1, 'value', 'true')
+    Tree = graph.oval_graph.OvalNode(1, 'value', 'true', False)
 
     tests.any_test_help.any_test_create_node_dict_for_sigmaJs(Tree, out)
 
@@ -107,7 +107,7 @@ def test_create_node_dict_for_sigmaJs_5():
         'x': 0,
         'y': 0
     }
-    Tree = graph.oval_graph.OvalNode(1, 'value', 'error')
+    Tree = graph.oval_graph.OvalNode(1, 'value', 'error', False)
 
     tests.any_test_help.any_test_create_node_dict_for_sigmaJs(Tree, out)
 

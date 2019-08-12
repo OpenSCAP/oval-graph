@@ -35,7 +35,7 @@ class OvalNode():
         if isinstance(input_negation, bool):
             self.negation = input_negation
         else:
-            raise ValueError("err- negation si bool (only True or False)", input_negation)
+            raise ValueError("err- negation si bool (only True or False)")
         value = input_value.lower()
         node_type = input_node_type.lower()
         if node_type == "value" or node_type == "operator":
@@ -84,7 +84,7 @@ class OvalNode():
             raise ValueError(
                 "err- true, false, error, unknown. noteval, notappl have not child!")
 
-    def get_result_counts(self):
+    def _get_result_counts(self):
         result = {
             'true_cnt': 0,
             'false_cnt': 0,
@@ -113,7 +113,7 @@ class OvalNode():
         return result
 
     def evaluate_tree(self):
-        result = self.get_result_counts()
+        result = self._get_result_counts()
 
         if (result['notappl_cnt'] > 0
                 and graph.evaluate.eq_zero(result, 'false_cnt')
@@ -282,7 +282,7 @@ class OvalNode():
                     x_row + 1, y_row + 1, preprocessed_graph_data)
         return self._fix_graph(preprocessed_graph_data)
 
-    def count_max_y(self, out):
+    def _count_max_y(self, out):
         max_y = 0
 
         for node in out['nodes']:
@@ -290,23 +290,23 @@ class OvalNode():
                 max_y = node['y']
         return max_y
 
-    def create_nodes_in_rows(self, rows):
+    def _create_nodes_in_rows(self, rows):
         nodes_in_rows = dict()
 
         for i in range(rows + 1):
             nodes_in_rows[i] = []
         return nodes_in_rows
 
-    def push_nodes_to_nodes_in_row(self, out, nodes_in_rows):
+    def _push_nodes_to_nodes_in_row(self, out, nodes_in_rows):
         for node in out['nodes']:
             nodes_in_rows[node['y']].append(node)
 
-    def remove_empty_rows(self, nodes_in_rows, max_y):
+    def _remove_empty_rows(self, nodes_in_rows, max_y):
         for row in range(max_y + 1):
             if not nodes_in_rows[row]:
                 del nodes_in_rows[row]
 
-    def move_rows(self, nodes_in_rows):
+    def _move_rows(self, nodes_in_rows):
         count = 0
         nodes_in_rows1 = dict()
 
@@ -317,7 +317,7 @@ class OvalNode():
             count += 1
         return nodes_in_rows1
 
-    def create_positions(self, nodes_in_rows):
+    def _create_positions(self, nodes_in_rows):
         positions = []
         for row in nodes_in_rows:
             len_of_row = len(nodes_in_rows[row])
@@ -348,14 +348,14 @@ class OvalNode():
 
         return positions
 
-    def convert_nodes_in_rows_to_nodes(self, nodes_in_rows):
+    def _convert_nodes_in_rows_to_nodes(self, nodes_in_rows):
         nodes = []
         for row in nodes_in_rows:
             for node in nodes_in_rows[row]:
                 nodes.append(node)
         return nodes
 
-    def change_position(self, positions, nodes_in_rows):
+    def _change_position(self, positions, nodes_in_rows):
         x = 0.6
         up_and_down = True
         down = False
@@ -391,7 +391,7 @@ class OvalNode():
             continue_move = False
             x = 0.6
 
-    def sort(self, array):
+    def _sort(self, array):
         less = []
         equal = []
         greater = []
@@ -405,28 +405,28 @@ class OvalNode():
                     equal.append(node)
                 if node['x'] > pivot:
                     greater.append(node)
-            return self.sort(less) + equal + self.sort(greater)
+            return self._sort(less) + equal + self._sort(greater)
         else:
             return array
 
-    def sort_nodes(self, nodes_in_rows):
+    def _sort_nodes(self, nodes_in_rows):
         for row in nodes_in_rows:
-            nodes_in_rows[row] = self.sort(nodes_in_rows[row])
+            nodes_in_rows[row] = self._sort(nodes_in_rows[row])
 
-    def center_graph(self, out):
-        max_y = self.count_max_y(out)
-        nodes_in_rows = self.create_nodes_in_rows(max_y)
-        self.push_nodes_to_nodes_in_row(out, nodes_in_rows)
-        self.remove_empty_rows(nodes_in_rows, max_y)
-        nodes_in_rows = self.move_rows(nodes_in_rows)
-        self.sort_nodes(nodes_in_rows)
-        positions = self.create_positions(nodes_in_rows)
-        self.change_position(positions, nodes_in_rows)
-        out['nodes'] = self.convert_nodes_in_rows_to_nodes(nodes_in_rows)
+    def _center_graph(self, out):
+        max_y = self._count_max_y(out)
+        nodes_in_rows = self._create_nodes_in_rows(max_y)
+        self._push_nodes_to_nodes_in_row(out, nodes_in_rows)
+        self._remove_empty_rows(nodes_in_rows, max_y)
+        nodes_in_rows = self._move_rows(nodes_in_rows)
+        self._sort_nodes(nodes_in_rows)
+        positions = self._create_positions(nodes_in_rows)
+        self._change_position(positions, nodes_in_rows)
+        out['nodes'] = self._convert_nodes_in_rows_to_nodes(nodes_in_rows)
         return out
 
     def to_sigma_dict(self, x, y):
-        return self.center_graph(
+        return self._center_graph(
             self._remove_Duplication(
                 self._help_to_sigma_dict(
                     x, y)))

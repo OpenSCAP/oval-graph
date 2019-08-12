@@ -1,1 +1,29 @@
-{"node_id": 1, "type": "operator", "value": "one", "child": [{"node_id": 2, "type": "value", "value": "false", "child": null}, {"node_id": 3, "type": "value", "value": "false", "child": null}, {"node_id": 4, "type": "value", "value": "notappl", "child": null}]}
+{
+    "node_id": 1,
+    "type": "operator",
+    "value": "one",
+    "negation": false,
+    "child": [
+        {
+            "node_id": 2,
+            "type": "value",
+            "value": "false",
+            "negation": false,
+            "child": null
+        },
+        {
+            "node_id": 3,
+            "type": "value",
+            "value": "false",
+            "negation": false,
+            "child": null
+        },
+        {
+            "node_id": 4,
+            "type": "value",
+            "value": "notappl",
+            "negation": false,
+            "child": null
+        }
+    ]
+}

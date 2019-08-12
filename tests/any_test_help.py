@@ -55,7 +55,7 @@ def get_simple_tree():
     return graph.oval_graph.OvalNode(1, 'operator', 'and', False, [
         graph.oval_graph.OvalNode(2, 'value', "true", False),
         graph.oval_graph.OvalNode(3, 'value', "false", False),
-        graph.oval_graph.OvalNode(4, 'operator', 'or', False,[
+        graph.oval_graph.OvalNode(4, 'operator', 'or', False, [
             graph.oval_graph.OvalNode(5, 'value', "false", False),
             graph.oval_graph.OvalNode(6, 'value', "true", False)
         ]
@@ -82,20 +82,19 @@ def any_test_transformation_tree_to_Json_for_SigmaJs(
             assert out_data['nodes'][i]['url'] == test_data['nodes'][i]['url']
 
 
-
 def any_test_tree_to_dict_of_tree(tree, dict_of_tree):
     assert tree.save_tree_to_dict() == dict_of_tree
-            
-            
+
+
 def find_any_node(Tree, node_id):
     findTree = Tree.find_node_with_ID(node_id)
     assert findTree.node_id == node_id
-            
-            
+
+
 def any_test_treeEvaluation_with_tree(tree, expect):
     assert tree.evaluate_tree() == expect
-            
-            
+
+
 def any_test_dict_to_tree(dict_of_tree):
     treedict_of_tree = graph.oval_graph.restore_dict_to_tree(dict_of_tree)
     assert treedict_of_tree.save_tree_to_dict() == dict_of_tree

@@ -9,3 +9,4 @@ htmlcov/status.json
 htmlcov/tree_operatorTree_py.html
 .coverage
 html_interpreter/data/data.js
+data.json

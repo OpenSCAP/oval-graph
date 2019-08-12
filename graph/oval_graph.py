@@ -30,7 +30,13 @@ class OvalNode():
         children ([OvalNode]): children of node
     '''
 
-    def __init__(self, node_id, input_node_type, input_value, input_negation, children=None):
+    def __init__(
+            self,
+            node_id,
+            input_node_type,
+            input_value,
+            input_negation,
+            children=None):
         self.node_id = node_id
         if isinstance(input_negation, bool):
             self.negation = input_negation
@@ -96,9 +102,15 @@ class OvalNode():
 
         for child in self.children:
             if child.value == 'true':
-                result['true_cnt'] += 1
+                if child.negation:
+                    result['false_cnt'] += 1
+                else:
+                    result['true_cnt'] += 1
             elif child.value == 'false':
-                result['false_cnt'] += 1
+                if child.negation:
+                    result['true_cnt'] += 1
+                else:
+                    result['false_cnt'] += 1
             elif child.value == 'error':
                 result['error_cnt'] += 1
             elif child.value == 'unknown':
@@ -114,21 +126,28 @@ class OvalNode():
 
     def evaluate_tree(self):
         result = self._get_result_counts()
-
+        out_result = None
         if (result['notappl_cnt'] > 0
                 and graph.evaluate.eq_zero(result, 'false_cnt')
                 and graph.evaluate.error_unknown_noteval_eq_zero(result)
                 and graph.evaluate.eq_zero(result, 'true_cnt')):
-            return "notappl"
+            out_result = "notappl"
         else:
             if self.value == "or":
-                return graph.evaluate.oval_operator_or(result)
+                out_result = graph.evaluate.oval_operator_or(result)
             elif self.value == "and":
-                return graph.evaluate.oval_operator_and(result)
+                out_result = graph.evaluate.oval_operator_and(result)
             elif self.value == "one":
-                return graph.evaluate.oval_operator_one(result)
+                out_result = graph.evaluate.oval_operator_one(result)
             elif self.value == "xor":
-                return graph.evaluate.oval_operator_xor(result)
+                out_result = graph.evaluate.oval_operator_xor(result)
+
+        if out_result == 'true' and self.negation:
+            out_result = 'false'
+        elif out_result == 'false' and self.negation:
+            out_result = 'true'
+
+        return out_result
 
     def save_tree_to_dict(self):
         if not self.children:
@@ -186,7 +205,12 @@ class OvalNode():
     def _get_node_color(self):
         value = self.evaluate_tree()
         if value is None:
-            value = self.value
+            if self.value == 'true' and self.negation:
+                value = 'false'
+            elif self.value == 'false' and self.negation:
+                value = 'true'
+            else:
+                value = self.value
         VALUE_TO_COLOR = {
             "true": "#00ff00",
             "false": "#ff0000",

@@ -33,8 +33,6 @@ class xml_parser():
 
         report_data = None
         reports = self.root.find('.//ns1:reports', ns)
-        if reports is None:
-            raise ValueError("err- In file is missing arf reports")
         for report in reports:
             if "#" + str(report.get("id")) == href:
                 report_data = report
@@ -84,7 +82,7 @@ class xml_parser():
                         child['value_id'],
                         'value',
                         child['value'],
-                        dict_of_definition['negate']))
+                        child['negate']))
 
         if 'id' in dict_of_definition:
             children[0].node_id = dict_of_definition['id']

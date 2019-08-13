@@ -5,6 +5,7 @@ import graph.xml_parser
 import graph.evaluate
 import uuid
 import collections
+import re
 
 '''
     This module contains methods and classes for
@@ -127,10 +128,7 @@ class OvalNode():
     def evaluate_tree(self):
         result = self._get_result_counts()
         out_result = None
-        if (result['notappl_cnt'] > 0
-                and graph.evaluate.eq_zero(result, 'false_cnt')
-                and graph.evaluate.error_unknown_noteval_eq_zero(result)
-                and graph.evaluate.eq_zero(result, 'true_cnt')):
+        if graph.evaluate.is_notapp_result(result):
             out_result = "notappl"
         else:
             if self.value == "or":
@@ -187,19 +185,13 @@ class OvalNode():
 
     def _get_label(self):
         if self.node_type == 'value':
-            return (
-                str(self.node_id).
-                replace('xccdf_org.ssgproject.content_rule_', '').
-                replace('oval:ssg-', '').
-                replace(':def:1', '').
-                replace(':tst:1', '').
-                replace('test_', ''))
+            return re.sub(
+                '(oval:ssg-test_|oval:ssg-)|(:def:1|:tst:1)', '', str(self.node_id))
         else:
-            if str(self.node_id).startswith(
-                    'xccdf_org.ssgproject.content_rule_'):
-                return (
-                    str(self.node_id).
-                    replace('xccdf_org.ssgproject.content_', ''))
+            if str(self.node_id).startswith('xccdf_org'):
+                return re.sub(
+                    '(xccdf_org.ssgproject.content_)', '', str(
+                        self.node_id))
             return self.value
 
     def _get_node_color(self):

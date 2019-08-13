@@ -13,15 +13,16 @@ root = tree.getroot()
 for i in root:
     print(i)
 """
-#get rules             
+# get rules
 rules = root.findall('.//{http://checklists.nist.gov/xccdf/1.2}Rule')
 
 print('...')
 
-#get results
+# get results
 testResults = root.find('.//{http://checklists.nist.gov/xccdf/1.2}TestResult')
-#print(testResults)
-ruleResults = testResults.findall('.//{http://checklists.nist.gov/xccdf/1.2}rule-result')
+# print(testResults)
+ruleResults = testResults.findall(
+    './/{http://checklists.nist.gov/xccdf/1.2}rule-result')
 
 
 """
@@ -34,7 +35,8 @@ for i in check:
             print(x)
 """
 
-oval_def = root.findall('.//{http://oval.mitre.org/XMLSchema/oval-definitions-5}definition')
+oval_def = root.findall(
+    './/{http://oval.mitre.org/XMLSchema/oval-definitions-5}definition')
 """
 for i in oval_def:
     print(i)
@@ -43,7 +45,8 @@ for i in oval_def:
 """
 
 print("...")
-oval = root.find('.//{http://oval.mitre.org/XMLSchema/oval-results-5}oval_results')
+oval = root.find(
+    './/{http://oval.mitre.org/XMLSchema/oval-results-5}oval_results')
 """
 for i in oval:
     print(i)
@@ -60,18 +63,17 @@ rule-result idref="xccdf_org.ssgproject.content_rule_package_abrt_removed" time=
 """
 
 
-
-#print result
+# print result
 for ruleResult in ruleResults:
     for res in ruleResult:
-        if res.text=="fail" or res.text=="pass":
+        if res.text == "fail" or res.text == "pass":
             #print (ruleResult.get('idref'))
             for res in ruleResult:
                 for r in res:
-                    if r.get('href')=='#oval0':
+                    if r.get('href') == '#oval0':
                         print(r.get('name'))
-                #print(res.text)
-            #print rule for result 
+                # print(res.text)
+            # print rule for result
             """
             for rule in rules:
                 if rule.get("id")==ruleResult.get('idref'):
@@ -82,12 +84,15 @@ for ruleResult in ruleResults:
                                 #add how fix it
             """
 
+
 def get_used_def(root):
-    testResults = root.find('.//{http://checklists.nist.gov/xccdf/1.2}TestResult')
-    ruleResults = testResults.findall('.//{http://checklists.nist.gov/xccdf/1.2}rule-result')
+    testResults = root.find(
+        './/{http://checklists.nist.gov/xccdf/1.2}TestResult')
+    ruleResults = testResults.findall(
+        './/{http://checklists.nist.gov/xccdf/1.2}rule-result')
     out = []
     for ruleResult in ruleResults:
         for res in ruleResult:
-            if res.text=="fail" or res.text=="pass":
+            if res.text == "fail" or res.text == "pass":
                 out.append(ruleResult.get('idref'))
     return out

@@ -1,4 +1,10 @@
-import tree.oval_tree
+"""
+Playgrounds are scripts where i testing and preparing new things and  new futures.
+
+parsing xml
+"""
+
+import graph.oval_graph
 import pprint
 import json
 """
@@ -186,7 +192,7 @@ elif test==4:
     result = 'true'
 
 
-oval_trees_array = tree.oval_tree.xml_to_tree(src)
+oval_trees_array = graph.oval_graph.xml_to_tree(src)
 for oval_tree in oval_trees_array:
     if oval_tree.node_id == rule_id:
         assert oval_tree.evaluate_tree() == result

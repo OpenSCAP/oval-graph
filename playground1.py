@@ -1,3 +1,9 @@
+"""
+Playgrounds are scripts where i testing and preparing new things and  new futures.
+
+regex
+"""
+
 import re
 str='xccdf_org.ssgproject.content_rule_audit_rules_login_events'
 str1='oval:ssg-audit_rules_login_events:def:1'

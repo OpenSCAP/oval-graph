@@ -1,6 +1,12 @@
-import tree.xml_parser
+"""
+Playgrounds are scripts where i testing and preparing new things and  new futures.
 
-parser = tree.xml_parser.xml_parser('tests/test_data/ssg-fedora-ds-arf-scan-with-extend-definitions.xml')
+test parser for negation
+"""
+
+import graph.xml_parser
+
+parser = graph.xml_parser.xml_parser('tests/test_data/ssg-fedora-ds-arf-scan-with-extend-definitions.xml')
 
 
 #print(parser.get_data_form_xml('#oval0'))

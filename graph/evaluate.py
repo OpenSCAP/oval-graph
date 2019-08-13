@@ -239,6 +239,7 @@ def error_unknown_eq_zero(result):
         return True
     return False
 
+
 def is_notapp_result(result):
     if (result['notappl_cnt'] > 0
             and eq_zero(result, 'false_cnt')

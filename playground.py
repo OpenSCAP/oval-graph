@@ -1,3 +1,9 @@
+"""
+Playgrounds are scripts where i testing and preparing new things and  new futures.
+
+negation
+"""
+
 import graph.oval_graph
 import graph.xml_parser
 import json

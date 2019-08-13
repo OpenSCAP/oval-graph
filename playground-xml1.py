@@ -1,3 +1,9 @@
+"""
+Playgrounds are scripts where i testing and preparing new things and  new futures.
+
+parsing xml
+"""
+
 #import xml.etree.ElementTree as ET
 from lxml import etree as ET
 tree = ET.parse('data/ssg-fedora-ds-arf.xml')

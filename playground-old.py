@@ -1,3 +1,9 @@
+"""
+Playgrounds are scripts where i testing and preparing new things and  new futures.
+
+tree and graphs 
+"""
+
 import operator
 
 def evaluateTree(tree):

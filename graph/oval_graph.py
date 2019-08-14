@@ -194,7 +194,7 @@ class OvalNode():
                         self.node_id))
             return self.value
 
-    def _negated_boolean(self, boolean, value):
+    def _is_negated_boolean(self, boolean, value):
         if value == boolean and self.negation:
             return True
         return False
@@ -203,17 +203,17 @@ class OvalNode():
         value = self.evaluate_tree()
         borderValue = None
         if value is None:
-            if self._negated_boolean('true', self.value):
+            if self._is_negated_boolean('true', self.value):
                 borderValue = 'false'
-            elif self._negated_boolean('false', self.value):
+            elif self._is_negated_boolean('false', self.value):
                 borderValue = 'true'
             else:
                 borderValue = self.value
             borderValue, value = self.value, borderValue
         else:
-            if self._negated_boolean('true', value):
+            if self._is_negated_boolean('true', value):
                 borderValue = 'false'
-            elif self._negated_boolean('false', value):
+            elif self._is_negated_boolean('false', value):
                 borderValue = 'true'
             else:
                 borderValue = value
@@ -228,8 +228,6 @@ class OvalNode():
         return dict(
             color=VALUE_TO_COLOR[value],
             borderColor=VALUE_TO_COLOR[borderValue])
-
-        return VALUE_TO_COLOR[value]
 
     def _get_node_title(self):
         value = self.evaluate_tree()

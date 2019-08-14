@@ -124,26 +124,95 @@ def test_create_node_dict_for_sigmaJs_5():
 
     tests.any_test_help.any_test_create_node_dict_for_sigmaJs(Tree, out)
 
-    def test_create_node_with_negation_dict_for_sigmaJs():
-        out = {
-            'type': 'circle',
-            'borderColor': '#00ff00',
-            'color': '#ff0000',
-            'id': 1,
-            'label': 'and',
-            'size': 3,
-            'text': 'null',
-            'url': 'null',
-            'title': 1,
-            'x': 0,
-            'y': 0
-        }
-        Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', True, [
-            graph.oval_graph.OvalNode(2, 'value', "false", False)
-        ]
-        )
 
-        tests.any_test_help.any_test_create_node_dict_for_sigmaJs(Tree, out)
+def test_create_node_with_negation_dict_for_sigmaJs():
+    out = {
+        'type': 'circle',
+        'borderColor': '#ff0000',
+        'color': '#00ff00',
+        'id': 1,
+        'label': 'and',
+        'size': 3,
+        'text': 'null',
+        'url': 'null',
+        'title': 1,
+        'x': 0,
+        'y': 0
+    }
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', True, [
+        graph.oval_graph.OvalNode(2, 'value', "false", False)
+    ]
+    )
+
+    tests.any_test_help.any_test_create_node_dict_for_sigmaJs(Tree, out)
+
+
+def test_create_node_with_negation_dict_for_sigmaJs1():
+    out = {
+        'type': 'circle',
+        'borderColor': '#00ff00',
+        'color': '#ff0000',
+        'id': 1,
+        'label': 'and',
+        'size': 3,
+        'text': 'null',
+        'url': 'null',
+        'title': 1,
+        'x': 0,
+        'y': 0
+    }
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', True, [
+        graph.oval_graph.OvalNode(2, 'value', "true", False)
+    ]
+    )
+
+    tests.any_test_help.any_test_create_node_dict_for_sigmaJs(Tree, out)
+
+
+def test_create_node_with_negation_dict_for_sigmaJs2():
+    out = {
+        'type': 'circle',
+        'borderColor': '#00ff00',
+        'color': '#ff0000',
+        'id': 2,
+        'label': '2',
+        'size': 3,
+        'text': 'null',
+        'url': 'null',
+        'title': 2,
+        'x': 0,
+        'y': 0
+    }
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', False, [
+        graph.oval_graph.OvalNode(2, 'value', "true", True)
+    ]
+    )
+
+    tests.any_test_help.any_test_create_node_dict_for_sigmaJs(
+        Tree.children[0], out)
+
+
+def test_create_node_with_negation_dict_for_sigmaJs3():
+    out = {
+        'type': 'circle',
+        'borderColor': '#ff0000',
+        'color': '#00ff00',
+        'id': 2,
+        'label': '2',
+        'size': 3,
+        'text': 'null',
+        'url': 'null',
+        'title': 2,
+        'x': 0,
+        'y': 0
+    }
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', False, [
+        graph.oval_graph.OvalNode(2, 'value', "false", True)
+    ]
+    )
+
+    tests.any_test_help.any_test_create_node_dict_for_sigmaJs(
+        Tree.children[0], out)
 
 
 def test_create_edge_dict_for_sigmaJs():
@@ -181,7 +250,7 @@ def test_create_array_of_ids_form_tree():
     assert array == [1, 2, 3, 4, 5, 6]
 
 
-def test_parsing_full_can_XML_and_evaluate():
+def test_parsing_full_scan_XML_and_evaluate():
     src = 'test_data/ssg-fedora-ds-arf.xml'
     rule_id = 'xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny'
     result = 'false'
@@ -229,6 +298,33 @@ def test_parsing_and_evaluate_scan_with_rule_with_XOR():
 def test_parsing_and_evaluate_scan_with_11_rules():
     src = 'test_data/ssg-fedora-ds-arf-scan-with-11-rules.xml'
     rule_id = 'xccdf_org.ssgproject.content_rule_mount_option_tmp_nosuid'
+    result = 'true'
+
+    tests.any_test_help.any_test_parsing_and_evaluate_scan_rule(
+        src, rule_id, result)
+
+
+def test_parsing_and_evaluate_scan_0():
+    src = 'test_data/ssg-fedora-ds-arf.xml'
+    rule_id = 'xccdf_org.ssgproject.content_rule_audit_rules_file_deletion_events_rmdir'
+    result = 'false'
+
+    tests.any_test_help.any_test_parsing_and_evaluate_scan_rule(
+        src, rule_id, result)
+
+
+def test_parsing_and_evaluate_scan_1():
+    src = 'test_data/ssg-fedora-ds-arf-scan-with-negated-extend-definitions.xml'
+    rule_id = 'xccdf_org.ssgproject.content_rule_install_PAE_kernel_on_x86-32'
+    result = 'true'
+
+    tests.any_test_help.any_test_parsing_and_evaluate_scan_rule(
+        src, rule_id, result)
+
+
+def test_parsing_and_evaluate_scan_1():
+    src = 'test_data/ssg-fedora-ds-arf.xml'
+    rule_id = 'xccdf_org.ssgproject.content_rule_sssd_offline_cred_expiration'
     result = 'true'
 
     tests.any_test_help.any_test_parsing_and_evaluate_scan_rule(

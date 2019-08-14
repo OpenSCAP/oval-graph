@@ -238,3 +238,12 @@ def error_unknown_eq_zero(result):
             and greater_zero(result, 'unknown_cnt'):
         return True
     return False
+
+
+def is_notapp_result(result):
+    if (result['notappl_cnt'] > 0
+            and eq_zero(result, 'false_cnt')
+            and error_unknown_noteval_eq_zero(result)
+            and eq_zero(result, 'true_cnt')):
+        return True
+    return False

@@ -3,6 +3,7 @@ import graph.oval_graph
 import os
 import py
 import pytest
+import json
 
 
 def test_create_node_dict_for_sigmaJs_0():
@@ -33,8 +34,8 @@ def test_create_node_dict_for_sigmaJs_1():
         'x': 0,
         'y': 0
     }
-    Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', [
-        graph.oval_graph.OvalNode(2, 'value', "true")
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', False, [
+        graph.oval_graph.OvalNode(2, 'value', "true", False)
     ]
     )
 
@@ -53,8 +54,8 @@ def test_create_node_dict_for_sigmaJs_2():
         'x': 0,
         'y': 0
     }
-    Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', [
-        graph.oval_graph.OvalNode(2, 'value', "noteval")
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', False, [
+        graph.oval_graph.OvalNode(2, 'value', "noteval", False)
     ]
     )
 
@@ -73,7 +74,7 @@ def test_create_node_dict_for_sigmaJs_3():
         'x': 0,
         'y': 0
     }
-    Tree = graph.oval_graph.OvalNode(1, 'value', 'false')
+    Tree = graph.oval_graph.OvalNode(1, 'value', 'false', False)
 
     tests.any_test_help.any_test_create_node_dict_for_sigmaJs(Tree, out)
 
@@ -90,7 +91,7 @@ def test_create_node_dict_for_sigmaJs_4():
         'x': 0,
         'y': 0
     }
-    Tree = graph.oval_graph.OvalNode(1, 'value', 'true')
+    Tree = graph.oval_graph.OvalNode(1, 'value', 'true', False)
 
     tests.any_test_help.any_test_create_node_dict_for_sigmaJs(Tree, out)
 
@@ -107,7 +108,7 @@ def test_create_node_dict_for_sigmaJs_5():
         'x': 0,
         'y': 0
     }
-    Tree = graph.oval_graph.OvalNode(1, 'value', 'error')
+    Tree = graph.oval_graph.OvalNode(1, 'value', 'error', False)
 
     tests.any_test_help.any_test_create_node_dict_for_sigmaJs(Tree, out)
 
@@ -228,3 +229,31 @@ def test_get_def_id_by_rule_id():
         parser.get_def_id_by_rule_id('hello')
     assert str(
         e.value) == 'err- 404 rule not found!'
+
+
+def test_use_bat_report_file():
+    src = ('test_data/xccdf_org.ssgproject.content_rule_sssd_' +
+           'ssh_known_hosts_timeout-comment.fail.sh-xccdf_or' +
+           'g.ssgproject.content_profile_ospp-results-initial.xml')
+    _dir = os.path.dirname(os.path.realpath(__file__))
+    FIXTURE_DIR = py.path.local(_dir) / src
+
+    with pytest.raises(ValueError) as e:
+        parser = graph.xml_parser.xml_parser(str(FIXTURE_DIR))
+        assert str(
+            e.value) == 'err- This is not arf report file.'
+
+
+def test_get_rule_dict():
+    src = 'test_data/ssg-fedora-ds-arf.xml'
+    _dir = os.path.dirname(os.path.realpath(__file__))
+    FIXTURE_DIR = py.path.local(_dir) / src
+    parser = graph.xml_parser.xml_parser(str(FIXTURE_DIR))
+    dict = parser.get_rule_dict(
+        'xccdf_org.ssgproject.content_rule_dconf_gnome_session_idle_user_locks')
+    src = 'test_data/rule_dict.json'
+    _dir = os.path.dirname(os.path.realpath(__file__))
+    FIXTURE_DIR = py.path.local(_dir) / src
+    with open(str(FIXTURE_DIR), 'r') as f:
+        data = json.load(f)
+    assert data == dict

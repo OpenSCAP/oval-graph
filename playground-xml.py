@@ -1,4 +1,10 @@
-import tree.oval_tree
+"""
+Playgrounds are scripts where i testing and preparing new things and  new futures.
+
+parsing xml
+"""
+
+import graph.oval_graph
 import pprint
 import json
 """
@@ -129,7 +135,7 @@ def get_used_rules(src):
     testResults = root.find('.//{http://checklists.nist.gov/xccdf/1.2}TestResult')
     #print(testResults)
     ruleResults = testResults.findall('.//{http://checklists.nist.gov/xccdf/1.2}rule-result')
-    
+
     rules = []
     for ruleResult in ruleResults:
         for res in ruleResult:
@@ -170,36 +176,50 @@ src = 'data/ssg-fedora-ds-arf.xml'
 rule_id = 'xccdf_org.ssgproject.content_rule_disable_host_auth'
 result = 'true'
 
-test=1
-if test==1:
+test = 1
+if test == 1:
     #rule_id = 'xccdf_org.ssgproject.content_rule_sshd_disable_rhosts'
     rule_id = 'xccdf_org.ssgproject.content_rule_disable_host_auth'
     result = 'true'
-elif test==2:
+elif test == 2:
     rule_id = 'xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny'
     result = 'false'
-elif test==3:
+elif test == 3:
     rule_id = 'xccdf_org.ssgproject.content_rule_package_sendmail_removed'
     result = 'true'
-elif test==4:
+elif test == 4:
     rule_id = 'xccdf_org.ssgproject.content_rule_require_singleuser_auth'
     result = 'true'
 
 
-oval_trees_array = tree.oval_tree.xml_to_tree(src)
+oval_trees_array = graph.oval_graph.xml_to_tree(src)
 for oval_tree in oval_trees_array:
     if oval_tree.node_id == rule_id:
         assert oval_tree.evaluate_tree() == result
         f1 = open("sigmaJs.txt", "w+")
-        f1.write(json.dumps(oval_tree.to_sigma_dict(0,0), sort_keys=False, indent=4))
+        f1.write(
+            json.dumps(
+                oval_tree.to_sigma_dict(
+                    0,
+                    0),
+                sort_keys=False,
+                indent=4))
         f1.close()
 
         f = open("tree.txt", "w+")
-        f.write(json.dumps(oval_tree.tree_to_dict(), sort_keys=False, indent=4))
+        f.write(
+            json.dumps(
+                oval_tree.tree_to_dict(),
+                sort_keys=False,
+                indent=4))
         f.close()
 
         f = open("html_interpreter/data.json", "w+")
-        f.write(json.dumps(oval_tree.to_sigma_dict(0,0), sort_keys=False, indent=4))
+        f.write(
+            json.dumps(
+                oval_tree.to_sigma_dict(
+                    0,
+                    0),
+                sort_keys=False,
+                indent=4))
         f.close()
-
-     

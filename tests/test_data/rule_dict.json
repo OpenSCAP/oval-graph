@@ -1,0 +1,63 @@
+{
+    "rule_id": "xccdf_org.ssgproject.content_rule_dconf_gnome_session_idle_user_locks",
+    "definition": {
+        "id": "oval:ssg-dconf_gnome_session_idle_user_locks:def:1",
+        "node": [
+            {
+                "operator": "OR",
+                "negate": false,
+                "result": false,
+                "node": [
+                    {
+                        "operator": "AND",
+                        "negate": true,
+                        "result": true,
+                        "node": [
+                            {
+                                "value_id": "oval:ssg-test_package_dconf_installed:tst:1",
+                                "value": "true",
+                                "negate": false
+                            }
+                        ]
+                    },
+                    {
+                        "operator": "AND",
+                        "negate": false,
+                        "result": false,
+                        "node": [
+                            {
+                                "operator": "OR",
+                                "negate": false,
+                                "result": false,
+                                "node": [
+                                    {
+                                        "operator": "AND",
+                                        "negate": true,
+                                        "result": true,
+                                        "node": [
+                                            {
+                                                "value_id": "oval:ssg-test_package_dconf_installed:tst:1",
+                                                "value": "true",
+                                                "negate": false
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "value_id": "oval:ssg-test_dconf_user_profile:tst:1",
+                                        "value": "true",
+                                        "negate": false
+                                    }
+                                ]
+                            },
+                            {
+                                "value_id": "oval:ssg-test_user_change_idle_delay_lock:tst:1",
+                                "value": "false",
+                                "negate": false
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -33,8 +33,6 @@ class xml_parser():
 
         report_data = None
         reports = self.root.find('.//ns1:reports', ns)
-        if reports is None:
-            raise ValueError("err- In file is missing arf reports")
         for report in reports:
             if "#" + str(report.get("id")) == href:
                 report_data = report
@@ -83,7 +81,8 @@ class xml_parser():
                     graph.oval_graph.OvalNode(
                         child['value_id'],
                         'value',
-                        child['value']))
+                        child['value'],
+                        child['negate']))
 
         if 'id' in dict_of_definition:
             children[0].node_id = dict_of_definition['id']
@@ -93,6 +92,7 @@ class xml_parser():
                 str(uuid.uuid4()),
                 'operator',
                 dict_of_definition['operator'],
+                dict_of_definition['negate'],
                 children
             )
 
@@ -107,12 +107,12 @@ class xml_parser():
         return self.parse_data_to_dict(rule_id)
 
     def xml_dict_of_rule_to_node(self, rule):
-        print(rule)
         dict_of_definition = rule['definition']
         return graph.oval_graph.OvalNode(
             rule['rule_id'],
             'operator',
             'and',
+            False,
             [self._xml_dict_to_node(dict_of_definition)]
         )
 

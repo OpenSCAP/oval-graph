@@ -5,6 +5,7 @@ import graph.xml_parser
 import graph.evaluate
 import uuid
 import collections
+import re
 
 '''
     This module contains methods and classes for
@@ -30,8 +31,18 @@ class OvalNode():
         children ([OvalNode]): children of node
     '''
 
-    def __init__(self, node_id, input_node_type, input_value, children=None):
+    def __init__(
+            self,
+            node_id,
+            input_node_type,
+            input_value,
+            input_negation,
+            children=None):
         self.node_id = node_id
+        if isinstance(input_negation, bool):
+            self.negation = input_negation
+        else:
+            raise ValueError("err- negation si bool (only True or False)")
         value = input_value.lower()
         node_type = input_node_type.lower()
         if node_type == "value" or node_type == "operator":
@@ -80,7 +91,7 @@ class OvalNode():
             raise ValueError(
                 "err- true, false, error, unknown. noteval, notappl have not child!")
 
-    def get_result_counts(self):
+    def _get_result_counts(self):
         result = {
             'true_cnt': 0,
             'false_cnt': 0,
@@ -92,9 +103,15 @@ class OvalNode():
 
         for child in self.children:
             if child.value == 'true':
-                result['true_cnt'] += 1
+                if child.negation:
+                    result['false_cnt'] += 1
+                else:
+                    result['true_cnt'] += 1
             elif child.value == 'false':
-                result['false_cnt'] += 1
+                if child.negation:
+                    result['true_cnt'] += 1
+                else:
+                    result['false_cnt'] += 1
             elif child.value == 'error':
                 result['error_cnt'] += 1
             elif child.value == 'unknown':
@@ -109,22 +126,26 @@ class OvalNode():
         return result
 
     def evaluate_tree(self):
-        result = self.get_result_counts()
-
-        if result['notappl_cnt'] > 0\
-                and graph.evaluate.eq_zero(result, 'false_cnt')\
-                and graph.evaluate.error_unknown_noteval_eq_zero(result)\
-                and graph.evaluate.eq_zero(result, 'true_cnt'):
-            return "notappl"
+        result = self._get_result_counts()
+        out_result = None
+        if graph.evaluate.is_notapp_result(result):
+            out_result = "notappl"
         else:
             if self.value == "or":
-                return graph.evaluate.oval_operator_or(result)
+                out_result = graph.evaluate.oval_operator_or(result)
             elif self.value == "and":
-                return graph.evaluate.oval_operator_and(result)
+                out_result = graph.evaluate.oval_operator_and(result)
             elif self.value == "one":
-                return graph.evaluate.oval_operator_one(result)
+                out_result = graph.evaluate.oval_operator_one(result)
             elif self.value == "xor":
-                return graph.evaluate.oval_operator_xor(result)
+                out_result = graph.evaluate.oval_operator_xor(result)
+
+        if out_result == 'true' and self.negation:
+            out_result = 'false'
+        elif out_result == 'false' and self.negation:
+            out_result = 'true'
+
+        return out_result
 
     def save_tree_to_dict(self):
         if not self.children:
@@ -132,12 +153,14 @@ class OvalNode():
                 'node_id': self.node_id,
                 'type': self.node_type,
                 'value': self.value,
+                'negation': self.negation,
                 'child': None
             }
         return {
             'node_id': self.node_id,
             'type': self.node_type,
             'value': self.value,
+            'negation': self.negation,
             'child': [child.save_tree_to_dict() for child in self.children]
         }
 
@@ -162,25 +185,24 @@ class OvalNode():
 
     def _get_label(self):
         if self.node_type == 'value':
-            return \
-                str(self.node_id).\
-                replace('xccdf_org.ssgproject.content_rule_', '').\
-                replace('oval:ssg-', '').\
-                replace(':def:1', '').\
-                replace(':tst:1', '').\
-                replace('test_', '')
+            return re.sub(
+                '(oval:ssg-test_|oval:ssg-)|(:def:1|:tst:1)', '', str(self.node_id))
         else:
-            if str(self.node_id).startswith(
-                    'xccdf_org.ssgproject.content_rule_'):
-                return \
-                    str(self.node_id).\
-                    replace('xccdf_org.ssgproject.content_', '')
+            if str(self.node_id).startswith('xccdf_org'):
+                return re.sub(
+                    '(xccdf_org.ssgproject.content_)', '', str(
+                        self.node_id))
             return self.value
 
     def _get_node_color(self):
         value = self.evaluate_tree()
         if value is None:
-            value = self.value
+            if self.value == 'true' and self.negation:
+                value = 'false'
+            elif self.value == 'false' and self.negation:
+                value = 'true'
+            else:
+                value = self.value
         VALUE_TO_COLOR = {
             "true": "#00ff00",
             "false": "#ff0000",
@@ -276,7 +298,7 @@ class OvalNode():
                     x_row + 1, y_row + 1, preprocessed_graph_data)
         return self._fix_graph(preprocessed_graph_data)
 
-    def count_max_y(self, out):
+    def _count_max_y(self, out):
         max_y = 0
 
         for node in out['nodes']:
@@ -284,23 +306,23 @@ class OvalNode():
                 max_y = node['y']
         return max_y
 
-    def create_nodes_in_rows(self, rows):
+    def _create_nodes_in_rows(self, rows):
         nodes_in_rows = dict()
 
         for i in range(rows + 1):
             nodes_in_rows[i] = []
         return nodes_in_rows
 
-    def push_nodes_to_nodes_in_row(self, out, nodes_in_rows):
+    def _push_nodes_to_nodes_in_row(self, out, nodes_in_rows):
         for node in out['nodes']:
             nodes_in_rows[node['y']].append(node)
 
-    def remove_empty_rows(self, nodes_in_rows, max_y):
+    def _remove_empty_rows(self, nodes_in_rows, max_y):
         for row in range(max_y + 1):
             if not nodes_in_rows[row]:
                 del nodes_in_rows[row]
 
-    def move_rows(self, nodes_in_rows):
+    def _move_rows(self, nodes_in_rows):
         count = 0
         nodes_in_rows1 = dict()
 
@@ -311,7 +333,7 @@ class OvalNode():
             count += 1
         return nodes_in_rows1
 
-    def create_positions(self, nodes_in_rows):
+    def _create_positions(self, nodes_in_rows):
         positions = []
         for row in nodes_in_rows:
             len_of_row = len(nodes_in_rows[row])
@@ -342,14 +364,14 @@ class OvalNode():
 
         return positions
 
-    def convert_nodes_in_rows_to_nodes(self, nodes_in_rows):
+    def _convert_nodes_in_rows_to_nodes(self, nodes_in_rows):
         nodes = []
         for row in nodes_in_rows:
             for node in nodes_in_rows[row]:
                 nodes.append(node)
         return nodes
 
-    def change_position(self, positions, nodes_in_rows):
+    def _change_position(self, positions, nodes_in_rows):
         x = 0.6
         up_and_down = True
         down = False
@@ -385,7 +407,7 @@ class OvalNode():
             continue_move = False
             x = 0.6
 
-    def sort(self, array):
+    def _sort(self, array):
         less = []
         equal = []
         greater = []
@@ -399,28 +421,28 @@ class OvalNode():
                     equal.append(node)
                 if node['x'] > pivot:
                     greater.append(node)
-            return self.sort(less) + equal + self.sort(greater)
+            return self._sort(less) + equal + self._sort(greater)
         else:
             return array
 
-    def sort_nodes(self, nodes_in_rows):
+    def _sort_nodes(self, nodes_in_rows):
         for row in nodes_in_rows:
-            nodes_in_rows[row] = self.sort(nodes_in_rows[row])
+            nodes_in_rows[row] = self._sort(nodes_in_rows[row])
 
-    def center_graph(self, out):
-        max_y = self.count_max_y(out)
-        nodes_in_rows = self.create_nodes_in_rows(max_y)
-        self.push_nodes_to_nodes_in_row(out, nodes_in_rows)
-        self.remove_empty_rows(nodes_in_rows, max_y)
-        nodes_in_rows = self.move_rows(nodes_in_rows)
-        self.sort_nodes(nodes_in_rows)
-        positions = self.create_positions(nodes_in_rows)
-        self.change_position(positions, nodes_in_rows)
-        out['nodes'] = self.convert_nodes_in_rows_to_nodes(nodes_in_rows)
+    def _center_graph(self, out):
+        max_y = self._count_max_y(out)
+        nodes_in_rows = self._create_nodes_in_rows(max_y)
+        self._push_nodes_to_nodes_in_row(out, nodes_in_rows)
+        self._remove_empty_rows(nodes_in_rows, max_y)
+        nodes_in_rows = self._move_rows(nodes_in_rows)
+        self._sort_nodes(nodes_in_rows)
+        positions = self._create_positions(nodes_in_rows)
+        self._change_position(positions, nodes_in_rows)
+        out['nodes'] = self._convert_nodes_in_rows_to_nodes(nodes_in_rows)
         return out
 
     def to_sigma_dict(self, x, y):
-        return self.center_graph(
+        return self._center_graph(
             self._remove_Duplication(
                 self._help_to_sigma_dict(
                     x, y)))
@@ -436,9 +458,11 @@ def restore_dict_to_tree(dict_of_tree):
         return OvalNode(
             dict_of_tree["node_id"],
             dict_of_tree["type"],
-            dict_of_tree["value"])
+            dict_of_tree["value"],
+            dict_of_tree["negation"])
     return OvalNode(
         dict_of_tree["node_id"],
         dict_of_tree["type"],
         dict_of_tree["value"],
+        dict_of_tree["negation"],
         [restore_dict_to_tree(i) for i in dict_of_tree["child"]])

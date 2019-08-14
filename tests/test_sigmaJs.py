@@ -8,6 +8,8 @@ import json
 
 def test_create_node_dict_for_sigmaJs_0():
     out = {
+        'type': 'circle',
+        'borderColor': '#ff0000',
         'color': '#ff0000',
         'id': 1,
         'label': 'and',
@@ -24,6 +26,8 @@ def test_create_node_dict_for_sigmaJs_0():
 
 def test_create_node_dict_for_sigmaJs_1():
     out = {
+        'type': 'circle',
+        'borderColor': '#00ff00',
         'color': '#00ff00',
         'id': 1,
         'label': 'and',
@@ -44,6 +48,8 @@ def test_create_node_dict_for_sigmaJs_1():
 
 def test_create_node_dict_for_sigmaJs_2():
     out = {
+        'type': 'circle',
+        'borderColor': '#000000',
         'color': '#000000',
         'id': 1,
         'label': 'and',
@@ -64,6 +70,8 @@ def test_create_node_dict_for_sigmaJs_2():
 
 def test_create_node_dict_for_sigmaJs_3():
     out = {
+        'type': 'circle',
+        'borderColor': '#ff0000',
         'color': '#ff0000',
         'id': 1,
         'label': '1',
@@ -81,6 +89,8 @@ def test_create_node_dict_for_sigmaJs_3():
 
 def test_create_node_dict_for_sigmaJs_4():
     out = {
+        'type': 'circle',
+        'borderColor': '#00ff00',
         'color': '#00ff00',
         'id': 1,
         'label': '1',
@@ -98,6 +108,8 @@ def test_create_node_dict_for_sigmaJs_4():
 
 def test_create_node_dict_for_sigmaJs_5():
     out = {
+        'type': 'circle',
+        'borderColor': '#000000',
         'color': '#000000',
         'id': 1,
         'label': '1',
@@ -112,6 +124,27 @@ def test_create_node_dict_for_sigmaJs_5():
 
     tests.any_test_help.any_test_create_node_dict_for_sigmaJs(Tree, out)
 
+    def test_create_node_with_negation_dict_for_sigmaJs():
+        out = {
+            'type': 'circle',
+            'borderColor': '#00ff00',
+            'color': '#ff0000',
+            'id': 1,
+            'label': 'and',
+            'size': 3,
+            'text': 'null',
+            'url': 'null',
+            'title': 1,
+            'x': 0,
+            'y': 0
+        }
+        Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', True, [
+            graph.oval_graph.OvalNode(2, 'value', "false", False)
+        ]
+        )
+
+        tests.any_test_help.any_test_create_node_dict_for_sigmaJs(Tree, out)
+
 
 def test_create_edge_dict_for_sigmaJs():
     out = {
@@ -122,6 +155,8 @@ def test_create_edge_dict_for_sigmaJs():
     }
 
     target_node = {
+        'type': 'circle',
+        'borderColor': '#000000',
         'color': '#000000',
         'id': 2,
         'label': 'error',

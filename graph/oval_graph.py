@@ -194,15 +194,29 @@ class OvalNode():
                         self.node_id))
             return self.value
 
-    def _get_node_color(self):
+    def _negated_boolean(self, boolean, value):
+        if value == boolean and self.negation:
+            return True
+        return False
+
+    def _get_node_colors(self):
         value = self.evaluate_tree()
+        borderValue = None
         if value is None:
-            if self.value == 'true' and self.negation:
-                value = 'false'
-            elif self.value == 'false' and self.negation:
-                value = 'true'
+            if self._negated_boolean('true', self.value):
+                borderValue = 'false'
+            elif self._negated_boolean('false', self.value):
+                borderValue = 'true'
             else:
-                value = self.value
+                borderValue = self.value
+            borderValue, value = self.value, borderValue
+        else:
+            if self._negated_boolean('true', value):
+                borderValue = 'false'
+            elif self._negated_boolean('false', value):
+                borderValue = 'true'
+            else:
+                borderValue = value
         VALUE_TO_COLOR = {
             "true": "#00ff00",
             "false": "#ff0000",
@@ -211,6 +225,10 @@ class OvalNode():
             "noteval": "#000000",
             "notappl": "#000000"
         }
+        return dict(
+            color=VALUE_TO_COLOR[value],
+            borderColor=VALUE_TO_COLOR[borderValue])
+
         return VALUE_TO_COLOR[value]
 
     def _get_node_title(self):
@@ -223,6 +241,7 @@ class OvalNode():
 
     def _create_node(self, x, y):
         # print(self.evaluate_tree(),self.value)
+        colors = self._get_node_colors()
         return {
             'id': self.node_id,
             'label': self._get_label(),
@@ -232,7 +251,9 @@ class OvalNode():
             "x": x,
             "y": y,
             "size": 3,
-            "color": self._get_node_color()}
+            "color": colors['color'],
+            "type": "circle",
+            "borderColor": colors['borderColor']}
 
     def _create_edge(self, id_source, id_target, target_node):
         return {

@@ -53,6 +53,8 @@
 <script src="src/misc/sigma.misc.bindDOMEvents.js"></script>
 <script src="src/misc/sigma.misc.drawHovers.js"></script>
 <!-- END SIGMA IMPORTS -->
+<script src="plugins/sigma.renderers.customShapes/shape-library.js"></script>
+<script src="plugins/sigma.renderers.customShapes/sigma.renderers.customShapes.js"></script>
 <script src="plugins/sigma.parsers.json/sigma.parsers.json.js"></script>
 <script src="plugins/sigma.layout.forceAtlas2/worker.js"></script>
 <script src="plugins/sigma.layout.forceAtlas2/supervisor.js"></script>
@@ -84,6 +86,8 @@
 </div>
 <script>
 
+sigma.utils.pkg('sigma.canvas.nodes')
+
 // Prepare data form data.js 
 var data = JSON.parse(JSON.stringify(data_json));
 
@@ -96,7 +100,7 @@ s = new sigma({
     container: 'graph-container',
         renderer: {
             container: document.getElementById('graph-container'),
-            type: 'display',
+            type: 'canvas',
         },
         settings: {
           drawLabels: true,
@@ -121,6 +125,8 @@ var noverlapListener = s.configNoverlap({
   gridSize: 150,
   });
 
+CustomShapes.init(s);
+s.refresh()
 s.startNoverlap();
 //s.startForceAtlas2({worker: true, barnesHutOptimize: false});
 

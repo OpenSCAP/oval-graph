@@ -188,7 +188,7 @@ def test_ChangeValueTree():
 
 def test_node_operator_negate():
     """
-        and
+        !and
          |
          f
     """
@@ -199,14 +199,40 @@ def test_node_operator_negate():
     tests.any_test_help.any_test_treeEvaluation_with_tree(Tree, "true")
 
 
+def test_node_operator_negate1():
+    """
+        and
+         |
+         t
+    """
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', False, [
+        graph.oval_graph.OvalNode(2, 'value', "true", False)
+    ]
+    )
+    tests.any_test_help.any_test_treeEvaluation_with_tree(Tree, "true")
+
+
 def test_node_value_negate():
     """
         and
          |
-         f
+         !f
     """
     Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', False, [
         graph.oval_graph.OvalNode(2, 'value', "false", True)
     ]
     )
     tests.any_test_help.any_test_treeEvaluation_with_tree(Tree, "true")
+
+
+def test_node_value_negate1():
+    """
+        and
+         |
+         !t
+    """
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', False, [
+        graph.oval_graph.OvalNode(2, 'value', "true", True)
+    ]
+    )
+    tests.any_test_help.any_test_treeEvaluation_with_tree(Tree, "false")

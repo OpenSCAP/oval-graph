@@ -198,6 +198,7 @@ def test_node_operator_negate():
     )
     tests.any_test_help.any_test_treeEvaluation_with_tree(Tree, "true")
 
+
 def test_node_operator_negate1():
     """
         and

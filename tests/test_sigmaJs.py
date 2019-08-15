@@ -348,7 +348,6 @@ def test_transformation_tree_to_Json_for_SigmaJs_with_duplicated_test():
     tests.any_test_help.any_test_transformation_tree_to_Json_for_SigmaJs(
         src, test_data_src, rule_id)
 
-
 def test_get_def_id_by_rule_id():
     src = 'test_data/ssg-fedora-ds-arf.xml'
     _dir = os.path.dirname(os.path.realpath(__file__))

@@ -120,25 +120,28 @@ class xml_parser():
         return self.xml_dict_of_rule_to_node(self.parse_data_to_dict(rule_id))
 
     def build_graph(self, tree_data):
-        negate_status = False
-        if tree_data.get('negate') is not None:
-            negate_status = True
         graph = dict(
             id=tree_data.get('definition_id'),
-            negate=negate_status,
             node=[])
         for tree in tree_data:
             negate_status = False
             if tree.get('negate') is not None:
-                negate_status = True
+                negate_status = self._str_to_bool(tree.get('negate'))
             graph['negate'] = negate_status
             graph['node'].append(self._build_node(tree))
         return graph
 
+    def _str_to_bool(self, s):
+        if s == 'true':
+            return True
+        elif s == 'false':
+            return False
+        else:
+            raise ValueError('err- negation is not bool')
     def _build_node(self, tree):
         negate_status = False
         if tree.get('negate') is not None:
-            negate_status = True
+            negate_status = self._str_to_bool(tree.get('negate'))
 
         node = dict(
             operator=tree.get('operator'),
@@ -151,7 +154,7 @@ class xml_parser():
             else:
                 negate_status = False
                 if child.get('negate') is not None:
-                    negate_status = True
+                    negate_status = self._str_to_bool(child.get('negate'))
 
                 if child.get('definition_ref') is not None:
                     node['node'].append(

@@ -380,13 +380,38 @@ def test_str_to_bool():
         assert parser._str_to_bool('error')
 
 
+def test_get_def_id_by_notselected_rule_id():
+    src = 'test_data/ssg-fedora-ds-arf.xml'
+
+    parser = tests.any_test_help.get_parser(src)
+    rule_id= 'xccdf_org.ssgproject.content_rule_ntpd_specify_remote_server'
+    with pytest.raises(ValueError) as e:
+        parser.get_def_id_by_rule_id(rule_id)
+    assert str(
+        e.value) == ('err- rule "' +
+                    rule_id +
+                    '" was not selected, so there are no results.')
+
+
+def test_str_to_bool():
+    src = 'test_data/ssg-fedora-ds-arf.xml'
+    parser = tests.any_test_help.get_parser(src)
+    
+    assert parser._str_to_bool('true')
+    assert not parser._str_to_bool('false')
+    with pytest.raises(ValueError) as e:
+        assert parser._str_to_bool('error')
+    assert str(
+        e.value) == 'err- negation is not bool'
+
+
 def test_use_bat_report_file():
     src = (
         'test_data/xccdf_org.ssgproject.'
         'content_rule_sssd_ssh_known_hosts_timeout-comment.'
         'fail.sh-xccdf_org.ssgproject.content_profile_ospp-results-initial.xml')
 
-    with pytest.raises(Exception, match=r"(arf\b|ARF\b)"):
+    with pytest.raises(Exception, match=r"arf\b|ARF\b"):
         assert tests.any_test_help.get_parser(src)
 
 

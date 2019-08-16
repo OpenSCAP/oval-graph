@@ -8,7 +8,7 @@ htmlcov/index.html
 htmlcov/status.json
 htmlcov/tree_operatorTree_py.html
 .coverage
-html_interpreter/data/data.js
+html_interpreter/data.js
 data.json
 notes.txt
 playground*

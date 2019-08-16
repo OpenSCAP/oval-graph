@@ -100,9 +100,9 @@ def any_test_dict_to_tree(dict_of_tree):
     treedict_of_tree = graph.oval_graph.restore_dict_to_tree(dict_of_tree)
     assert treedict_of_tree.save_tree_to_dict() == dict_of_tree
 
+
 def get_parser(src):
     _dir = os.path.dirname(os.path.realpath(__file__))
     FIXTURE_DIR = py.path.local(_dir) / src
 
     return graph.xml_parser.xml_parser(str(FIXTURE_DIR))
-    

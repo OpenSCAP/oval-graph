@@ -348,6 +348,7 @@ def test_transformation_tree_to_Json_for_SigmaJs_with_duplicated_test():
     tests.any_test_help.any_test_transformation_tree_to_Json_for_SigmaJs(
         src, test_data_src, rule_id)
 
+
 def test_get_def_id_by_rule_id():
     src = 'test_data/ssg-fedora-ds-arf.xml'
     _dir = os.path.dirname(os.path.realpath(__file__))
@@ -361,16 +362,39 @@ def test_get_def_id_by_rule_id():
         e.value) == 'err- 404 rule not found!'
 
 
+def test_get_def_id_by_notselected_rule_id():
+    src = 'test_data/ssg-fedora-ds-arf.xml'
+
+    parser = tests.any_test_help.get_parser(src)
+    rule_id= 'xccdf_org.ssgproject.content_rule_ntpd_specify_remote_server'
+    with pytest.raises(ValueError) as e:
+        parser.get_def_id_by_rule_id(rule_id)
+    assert str(
+        e.value) == ('err- rule "' +
+                    rule_id +
+                    '" was not selected, so there are no results.')
+
+
+def test_str_to_bool():
+    src = 'test_data/ssg-fedora-ds-arf.xml'
+    parser = tests.any_test_help.get_parser(src)
+    
+    assert parser._str_to_bool('true')
+    assert not parser._str_to_bool('false')
+    with pytest.raises(ValueError) as e:
+        assert parser._str_to_bool('error')
+    assert str(
+        e.value) == 'err- negation is not bool'
+
+
 def test_use_bat_report_file():
     src = ('test_data/xccdf_org.ssgproject.content_rule_sssd_' +
            'ssh_known_hosts_timeout-comment.fail.sh-xccdf_or' +
            'g.ssgproject.content_profile_ospp-results-initial.xml')
-    _dir = os.path.dirname(os.path.realpath(__file__))
-    FIXTURE_DIR = py.path.local(_dir) / src
-
+    
     with pytest.raises(ValueError) as e:
-        parser = graph.xml_parser.xml_parser(str(FIXTURE_DIR))
-        assert str(
+        parser = tests.any_test_help.get_parser(src)
+    assert str(
             e.value) == 'err- This is not arf report file.'
 
 

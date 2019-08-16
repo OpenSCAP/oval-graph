@@ -61,6 +61,19 @@ class xml_parser():
                         result=result.text))
         return rules
 
+    def get_notselected_rules(self):
+        ns = {
+            'ns0': 'http://checklists.nist.gov/xccdf/1.2',
+        }
+        rulesResults = self.root.findall(
+            './/ns0:TestResult/ns0:rule-result', ns)
+        rules = []
+        for ruleResult in rulesResults:
+            result = ruleResult.find('.//ns0:result', ns)
+            if result.text == "notselected":
+                rules.append(dict(id_rule=ruleResult.get('idref')))
+        return rules
+
     def parse_data_to_dict(self, rule_id):
         scan = dict(definitions=[])
         used_rules = self.get_used_rules()
@@ -98,6 +111,13 @@ class xml_parser():
 
     def get_def_id_by_rule_id(self, rule_id):
         used_rules = self.get_used_rules()
+        notselected_rules = self.get_notselected_rules()
+        for rule in notselected_rules:
+            if rule['id_rule'] == rule_id:
+                raise ValueError(
+                    'err- rule "' +
+                    rule_id +
+                    '" was not selected, so there are no results.')
         for rule in used_rules:
             if rule['id_rule'] == rule_id:
                 return rule['id_def']
@@ -138,6 +158,7 @@ class xml_parser():
             return False
         else:
             raise ValueError('err- negation is not bool')
+
     def _build_node(self, tree):
         negate_status = False
         if tree.get('negate') is not None:

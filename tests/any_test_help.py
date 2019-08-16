@@ -48,6 +48,7 @@ def any_get_test_data_json(src):
 
 
 def any_test_create_node_dict_for_sigmaJs(Tree, out):
+    print(Tree._create_node(0, 0))
     assert Tree._create_node(0, 0) == out
 
 

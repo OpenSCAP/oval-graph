@@ -20,7 +20,7 @@ def run(args):
     try:
         oval_tree = graph.oval_graph.build_nodes_form_xml(
             args.source_filename, args.rule_name)
-        with open('html_interpreter/data/data.js', "w+") as file:
+        with open('html_interpreter/data.js', "w+") as file:
             file.write(
                 "var data_json =" +
                 str(json.dumps(oval_tree.to_sigma_dict(0, 0), sort_keys=False, indent=4) +

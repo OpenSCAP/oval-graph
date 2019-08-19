@@ -35,9 +35,9 @@ def test_bad_tree_with_bad_value_of_value():
 
 
 def test_bad_tree_with_bad_value_of_negation():
-    with pytest.raises(Exception,match="negation si bool"):
-            assert tree_with_bad_value_of_negation()
-    
+    with pytest.raises(Exception, match="negation si bool"):
+        assert tree_with_bad_value_of_negation()
+
 
 # degenered trees
 

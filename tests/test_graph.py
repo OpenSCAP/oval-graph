@@ -5,17 +5,17 @@ import tests.any_test_help
 
 def test_bad_tree():
 
-    with pytest.raises(Exception, match="err- true, false, error, unknown. noteval, notappl have not child!"):
+    with pytest.raises(Exception, match="have not child!"):
         assert bad_tree()
 
 
 def test_bad_tree_only_and_no_child():
-    with pytest.raises(Exception, match="err- OR, XOR, ONE, AND have child!"):
+    with pytest.raises(Exception, match="have child!"):
         assert tree_only_and()
 
 
 def test_bad_tree_only_or_no_child():
-    with pytest.raises(Exception, match="err- OR, XOR, ONE, AND have child!"):
+    with pytest.raises(Exception, match="have child!"):
         assert tree_only_or()
 
 
@@ -35,15 +35,9 @@ def test_bad_tree_with_bad_value_of_value():
 
 
 def test_bad_tree_with_bad_value_of_negation():
-    try:
-        tree_with_bad_value_of_negation()
-    except Exception as error:
-        assert str(error) == "err- negation si bool (only True or False)"
-
-    """
-    with pytest.raises(Exception,match="err- negation si bool (only True or False)"):
+    with pytest.raises(Exception,match="negation si bool"):
             assert tree_with_bad_value_of_negation()
-    """
+    
 
 # degenered trees
 

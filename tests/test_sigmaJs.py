@@ -366,7 +366,7 @@ def test_get_def_id_by_notselected_rule_id():
     parser = tests.any_test_help.get_parser(src)
     rule_id = 'xccdf_org.ssgproject.content_rule_ntpd_specify_remote_server'
 
-    with pytest.raises(Exception, match="err- rule \"{}\" was not selected, so there are no results.".format(rule_id)):
+    with pytest.raises(Exception, match="not selected"):
         assert parser.get_def_id_by_rule_id(rule_id)
 
 
@@ -381,11 +381,11 @@ def test_str_to_bool():
 
 
 def test_use_bat_report_file():
-    src = ('test_data/xccdf_org.ssgproject.content_rule_sssd_' +
-           'ssh_known_hosts_timeout-comment.fail.sh-xccdf_or' +
+    src = ('test_data/xccdf_org.ssgproject.content_rule_sssd_'
+           'ssh_known_hosts_timeout-comment.fail.sh-xccdf_or'
            'g.ssgproject.content_profile_ospp-results-initial.xml')
 
-    with pytest.raises(Exception, match="err- This is not arf report file."):
+    with pytest.raises(Exception, match=r"(arf\b|ARF\b)"):
         assert tests.any_test_help.get_parser(src)
 
 

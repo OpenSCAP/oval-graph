@@ -115,9 +115,8 @@ class xml_parser():
         for rule in notselected_rules:
             if rule['id_rule'] == rule_id:
                 raise ValueError(
-                    'err- rule "' +
-                    rule_id +
-                    '" was not selected, so there are no results.')
+                    'err- rule "{}" was not selected, so there are no results.'
+                    .format(rule_id))
         for rule in used_rules:
             if rule['id_rule'] == rule_id:
                 return rule['id_def']

@@ -4,34 +4,46 @@ import tests.any_test_help
 
 
 def test_bad_tree():
-    with pytest.raises(ValueError) as e:
-        bad_tree()
-    assert str(
-        e.value) == 'err- true, false, error, unknown. noteval, notappl have not child!'
 
-    with pytest.raises(ValueError) as e:
-        tree_only_and()
-    assert str(e.value) == 'err- OR, XOR, ONE, AND have child!'
+    with pytest.raises(Exception, match="err- true, false, error, unknown. noteval, notappl have not child!"):
+        assert bad_tree()
 
-    with pytest.raises(ValueError) as e:
-        tree_only_or()
-    assert str(e.value) == 'err- OR, XOR, ONE, AND have child!'
 
-    with pytest.raises(ValueError) as e:
-        tree_with_bad_type()
-    assert str(e.value) == 'err- unknown type'
+def test_bad_tree_only_and_no_child():
+    with pytest.raises(Exception, match="err- OR, XOR, ONE, AND have child!"):
+        assert tree_only_and()
 
-    with pytest.raises(ValueError) as e:
-        tree_with_bad_value_of_operator()
-    assert str(e.value) == 'err- unknown operator'
 
-    with pytest.raises(ValueError) as e:
-        tree_with_bad_value_of_value()
-    assert str(e.value) == 'err- unknown value'
+def test_bad_tree_only_or_no_child():
+    with pytest.raises(Exception, match="err- OR, XOR, ONE, AND have child!"):
+        assert tree_only_or()
 
-    with pytest.raises(ValueError) as e:
+
+def test_bad_tree_with_bad_value_of_operator():
+    with pytest.raises(Exception, match="err- unknown type"):
+        assert tree_with_bad_type()
+
+
+def test_bad_tree_with_bad_value_of_operator():
+    with pytest.raises(Exception, match="err- unknown operator"):
+        assert tree_with_bad_value_of_operator()
+
+
+def test_bad_tree_with_bad_value_of_value():
+    with pytest.raises(Exception, match="err- unknown value"):
+        assert tree_with_bad_value_of_value()
+
+
+def test_bad_tree_with_bad_value_of_negation():
+    try:
         tree_with_bad_value_of_negation()
-    assert str(e.value) == 'err- negation si bool (only True or False)'
+    except Exception as error:
+        assert str(error) == "err- negation si bool (only True or False)"
+
+    """
+    with pytest.raises(Exception,match="err- negation si bool (only True or False)"):
+            assert tree_with_bad_value_of_negation()
+    """
 
 # degenered trees
 
@@ -85,7 +97,8 @@ def tree_with_bad_type():
 
 
 def tree_with_bad_value_of_negation():
-    Tree = graph.oval_graph.OvalNode(1, "value", 'true', "negovane_auto")
+    Tree = graph.oval_graph.OvalNode(1, "operator", "true", False, [
+        graph.oval_graph.OvalNode(2, "value", 'true', "negovane_auto")])
     return
 
 # normal trees

@@ -356,10 +356,8 @@ def test_get_def_id_by_rule_id():
 
     parser = graph.xml_parser.xml_parser(str(FIXTURE_DIR))
 
-    with pytest.raises(ValueError) as e:
-        parser.get_def_id_by_rule_id('hello')
-    assert str(
-        e.value) == 'err- 404 rule not found!'
+    with pytest.raises(Exception, match="err- 404 rule not found!"):
+        assert parser.get_def_id_by_rule_id('hello')
 
 
 def test_get_def_id_by_notselected_rule_id():
@@ -367,12 +365,9 @@ def test_get_def_id_by_notselected_rule_id():
 
     parser = tests.any_test_help.get_parser(src)
     rule_id = 'xccdf_org.ssgproject.content_rule_ntpd_specify_remote_server'
-    with pytest.raises(ValueError) as e:
-        parser.get_def_id_by_rule_id(rule_id)
-    assert str(
-        e.value) == ('err- rule "' +
-                     rule_id +
-                     '" was not selected, so there are no results.')
+
+    with pytest.raises(Exception, match="err- rule \"{}\" was not selected, so there are no results.".format(rule_id)):
+        assert parser.get_def_id_by_rule_id(rule_id)
 
 
 def test_str_to_bool():
@@ -381,10 +376,8 @@ def test_str_to_bool():
 
     assert parser._str_to_bool('true')
     assert not parser._str_to_bool('false')
-    with pytest.raises(ValueError) as e:
+    with pytest.raises(Exception, match="err- negation is not bool"):
         assert parser._str_to_bool('error')
-    assert str(
-        e.value) == 'err- negation is not bool'
 
 
 def test_use_bat_report_file():
@@ -392,10 +385,8 @@ def test_use_bat_report_file():
            'ssh_known_hosts_timeout-comment.fail.sh-xccdf_or' +
            'g.ssgproject.content_profile_ospp-results-initial.xml')
 
-    with pytest.raises(ValueError) as e:
-        parser = tests.any_test_help.get_parser(src)
-    assert str(
-        e.value) == 'err- This is not arf report file.'
+    with pytest.raises(Exception, match="err- This is not arf report file."):
+        assert tests.any_test_help.get_parser(src)
 
 
 def test_get_rule_dict():

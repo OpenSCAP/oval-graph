@@ -27,32 +27,33 @@ class xml_parser():
 
     def get_data(self, href):
         ns = {
-            'ns0': 'http://oval.mitre.org/XMLSchema/oval-results-5',
-            'ns1': 'http://scap.nist.gov/schema/asset-reporting-format/1.1'
+            'XMLSchema': 'http://oval.mitre.org/XMLSchema/oval-results-5',
+            'arf': 'http://scap.nist.gov/schema/asset-reporting-format/1.1'
         }
 
         report_data = None
-        reports = self.root.find('.//ns1:reports', ns)
+        reports = self.root.find('.//arf:reports', ns)
         for report in reports:
             if "#" + str(report.get("id")) == href:
                 report_data = report
 
         trees_data = report_data.find(
-            './/ns0:oval_results/ns0:results/ns0:system/ns0:definitions', ns)
+            ('.//XMLSchema:oval_results/XMLSchema:results/'
+             'XMLSchema:system/XMLSchema:definitions'), ns)
         return trees_data
 
     def get_used_rules(self):
         ns = {
-            'ns0': 'http://checklists.nist.gov/xccdf/1.2',
+            'xccdf': 'http://checklists.nist.gov/xccdf/1.2',
         }
         rulesResults = self.root.findall(
-            './/ns0:TestResult/ns0:rule-result', ns)
+            './/xccdf:TestResult/xccdf:rule-result', ns)
         rules = []
         for ruleResult in rulesResults:
-            result = ruleResult.find('.//ns0:result', ns)
+            result = ruleResult.find('.//xccdf:result', ns)
             if result.text != "notselected":
                 check_content_ref = ruleResult.find(
-                    './/ns0:check/ns0:check-content-ref', ns)
+                    './/xccdf:check/xccdf:check-content-ref', ns)
                 if check_content_ref is not None:
                     rules.append(dict(
                         id_rule=ruleResult.get('idref'),
@@ -63,13 +64,13 @@ class xml_parser():
 
     def get_notselected_rules(self):
         ns = {
-            'ns0': 'http://checklists.nist.gov/xccdf/1.2',
+            'xccdf': 'http://checklists.nist.gov/xccdf/1.2',
         }
         rulesResults = self.root.findall(
-            './/ns0:TestResult/ns0:rule-result', ns)
+            './/xccdf:TestResult/xccdf:rule-result', ns)
         rules = []
         for ruleResult in rulesResults:
-            result = ruleResult.find('.//ns0:result', ns)
+            result = ruleResult.find('.//xccdf:result', ns)
             if result.text == "notselected":
                 rules.append(dict(id_rule=ruleResult.get('idref')))
         return rules

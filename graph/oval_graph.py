@@ -42,7 +42,7 @@ class OvalNode():
         if isinstance(input_negation, bool):
             self.negation = input_negation
         else:
-            raise ValueError("err- negation si bool (only True or False)")
+            raise ValueError("err- negation is bool (only True or False)")
         value = input_value.lower()
         node_type = input_node_type.lower()
         if node_type == "value" or node_type == "operator":
@@ -77,7 +77,7 @@ class OvalNode():
                 self.add_child(child)
         else:
             if self.node_type == "operator":
-                raise ValueError('err- OR, XOR, ONE, AND have child!')
+                raise ValueError('err- Operator node has child!')
 
     def __repr__(self):
         return self.value
@@ -89,7 +89,7 @@ class OvalNode():
         else:
             self.children = None
             raise ValueError(
-                "err- true, false, error, unknown. noteval, notappl have not child!")
+                "err- Value node don't has any child!")
 
     def _get_result_counts(self):
         result = {

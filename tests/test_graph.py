@@ -5,17 +5,17 @@ import tests.any_test_help
 
 def test_bad_tree():
 
-    with pytest.raises(Exception, match="have not child!"):
+    with pytest.raises(Exception, match="don't has any child"):
         assert bad_tree()
 
 
 def test_bad_tree_only_and_no_child():
-    with pytest.raises(Exception, match="have child!"):
+    with pytest.raises(Exception, match="has child!"):
         assert tree_only_and()
 
 
 def test_bad_tree_only_or_no_child():
-    with pytest.raises(Exception, match="have child!"):
+    with pytest.raises(Exception, match="has child!"):
         assert tree_only_or()
 
 
@@ -35,7 +35,7 @@ def test_bad_tree_with_bad_value_of_value():
 
 
 def test_bad_tree_with_bad_value_of_negation():
-    with pytest.raises(Exception, match="negation si bool"):
+    with pytest.raises(Exception, match="negation is bool"):
         assert tree_with_bad_value_of_negation()
 
 
@@ -92,7 +92,7 @@ def tree_with_bad_type():
 
 def tree_with_bad_value_of_negation():
     Tree = graph.oval_graph.OvalNode(1, "operator", "true", False, [
-        graph.oval_graph.OvalNode(2, "value", 'true', "negovane_auto")])
+        graph.oval_graph.OvalNode(2, "value", 'true', "random_string")])
     return
 
 # normal trees

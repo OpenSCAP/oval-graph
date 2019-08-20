@@ -9,9 +9,10 @@ import webbrowser
 import json
 import argparse
 
+
 class client():
-    def __init__(self):
-        self.arg = self.parse_arguments()
+    def __init__(self, args):
+        self.arg = self.parse_arguments(args)
         self.source_filename = self.arg.source_filename
         self.rule_name = self.arg.rule_name
         self.xml_parser = graph.xml_parser.xml_parser(self.source_filename)
@@ -54,23 +55,26 @@ class client():
                     self.source_filename, rule)
                 with open('html_interpreter/data.js', "w+") as file:
                     file.write(
-                        "var data_json =" + str(
-                            json.dumps(
-                                oval_tree.to_sigma_dict(0,0),
-                                sort_keys=False,
-                                indent=4) + ";"))
+                        "var data_json =" +
+                        str(json.dumps(
+                            oval_tree.to_sigma_dict(0, 0),
+                            sort_keys=False,
+                            indent=4) + ";"))
                 webbrowser.get('firefox').open_new_tab(
                     'html_interpreter/index.html')
                 print('Rule "{}" done!'.format(rule))
         except Exception as error:
             print('Rule: "{}" Error: "{}"'.format(rule, error))
 
-    def parse_arguments(self):
-        parser = argparse.ArgumentParser(description='Client for visualization scanned rule from Security scan.')
+    def parse_arguments(self, args):
+        parser = argparse.ArgumentParser(
+            description='Client for visualization scanned rule from Security scan.')
 
         parser.add_argument("source_filename", help='ARF scan file')
-        parser.add_argument("rule_name", help='Rule ID to be visualized. You can input part of ID rule.')
+        parser.add_argument(
+            "rule_name",
+            help='Rule ID to be visualized. You can input part of ID rule.')
 
-        args = parser.parse_args()
+        args = parser.parse_args(args)
 
         return args

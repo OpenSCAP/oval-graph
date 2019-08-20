@@ -4,7 +4,6 @@ import tests.any_test_help
 
 
 def test_bad_tree():
-
     with pytest.raises(Exception, match="don't has any child"):
         assert bad_tree()
 
@@ -19,7 +18,7 @@ def test_bad_tree_only_or_no_child():
         assert tree_only_or()
 
 
-def test_bad_tree_with_bad_value_of_operator():
+def test_bad_tree_with_bad_type_of_node():
     with pytest.raises(Exception, match="err- unknown type"):
         assert tree_with_bad_type()
 
@@ -86,7 +85,7 @@ def tree_with_bad_value_of_value():
 
 
 def tree_with_bad_type():
-    Tree = graph.oval_graph.OvalNode(1, "auto", 'and', False)
+    Tree = graph.oval_graph.OvalNode(1, "car", 'and', False)
     return
 
 

@@ -12,6 +12,9 @@ Example:
 ```
 ## Requires:
   * **python3**
+  * **python3-devel.x86_64**
+  * future
+  * PyInquirer
   * lxml
   * json
   * uuid

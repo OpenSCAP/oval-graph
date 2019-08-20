@@ -1,9 +1,5 @@
-import graph.oval_graph
-import graph.xml_parser
-import json
 import argparse
-import webbrowser
-
+import graph.client_gui
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description='Client for visualization scanned rule from Security scan.')
@@ -18,23 +14,9 @@ def parse_arguments():
 
 
 def run(args):
-    try:
-        xml_parser=graph.xml_parser.xml_parser(args.source_filename)
-        used_rules = xml_parser.get_used_rules()
-        
-
-        oval_tree = graph.oval_graph.build_nodes_form_xml(
-            args.source_filename, args.rule_name)
-        with open('html_interpreter/data.js', "w+") as file:
-            file.write(
-                "var data_json =" +
-                str(json.dumps(oval_tree.to_sigma_dict(0, 0), sort_keys=False, indent=4) +
-                    ";"))
-
-        webbrowser.get('firefox').open_new_tab('html_interpreter/index.html')
-    except (RuntimeError, TypeError, NameError, ValueError) as error:
-        print(error)
-
-
+    client=graph.client_gui.clientGui(args)    
+    answers=client.get_answers()
+    client.show_rules(answers)
+    
 arg = parse_arguments()
 arg.func(arg)

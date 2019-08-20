@@ -7,14 +7,14 @@ import graph.xml_parser
 import graph.oval_graph
 import webbrowser
 import json
+import argparse
 
-
-class clientGui():
-    def __init__(self, args):
-        self.source_filename = args.source_filename
-        self.rule_name = args.rule_name
-        self.args = args
-        self.xml_parser = graph.xml_parser.xml_parser(args.source_filename)
+class client():
+    def __init__(self):
+        self.arg = self.parse_arguments()
+        self.source_filename = self.arg.source_filename
+        self.rule_name = self.arg.rule_name
+        self.xml_parser = graph.xml_parser.xml_parser(self.source_filename)
 
     def get_answers(self):
         rules = self.search_rules_id()
@@ -64,3 +64,13 @@ class clientGui():
                 print('Rule "{}" done!'.format(rule))
         except Exception as error:
             print('Rule: "{}" Error: "{}"'.format(rule, error))
+
+    def parse_arguments(self):
+        parser = argparse.ArgumentParser(description='Client for visualization scanned rule from Security scan.')
+
+        parser.add_argument("source_filename", help='ARF scan file')
+        parser.add_argument("rule_name", help='Rule ID to be visualized. You can input part of ID rule.')
+
+        args = parser.parse_args()
+
+        return args

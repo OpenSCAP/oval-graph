@@ -18,10 +18,8 @@ def any_test_treeEvaluation(tree, expect, file_name=None):
             dir = 'test_data_NONE'
 
         src = 'test_data/' + dir + '/' + file_name
-        _dir = os.path.dirname(os.path.realpath(__file__))
-        FIXTURE_DIR = py.path.local(_dir) / src
         data = dict()
-        with open(str(FIXTURE_DIR), "r") as f:
+        with open(get_src(src), "r") as f:
             data = json.load(f)
         assert graph.oval_graph.restore_dict_to_tree(
             data).evaluate_tree() == expect
@@ -30,19 +28,13 @@ def any_test_treeEvaluation(tree, expect, file_name=None):
 
 
 def any_test_parsing_and_evaluate_scan_rule(src, rule_id, result):
-    _dir = os.path.dirname(os.path.realpath(__file__))
-    FIXTURE_DIR = py.path.local(_dir) / src
-
     oval_tree = graph.oval_graph.build_nodes_form_xml(
-        str(FIXTURE_DIR), rule_id)
+        get_src(src), rule_id)
     any_test_treeEvaluation(oval_tree, result)
 
 
 def any_get_test_data_json(src):
-    _dir = os.path.dirname(os.path.realpath(__file__))
-    FIXTURE_DIR = py.path.local(_dir) / src
-
-    with open(str(FIXTURE_DIR), 'r') as f:
+    with open(get_src(src), 'r') as f:
         data = json.load(f)
     return data
 
@@ -102,7 +94,9 @@ def any_test_dict_to_tree(dict_of_tree):
 
 
 def get_parser(src):
+    return graph.xml_parser.xml_parser(get_src(src))
+
+def get_src(src):
     _dir = os.path.dirname(os.path.realpath(__file__))
     FIXTURE_DIR = py.path.local(_dir) / src
-
-    return graph.xml_parser.xml_parser(str(FIXTURE_DIR))
+    return str(FIXTURE_DIR)

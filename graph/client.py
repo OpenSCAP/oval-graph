@@ -1,5 +1,4 @@
 from __future__ import print_function, unicode_literals
-from PyInquirer import style_from_dict, Token, prompt, Separator
 import re
 import graph.xml_parser
 import graph.oval_graph
@@ -15,23 +14,30 @@ class client():
         self.rule_name = self.arg.rule_name
         self.xml_parser = graph.xml_parser.xml_parser(self.source_filename)
 
-    def get_questions(self):
+    def run_gui_and_return_answers(self):
+        try:
+            from PyInquirer import style_from_dict, Token, prompt, Separator
+            return prompt(self.get_questions(Separator('= The Rules ID =')))
+        except ImportError:
+            print('== The Rules ID ==')
+            for rule in self.search_rules_id():
+                print(rule)
+            return None
+
+    def get_questions(self, separator):
         rules = self.search_rules_id()
         questions = [{
             'type': 'checkbox',
             'message': 'Select rule(s)',
             'name': 'rules',
             'choices': [
-                Separator('= The Rules ID =')],
+                separator],
             'validate': (lambda answer: 'You must choose at least one topping.'
                          if len(answer) == 0 else True)
         }]
         for rule in rules:
             questions[0]['choices'].append(dict(name=rule['id_rule']))
         return questions
-
-    def run_gui_and_return_answers(self):
-        return prompt(self.get_questions())
 
     def _get_wanted_rules(self):
         return [
@@ -65,6 +71,7 @@ class client():
                         oval_tree,
                         sort_keys=False,
                         indent=4) + ";"))
+                self.open_web_browser()
                 print('Rule "{}" done!'.format(rule))
         except Exception as error:
             raise ValueError('Rule: "{}" Error: "{}"'.format(rule, error))
@@ -80,8 +87,8 @@ class client():
         parser.add_argument(
             "rule_name", help=(
                 'Rule ID to be visualized. You can input part of ID rule or'
-                'use regular expresion,but you must put regular expresion'
-                'betwen quotation marks. Example: "(_package_)\w+(_removed)"'))
+                'use regular expresion,but if you use in regular expresion'
+                'brackets. You must put regular expression betwen quotation marks.'))
 
         args = parser.parse_args(args)
 

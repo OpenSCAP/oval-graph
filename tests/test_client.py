@@ -52,8 +52,10 @@ def test_get_questions():
     regex = r'_package_\w+_removed'
     client = get_client(src, regex)
     out = client.get_questions()
-    assert out[0]['choices'][1]['name'] == 'xccdf_org.ssgproject.content_rule_package_abrt_removed'
-    assert out[0]['choices'][2]['name'] == 'xccdf_org.ssgproject.content_rule_package_sendmail_removed'
+    rule1 = 'xccdf_org.ssgproject.content_rule_package_abrt_removed'
+    rule2 = 'xccdf_org.ssgproject.content_rule_package_sendmail_removed'
+    assert out[0]['choices'][1]['name'] == rule1
+    assert out[0]['choices'][2]['name'] == rule2
 
 
 def test_get_wanted_not_selected_rules():

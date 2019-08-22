@@ -383,7 +383,8 @@ def test_get_def_id_by_notselected_rule_id():
     parser = tests.any_test_help.get_parser(src)
     rule_id = 'xccdf_org.ssgproject.content_rule_ntpd_specify_remote_server'
 
-    with pytest.raises(Exception, match="err- rule \"{}\" was not selected, so there are no results.".format(rule_id)):
+    with pytest.raises(Exception, match="err- rule \"{}\" was not selected, so there are no results."
+                       .format(rule_id)):
         assert parser.get_def_id_by_rule_id(rule_id)
 
 

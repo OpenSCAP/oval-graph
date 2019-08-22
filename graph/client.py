@@ -46,45 +46,42 @@ class client():
     def search_rules_id(self):
         rules = self._get_wanted_rules()
         notselected_rules = self._get_wanted_not_selected_rules()
-        if  len(notselected_rules) and not rules :
+        if len(notselected_rules) and not rules:
             raise ValueError(
                 'err- rule(s) "{}" was not selected, so there are no results.'
                 .format(notselected_rules[0]['id_rule']))
-        elif not notselected_rules  and not rules:
+        elif not notselected_rules and not rules:
             raise ValueError('err- 404 rule not found!')
         else:
             return rules
 
-    def show_graphs(self, rules):
+    def prepare_graphs(self, rules):
         try:
             for rule in rules['rules']:
                 oval_tree = graph.oval_graph.build_nodes_form_xml(
-                    self.source_filename, rule)
+                    self.source_filename, rule).to_sigma_dict(0, 0)
                 with open('html_interpreter/data.js', "w+") as file:
-                    file.write(
-                        "var data_json =" +
-                        str(json.dumps(
-                            oval_tree.to_sigma_dict(0, 0),
-                            sort_keys=False,
-                            indent=4) + ";"))
-                self.open_web_browser()
+                    file.write("var data_json =" + str(json.dumps(
+                        oval_tree,
+                        sort_keys=False,
+                        indent=4) + ";"))
                 print('Rule "{}" done!'.format(rule))
         except Exception as error:
-            print('Rule: "{}" Error: "{}"'.format(rule, error))
+            raise ValueError('Rule: "{}" Error: "{}"'.format(rule, error))
 
     def open_web_browser(self):
         webbrowser.get('firefox').open_new_tab('html_interpreter/index.html')
-        
+
     def parse_arguments(self, args):
         parser = argparse.ArgumentParser(
             description='Client for visualization scanned rule from Security scan.')
 
         parser.add_argument("source_filename", help='ARF scan file')
         parser.add_argument(
-            "rule_name",
-            help=('Rule ID to be visualized. You can input part of ID rule or'
-                  'use regular expresion,but you must put regular expresion' 
-                  'betwen quotation marks. Example: "(_package_)\w+(_removed)"'))
+            "rule_name", help=(
+                'Rule ID to be visualized. You can input part of ID rule or'
+                'use regular expresion,but you must put regular expresion'
+                'betwen quotation marks. Example: "(_package_)\w+(_removed)"'))
 
         args = parser.parse_args(args)
 

@@ -351,10 +351,7 @@ def test_transformation_tree_to_Json_for_SigmaJs_with_duplicated_test():
 
 def test_get_def_id_by_rule_id():
     src = 'test_data/ssg-fedora-ds-arf.xml'
-    _dir = os.path.dirname(os.path.realpath(__file__))
-    FIXTURE_DIR = py.path.local(_dir) / src
-
-    parser = graph.xml_parser.xml_parser(str(FIXTURE_DIR))
+    parser = graph.xml_parser.xml_parser(tests.any_test_help.get_src(src))
 
     with pytest.raises(Exception, match="err- 404 rule not found!"):
         assert parser.get_def_id_by_rule_id('hello')
@@ -412,14 +409,10 @@ def test_use_bat_report_file():
 
 def test_get_rule_dict():
     src = 'test_data/ssg-fedora-ds-arf.xml'
-    _dir = os.path.dirname(os.path.realpath(__file__))
-    FIXTURE_DIR = py.path.local(_dir) / src
-    parser = graph.xml_parser.xml_parser(str(FIXTURE_DIR))
+    parser = graph.xml_parser.xml_parser(tests.any_test_help.get_src(src))
     dict = parser.get_rule_dict(
         'xccdf_org.ssgproject.content_rule_dconf_gnome_session_idle_user_locks')
     src = 'test_data/rule_dict.json'
-    _dir = os.path.dirname(os.path.realpath(__file__))
-    FIXTURE_DIR = py.path.local(_dir) / src
-    with open(str(FIXTURE_DIR), 'r') as f:
+    with open(tests.any_test_help.get_src(src), 'r') as f:
         data = json.load(f)
     assert data == dict

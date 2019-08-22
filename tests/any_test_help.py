@@ -96,6 +96,7 @@ def any_test_dict_to_tree(dict_of_tree):
 def get_parser(src):
     return graph.xml_parser.xml_parser(get_src(src))
 
+
 def get_src(src):
     _dir = os.path.dirname(os.path.realpath(__file__))
     FIXTURE_DIR = py.path.local(_dir) / src

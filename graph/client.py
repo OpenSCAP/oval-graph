@@ -11,7 +11,7 @@ class client():
     def __init__(self, args):
         self.arg = self.parse_arguments(args)
         self.source_filename = self.arg.source_filename
-        self.rule_name = self.arg.rule_name
+        self.rule_name = self.arg.rule_id
         self.xml_parser = graph.xml_parser.xml_parser(self.source_filename)
 
     def run_gui_and_return_answers(self):
@@ -21,7 +21,7 @@ class client():
         except ImportError:
             print('== The Rules ID ==')
             for rule in self.search_rules_id():
-                print(rule)
+                print(rule['id_rule'])
             return None
 
     def get_questions(self, separator):
@@ -77,7 +77,10 @@ class client():
             raise ValueError('Rule: "{}" Error: "{}"'.format(rule, error))
 
     def open_web_browser(self):
-        webbrowser.get('firefox').open_new_tab('html_interpreter/index.html')
+        try:
+            webbrowser.get('firefox').open_new_tab('html_interpreter/index.html')
+        except:
+            webbrowser.open_new_tab('html_interpreter/index.html')
 
     def parse_arguments(self, args):
         parser = argparse.ArgumentParser(
@@ -85,7 +88,7 @@ class client():
 
         parser.add_argument("source_filename", help='ARF scan file')
         parser.add_argument(
-            "rule_name", help=(
+            "rule_id", help=(
                 'Rule ID to be visualized. You can input part of ID rule or'
                 'use regular expresion,but if you use in regular expresion'
                 'brackets. You must put regular expression betwen quotation marks.'))

@@ -52,7 +52,7 @@ def test_get_questions():
     regex = r'_package_\w+_removed'
     client = get_client(src, regex)
     from PyInquirer import Separator
-            
+
     out = client.get_questions(Separator('= The Rules ID ='))
     rule1 = 'xccdf_org.ssgproject.content_rule_package_abrt_removed'
     rule2 = 'xccdf_org.ssgproject.content_rule_package_sendmail_removed'

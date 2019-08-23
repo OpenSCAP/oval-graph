@@ -21,7 +21,7 @@ class client():
         except ImportError:
             print('== The Rules ID ==')
             for rule in self.search_rules_id():
-                print(rule['id_rule']+r'\b')
+                print(rule['id_rule'] + r'\b')
             return None
 
     def get_questions(self, separator):
@@ -78,8 +78,9 @@ class client():
 
     def open_web_browser(self):
         try:
-            webbrowser.get('firefox').open_new_tab('html_interpreter/index.html')
-        except:
+            webbrowser.get('firefox').open_new_tab(
+                'html_interpreter/index.html')
+        except BaseException:
             webbrowser.open_new_tab('html_interpreter/index.html')
 
     def parse_arguments(self, args):

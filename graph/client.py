@@ -21,7 +21,7 @@ class client():
         except ImportError:
             print('== The Rules ID ==')
             for rule in self.search_rules_id():
-                print(rule['id_rule'])
+                print(rule['id_rule']+r'\b')
             return None
 
     def get_questions(self, separator):

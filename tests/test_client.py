@@ -126,7 +126,6 @@ def load_tested_file(src):
     edge = False
     for row in data:
         if row == '    "edges": [\n':
-            print('wow')
             edge = True
         if not edge:
             out.append(row)

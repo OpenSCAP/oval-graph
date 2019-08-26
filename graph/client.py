@@ -10,21 +10,30 @@ import argparse
 class client():
     def __init__(self, args):
         self.arg = self.parse_arguments(args)
+        self.removePassTests=self.arg.removePassTests
+        self.showFailRules=self.arg.showFailRules
+        self.showNotSelectedRules=self.arg.showNotSelectedRules
         self.source_filename = self.arg.source_filename
         self.rule_name = self.arg.rule_id
         self.xml_parser = graph.xml_parser.xml_parser(self.source_filename)
+        if self.removePassTests:
+            raise NotImplementedError('Not implemented!')
 
     def run_gui_and_return_answers(self):
         try:
             from PyInquirer import style_from_dict, Token, prompt, Separator
-            return prompt(self.get_questions(Separator('= The Rule IDs =')))
+            return prompt(self.get_questions(Separator('= The Rule IDs ='), Separator('= The not selected rule IDs =')))
         except ImportError:
             print('== The Rule IDs ==')
             for rule in self.search_rules_id():
                 print(rule['id_rule'] + r'\b')
+            if self.showNotSelectedRules:
+                print('== The not selected rule IDs ==')
+                for rule in self._get_wanted_not_selected_rules():
+                    print(rule['id_rule'] + '(Not selected)')
             return None
 
-    def get_questions(self, separator):
+    def get_questions(self, separator, separator1):
         rules = self.search_rules_id()
         questions = [{
             'type': 'checkbox',
@@ -34,6 +43,10 @@ class client():
         }]
         for rule in rules:
             questions[0]['choices'].append(dict(name=rule['id_rule']))
+        if self.showNotSelectedRules:
+            questions[0]['choices'].append(separator1)
+            for rule in self._get_wanted_not_selected_rules():
+                questions[0]['choices'].append(dict(name=rule['id_rule'], disabled='Not selected'))
         return questions
 
     def _get_wanted_rules(self):
@@ -91,7 +104,7 @@ class client():
 
         parser.add_argument('--showFailRules', action="store_true", default=False, help='Show all FAIL rules')
         parser.add_argument('--showNotSelectedRules', action="store_true", default=False, help="Show not selected rules, but you can't visualized this rules.")   
-        parser.add_argument('--removePassTests', action="store_true", default=False, help='If graph have many nodes in graph, you can remove passing tests for better orientation.(not implemented)')
+        parser.add_argument('--removePassTests', action="store_true", default=False, help='If graph have many nodes in graph, you can remove passing tests for better orientation.(Not implemented)')
         parser.add_argument("source_filename", help='ARF scan file')
         parser.add_argument(
             "rule_id", help=(

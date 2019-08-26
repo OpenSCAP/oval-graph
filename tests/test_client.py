@@ -81,6 +81,23 @@ def test_get_questions():
     assert out[0]['choices'][1]['name'] == rule1
     assert out[0]['choices'][2]['name'] == rule2
 
+def test_get_questions_with_option_show_fail_rules():
+    src = 'test_data/ssg-fedora-ds-arf.xml'
+    regex = r'_package_\w+_removed'
+    client = get_client_with_option_show_fail_rules(src, regex)
+    from PyInquirer import Separator
+
+    out = client.get_questions(
+        Separator('= The rules ID ='),
+        Separator('= The not selected rules ID ='))
+    rule1 = 'xccdf_org.ssgproject.content_rule_package_abrt_removed'
+    print(out)
+    assert out[0]['choices'][1]['name'] == rule1
+    with pytest.raises(Exception, match="list index out of range"):
+            assert out[0]['choices'][2]['name'] == None
+    
+    
+
 
 def test_get_questions_with_option_show_fail_rules():
     src = 'test_data/ssg-fedora-ds-arf.xml'

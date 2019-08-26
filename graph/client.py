@@ -28,7 +28,7 @@ class client():
             rules = self.search_rules_id()
             if self.showFailRules:
                 rules = self.get_only_fail_rule(rules)
-            for rule in rule:
+            for rule in rules:
                 print(rule['id_rule'] + r'\b')
             if self.showNotSelectedRules:
                 print('== The not selected rule IDs ==')

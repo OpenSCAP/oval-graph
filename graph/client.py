@@ -25,7 +25,10 @@ class client():
             return prompt(self.get_questions(Separator('= The Rule IDs ='), Separator('= The not selected rule IDs =')))
         except ImportError:
             print('== The Rule IDs ==')
-            for rule in self.search_rules_id():
+            rules = self.search_rules_id()
+            if self.showFailRules:
+                rules = self.get_only_fail_rule(rules)
+            for rule in rule:
                 print(rule['id_rule'] + r'\b')
             if self.showNotSelectedRules:
                 print('== The not selected rule IDs ==')
@@ -35,6 +38,9 @@ class client():
 
     def get_questions(self, separator, separator1):
         rules = self.search_rules_id()
+        if self.showFailRules:
+            rules = self.get_only_fail_rule(rules)
+            print(rules)
         questions = [{
             'type': 'checkbox',
             'message': 'Select rule(s)',
@@ -48,6 +54,9 @@ class client():
             for rule in self._get_wanted_not_selected_rules():
                 questions[0]['choices'].append(dict(name=rule['id_rule'], disabled='Not selected'))
         return questions
+
+    def get_only_fail_rule(self, rules):
+        return list(filter(lambda rule: rule['result'] == 'fail', rules))
 
     def _get_wanted_rules(self):
         return [

@@ -10,27 +10,31 @@ import argparse
 class client():
     def __init__(self, args):
         self.arg = self.parse_arguments(args)
-        self.removePassTests=self.arg.removePassTests
-        self.showFailRules=self.arg.showFailRules
-        self.showNotSelectedRules=self.arg.showNotSelectedRules
+        self.remove_pass_tests = self.arg.removePassTests
+        self.show_fail_rules = self.arg.showFailRules
+        self.show_not_selected_rules = self.arg.showNotSelectedRules
+        self.off_webbrowser = self.arg.offWebBrowser
         self.source_filename = self.arg.source_filename
         self.rule_name = self.arg.rule_id
         self.xml_parser = graph.xml_parser.xml_parser(self.source_filename)
-        if self.removePassTests:
+        if self.remove_pass_tests:
             raise NotImplementedError('Not implemented!')
 
     def run_gui_and_return_answers(self):
         try:
             from PyInquirer import style_from_dict, Token, prompt, Separator
-            return prompt(self.get_questions(Separator('= The Rule IDs ='), Separator('= The not selected rule IDs =')))
+            return prompt(
+                self.get_questions(
+                    Separator('= The Rules IDs ='),
+                    Separator('= The not selected rule IDs =')))
         except ImportError:
             print('== The Rule IDs ==')
             rules = self.search_rules_id()
-            if self.showFailRules:
+            if self.show_fail_rules:
                 rules = self.get_only_fail_rule(rules)
             for rule in rules:
                 print(rule['id_rule'] + r'\b')
-            if self.showNotSelectedRules:
+            if self.show_not_selected_rules:
                 print('== The not selected rule IDs ==')
                 for rule in self._get_wanted_not_selected_rules():
                     print(rule['id_rule'] + '(Not selected)')
@@ -38,9 +42,8 @@ class client():
 
     def get_questions(self, separator, separator1):
         rules = self.search_rules_id()
-        if self.showFailRules:
+        if self.show_fail_rules:
             rules = self.get_only_fail_rule(rules)
-            print(rules)
         questions = [{
             'type': 'checkbox',
             'message': 'Select rule(s)',
@@ -49,10 +52,11 @@ class client():
         }]
         for rule in rules:
             questions[0]['choices'].append(dict(name=rule['id_rule']))
-        if self.showNotSelectedRules:
+        if self.show_not_selected_rules:
             questions[0]['choices'].append(separator1)
             for rule in self._get_wanted_not_selected_rules():
-                questions[0]['choices'].append(dict(name=rule['id_rule'], disabled='Not selected'))
+                questions[0]['choices'].append(
+                    dict(name=rule['id_rule'], disabled='Not selected'))
         return questions
 
     def get_only_fail_rule(self, rules):
@@ -101,19 +105,37 @@ class client():
             raise ValueError('Rule: "{}" Error: "{}"'.format(rule, error))
 
     def open_web_browser(self):
-        try:
-            webbrowser.get('firefox').open_new_tab(
-                'html_interpreter/index.html')
-        except BaseException:
-            webbrowser.open_new_tab('html_interpreter/index.html')
+        if not self.off_webbrowser:
+            try:
+                webbrowser.get('firefox').open_new_tab(
+                    'html_interpreter/index.html')
+            except BaseException:
+                webbrowser.open_new_tab('html_interpreter/index.html')
 
     def parse_arguments(self, args):
         parser = argparse.ArgumentParser(
-            description='Client for visualization of SCAP rule evaluation results')
-
-        parser.add_argument('--showFailRules', action="store_true", default=False, help='Show all FAIL rules')
-        parser.add_argument('--showNotSelectedRules', action="store_true", default=False, help="Show not selected rules, but you can't visualized this rules.")   
-        parser.add_argument('--removePassTests', action="store_true", default=False, help='If graph have many nodes in graph, you can remove passing tests for better orientation.(Not implemented)')
+            description='Client for visualization scanned rule from Security scan.')
+        parser.add_argument(
+            '--showFailRules',
+            action="store_true",
+            default=False,
+            help='Show only FAIL rules')
+        parser.add_argument(
+            '--showNotSelectedRules',
+            action="store_true",
+            default=False,
+            help="Show not selected rules, but you can't visualized this rules.")
+        parser.add_argument(
+            '--offWebBrowser',
+            action="store_true",
+            default=False,
+            help="It does not start the web browser.")
+        parser.add_argument(
+            '--removePassTests',
+            action="store_true",
+            default=False,
+            help=('If graph have many nodes in graph, you can remove passing'
+                  ' tests for better orientation.(Not implemented)'))
         parser.add_argument("source_filename", help='ARF scan file')
         parser.add_argument(
             "rule_id", help=(

@@ -11,15 +11,14 @@ Example:
     python3 run.py data/ssg-fedora-ds-arf.xml xccdf_org.ssgproject.content_rule_disable_host_auth
 ```
 * *ARF-file.xml* -  ARF xml report from OpenSCAP scan. 
-* *id-rule*  - Rule ID to be visualized. You can input part of ID rule or use regular expresion,but if you use in regular expresion brackets. You must put regular expression betwen quotation marks.
+* *id-rule*  - Rule ID to be visualized. You can input part of ID rule or use regular expression, but if you use in regular expression brackets. You must put regular expression between quotation marks.
 
-It open web browser with graph. Default is Firefox. If Firefox not installed it open default web browser in OS.  
+It opens web browser with graph. Default is Firefox. If Firefox not installed it opens default web browser in OS.  
 ![demo-screenshot](demo-screenshot.png "demo-screenshot")
-* ### Minimal requires:
+* ### Minimal requirements:
   * **python3**
   * lxml
 
-* ### Recommended requires:
-  * include minimal requires
-  * PyInquirer
-  * python3-devel.x86_64 **(If fail installation PyInquirer.)**
+* ### Recommended requirements:
+  * include minimal requirements
+  * PyInquirer **(If fail installation PyInquirer. Try install _python3-devel.x86_64_ and retry installation PyInquirer.)**

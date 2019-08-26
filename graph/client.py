@@ -91,7 +91,7 @@ class client():
         parser.add_argument(
             "rule_id", help=(
                 'Rule ID to be visualized. You can input part of ID rule or'
-                'use regular expresion,but if you use in regular expresion'
+                'use regular expression,but if you use in regular expression'
                 'brackets. You must put regular expression betwen quotation marks.'))
 
         args = parser.parse_args(args)

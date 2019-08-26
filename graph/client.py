@@ -89,6 +89,9 @@ class client():
         parser = argparse.ArgumentParser(
             description='Client for visualization of SCAP rule evaluation results')
 
+        parser.add_argument('--showFailRules', action="store_true", default=False, help='Show all FAIL rules')
+        parser.add_argument('--showNotSelectedRules', action="store_true", default=False, help="Show not selected rules, but you can't visualized this rules.")   
+        parser.add_argument('--removePassTests', action="store_true", default=False, help='If graph have many nodes in graph, you can remove passing tests for better orientation.(not implemented)')
         parser.add_argument("source_filename", help='ARF scan file')
         parser.add_argument(
             "rule_id", help=(

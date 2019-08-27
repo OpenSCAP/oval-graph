@@ -164,6 +164,62 @@ class OvalNode():
             'child': [child.save_tree_to_dict() for child in self.children]
         }
 
+    def _get_node_icon(self):
+        value = self.evaluate_tree()
+        icon = None
+        if value is None:
+            if self._is_negated_boolean('true', self.value):
+                icon = 'false'
+            elif self._is_negated_boolean('false', self.value):
+                icon = 'true'
+            else:
+                icon = self.value
+            icon, value = self.value, icon
+        else:
+            if self._is_negated_boolean('true', value):
+                icon = 'false'
+            elif self._is_negated_boolean('false', value):
+                icon = 'true'
+            else:
+                icon = value
+        
+        VALUE_TO_COLOR = {
+            "true": "text-success",
+            "false": "text-danger",
+            "error": "text-dark",
+            "unknown": "text-dark",
+            "noteval": "text-dark",
+            "notappl": "text-dark"
+        }
+
+        VALUE_TO_ICON = {
+            "true": "glyphicon glyphicon-ok ",
+            "false": "glyphicon glyphicon-remove ",
+            "error": "glyphicon glyphicon-question-sign ",
+            "unknown": "glyphicon glyphicon-question-sign ",
+            "noteval": "glyphicon glyphicon-question-sign ",
+            "notappl": "glyphicon glyphicon-question-sign "
+        }
+
+        return dict(
+            color=VALUE_TO_COLOR[value],
+            icon=VALUE_TO_ICON[icon])
+
+    def to_JsTree_dict(self):
+        icons = self._get_node_icon()
+        if not self.children:
+            return {
+                'text':'<span class="'+icons['color']+'">'+self._get_label()+'</span>',
+                "icon" :icons['icon']+icons['color'],
+                "state":{"opened":True}
+             }
+        return {
+            'text': '<span class="'+icons['color']+'">'+self._get_label()+'</span>',
+            "icon" : icons['icon']+icons['color'],
+            "state":{"opened":True},
+            'children': [child.to_JsTree_dict() for child in self.children]
+        }
+
     def find_node_with_ID(self, node_id):
         if self.node_id == node_id:
             return self
@@ -390,7 +446,7 @@ class OvalNode():
                 nodes.append(node)
         return nodes
 
-    def _change_position(self, positions, nodes_in_rows):
+    def _change_position(self, nodes_in_rows):
         x = 0.6
         up_and_down = True
         down = False
@@ -455,8 +511,8 @@ class OvalNode():
         self._remove_empty_rows(nodes_in_rows, max_y)
         nodes_in_rows = self._move_rows(nodes_in_rows)
         self._sort_nodes(nodes_in_rows)
-        positions = self._create_positions(nodes_in_rows)
-        self._change_position(positions, nodes_in_rows)
+        self._create_positions(nodes_in_rows)
+        self._change_position(nodes_in_rows)
         out['nodes'] = self._convert_nodes_in_rows_to_nodes(nodes_in_rows)
         return out
 

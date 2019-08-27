@@ -30,10 +30,7 @@ class client():
             'type': 'checkbox',
             'message': 'Select rule(s)',
             'name': 'rules',
-            'choices': [
-                separator],
-            'validate': (lambda answer: 'You must choose at least one topping.'
-                         if len(answer) == 0 else True)
+            'choices': [separator]
         }]
         for rule in rules:
             questions[0]['choices'].append(dict(name=rule['id_rule']))

@@ -17,9 +17,9 @@ class client():
     def run_gui_and_return_answers(self):
         try:
             from PyInquirer import style_from_dict, Token, prompt, Separator
-            return prompt(self.get_questions(Separator('= The Rules ID =')))
+            return prompt(self.get_questions(Separator('= The Rule IDs =')))
         except ImportError:
-            print('== The Rules ID ==')
+            print('== The Rule IDs ==')
             for rule in self.search_rules_id():
                 print(rule['id_rule'] + r'\b')
             return None
@@ -54,7 +54,12 @@ class client():
         notselected_rules = self._get_wanted_not_selected_rules()
         if len(notselected_rules) and not rules:
             raise ValueError(
-                'err- rule(s) "{}" was not selected, so there are no results.'
+                ('err- rule(s) "{}" was not selected, '
+                 'so there are no results. The rule is'
+                 ' "notselected" because it'
+                 " wasn't a part of the executed profile"
+                 " and therefore it wasn't evaluated "
+                 "during the scan.")
                 .format(notselected_rules[0]['id_rule']))
         elif not notselected_rules and not rules:
             raise ValueError('err- 404 rule not found!')
@@ -66,8 +71,8 @@ class client():
             for rule in rules['rules']:
                 oval_tree = graph.oval_graph.build_nodes_form_xml(
                     self.source_filename, rule).to_sigma_dict(0, 0)
-                with open('html_interpreter/data.js', "w+") as file:
-                    file.write("var data_json =" + str(json.dumps(
+                with open('html_interpreter/data.js', "w+") as graph_data_file:
+                    graph_data_file.write("var data_json =" + str(json.dumps(
                         oval_tree,
                         sort_keys=False,
                         indent=4) + ";"))
@@ -85,15 +90,15 @@ class client():
 
     def parse_arguments(self, args):
         parser = argparse.ArgumentParser(
-            description='Client for visualization scanned rule from Security scan.')
+            description='Client for visualization of SCAP rule evaluation results')
 
         parser.add_argument("source_filename", help='ARF scan file')
         parser.add_argument(
             "rule_id", help=(
-                'Rule ID to be visualized. You can input part of ID rule or'
-                'use regular expression,but if you use in regular expression'
-                'brackets. You must put regular expression betwen quotation marks.'))
-
+                'Rule ID to be visualized. A part from the full rule ID'
+                ' a part of the ID or a regular expression can be used.'
+                ' If brackets are used in the regular expression '
+                'the regular expression must be quoted.'))
         args = parser.parse_args(args)
 
         return args

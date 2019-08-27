@@ -24,7 +24,7 @@ def test_search_rules_id():
     assert len(client.search_rules_id()) == 184
 
 
-def test_find_doest_exist_rule():
+def test_find_does_not_exist_rule():
     rule = 'random_rule_which_doest_exist'
     src = 'test_data/ssg-fedora-ds-arf.xml'
     client = get_client(src, rule)

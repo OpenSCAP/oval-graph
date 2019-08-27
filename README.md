@@ -3,7 +3,7 @@
 
 Understanding result in the blink of an eye
 
-### How use?
+### Usage
 ```
 Command:
     python3 run.py ARF-file.xml id-rule
@@ -11,7 +11,7 @@ Example:
     python3 run.py data/ssg-fedora-ds-arf.xml xccdf_org.ssgproject.content_rule_disable_host_auth
 ```
 * *ARF-file.xml* -  ARF xml report from OpenSCAP scan. 
-* *id-rule*  - Rule ID to be visualized. You can input part of ID rule or use regular expression, but if you use in regular expression brackets. You must put regular expression between quotation marks.
+* *id-rule*  - Rule ID to be visualized. A part from the full rule ID a part of the ID or a regular expression can be used. If brackets are used in the regular expression the regular expression must be quoted.
 
 It opens web browser with graph. Default is Firefox. If Firefox not installed it opens default web browser in OS.  
 ![demo-screenshot](demo-screenshot.png "demo-screenshot")
@@ -21,4 +21,4 @@ It opens web browser with graph. Default is Firefox. If Firefox not installed it
 
 * ### Recommended requirements:
   * include minimal requirements
-  * PyInquirer **(If fail installation PyInquirer. Try install _python3-devel.x86_64_ and retry installation PyInquirer.)**
+  * PyInquirer **(If installation of PyInquirer fails, try to install _python3-devel.x86_64_ and retry the installation.)**

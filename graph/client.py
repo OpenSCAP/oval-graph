@@ -15,6 +15,7 @@ class client():
         self.show_not_selected_rules = self.arg.show_not_selected_rules
         self.off_webbrowser = self.arg.off_web_browser
         self.source_filename = self.arg.source_filename
+        self.tree = self.arg.tree
         self.rule_name = self.arg.rule_id
         self.xml_parser = graph.xml_parser.xml_parser(self.source_filename)
         if self.remove_pass_tests:
@@ -92,13 +93,21 @@ class client():
     def prepare_graphs(self, rules):
         try:
             for rule in rules['rules']:
-                oval_tree = graph.oval_graph.build_nodes_form_xml(
-                    self.source_filename, rule).to_sigma_dict(0, 0)
-                with open('html_interpreter/data.js', "w+") as graph_data_file:
-                    graph_data_file.write("var data_json =" + str(json.dumps(
-                        oval_tree,
-                        sort_keys=False,
-                        indent=4) + ";"))
+                if self.tree:
+                    oval_tree = graph.oval_graph.build_nodes_form_xml(self.source_filename, rule).to_JsTree_dict()
+                    with open('tree_html_interpreter/data.js', "w+") as file:
+                        file.write("var data_json =" + str(json.dumps(
+                            oval_tree,
+                            sort_keys=False,
+                            indent=4) + ";"))
+                else:
+                    oval_tree = graph.oval_graph.build_nodes_form_xml(
+                        self.source_filename, rule).to_sigma_dict(0, 0)
+                    with open('graph_html_interpreter/data.js', "w+") as file:
+                        file.write("var data_json =" + str(json.dumps(
+                            oval_tree,
+                            sort_keys=False,
+                            indent=4) + ";"))
                 self.open_web_browser()
                 print('Rule "{}" done!'.format(rule))
         except Exception as error:
@@ -107,11 +116,20 @@ class client():
     def open_web_browser(self):
         if not self.off_webbrowser:
             try:
-                webbrowser.get('firefox').open_new_tab(
-                    'html_interpreter/index.html')
+                if self.tree:
+                    webbrowser.get('firefox').open_new_tab(
+                        'tree_html_interpreter/index.html')
+                else:
+                    webbrowser.get('firefox').open_new_tab(
+                        'graph_html_interpreter/index.html')
             except BaseException:
-                webbrowser.open_new_tab('html_interpreter/index.html')
-
+                if self.tree:
+                    webbrowser.open_new_tab(
+                        'tree_html_interpreter/index.html')
+                else:
+                    webbrowser.open_new_tab(
+                        'graph_html_interpreter/index.html')
+                    
     def parse_arguments(self, args):
         parser = argparse.ArgumentParser(
             description='Client for visualization of SCAP rule evaluation results')
@@ -130,6 +148,11 @@ class client():
             action="store_true",
             default=False,
             help="It does not start the web browser.")
+        parser.add_argument(
+            '--tree',
+            action="store_true",
+            default=False,
+            help="Switch graph_html_interpreter to tree_html_interpreter. Rule will interpret as directory tree.")
         parser.add_argument(
             '--remove-pass-tests',
             action="store_true",

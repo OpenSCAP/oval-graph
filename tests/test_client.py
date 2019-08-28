@@ -172,7 +172,7 @@ def test_prepare_graph():
     rule = 'xccdf_org.ssgproject.content_rule_package_abrt_removed'
     client = get_client(src, rule)
     rules = {'rules': [rule]}
-    client.prepare_graphs(rules)
+    client.prepare_data(rules)
     result = load_tested_file('../graph_html_interpreter/data.js')
     referenc_result = load_tested_file('test_data/referenc_result_data_graph.js')
     assert result == referenc_result
@@ -182,7 +182,7 @@ def test_prepare_tree():
     rule = 'xccdf_org.ssgproject.content_rule_package_abrt_removed'
     client = get_client_tree(src, rule)
     rules = {'rules': [rule]}
-    client.prepare_graphs(rules)
+    client.prepare_data(rules)
     result = load_tested_file('../tree_html_interpreter/data.js')
     referenc_result = load_tested_file('test_data/referenc_result_data_tree.js')
     assert result == referenc_result
@@ -204,7 +204,7 @@ def try_expection_for_prepare_graph(src, rule, err):
     client = get_client(src, rule)
     rules = {'rules': [rule]}
     with pytest.raises(Exception, match=err):
-        assert client.prepare_graphs(rules)
+        assert client.prepare_data(rules)
 
 
 def test_prepare_graph_with_non_existent_rule():

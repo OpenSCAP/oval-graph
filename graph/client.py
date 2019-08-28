@@ -90,7 +90,7 @@ class client():
         else:
             return rules
 
-    def prepare_graphs(self, rules):
+    def prepare_data(self, rules):
         try:
             for rule in rules['rules']:
                 if self.tree:

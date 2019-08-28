@@ -8,8 +8,8 @@ htmlcov/index.html
 htmlcov/status.json
 htmlcov/tree_operatorTree_py.html
 .coverage
-html_interpreter/data.js
-html_interpreter1/data.js
+graph_html_interpreter/data.js
+tree_html_interpreter/data.js
 data.json
 notes.txt
 test.py

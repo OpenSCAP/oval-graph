@@ -10,10 +10,11 @@ import argparse
 class client():
     def __init__(self, args):
         self.arg = self.parse_arguments(args)
-        self.remove_pass_tests = self.arg.removePassTests
-        self.show_fail_rules = self.arg.showFailRules
-        self.show_not_selected_rules = self.arg.showNotSelectedRules
-        self.off_webbrowser = self.arg.offWebBrowser
+        print(self.arg)
+        self.remove_pass_tests = self.arg.remove_pass_tests
+        self.show_fail_rules = self.arg.show_fail_rules
+        self.show_not_selected_rules = self.arg.show_not_selected_rules
+        self.off_webbrowser = self.arg.off_web_browser
         self.source_filename = self.arg.source_filename
         self.rule_name = self.arg.rule_id
         self.xml_parser = graph.xml_parser.xml_parser(self.source_filename)
@@ -116,22 +117,22 @@ class client():
         parser = argparse.ArgumentParser(
             description='Client for visualization of SCAP rule evaluation results')
         parser.add_argument(
-            '--showFailRules',
+            '--show-fail-rules',
             action="store_true",
             default=False,
             help='Show only FAIL rules')
         parser.add_argument(
-            '--showNotSelectedRules',
+            '--show-not-selected-rules',
             action="store_true",
             default=False,
             help="Show notselected rules. These rules will not be visualized.")
         parser.add_argument(
-            '--offWebBrowser',
+            '--off-web-browser',
             action="store_true",
             default=False,
             help="It does not start the web browser.")
         parser.add_argument(
-            '--removePassTests',
+            '--remove-pass-tests',
             action="store_true",
             default=False,
             help=('If graph have many nodes in graph, you can remove passing'

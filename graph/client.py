@@ -10,7 +10,6 @@ import argparse
 class client():
     def __init__(self, args):
         self.arg = self.parse_arguments(args)
-        print(self.arg)
         self.remove_pass_tests = self.arg.remove_pass_tests
         self.show_fail_rules = self.arg.show_fail_rules
         self.show_not_selected_rules = self.arg.show_not_selected_rules

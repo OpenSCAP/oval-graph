@@ -9,24 +9,24 @@ import sys
 
 def get_client(src, rule):
     return graph.client.client(
-        ["--offWebBrowser", tests.any_test_help.get_src(src), rule])
+        ["--off-web-browser", tests.any_test_help.get_src(src), rule])
 
 
 def get_client_with_option_show_fail_rules(src, rule):
     return graph.client.client(
-        ["--showFailRules", tests.any_test_help.get_src(src), rule])
+        ["--show-fail-rules", tests.any_test_help.get_src(src), rule])
 
 
 def get_client_with_option_show_not_selected_rules(src, rule):
     return graph.client.client(
-        ["--showNotSelectedRules", tests.any_test_help.get_src(src), rule])
+        ["--show-not-selected-rules", tests.any_test_help.get_src(src), rule])
 
 
 def get_client_with_option_show_not_selected_rules_and_show_fail_rules(
         src,
         rule):
     return graph.client.client(
-        ["--showNotSelectedRules", "--showFailRules", tests.any_test_help.get_src(src), rule])
+        ["--show-not-selected-rules", "--show-fail-rules", tests.any_test_help.get_src(src), rule])
 
 
 def test_client():

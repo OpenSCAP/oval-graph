@@ -40,7 +40,7 @@ class client():
                     print(rule['id_rule'] + '(Not selected)')
             return None
 
-    def get_questions(self, separator, separator1):
+    def get_questions(self, separator_rule_ids, separator_not_selected_rule_ids):
         rules = self.search_rules_id()
         if self.show_fail_rules:
             rules = self.get_only_fail_rule(rules)
@@ -48,12 +48,12 @@ class client():
             'type': 'checkbox',
             'message': 'Select rule(s)',
             'name': 'rules',
-            'choices': [separator]
+            'choices': [separator_rule_ids]
         }]
         for rule in rules:
             questions[0]['choices'].append(dict(name=rule['id_rule']))
         if self.show_not_selected_rules:
-            questions[0]['choices'].append(separator1)
+            questions[0]['choices'].append(separator_not_selected_rule_ids)
             for rule in self._get_wanted_not_selected_rules():
                 questions[0]['choices'].append(
                     dict(name=rule['id_rule'], disabled='Not selected'))

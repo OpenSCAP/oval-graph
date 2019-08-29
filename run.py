@@ -1,35 +1,20 @@
-import graph.oval_graph
-import json
-import argparse
-import webbrowser
+import graph.client
+import sys
 
 
-def parse_arguments():
-    parser = argparse.ArgumentParser(description='client')
-
-    parser.add_argument("source_filename", help='arf scan file')
-    parser.add_argument("rule_name", help='Name of rule form scan')
-    parser.set_defaults(func=run)
-
-    args = parser.parse_args()
-
-    return args
-
-
-def run(args):
-    try:
-        oval_tree = graph.oval_graph.build_nodes_form_xml(
-            args.source_filename, args.rule_name)
-        with open('html_interpreter/data.js', "w+") as file:
-            file.write(
-                "var data_json =" +
-                str(json.dumps(oval_tree.to_sigma_dict(0, 0), sort_keys=False, indent=4) +
-                    ";"))
-
-        webbrowser.get('firefox').open_new_tab('html_interpreter/index.html')
-    except (RuntimeError, TypeError, NameError, ValueError) as error:
-        print(error)
+def main():
+    client = graph.client.client(sys.argv[1:])
+    rules = client.search_rules_id()
+    if len(rules) > 1:
+        answers = client.run_gui_and_return_answers()
+        if answers is None:
+            print("You haven't got installed PyInquirer lib. "
+                  "Please copy id rule with you want use and put it in command")
+        else:
+            client.prepare_graphs(answers)
+    else:
+        client.prepare_graphs({'rules': [rules[0]['id_rule']]})
 
 
-arg = parse_arguments()
-arg.func(arg)
+if __name__ == '__main__':
+    main()

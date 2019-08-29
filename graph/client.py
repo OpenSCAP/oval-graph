@@ -114,7 +114,7 @@ class client():
 
     def parse_arguments(self, args):
         parser = argparse.ArgumentParser(
-            description='Client for visualization scanned rule from Security scan.')
+            description='Client for visualization of SCAP rule evaluation results')
         parser.add_argument(
             '--showFailRules',
             action="store_true",
@@ -124,7 +124,7 @@ class client():
             '--showNotSelectedRules',
             action="store_true",
             default=False,
-            help="Show not selected rules, but you can't visualized this rules.")
+            help="Show notselected rules. These rules will not be visualized.")
         parser.add_argument(
             '--offWebBrowser',
             action="store_true",

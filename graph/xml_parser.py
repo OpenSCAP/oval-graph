@@ -80,6 +80,7 @@ class xml_parser():
         used_rules = self.get_used_rules()
         for i in self.get_data(used_rules[0]['href']):
             scan['definitions'].append(self.build_graph(i))
+        self.insert_comments(scan)
         definitions = self._fill_extend_definition(scan)
         for definition in definitions['definitions']:
             if self.get_def_id_by_rule_id(rule_id) == definition['id']:
@@ -204,7 +205,7 @@ class xml_parser():
         out = dict(
             operator=value['operator'],
             negate=value['negate'],
-            result=value['negate'],
+            result=value['result'],
             node=[])
         for child in value['node']:
             if 'operator' in child:
@@ -224,3 +225,83 @@ class xml_parser():
             if definition['id'] == id:
                 definition['node'][0]['negate'] = negate_status
                 return self._operator_as_child(definition['node'][0], scan)
+
+    def deeper_in_criteria_comments(self, criteria):
+        if criteria.get('operator') is None:
+            comments = dict(
+                operator='AND',
+                comment=criteria.get('comment'),
+                node=[])
+        else:
+            comments = dict(
+                operator=criteria.get('operator'),
+                comment=criteria.get('comment'),
+                node=[])
+        for criterion in criteria:
+            if criterion.get('operator') is not None:
+                comments['node'].append(
+                    self.deeper_in_criteria_comments(criterion))
+            else:
+                if criterion.get('definition_ref') is not None:
+                    comments['node'].append(
+                        dict(
+                            extend_definition=criterion.get('definition_ref'),
+                            comment=criterion.get('comment')))
+                else:
+                    comments['node'].append(
+                        dict(
+                            value_id=criterion.get('test_ref'),
+                            comment=criterion.get('comment')))
+        return comments
+
+    def prepare_definition_comments(self, oval_definitions):
+        ns = {
+            'oval-definitions': 'http://oval.mitre.org/XMLSchema/oval-definitions-5'
+        }
+        definitions = []
+        for definition in oval_definitions:
+            comment_definition = dict(id=definition.get('id'), node=[])
+            criteria = definition.find('.//oval-definitions:criteria', ns)
+            comment_definition['node'].append(
+                self.deeper_in_criteria_comments(criteria))
+            definitions.append(comment_definition)
+        return definitions
+
+    def is_definition_in_array(self, definition_, array):
+        for definition in array:
+            if definition_['id'] == definition['id']:
+                return True
+        return False
+
+    def help_fill_comments(self, comments, nodes):
+        out = nodes
+        if 'operator' in out:
+            out['comment'] = comments['comment']
+            for i in range(len(out['node'])):
+                out['node'][i]['comment'] = comments['node'][i]['comment']
+                if 'operator' in out['node'][i]:
+                    self.help_fill_comments(comments['node'], nodes['node'])
+        return [out]
+
+    def fill_comment(self, comment_definition, data_definition):
+        comments = comment_definition['node'][0]
+        nodes = data_definition['node'][0]
+        return self.help_fill_comments(comments, nodes)
+
+    def insert_comments(self, data):
+        ns = {
+            'oval-definitions': 'http://oval.mitre.org/XMLSchema/oval-definitions-5'
+        }
+        oval_def = self.root.findall('.//oval-definitions:definition', ns)
+        comment_definitions = self.prepare_definition_comments(oval_def)
+        clean_comment_definitions = []
+        for definition in comment_definitions:
+            if not self.is_definition_in_array(
+                    definition, clean_comment_definitions):
+                clean_comment_definitions.append(definition)
+
+        for comment_definition in clean_comment_definitions:
+            for data_definition in data['definitions']:
+                if comment_definition['id'] == data_definition['id']:
+                    data_definition['node'] = self.fill_comment(
+                        comment_definition, data_definition)

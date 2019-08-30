@@ -134,8 +134,8 @@ class client():
             '--remove-pass-tests',
             action="store_true",
             default=False,
-            help=('If graph have many nodes in graph, you can remove passing'
-                  ' tests for better orientation.(Not implemented)'))
+            help=('Do not display passing tests for better orientation in'
+                  ' graphs that contain a large amount of nodes.(Not implemented)'))
         parser.add_argument("source_filename", help='ARF scan file')
         parser.add_argument(
             "rule_id", help=(

@@ -3,10 +3,30 @@ import pytest
 import tests.any_test_help
 import re
 import json
+import mock
+import sys
 
 
 def get_client(src, rule):
-    return graph.client.client([tests.any_test_help.get_src(src), rule])
+    return graph.client.client(
+        ["--off-web-browser", tests.any_test_help.get_src(src), rule])
+
+
+def get_client_with_option_show_fail_rules(src, rule):
+    return graph.client.client(
+        ["--show-fail-rules", tests.any_test_help.get_src(src), rule])
+
+
+def get_client_with_option_show_not_selected_rules(src, rule):
+    return graph.client.client(
+        ["--show-not-selected-rules", tests.any_test_help.get_src(src), rule])
+
+
+def get_client_with_option_show_not_selected_rules_and_show_fail_rules(
+        src,
+        rule):
+    return graph.client.client(
+        ["--show-not-selected-rules", "--show-fail-rules", tests.any_test_help.get_src(src), rule])
 
 
 def test_client():
@@ -53,11 +73,28 @@ def test_get_questions():
     client = get_client(src, regex)
     from PyInquirer import Separator
 
-    out = client.get_questions(Separator('= The Rules ID ='))
+    out = client.get_questions(
+        Separator('= The rules ID ='),
+        Separator('= The not selected rules ID ='))
     rule1 = 'xccdf_org.ssgproject.content_rule_package_abrt_removed'
     rule2 = 'xccdf_org.ssgproject.content_rule_package_sendmail_removed'
     assert out[0]['choices'][1]['name'] == rule1
     assert out[0]['choices'][2]['name'] == rule2
+
+
+def test_get_questions_with_option_show_fail_rules():
+    src = 'test_data/ssg-fedora-ds-arf.xml'
+    regex = r'_package_\w+_removed'
+    client = get_client_with_option_show_fail_rules(src, regex)
+    from PyInquirer import Separator
+
+    out = client.get_questions(
+        Separator('= The rules ID ='),
+        Separator('= The not selected rules ID ='))
+    rule1 = 'xccdf_org.ssgproject.content_rule_package_abrt_removed'
+    assert out[0]['choices'][1]['name'] == rule1
+    with pytest.raises(Exception, match="list index out of range"):
+        assert out[0]['choices'][2]['name'] is None
 
 
 def test_get_wanted_not_selected_rules():
@@ -149,3 +186,74 @@ def test_prepare_graph_with_not_selected_rule():
     src = 'test_data/ssg-fedora-ds-arf.xml'
     rule = 'xccdf_org.ssgproject.content_rule_package_nis_removed'
     try_expection_for_prepare_graph(src, rule, 'not selected')
+
+
+def test_if_not_installed_PyInquirer(capsys):
+    with mock.patch.dict(sys.modules, {'PyInquirer': None}):
+        src = 'test_data/ssg-fedora-ds-arf.xml'
+        regex = r'_package_\w+_removed'
+        client = get_client(src, regex)
+        out = client.run_gui_and_return_answers()
+        assert out is None
+        captured = capsys.readouterr()
+        assert captured.out == (
+            '== The Rule IDs ==\n'
+            'xccdf_org.ssgproject.content_rule_package_abrt_removed\\b\n'
+            'xccdf_org.ssgproject.content_rule_package_sendmail_removed\\b\n')
+
+
+def test_if_not_installed_PyInquirer_with_option_show_fail_rules(capsys):
+    with mock.patch.dict(sys.modules, {'PyInquirer': None}):
+        src = 'test_data/ssg-fedora-ds-arf.xml'
+        regex = r'_package_\w+_removed'
+        client = get_client_with_option_show_fail_rules(src, regex)
+        out = client.run_gui_and_return_answers()
+        assert out is None
+        captured = capsys.readouterr()
+        assert captured.out == (
+            '== The Rule IDs ==\n'
+            'xccdf_org.ssgproject.content_rule_package_abrt_removed\\b\n')
+
+
+def test_if_not_installed_PyInquirer_with_option_show_not_selected_rules(
+        capsys):
+    with mock.patch.dict(sys.modules, {'PyInquirer': None}):
+        src = 'test_data/ssg-fedora-ds-arf.xml'
+        regex = r'_package_\w+_removed'
+        client = get_client_with_option_show_not_selected_rules(src, regex)
+        out = client.run_gui_and_return_answers()
+        assert out is None
+        captured = capsys.readouterr()
+        assert captured.out == (
+            '== The Rule IDs ==\n'
+            'xccdf_org.ssgproject.content_rule_package_abrt_removed\\b\n'
+            'xccdf_org.ssgproject.content_rule_package_sendmail_removed\\b\n'
+            '== The not selected rule IDs ==\n'
+            'xccdf_org.ssgproject.content_rule_package_nis_removed(Not selected)\n'
+            'xccdf_org.ssgproject.content_rule_package_ntpdate_removed(Not selected)\n'
+            'xccdf_org.ssgproject.content_rule_package_telnetd_removed(Not selected)\n'
+            'xccdf_org.ssgproject.content_rule_package_gdm_removed(Not selected)\n'
+            'xccdf_org.ssgproject.content_rule_package_setroubleshoot_removed(Not selected)\n'
+            'xccdf_org.ssgproject.content_rule_package_mcstrans_removed(Not selected)\n')
+
+
+def test_if_not_installed_PyInquirer_with_option_show_not_selected_rules_and_show_fail_rules(
+        capsys):
+    with mock.patch.dict(sys.modules, {'PyInquirer': None}):
+        src = 'test_data/ssg-fedora-ds-arf.xml'
+        regex = r'_package_\w+_removed'
+        client = get_client_with_option_show_not_selected_rules_and_show_fail_rules(
+            src, regex)
+        out = client.run_gui_and_return_answers()
+        assert out is None
+        captured = capsys.readouterr()
+        assert captured.out == (
+            '== The Rule IDs ==\n'
+            'xccdf_org.ssgproject.content_rule_package_abrt_removed\\b\n'
+            '== The not selected rule IDs ==\n'
+            'xccdf_org.ssgproject.content_rule_package_nis_removed(Not selected)\n'
+            'xccdf_org.ssgproject.content_rule_package_ntpdate_removed(Not selected)\n'
+            'xccdf_org.ssgproject.content_rule_package_telnetd_removed(Not selected)\n'
+            'xccdf_org.ssgproject.content_rule_package_gdm_removed(Not selected)\n'
+            'xccdf_org.ssgproject.content_rule_package_setroubleshoot_removed(Not selected)\n'
+            'xccdf_org.ssgproject.content_rule_package_mcstrans_removed(Not selected)\n')

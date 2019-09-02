@@ -6,46 +6,49 @@
             {
                 "operator": "OR",
                 "negate": false,
-                "result": false,
+                "result": "false",
                 "node": [
                     {
                         "operator": "AND",
                         "negate": true,
-                        "result": true,
+                        "result": "true",
                         "node": [
                             {
                                 "value_id": "oval:ssg-test_package_dconf_installed:tst:1",
                                 "value": "true",
-                                "negate": false
+                                "negate": false,
+                                "comment": "package dconf is installed"
                             }
                         ]
                     },
                     {
                         "operator": "AND",
                         "negate": false,
-                        "result": false,
+                        "result": "false",
                         "node": [
                             {
                                 "operator": "OR",
                                 "negate": false,
-                                "result": false,
+                                "result": "true",
                                 "node": [
                                     {
                                         "operator": "AND",
                                         "negate": true,
-                                        "result": true,
+                                        "result": "true",
                                         "node": [
                                             {
                                                 "value_id": "oval:ssg-test_package_dconf_installed:tst:1",
                                                 "value": "true",
-                                                "negate": false
+                                                "negate": false,
+                                                "comment": "package dconf is installed"
                                             }
                                         ]
                                     },
                                     {
                                         "value_id": "oval:ssg-test_dconf_user_profile:tst:1",
                                         "value": "true",
-                                        "negate": false
+                                        "negate": false,
+                                        "comment": "dconf user profile exists"
                                     }
                                 ]
                             },

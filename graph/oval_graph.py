@@ -182,7 +182,7 @@ class OvalNode():
                 icon = 'true'
             else:
                 icon = value
-        
+
         VALUE_TO_COLOR = {
             "true": "text-success",
             "false": "text-danger",
@@ -209,16 +209,17 @@ class OvalNode():
         icons = self._get_node_icon()
         if not self.children:
             return {
-                'text':'<span class="'+icons['color']+'">'+self._get_label()+'</span>',
-                "icon" :icons['icon']+icons['color'],
-                "state":{"opened":True}
-             }
+                'text': '<span class="' + icons['color'] + '">' + self._get_label() + '</span>',
+                "icon": icons['icon'] + icons['color'],
+                "state": {
+                    "opened": True}}
         return {
-            'text': '<span class="'+icons['color']+'">'+self._get_label()+'</span>',
-            "icon" : icons['icon']+icons['color'],
-            "state":{"opened":True},
-            'children': [child.to_JsTree_dict() for child in self.children]
-        }
+            'text': '<span class="' + icons['color'] + '">' + self._get_label() + '</span>',
+            "icon": icons['icon'] + icons['color'],
+            "state": {
+                "opened": True},
+            'children': [
+                child.to_JsTree_dict() for child in self.children]}
 
     def find_node_with_ID(self, node_id):
         if self.node_id == node_id:

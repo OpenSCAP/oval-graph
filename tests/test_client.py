@@ -14,24 +14,27 @@ def get_client(src, rule):
 
 def get_client_tree(src, rule):
     return graph.client.client(
-        ["--tree", "--offWebBrowser", tests.any_test_help.get_src(src), rule])
+        ["--tree", "--off-web-browser", tests.any_test_help.get_src(src), rule])
 
 
 def get_client_with_option_show_fail_rules(src, rule):
     return graph.client.client(
-        ["--show-fail-rules", tests.any_test_help.get_src(src), rule])
+        ["--show-fail-rules", "--off-web-browser", tests.any_test_help.get_src(src), rule])
 
 
 def get_client_with_option_show_not_selected_rules(src, rule):
     return graph.client.client(
-        ["--show-not-selected-rules", tests.any_test_help.get_src(src), rule])
+        ["--show-not-selected-rules", "--off-web-browser", tests.any_test_help.get_src(src), rule])
 
 
 def get_client_with_option_show_not_selected_rules_and_show_fail_rules(
         src,
         rule):
-    return graph.client.client(
-        ["--show-not-selected-rules", "--show-fail-rules", tests.any_test_help.get_src(src), rule])
+    return graph.client.client(["--show-not-selected-rules",
+                                "--show-fail-rules",
+                                "--off-web-browser",
+                                tests.any_test_help.get_src(src),
+                                rule])
 
 
 def test_client():
@@ -86,6 +89,7 @@ def test_get_questions():
     assert out[0]['choices'][1]['name'] == rule1
     assert out[0]['choices'][2]['name'] == rule2
 
+
 def test_get_questions_with_option_show_fail_rules():
     src = 'test_data/ssg-fedora-ds-arf.xml'
     regex = r'_package_\w+_removed'
@@ -99,9 +103,7 @@ def test_get_questions_with_option_show_fail_rules():
     print(out)
     assert out[0]['choices'][1]['name'] == rule1
     with pytest.raises(Exception, match="list index out of range"):
-            assert out[0]['choices'][2]['name'] == None
-    
-    
+        assert out[0]['choices'][2]['name'] is None
 
 
 def test_get_questions_with_option_show_fail_rules():
@@ -174,8 +176,10 @@ def test_prepare_graph():
     rules = {'rules': [rule]}
     client.prepare_data(rules)
     result = load_tested_file('../graph_html_interpreter/data.js')
-    referenc_result = load_tested_file('test_data/referenc_result_data_graph.js')
+    referenc_result = load_tested_file(
+        'test_data/referenc_result_data_graph.js')
     assert result == referenc_result
+
 
 def test_prepare_tree():
     src = 'test_data/ssg-fedora-ds-arf.xml'
@@ -184,8 +188,10 @@ def test_prepare_tree():
     rules = {'rules': [rule]}
     client.prepare_data(rules)
     result = load_tested_file('../tree_html_interpreter/data.js')
-    referenc_result = load_tested_file('test_data/referenc_result_data_tree.js')
+    referenc_result = load_tested_file(
+        'test_data/referenc_result_data_tree.js')
     assert result == referenc_result
+
 
 def load_tested_file(src):
     with open(tests.any_test_help.get_src(src), 'r') as f:

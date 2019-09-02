@@ -41,7 +41,10 @@ class client():
                     print(rule['id_rule'] + '(Not selected)')
             return None
 
-    def get_questions(self, separator_rule_ids, separator_not_selected_rule_ids):
+    def get_questions(
+            self,
+            separator_rule_ids,
+            separator_not_selected_rule_ids):
         rules = self.search_rules_id()
         if self.show_fail_rules:
             rules = self.get_only_fail_rule(rules)
@@ -94,7 +97,8 @@ class client():
         try:
             for rule in rules['rules']:
                 if self.tree:
-                    oval_tree = graph.oval_graph.build_nodes_form_xml(self.source_filename, rule).to_JsTree_dict()
+                    oval_tree = graph.oval_graph.build_nodes_form_xml(
+                        self.source_filename, rule).to_JsTree_dict()
                     with open('tree_html_interpreter/data.js', "w+") as file:
                         file.write("var data_json =" + str(json.dumps(
                             oval_tree,
@@ -129,7 +133,7 @@ class client():
                 else:
                     webbrowser.open_new_tab(
                         'graph_html_interpreter/index.html')
-                    
+
     def parse_arguments(self, args):
         parser = argparse.ArgumentParser(
             description='Client for visualization of SCAP rule evaluation results')
@@ -152,13 +156,15 @@ class client():
             '--tree',
             action="store_true",
             default=False,
-            help="Switch graph_html_interpreter to tree_html_interpreter. Rule will interpret as directory tree.")
+            help=("Switch graph_html_interpreter to tree_html_interpreter."
+                  " Rule will interpret as directory tree."))
         parser.add_argument(
             '--remove-pass-tests',
             action="store_true",
             default=False,
-            help=('Do not display passing tests for better orientation in'
-                  ' graphs that contain a large amount of nodes.(Not implemented)'))
+            help=(
+                'Do not display passing tests for better orientation in'
+                ' graphs that contain a large amount of nodes.(Not implemented)'))
         parser.add_argument("source_filename", help='ARF scan file')
         parser.add_argument(
             "rule_id", help=(

@@ -7,11 +7,13 @@
                 "operator": "OR",
                 "negate": false,
                 "result": "false",
+                "comment": null,
                 "node": [
                     {
                         "operator": "AND",
                         "negate": true,
                         "result": "true",
+                        "comment": "dconf installed",
                         "node": [
                             {
                                 "value_id": "oval:ssg-test_package_dconf_installed:tst:1",
@@ -25,16 +27,19 @@
                         "operator": "AND",
                         "negate": false,
                         "result": "false",
+                        "comment": "check screensaver idle delay and prevent user from changing it",
                         "node": [
                             {
                                 "operator": "OR",
                                 "negate": false,
                                 "result": "true",
+                                "comment": null,
                                 "node": [
                                     {
                                         "operator": "AND",
                                         "negate": true,
                                         "result": "true",
+                                        "comment": "dconf installed",
                                         "node": [
                                             {
                                                 "value_id": "oval:ssg-test_package_dconf_installed:tst:1",
@@ -55,7 +60,8 @@
                             {
                                 "value_id": "oval:ssg-test_user_change_idle_delay_lock:tst:1",
                                 "value": "false",
-                                "negate": false
+                                "negate": false,
+                                "comment": null
                             }
                         ]
                     }

@@ -103,9 +103,9 @@ class OvalNode():
 
         for child in self.children:
             if child.value == 'true':
-                    result['true_cnt'] += 1
+                result['true_cnt'] += 1
             elif child.value == 'false':
-                    result['false_cnt'] += 1
+                result['false_cnt'] += 1
             elif child.value == 'error':
                 result['error_cnt'] += 1
             elif child.value == 'unknown':

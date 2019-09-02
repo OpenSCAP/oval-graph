@@ -169,6 +169,7 @@ class xml_parser():
             operator=tree.get('operator'),
             negate=negate_status,
             result=tree.get('result'),
+            comment=None,
             node=[])
         for child in tree:
             if child.get('operator') is not None:
@@ -183,13 +184,15 @@ class xml_parser():
                         dict(
                             extend_definition=child.get('definition_ref'),
                             result=child.get('result'),
-                            negate=negate_status))
+                            negate=negate_status,
+                            comment=None))
                 else:
                     node['node'].append(
                         dict(
                             value_id=child.get('test_ref'),
                             value=child.get('result'),
-                            negate=negate_status))
+                            negate=negate_status,
+                            comment=None))
         return node
 
     def _fill_extend_definition(self, scan):
@@ -206,6 +209,7 @@ class xml_parser():
             operator=value['operator'],
             negate=value['negate'],
             result=value['result'],
+            comment=value['comment'],
             node=[])
         for child in value['node']:
             if 'operator' in child:
@@ -213,17 +217,21 @@ class xml_parser():
             elif 'extend_definition' in child:
                 out['node'].append(
                     self._find_definition_by_id(
-                        scan, child['extend_definition'], child['negate']))
+                        scan,
+                        child['extend_definition'],
+                        child['negate'],
+                        child['comment']))
             elif 'value_id' in child:
                 out['node'].append(child)
             else:
                 raise ValueError('error - unknown child')
         return out
 
-    def _find_definition_by_id(self, scan, id, negate_status):
+    def _find_definition_by_id(self, scan, id, negate_status, comment):
         for definition in scan['definitions']:
             if definition['id'] == id:
                 definition['node'][0]['negate'] = negate_status
+                definition['node'][0]['comment'] = comment
                 return self._operator_as_child(definition['node'][0], scan)
 
     def deeper_in_criteria_comments(self, criteria):

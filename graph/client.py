@@ -18,6 +18,10 @@ class client():
         self.tree = self.arg.tree
         self.rule_name = self.arg.rule_id
         self.xml_parser = graph.xml_parser.xml_parser(self.source_filename)
+        if self.tree:
+            self.src_html_interpreter='tree_html_interpreter/index.html'
+        else: 
+            self.src_html_interpreter='graph_html_interpreter/index.html'
         if self.remove_pass_tests:
             raise NotImplementedError('Not implemented!')
 

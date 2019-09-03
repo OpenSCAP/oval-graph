@@ -124,19 +124,9 @@ class client():
     def open_web_browser(self):
         if not self.off_webbrowser:
             try:
-                if self.tree:
-                    webbrowser.get('firefox').open_new_tab(
-                        'tree_html_interpreter/index.html')
-                else:
-                    webbrowser.get('firefox').open_new_tab(
-                        'graph_html_interpreter/index.html')
+                webbrowser.get('firefox').open_new_tab(self.src_html_interpreter)                
             except BaseException:
-                if self.tree:
-                    webbrowser.open_new_tab(
-                        'tree_html_interpreter/index.html')
-                else:
-                    webbrowser.open_new_tab(
-                        'graph_html_interpreter/index.html')
+                webbrowser.open_new_tab(self.src_html_interpreter)
 
     def parse_arguments(self, args):
         parser = argparse.ArgumentParser(

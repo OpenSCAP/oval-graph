@@ -102,7 +102,7 @@ class client():
             return graph.oval_graph.build_nodes_form_xml(
                 self.source_filename, rule_id).to_JsTree_dict()
         return graph.oval_graph.build_nodes_form_xml(
-                self.source_filename, rule_id).to_sigma_dict(0,0)
+                self.source_filename, rule_id).to_sigma_dict(0, 0)
 
     def save_dict(self,dict):
         with open(self.html_interpreter + '/data.js', "w+") as file:
@@ -148,8 +148,7 @@ class client():
             '--tree',
             action="store_true",
             default=False,
-            help=("Switch graph_html_interpreter to tree_html_interpreter."
-                  " Rule will interpret as directory tree."))
+            help="Render the graph in a form of directory tree")
         parser.add_argument(
             '--remove-pass-tests',
             action="store_true",

@@ -193,12 +193,12 @@ class OvalNode():
         }
 
         VALUE_TO_ICON = {
-            "true": "glyphicon glyphicon-ok ",
-            "false": "glyphicon glyphicon-remove ",
-            "error": "glyphicon glyphicon-question-sign ",
-            "unknown": "glyphicon glyphicon-question-sign ",
-            "noteval": "glyphicon glyphicon-question-sign ",
-            "notappl": "glyphicon glyphicon-question-sign "
+            "true": "glyphicon glyphicon-ok",
+            "false": "glyphicon glyphicon-remove",
+            "error": "glyphicon glyphicon-question-sign",
+            "unknown": "glyphicon glyphicon-question-sign",
+            "noteval": "glyphicon glyphicon-question-sign",
+            "notappl": "glyphicon glyphicon-question-sign"
         }
 
         return dict(
@@ -209,7 +209,7 @@ class OvalNode():
         icons = self._get_node_icon()
         out = {
                 'text': '<span class="' + icons['color'] + '">' + self._get_label() + '</span>',
-                "icon": icons['icon'] + icons['color'],
+                "icon": icons['icon'] + ' ' + icons['color'],
                 "state": {
                     "opened": True}}
         if self.children:

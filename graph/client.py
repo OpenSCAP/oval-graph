@@ -15,8 +15,13 @@ class client():
         self.show_not_selected_rules = self.arg.show_not_selected_rules
         self.off_webbrowser = self.arg.off_web_browser
         self.source_filename = self.arg.source_filename
+        self.tree = self.arg.tree
         self.rule_name = self.arg.rule_id
         self.xml_parser = graph.xml_parser.xml_parser(self.source_filename)
+        if self.tree:
+            self.html_interpreter = 'tree_html_interpreter'
+        else:
+            self.html_interpreter = 'graph_html_interpreter'
         if self.remove_pass_tests:
             raise NotImplementedError('Not implemented!')
 
@@ -40,7 +45,10 @@ class client():
                     print(rule['id_rule'] + '(Not selected)')
             return None
 
-    def get_questions(self, separator_rule_ids, separator_not_selected_rule_ids):
+    def get_questions(
+            self,
+            separator_rule_ids,
+            separator_not_selected_rule_ids):
         rules = self.search_rules_id()
         if self.show_fail_rules:
             rules = self.get_only_fail_rule(rules)
@@ -78,7 +86,7 @@ class client():
         if len(notselected_rules) and not rules:
             raise ValueError(
                 ('err- rule(s) "{}" was not selected, '
-                 'so there are no results. The rule is'
+                 "so there are no results. The rule is"
                  ' "notselected" because it'
                  " wasn't a part of the executed profile"
                  " and therefore it wasn't evaluated "
@@ -89,16 +97,23 @@ class client():
         else:
             return rules
 
-    def prepare_graphs(self, rules):
+    def create_dict_of_rule(self, rule_id):
+        if self.tree:
+            return graph.oval_graph.build_nodes_form_xml(
+                self.source_filename, rule_id).to_JsTree_dict()
+        return graph.oval_graph.build_nodes_form_xml(
+            self.source_filename, rule_id).to_sigma_dict(0, 0)
+
+    def save_dict(self, dict):
+        with open(self.html_interpreter + '/data.js', "w+") as data_file:
+            data_file.write("var data_json =" + str(json.dumps(
+                dict, sort_keys=False, indent=4) + ";"))
+
+    def prepare_data(self, rules):
         try:
             for rule in rules['rules']:
-                oval_tree = graph.oval_graph.build_nodes_form_xml(
-                    self.source_filename, rule).to_sigma_dict(0, 0)
-                with open('html_interpreter/data.js', "w+") as graph_data_file:
-                    graph_data_file.write("var data_json =" + str(json.dumps(
-                        oval_tree,
-                        sort_keys=False,
-                        indent=4) + ";"))
+                oval_tree = self.create_dict_of_rule(rule)
+                self.save_dict(oval_tree)
                 self.open_web_browser()
                 print('Rule "{}" done!'.format(rule))
         except Exception as error:
@@ -108,18 +123,19 @@ class client():
         if not self.off_webbrowser:
             try:
                 webbrowser.get('firefox').open_new_tab(
-                    'html_interpreter/index.html')
+                    self.html_interpreter + '/index.html')
             except BaseException:
-                webbrowser.open_new_tab('html_interpreter/index.html')
+                webbrowser.open_new_tab(
+                    self.src_html_interpreter + '/index.html')
 
     def parse_arguments(self, args):
         parser = argparse.ArgumentParser(
-            description='Client for visualization of SCAP rule evaluation results')
+            description="Client for visualization of SCAP rule evaluation results")
         parser.add_argument(
             '--show-fail-rules',
             action="store_true",
             default=False,
-            help='Show only FAIL rules')
+            help="Show only FAIL rules")
         parser.add_argument(
             '--show-not-selected-rules',
             action="store_true",
@@ -131,18 +147,24 @@ class client():
             default=False,
             help="It does not start the web browser.")
         parser.add_argument(
+            '--tree',
+            action="store_true",
+            default=False,
+            help="Render the graph in a form of directory tree")
+        parser.add_argument(
             '--remove-pass-tests',
             action="store_true",
             default=False,
-            help=('Do not display passing tests for better orientation in'
-                  ' graphs that contain a large amount of nodes.(Not implemented)'))
-        parser.add_argument("source_filename", help='ARF scan file')
+            help=(
+                "Do not display passing tests for better orientation in"
+                " graphs that contain a large amount of nodes.(Not implemented)"))
+        parser.add_argument("source_filename", help="ARF scan file")
         parser.add_argument(
             "rule_id", help=(
-                'Rule ID to be visualized. A part from the full rule ID'
-                ' a part of the ID or a regular expression can be used.'
-                ' If brackets are used in the regular expression '
-                'the regular expression must be quoted.'))
+                "Rule ID to be visualized. A part from the full rule ID"
+                " a part of the ID or a regular expression can be used."
+                " If brackets are used in the regular expression "
+                "the regular expression must be quoted."))
         args = parser.parse_args(args)
 
         return args

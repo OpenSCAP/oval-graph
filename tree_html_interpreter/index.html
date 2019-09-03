@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>OVAL TREE</title>
+	<style>
+	html { margin:0; padding:0; font-size:62.5%; }
+	body { max-width:800px; min-width:300px; margin:0 auto; padding:20px 10px; font-size:14px; font-size:1.4em; }
+	h1 { font-size:1.8em; }
+	</style>
+	<link rel="stylesheet" href="dist/themes/default/style.min.css" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="dist/jstree.min.js"></script>
+	<script src="data.js"></script>
+</head>
+<body>
+	
+	<div id="data"></div>
+
+	
+	
+	<script>
+	var data = JSON.parse(JSON.stringify(data_json));
+	$('#data').jstree({
+            'core': {
+                'data': [data]
+            }
+		});
+		
+	/*
+	
+	<h1>Interaction and events demo</h1>
+	<button id="evts_button">select node with id 1</button> <em>either click the button or a node in the tree</em>
+	<div id="evts" class="demo"></div>
+
+	// interaction and events
+	$('#evts_button').on("click", function () {
+		var instance = $('#evts').jstree(true);
+		instance.deselect_all();
+		instance.select_node('1');
+	});
+	$('#evts')
+		.on("changed.jstree", function (e, data) {
+			if(data.selected.length) {
+				alert('The selected node is: ' + data.instance.get_node(data.selected[0]).text);
+			}
+		})
+		.jstree({
+			'core' : {
+				'multiple' : false,
+				'data' : [
+					{ "text" : "Root node", "children" : [
+							{ "text" : "Child node 1", "id" : 1 },
+							{ "text" : "Child node 2" }
+					]}
+				]
+			}
+		});*/
+	</script>
+</body>
+</html>

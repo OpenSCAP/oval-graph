@@ -8,7 +8,10 @@ htmlcov/index.html
 htmlcov/status.json
 htmlcov/tree_operatorTree_py.html
 .coverage
-html_interpreter/data.js
+graph_html_interpreter/data.js
+tree_html_interpreter/data.js
 data.json
 notes.txt
+test.py
 playground*
+data/results-2019-08-27_03-15-00-x86_64@kvm.xml

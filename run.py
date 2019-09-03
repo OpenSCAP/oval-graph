@@ -11,9 +11,9 @@ def main():
             print("You haven't got installed PyInquirer lib. "
                   "Please copy id rule with you want use and put it in command")
         else:
-            client.prepare_graphs(answers)
+            client.prepare_data(answers)
     else:
-        client.prepare_graphs({'rules': [rules[0]['id_rule']]})
+        client.prepare_data({'rules': [rules[0]['id_rule']]})
 
 
 if __name__ == '__main__':

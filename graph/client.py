@@ -105,8 +105,8 @@ class client():
             self.source_filename, rule_id).to_sigma_dict(0, 0)
 
     def save_dict(self, dict):
-        with open(self.html_interpreter + '/data.js', "w+") as file:
-            file.write("var data_json =" + str(json.dumps(
+        with open(self.html_interpreter + '/data.js', "w+") as data_file:
+            data_file.write("var data_json =" + str(json.dumps(
                 dict, sort_keys=False, indent=4) + ";"))
 
     def prepare_data(self, rules):

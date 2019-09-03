@@ -208,13 +208,14 @@ class OvalNode():
     def to_JsTree_dict(self):
         icons = self._get_node_icon()
         out = {
-                'text': '<span class="' + icons['color'] + '">' + self._get_label() + '</span>',
-                "icon": icons['icon'] + ' ' + icons['color'],
-                "state": {
+            'text': '<span class="' + icons['color'] + '">' + self._get_label() + '</span>',
+            "icon": icons['icon'] + ' ' + icons['color'],
+            "state": {
                     "opened": True}}
         if self.children:
-            out['children'] = [child.to_JsTree_dict() for child in self.children]
-        return out 
+            out['children'] = [child.to_JsTree_dict()
+                               for child in self.children]
+        return out
 
     def find_node_with_ID(self, node_id):
         if self.node_id == node_id:

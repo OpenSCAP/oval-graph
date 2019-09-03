@@ -20,7 +20,7 @@ class client():
         self.xml_parser = graph.xml_parser.xml_parser(self.source_filename)
         if self.tree:
             self.html_interpreter = 'tree_html_interpreter'
-        else: 
+        else:
             self.html_interpreter = 'graph_html_interpreter'
         if self.remove_pass_tests:
             raise NotImplementedError('Not implemented!')
@@ -97,23 +97,23 @@ class client():
         else:
             return rules
 
-    def create_dict_of_rule(self,rule_id):
+    def create_dict_of_rule(self, rule_id):
         if self.tree:
             return graph.oval_graph.build_nodes_form_xml(
                 self.source_filename, rule_id).to_JsTree_dict()
         return graph.oval_graph.build_nodes_form_xml(
-                self.source_filename, rule_id).to_sigma_dict(0, 0)
+            self.source_filename, rule_id).to_sigma_dict(0, 0)
 
-    def save_dict(self,dict):
+    def save_dict(self, dict):
         with open(self.html_interpreter + '/data.js', "w+") as file:
             file.write("var data_json =" + str(json.dumps(
                 dict, sort_keys=False, indent=4) + ";"))
 
     def prepare_data(self, rules):
         try:
-            for rule in rules['rules']:    
+            for rule in rules['rules']:
                 oval_tree = self.create_dict_of_rule(rule)
-                self.save_dict(oval_tree)          
+                self.save_dict(oval_tree)
                 self.open_web_browser()
                 print('Rule "{}" done!'.format(rule))
         except Exception as error:
@@ -122,9 +122,11 @@ class client():
     def open_web_browser(self):
         if not self.off_webbrowser:
             try:
-                webbrowser.get('firefox').open_new_tab(self.html_interpreter + '/index.html')                
+                webbrowser.get('firefox').open_new_tab(
+                    self.html_interpreter + '/index.html')
             except BaseException:
-                webbrowser.open_new_tab(self.src_html_interpreter + '/index.html')
+                webbrowser.open_new_tab(
+                    self.src_html_interpreter + '/index.html')
 
     def parse_arguments(self, args):
         parser = argparse.ArgumentParser(

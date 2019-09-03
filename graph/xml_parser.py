@@ -106,6 +106,7 @@ class xml_parser():
                 'operator',
                 dict_of_definition['operator'],
                 dict_of_definition['negate'],
+                dict_of_definition['comment'],
                 children
             )
 
@@ -132,6 +133,7 @@ class xml_parser():
             'operator',
             'and',
             False,
+            None,
             [self._xml_dict_to_node(dict_of_definition)]
         )
 

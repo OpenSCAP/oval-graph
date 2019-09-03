@@ -97,16 +97,23 @@ class client():
         else:
             return rules
 
+    def create_dict_of_rule(self,rule_id):
+        if self.tree:
+            return graph.oval_graph.build_nodes_form_xml(
+                self.source_filename, rule_id).to_JsTree_dict()
+        return graph.oval_graph.build_nodes_form_xml(
+                self.source_filename, rule_id).to_sigma_dict(0,0)
+
+    def save_dict(self,dict):
+        with open(self.html_interpreter + '/data.js', "w+") as file:
+            file.write("var data_json =" + str(json.dumps(
+                dict, sort_keys=False, indent=4) + ";"))
+
     def prepare_data(self, rules):
         try:
             for rule in rules['rules']:    
-                oval_tree = graph.oval_graph.build_nodes_form_xml(
-                    self.source_filename, rule).to_JsTree_dict()
-                with open(self.html_interpreter + '/data.js', "w+") as file:
-                    file.write("var data_json =" + str(json.dumps(
-                        oval_tree,
-                        sort_keys=False,
-                        indent=4) + ";"))
+                oval_tree = self.create_dict_of_rule(rule)
+                self.save_dict(oval_tree)          
                 self.open_web_browser()
                 print('Rule "{}" done!'.format(rule))
         except Exception as error:

@@ -86,7 +86,7 @@ class client():
         if len(notselected_rules) and not rules:
             raise ValueError(
                 ('err- rule(s) "{}" was not selected, '
-                 'so there are no results. The rule is'
+                 "so there are no results. The rule is"
                  ' "notselected" because it'
                  " wasn't a part of the executed profile"
                  " and therefore it wasn't evaluated "
@@ -128,12 +128,12 @@ class client():
 
     def parse_arguments(self, args):
         parser = argparse.ArgumentParser(
-            description='Client for visualization of SCAP rule evaluation results')
+            description="Client for visualization of SCAP rule evaluation results")
         parser.add_argument(
             '--show-fail-rules',
             action="store_true",
             default=False,
-            help='Show only FAIL rules')
+            help="Show only FAIL rules")
         parser.add_argument(
             '--show-not-selected-rules',
             action="store_true",
@@ -154,15 +154,15 @@ class client():
             action="store_true",
             default=False,
             help=(
-                'Do not display passing tests for better orientation in'
-                ' graphs that contain a large amount of nodes.(Not implemented)'))
-        parser.add_argument("source_filename", help='ARF scan file')
+                "Do not display passing tests for better orientation in"
+                " graphs that contain a large amount of nodes.(Not implemented)"))
+        parser.add_argument("source_filename", help="ARF scan file")
         parser.add_argument(
             "rule_id", help=(
-                'Rule ID to be visualized. A part from the full rule ID'
-                ' a part of the ID or a regular expression can be used.'
-                ' If brackets are used in the regular expression '
-                'the regular expression must be quoted.'))
+                "Rule ID to be visualized. A part from the full rule ID"
+                " a part of the ID or a regular expression can be used."
+                " If brackets are used in the regular expression "
+                "the regular expression must be quoted."))
         args = parser.parse_args(args)
 
         return args

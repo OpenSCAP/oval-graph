@@ -124,9 +124,9 @@ class client():
     def open_web_browser(self):
         if not self.off_webbrowser:
             try:
-                webbrowser.get('firefox').open_new_tab(self.src_html_interpreter)                
+                webbrowser.get('firefox').open_new_tab(self.html_interpreter + '/index.html')                
             except BaseException:
-                webbrowser.open_new_tab(self.src_html_interpreter)
+                webbrowser.open_new_tab(self.src_html_interpreter + '/index.html')
 
     def parse_arguments(self, args):
         parser = argparse.ArgumentParser(

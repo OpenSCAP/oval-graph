@@ -202,16 +202,18 @@ class OvalNode():
         return dict(
             color=VALUE_TO_COLOR[value],
             icon=VALUE_TO_ICON[icon])
-    
+
     def get_comment(self):
         if self.comment is not None:
-            return str(self.comment)
+            return '<i>' + str(self.comment) + '</i>'
         return ""
 
     def to_JsTree_dict(self):
         icons = self._get_node_icon()
         out = {
-            'text': '<span class="' + icons['color'] + '">' + self._get_label() + '</span>' + ' ' + self.get_comment(),
+            'text': '<strong><span class="' + icons['color'] + '">' +
+                    self._get_label() + '</span></strong>' +
+                    ' ' + self.get_comment(),
             "icon": icons['icon'] + ' ' + icons['color'],
             "state": {
                     "opened": True}}

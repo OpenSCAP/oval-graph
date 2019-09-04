@@ -12,6 +12,11 @@ def get_client(src, rule):
         ["--off-web-browser", tests.any_test_help.get_src(src), rule])
 
 
+def get_client_on_web_browser(src, rule):
+    return graph.client.client(
+        [tests.any_test_help.get_src(src), rule])
+
+
 def get_client_tree(src, rule):
     return graph.client.client(
         ["--tree", "--off-web-browser", tests.any_test_help.get_src(src), rule])
@@ -52,6 +57,13 @@ def test_search_rules_id():
     assert len(client.search_rules_id()) == 184
 
 
+def test_search_rules_id_on_web_browser():
+    src = 'test_data/ssg-fedora-ds-arf.xml'
+    part_of_id_rule = 'xccdf_org.ssgproject.'
+    client = get_client_on_web_browser(src, part_of_id_rule)
+    assert len(client.search_rules_id()) == 184
+
+
 def test_find_does_not_exist_rule():
     rule = 'random_rule_which_doest_exist'
     src = 'test_data/ssg-fedora-ds-arf.xml'
@@ -88,6 +100,35 @@ def test_get_questions():
     rule2 = 'xccdf_org.ssgproject.content_rule_package_sendmail_removed'
     assert out[0]['choices'][1]['name'] == rule1
     assert out[0]['choices'][2]['name'] == rule2
+
+def test_get_questions_not_selected():
+    src = 'test_data/ssg-fedora-ds-arf.xml'
+    regex = r'_package_\w+_removed'
+    client = get_client_with_option_show_not_selected_rules(src, regex)
+    from PyInquirer import Separator
+
+    out = client.get_questions(
+        Separator('= The rules ID ='),
+        Separator('= The not selected rules ID ='))
+    rule1 = 'xccdf_org.ssgproject.content_rule_package_setroubleshoot_removed'
+    rule2 = 'xccdf_org.ssgproject.content_rule_package_mcstrans_removed'
+    assert out[0]['choices'][-2]['name'] == rule1
+    assert out[0]['choices'][-1]['name'] == rule2    
+
+
+def test_get_questions_not_selected_and_show_fail_rules():
+    src = 'test_data/ssg-fedora-ds-arf.xml'
+    regex = r'_package_\w+_removed'
+    client = get_client_with_option_show_not_selected_rules_and_show_fail_rules(src, regex)
+    from PyInquirer import Separator
+
+    out = client.get_questions(
+        Separator('= The rules ID ='),
+        Separator('= The not selected rules ID ='))
+    rule1 = 'xccdf_org.ssgproject.content_rule_package_abrt_removed'
+    rule2 = 'xccdf_org.ssgproject.content_rule_package_mcstrans_removed'
+    assert out[0]['choices'][1]['name'] == rule1
+    assert out[0]['choices'][-1]['name'] == rule2    
 
 
 def test_get_questions_with_option_show_fail_rules():

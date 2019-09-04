@@ -86,6 +86,7 @@ def test_parsing_and_evaluate_scan_1():
     tests.any_test_help.any_test_parsing_and_evaluate_scan_rule(
         src, rule_id, result)
 
+
 def test_get_def_id_by_rule_id():
     src = 'test_data/ssg-fedora-ds-arf.xml'
     parser = graph.xml_parser.xml_parser(tests.any_test_help.get_src(src))

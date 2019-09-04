@@ -101,6 +101,7 @@ def test_get_questions():
     assert out[0]['choices'][1]['name'] == rule1
     assert out[0]['choices'][2]['name'] == rule2
 
+
 def test_get_questions_not_selected():
     src = 'test_data/ssg-fedora-ds-arf.xml'
     regex = r'_package_\w+_removed'
@@ -113,13 +114,14 @@ def test_get_questions_not_selected():
     rule1 = 'xccdf_org.ssgproject.content_rule_package_setroubleshoot_removed'
     rule2 = 'xccdf_org.ssgproject.content_rule_package_mcstrans_removed'
     assert out[0]['choices'][-2]['name'] == rule1
-    assert out[0]['choices'][-1]['name'] == rule2    
+    assert out[0]['choices'][-1]['name'] == rule2
 
 
 def test_get_questions_not_selected_and_show_fail_rules():
     src = 'test_data/ssg-fedora-ds-arf.xml'
     regex = r'_package_\w+_removed'
-    client = get_client_with_option_show_not_selected_rules_and_show_fail_rules(src, regex)
+    client = get_client_with_option_show_not_selected_rules_and_show_fail_rules(
+        src, regex)
     from PyInquirer import Separator
 
     out = client.get_questions(
@@ -128,7 +130,7 @@ def test_get_questions_not_selected_and_show_fail_rules():
     rule1 = 'xccdf_org.ssgproject.content_rule_package_abrt_removed'
     rule2 = 'xccdf_org.ssgproject.content_rule_package_mcstrans_removed'
     assert out[0]['choices'][1]['name'] == rule1
-    assert out[0]['choices'][-1]['name'] == rule2    
+    assert out[0]['choices'][-1]['name'] == rule2
 
 
 def test_get_questions_with_option_show_fail_rules():

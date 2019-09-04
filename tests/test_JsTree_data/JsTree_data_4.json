@@ -1,0 +1,7 @@
+{
+    "text": "<strong><span class=\"text-success\">1</span></strong> <i></i>",
+    "icon": "glyphicon glyphicon-ok text-success",
+    "state": {
+        "opened": true
+    }
+}

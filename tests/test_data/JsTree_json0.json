@@ -1,0 +1,101 @@
+{
+    "text": "<strong><span class=\"text-danger\">rule_accounts_passwords_pam_faillock_deny</span></strong> <i></i>",
+    "icon": "glyphicon glyphicon-remove text-danger",
+    "state": {
+        "opened": true
+    },
+    "children": [
+        {
+            "text": "<strong><span class=\"text-danger\">and</span></strong> <i>Checks common to both scenarios</i>",
+            "icon": "glyphicon glyphicon-remove text-danger",
+            "state": {
+                "opened": true
+            },
+            "children": [
+                {
+                    "text": "<strong><span class=\"text-danger\">accounts_passwords_pam_faillock_preauth_silent_system-auth</span></strong> <i>pam_faillock.so preauth silent set in system-auth</i>",
+                    "icon": "glyphicon glyphicon-remove text-danger",
+                    "state": {
+                        "opened": true
+                    }
+                },
+                {
+                    "text": "<strong><span class=\"text-danger\">accounts_passwords_pam_faillock_account_phase_system-auth</span></strong> <i>pam_faillock.so set in account phase of system-auth</i>",
+                    "icon": "glyphicon glyphicon-remove text-danger",
+                    "state": {
+                        "opened": true
+                    }
+                },
+                {
+                    "text": "<strong><span class=\"text-danger\">accounts_passwords_pam_faillock_preauth_silent_password-auth</span></strong> <i>pam_faillock.so preauth silent set in password-auth</i>",
+                    "icon": "glyphicon glyphicon-remove text-danger",
+                    "state": {
+                        "opened": true
+                    }
+                },
+                {
+                    "text": "<strong><span class=\"text-danger\">accounts_passwords_pam_faillock_account_phase_password-auth</span></strong> <i>pam_faillock.so set in account phase of password-auth</i>",
+                    "icon": "glyphicon glyphicon-remove text-danger",
+                    "state": {
+                        "opened": true
+                    }
+                },
+                {
+                    "text": "<strong><span class=\"text-danger\">and</span></strong> <i></i>",
+                    "icon": "glyphicon glyphicon-remove text-danger",
+                    "state": {
+                        "opened": true
+                    },
+                    "children": [
+                        {
+                            "text": "<strong><span class=\"text-danger\">or</span></strong> <i></i>",
+                            "icon": "glyphicon glyphicon-remove text-danger",
+                            "state": {
+                                "opened": true
+                            },
+                            "children": [
+                                {
+                                    "text": "<strong><span class=\"text-danger\">accounts_passwords_pam_faillock_numeric_default_check_system-auth</span></strong> <i></i>",
+                                    "icon": "glyphicon glyphicon-remove text-danger",
+                                    "state": {
+                                        "opened": true
+                                    }
+                                },
+                                {
+                                    "text": "<strong><span class=\"text-danger\">accounts_passwords_pam_faillock_authfail_deny_system-auth</span></strong> <i></i>",
+                                    "icon": "glyphicon glyphicon-remove text-danger",
+                                    "state": {
+                                        "opened": true
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "text": "<strong><span class=\"text-danger\">or</span></strong> <i></i>",
+                            "icon": "glyphicon glyphicon-remove text-danger",
+                            "state": {
+                                "opened": true
+                            },
+                            "children": [
+                                {
+                                    "text": "<strong><span class=\"text-danger\">accounts_passwords_pam_faillock_numeric_default_check_password-auth</span></strong> <i></i>",
+                                    "icon": "glyphicon glyphicon-remove text-danger",
+                                    "state": {
+                                        "opened": true
+                                    }
+                                },
+                                {
+                                    "text": "<strong><span class=\"text-danger\">accounts_passwords_pam_faillock_authfail_deny_password-auth</span></strong> <i></i>",
+                                    "icon": "glyphicon glyphicon-remove text-danger",
+                                    "state": {
+                                        "opened": true
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

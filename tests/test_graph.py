@@ -238,7 +238,7 @@ def test_node_value_negate():
          !f
     """
     Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', False, [
-        graph.oval_graph.OvalNode(2, 'value', "false", True)
+        graph.oval_graph.OvalNode(2, 'value', "True", True)
     ]
     )
     tests.any_test_help.any_test_treeEvaluation_with_tree(Tree, "true")
@@ -251,7 +251,7 @@ def test_node_value_negate1():
          !t
     """
     Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', False, [
-        graph.oval_graph.OvalNode(2, 'value', "true", True)
+        graph.oval_graph.OvalNode(2, 'value', "false", True)
     ]
     )
     tests.any_test_help.any_test_treeEvaluation_with_tree(Tree, "false")

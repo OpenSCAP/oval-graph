@@ -3,12 +3,14 @@
     "type": "operator",
     "value": "and",
     "negation": false,
+    "comment":null,
     "child": [
         {
             "node_id": 2,
             "type": "value",
             "value": "false",
             "negation": false,
+            "comment":null,
             "child": null
         },
         {
@@ -16,12 +18,14 @@
             "type": "operator",
             "value": "xor",
             "negation": false,
+            "comment":null,
             "child": [
                 {
                     "node_id": 4,
                     "type": "value",
                     "value": "true",
                     "negation": false,
+                    "comment":null,
                     "child": null
                 },
                 {
@@ -29,12 +33,14 @@
                     "type": "operator",
                     "value": "one",
                     "negation": false,
+                    "comment":null,
                     "child": [
                         {
                             "node_id": 6,
                             "type": "value",
                             "value": "noteval",
                             "negation": false,
+                            "comment":null,
                             "child": null
                         },
                         {
@@ -42,6 +48,7 @@
                             "type": "value",
                             "value": "true",
                             "negation": false,
+                            "comment":null,
                             "child": null
                         },
                         {
@@ -49,6 +56,7 @@
                             "type": "value",
                             "value": "notappl",
                             "negation": false,
+                            "comment":null,
                             "child": null
                         }
                     ]
@@ -58,6 +66,7 @@
                     "type": "value",
                     "value": "error",
                     "negation": false,
+                    "comment":null,
                     "child": null
                 }
             ]
@@ -67,12 +76,14 @@
             "type": "operator",
             "value": "or",
             "negation": false,
+            "comment":null,
             "child": [
                 {
                     "node_id": 11,
                     "type": "value",
                     "value": "unknown",
                     "negation": false,
+                    "comment":null,
                     "child": null
                 },
                 {
@@ -80,6 +91,7 @@
                     "type": "value",
                     "value": "true",
                     "negation": false,
+                    "comment":null,
                     "child": null
                 }
             ]

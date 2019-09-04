@@ -94,7 +94,8 @@ class xml_parser():
                         child['value_id'],
                         'value',
                         child['value'],
-                        child['negate']
+                        child['negate'],
+                        child['comment']
                     ))
 
         if 'id' in dict_of_definition:

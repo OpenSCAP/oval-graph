@@ -3,12 +3,14 @@
     "type": "operator",
     "value": "one",
     "negation": false,
+    "comment":null,
     "child": [
         {
             "node_id": 2,
             "type": "value",
             "value": "notappl",
             "negation": false,
+            "comment":null,
             "child": null
         },
         {
@@ -16,6 +18,7 @@
             "type": "value",
             "value": "notappl",
             "negation": false,
+            "comment":null,
             "child": null
         },
         {
@@ -23,6 +26,7 @@
             "type": "value",
             "value": "notappl",
             "negation": false,
+            "comment":null,
             "child": null
         }
     ]

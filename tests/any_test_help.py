@@ -45,12 +45,12 @@ def any_test_create_node_dict_for_sigmaJs(Tree, out):
 
 
 def get_simple_tree():
-    return graph.oval_graph.OvalNode(1, 'operator', 'and', False, [
-        graph.oval_graph.OvalNode(2, 'value', "true", False),
-        graph.oval_graph.OvalNode(3, 'value', "false", False),
-        graph.oval_graph.OvalNode(4, 'operator', 'or', False, [
-            graph.oval_graph.OvalNode(5, 'value', "false", False),
-            graph.oval_graph.OvalNode(6, 'value', "true", False)
+    return graph.oval_graph.OvalNode(1, 'operator', 'and', False, None, [
+        graph.oval_graph.OvalNode(2, 'value', "true", False, None),
+        graph.oval_graph.OvalNode(3, 'value', "false", False, None),
+        graph.oval_graph.OvalNode(4, 'operator', 'or', False, None, [
+            graph.oval_graph.OvalNode(5, 'value', "false", False, None),
+            graph.oval_graph.OvalNode(6, 'value', "true", False, None)
         ]
         )
     ]
@@ -69,6 +69,7 @@ def any_test_transformation_tree_to_Json_for_SigmaJs(
 
     if oval_tree.node_id == rule_id:
         out_data = oval_tree.to_sigma_dict(0, 0)
+        print(json.dumps(out_data))
         for i in range(len(out_data['nodes'])):
             assert out_data['nodes'][i]['label'] == test_data['nodes'][i]['label']
             assert out_data['nodes'][i]['text'] == test_data['nodes'][i]['text']

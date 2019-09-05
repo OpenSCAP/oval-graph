@@ -248,15 +248,8 @@ class xml_parser():
                 return self._operator_as_child(definition['node'][0], scan)
 
     def deeper_in_criteria_comments(self, criteria):
-        if criteria.get('operator') is None:
-            comments = dict(
-                operator='AND',
-                comment=criteria.get('comment'),
-                node=[]
-            )
-        else:
-            comments = dict(
-                operator=criteria.get('operator'),
+        comments = dict(
+                operator= 'AND' if criteria.get('operator') is None else criteria.get('operator'),
                 comment=criteria.get('comment'),
                 node=[]
             )

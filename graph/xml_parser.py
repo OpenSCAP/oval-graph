@@ -151,7 +151,7 @@ class xml_parser():
         )
         for tree in tree_data:
             negate_status = False
-            if tree.get('negate') is not None:
+            if 'negate' in tree:
                 negate_status = self._str_to_bool(tree.get('negate'))
             graph['negate'] = negate_status
             graph['node'].append(self._build_node(tree))
@@ -254,11 +254,11 @@ class xml_parser():
                 node=[]
             )
         for criterion in criteria:
-            if criterion.get('operator') is not None:
+            if 'operator' in criterion:
                 comments['node'].append(
                     self.deeper_in_criteria_comments(criterion))
             else:
-                if criterion.get('definition_ref') is not None:
+                if 'definition_ref' in criterion:
                     comments['node'].append(
                         dict(
                             extend_definition=criterion.get('definition_ref'),

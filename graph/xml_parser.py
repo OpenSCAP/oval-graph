@@ -6,6 +6,13 @@ from lxml import etree as ET
 import uuid
 import graph.oval_graph
 
+global ns
+ns = {
+        'XMLSchema': 'http://oval.mitre.org/XMLSchema/oval-results-5',
+        'xccdf': 'http://checklists.nist.gov/xccdf/1.2',
+        'arf': 'http://scap.nist.gov/schema/asset-reporting-format/1.1',
+        'oval-definitions': 'http://oval.mitre.org/XMLSchema/oval-definitions-5'
+    }
 
 class xml_parser():
     def __init__(self, src):
@@ -26,11 +33,6 @@ class xml_parser():
         return result
 
     def get_data(self, href):
-        ns = {
-            'XMLSchema': 'http://oval.mitre.org/XMLSchema/oval-results-5',
-            'arf': 'http://scap.nist.gov/schema/asset-reporting-format/1.1'
-        }
-
         report_data = None
         reports = self.root.find('.//arf:reports', ns)
         for report in reports:
@@ -43,9 +45,6 @@ class xml_parser():
         return trees_data
 
     def get_used_rules(self):
-        ns = {
-            'xccdf': 'http://checklists.nist.gov/xccdf/1.2',
-        }
         rulesResults = self.root.findall(
             './/xccdf:TestResult/xccdf:rule-result', ns)
         rules = []
@@ -65,9 +64,6 @@ class xml_parser():
         return rules
 
     def get_notselected_rules(self):
-        ns = {
-            'xccdf': 'http://checklists.nist.gov/xccdf/1.2',
-        }
         rulesResults = self.root.findall(
             './/xccdf:TestResult/xccdf:rule-result', ns)
         rules = []
@@ -275,9 +271,6 @@ class xml_parser():
         return comments
 
     def prepare_definition_comments(self, oval_definitions):
-        ns = {
-            'oval-definitions': 'http://oval.mitre.org/XMLSchema/oval-definitions-5'
-        }
         definitions = []
         for definition in oval_definitions:
             comment_definition = dict(id=definition.get('id'), node=[])
@@ -309,9 +302,6 @@ class xml_parser():
         return self.help_fill_comments(comments, nodes)
 
     def insert_comments(self, data):
-        ns = {
-            'oval-definitions': 'http://oval.mitre.org/XMLSchema/oval-definitions-5'
-        }
         oval_def = self.root.findall('.//oval-definitions:definition', ns)
         comment_definitions = self.prepare_definition_comments(oval_def)
         clean_comment_definitions = []

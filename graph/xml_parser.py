@@ -8,11 +8,12 @@ import graph.oval_graph
 
 global ns
 ns = {
-        'XMLSchema': 'http://oval.mitre.org/XMLSchema/oval-results-5',
-        'xccdf': 'http://checklists.nist.gov/xccdf/1.2',
-        'arf': 'http://scap.nist.gov/schema/asset-reporting-format/1.1',
-        'oval-definitions': 'http://oval.mitre.org/XMLSchema/oval-definitions-5'
-    }
+    'XMLSchema': 'http://oval.mitre.org/XMLSchema/oval-results-5',
+    'xccdf': 'http://checklists.nist.gov/xccdf/1.2',
+    'arf': 'http://scap.nist.gov/schema/asset-reporting-format/1.1',
+    'oval-definitions': 'http://oval.mitre.org/XMLSchema/oval-definitions-5'
+}
+
 
 class xml_parser():
     def __init__(self, src):
@@ -245,10 +246,9 @@ class xml_parser():
 
     def deeper_in_criteria_comments(self, criteria):
         comments = dict(
-                operator= 'AND' if criteria.get('operator') is None else criteria.get('operator'),
-                comment=criteria.get('comment'),
-                node=[]
-            )
+            operator='AND' if criteria.get('operator') is None else criteria.get('operator'),
+            comment=criteria.get('comment'),
+            node=[])
         for criterion in criteria:
             if 'operator' in criterion:
                 comments['node'].append(
@@ -288,12 +288,12 @@ class xml_parser():
 
     def help_fill_comments(self, comments, nodes):
         out = nodes
-        if 'operator' in out:
-            out['comment'] = comments['comment']
-            for i in range(len(out['node'])):
-                out['node'][i]['comment'] = comments['node'][i]['comment']
-                if 'operator' in out['node'][i]:
-                    self.help_fill_comments(comments['node'], nodes['node'])
+        out['comment'] = comments['comment']
+        if 'node' in comments:
+            for node, comment in zip(out['node'], comments['node']):
+                node['comment'] = comment['comment']
+                if 'operator' in node:
+                    self.help_fill_comments(comment, node)
         return [out]
 
     def fill_comment(self, comment_definition, data_definition):

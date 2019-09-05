@@ -59,7 +59,9 @@ class xml_parser():
                         id_rule=ruleResult.get('idref'),
                         id_def=check_content_ref.attrib.get('name'),
                         href=check_content_ref.attrib.get('href'),
-                        result=result.text))
+                        result=result.text
+                    )
+                    )
         return rules
 
     def get_notselected_rules(self):
@@ -97,7 +99,9 @@ class xml_parser():
                         child['value_id'],
                         'value',
                         child['value'],
-                        child['negate']))
+                        child['negate']
+                    )
+                )
 
         if 'id' in dict_of_definition:
             children[0].node_id = dict_of_definition['id']
@@ -143,7 +147,8 @@ class xml_parser():
     def build_graph(self, tree_data):
         graph = dict(
             id=tree_data.get('definition_id'),
-            node=[])
+            node=[]
+        )
         for tree in tree_data:
             negate_status = False
             if tree.get('negate') is not None:
@@ -170,7 +175,8 @@ class xml_parser():
             negate=negate_status,
             result=tree.get('result'),
             comment=None,
-            node=[])
+            node=[]
+        )
         for child in tree:
             if child.get('operator') is not None:
                 node['node'].append(self._build_node(child))
@@ -185,14 +191,18 @@ class xml_parser():
                             extend_definition=child.get('definition_ref'),
                             result=child.get('result'),
                             negate=negate_status,
-                            comment=None))
+                            comment=None
+                        )
+                    )
                 else:
                     node['node'].append(
                         dict(
                             value_id=child.get('test_ref'),
                             value=child.get('result'),
                             negate=negate_status,
-                            comment=None))
+                            comment=None
+                        )
+                    )
         return node
 
     def _fill_extend_definition(self, scan):
@@ -210,7 +220,8 @@ class xml_parser():
             negate=value['negate'],
             result=value['result'],
             comment=value['comment'],
-            node=[])
+            node=[]
+        )
         for child in value['node']:
             if 'operator' in child:
                 out['node'].append(self._operator_as_child(child, scan))
@@ -220,7 +231,9 @@ class xml_parser():
                         scan,
                         child['extend_definition'],
                         child['negate'],
-                        child['comment']))
+                        child['comment']
+                    )
+                )
             elif 'value_id' in child:
                 out['node'].append(child)
             else:
@@ -239,12 +252,14 @@ class xml_parser():
             comments = dict(
                 operator='AND',
                 comment=criteria.get('comment'),
-                node=[])
+                node=[]
+            )
         else:
             comments = dict(
                 operator=criteria.get('operator'),
                 comment=criteria.get('comment'),
-                node=[])
+                node=[]
+            )
         for criterion in criteria:
             if criterion.get('operator') is not None:
                 comments['node'].append(
@@ -254,12 +269,16 @@ class xml_parser():
                     comments['node'].append(
                         dict(
                             extend_definition=criterion.get('definition_ref'),
-                            comment=criterion.get('comment')))
+                            comment=criterion.get('comment')
+                        )
+                    )
                 else:
                     comments['node'].append(
                         dict(
                             value_id=criterion.get('test_ref'),
-                            comment=criterion.get('comment')))
+                            comment=criterion.get('comment')
+                        )
+                    )
         return comments
 
     def prepare_definition_comments(self, oval_definitions):

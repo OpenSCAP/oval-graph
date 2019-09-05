@@ -244,7 +244,7 @@ class xml_parser():
                 definition['node'][0]['comment'] = comment
                 return self._operator_as_child(definition['node'][0], scan)
 
-    def deeper_in_criteria_comments(self, criteria):
+    def create_dict_form_criteria(self, criteria):
         comments = dict(
             operator='AND' if criteria.get('operator') is None else criteria.get('operator'),
             comment=criteria.get('comment'),
@@ -252,7 +252,7 @@ class xml_parser():
         for criterion in criteria:
             if 'operator' in criterion:
                 comments['node'].append(
-                    self.deeper_in_criteria_comments(criterion))
+                    self.create_dict_form_criteria(criterion))
             else:
                 if 'definition_ref' in criterion:
                     comments['node'].append(
@@ -276,7 +276,7 @@ class xml_parser():
             comment_definition = dict(id=definition.get('id'), node=[])
             criteria = definition.find('.//oval-definitions:criteria', ns)
             comment_definition['node'].append(
-                self.deeper_in_criteria_comments(criteria))
+                self.create_dict_form_criteria(criteria))
             definitions.append(comment_definition)
         return definitions
 
@@ -286,20 +286,20 @@ class xml_parser():
                 return True
         return False
 
-    def help_fill_comments(self, comments, nodes):
+    def recursive_help_fill_comments(self, comments, nodes):
         out = nodes
         out['comment'] = comments['comment']
         if 'node' in comments:
             for node, comment in zip(out['node'], comments['node']):
                 node['comment'] = comment['comment']
                 if 'operator' in node:
-                    self.help_fill_comments(comment, node)
+                    self.recursive_help_fill_comments(comment, node)
         return [out]
 
     def fill_comment(self, comment_definition, data_definition):
         comments = comment_definition['node'][0]
         nodes = data_definition['node'][0]
-        return self.help_fill_comments(comments, nodes)
+        return self.recursive_help_fill_comments(comments, nodes)
 
     def insert_comments(self, data):
         oval_def = self.root.findall('.//oval-definitions:definition', ns)

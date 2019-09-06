@@ -6,7 +6,6 @@ from lxml import etree as ET
 import uuid
 import graph.oval_graph
 
-global ns
 ns = {
     'XMLSchema': 'http://oval.mitre.org/XMLSchema/oval-results-5',
     'xccdf': 'http://checklists.nist.gov/xccdf/1.2',
@@ -60,8 +59,7 @@ class xml_parser():
                         id_def=check_content_ref.attrib.get('name'),
                         href=check_content_ref.attrib.get('href'),
                         result=result.text
-                    )
-                    )
+                    ))
         return rules
 
     def get_notselected_rules(self):
@@ -97,8 +95,7 @@ class xml_parser():
                         'value',
                         child['value'],
                         child['negate']
-                    )
-                )
+                    ))
 
         if 'id' in dict_of_definition:
             children[0].node_id = dict_of_definition['id']
@@ -189,8 +186,7 @@ class xml_parser():
                             result=child.get('result'),
                             negate=negate_status,
                             comment=None
-                        )
-                    )
+                        ))
                 else:
                     node['node'].append(
                         dict(
@@ -198,8 +194,7 @@ class xml_parser():
                             value=child.get('result'),
                             negate=negate_status,
                             comment=None
-                        )
-                    )
+                        ))
         return node
 
     def _fill_extend_definition(self, scan):
@@ -229,8 +224,7 @@ class xml_parser():
                         child['extend_definition'],
                         child['negate'],
                         child['comment']
-                    )
-                )
+                    ))
             elif 'value_id' in child:
                 out['node'].append(child)
             else:
@@ -259,15 +253,13 @@ class xml_parser():
                         dict(
                             extend_definition=criterion.get('definition_ref'),
                             comment=criterion.get('comment')
-                        )
-                    )
+                        ))
                 else:
                     comments['node'].append(
                         dict(
                             value_id=criterion.get('test_ref'),
                             comment=criterion.get('comment')
-                        )
-                    )
+                        ))
         return comments
 
     def prepare_definition_comments(self, oval_definitions):

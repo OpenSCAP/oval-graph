@@ -6,6 +6,13 @@ from lxml import etree as ET
 import uuid
 import graph.oval_graph
 
+ns = {
+    'XMLSchema': 'http://oval.mitre.org/XMLSchema/oval-results-5',
+    'xccdf': 'http://checklists.nist.gov/xccdf/1.2',
+    'arf': 'http://scap.nist.gov/schema/asset-reporting-format/1.1',
+    'oval-definitions': 'http://oval.mitre.org/XMLSchema/oval-definitions-5'
+}
+
 
 class xml_parser():
     def __init__(self, src):
@@ -26,11 +33,6 @@ class xml_parser():
         return result
 
     def get_data(self, href):
-        ns = {
-            'XMLSchema': 'http://oval.mitre.org/XMLSchema/oval-results-5',
-            'arf': 'http://scap.nist.gov/schema/asset-reporting-format/1.1'
-        }
-
         report_data = None
         reports = self.root.find('.//arf:reports', ns)
         for report in reports:
@@ -43,9 +45,6 @@ class xml_parser():
         return trees_data
 
     def get_used_rules(self):
-        ns = {
-            'xccdf': 'http://checklists.nist.gov/xccdf/1.2',
-        }
         rulesResults = self.root.findall(
             './/xccdf:TestResult/xccdf:rule-result', ns)
         rules = []
@@ -59,13 +58,11 @@ class xml_parser():
                         id_rule=ruleResult.get('idref'),
                         id_def=check_content_ref.attrib.get('name'),
                         href=check_content_ref.attrib.get('href'),
-                        result=result.text))
+                        result=result.text
+                    ))
         return rules
 
     def get_notselected_rules(self):
-        ns = {
-            'xccdf': 'http://checklists.nist.gov/xccdf/1.2',
-        }
         rulesResults = self.root.findall(
             './/xccdf:TestResult/xccdf:rule-result', ns)
         rules = []
@@ -80,6 +77,7 @@ class xml_parser():
         used_rules = self.get_used_rules()
         for i in self.get_data(used_rules[0]['href']):
             scan['definitions'].append(self.build_graph(i))
+        self.insert_comments(scan)
         definitions = self._fill_extend_definition(scan)
         for definition in definitions['definitions']:
             if self.get_def_id_by_rule_id(rule_id) == definition['id']:
@@ -96,7 +94,8 @@ class xml_parser():
                         child['value_id'],
                         'value',
                         child['value'],
-                        child['negate']))
+                        child['negate']
+                    ))
 
         if 'id' in dict_of_definition:
             children[0].node_id = dict_of_definition['id']
@@ -142,10 +141,11 @@ class xml_parser():
     def build_graph(self, tree_data):
         graph = dict(
             id=tree_data.get('definition_id'),
-            node=[])
+            node=[]
+        )
         for tree in tree_data:
             negate_status = False
-            if tree.get('negate') is not None:
+            if 'negate' in tree:
                 negate_status = self._str_to_bool(tree.get('negate'))
             graph['negate'] = negate_status
             graph['node'].append(self._build_node(tree))
@@ -168,7 +168,9 @@ class xml_parser():
             operator=tree.get('operator'),
             negate=negate_status,
             result=tree.get('result'),
-            node=[])
+            comment=None,
+            node=[]
+        )
         for child in tree:
             if child.get('operator') is not None:
                 node['node'].append(self._build_node(child))
@@ -182,13 +184,17 @@ class xml_parser():
                         dict(
                             extend_definition=child.get('definition_ref'),
                             result=child.get('result'),
-                            negate=negate_status))
+                            negate=negate_status,
+                            comment=None
+                        ))
                 else:
                     node['node'].append(
                         dict(
                             value_id=child.get('test_ref'),
                             value=child.get('result'),
-                            negate=negate_status))
+                            negate=negate_status,
+                            comment=None
+                        ))
         return node
 
     def _fill_extend_definition(self, scan):
@@ -204,23 +210,100 @@ class xml_parser():
         out = dict(
             operator=value['operator'],
             negate=value['negate'],
-            result=value['negate'],
-            node=[])
+            result=value['result'],
+            comment=value['comment'],
+            node=[]
+        )
         for child in value['node']:
             if 'operator' in child:
                 out['node'].append(self._operator_as_child(child, scan))
             elif 'extend_definition' in child:
                 out['node'].append(
                     self._find_definition_by_id(
-                        scan, child['extend_definition'], child['negate']))
+                        scan,
+                        child['extend_definition'],
+                        child['negate'],
+                        child['comment']
+                    ))
             elif 'value_id' in child:
                 out['node'].append(child)
             else:
                 raise ValueError('error - unknown child')
         return out
 
-    def _find_definition_by_id(self, scan, id, negate_status):
+    def _find_definition_by_id(self, scan, id, negate_status, comment):
         for definition in scan['definitions']:
             if definition['id'] == id:
                 definition['node'][0]['negate'] = negate_status
+                definition['node'][0]['comment'] = comment
                 return self._operator_as_child(definition['node'][0], scan)
+
+    def create_dict_form_criteria(self, criteria):
+        comments = dict(
+            operator='AND' if criteria.get('operator') is None else criteria.get('operator'),
+            comment=criteria.get('comment'),
+            node=[])
+        for criterion in criteria:
+            if 'operator' in criterion:
+                comments['node'].append(
+                    self.create_dict_form_criteria(criterion))
+            else:
+                if 'definition_ref' in criterion:
+                    comments['node'].append(
+                        dict(
+                            extend_definition=criterion.get('definition_ref'),
+                            comment=criterion.get('comment')
+                        ))
+                else:
+                    comments['node'].append(
+                        dict(
+                            value_id=criterion.get('test_ref'),
+                            comment=criterion.get('comment')
+                        ))
+        return comments
+
+    def prepare_definition_comments(self, oval_definitions):
+        definitions = []
+        for definition in oval_definitions:
+            comment_definition = dict(id=definition.get('id'), node=[])
+            criteria = definition.find('.//oval-definitions:criteria', ns)
+            comment_definition['node'].append(
+                self.create_dict_form_criteria(criteria))
+            definitions.append(comment_definition)
+        return definitions
+
+    def is_definition_in_array(self, definition_, array):
+        for definition in array:
+            if definition_['id'] == definition['id']:
+                return True
+        return False
+
+    def recursive_help_fill_comments(self, comments, nodes):
+        out = nodes
+        out['comment'] = comments['comment']
+        if 'node' in comments:
+            for node, comment in zip(out['node'], comments['node']):
+                node['comment'] = comment['comment']
+                if 'operator' in node:
+                    self.recursive_help_fill_comments(comment, node)
+        return [out]
+
+    def fill_comment(self, comment_definition, data_definition):
+        comments = comment_definition['node'][0]
+        nodes = data_definition['node'][0]
+        return self.recursive_help_fill_comments(comments, nodes)
+
+    def insert_comments(self, data):
+        oval_def = self.root.findall('.//oval-definitions:definition', ns)
+        comment_definitions = self.prepare_definition_comments(oval_def)
+        clean_comment_definitions = []
+        for definition in comment_definitions:
+            if not self.is_definition_in_array(
+                    definition, clean_comment_definitions):
+                clean_comment_definitions.append(definition)
+
+        for comment_definition in clean_comment_definitions:
+            for data_definition in data['definitions']:
+                if comment_definition['id'] == data_definition['id']:
+                    data_definition['node'] = self.fill_comment(
+                        comment_definition, data_definition)

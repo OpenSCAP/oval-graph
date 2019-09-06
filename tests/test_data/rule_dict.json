@@ -6,53 +6,62 @@
             {
                 "operator": "OR",
                 "negate": false,
-                "result": false,
+                "result": "false",
+                "comment": null,
                 "node": [
                     {
                         "operator": "AND",
                         "negate": true,
-                        "result": true,
+                        "result": "true",
+                        "comment": "dconf installed",
                         "node": [
                             {
                                 "value_id": "oval:ssg-test_package_dconf_installed:tst:1",
                                 "value": "true",
-                                "negate": false
+                                "negate": false,
+                                "comment": "package dconf is installed"
                             }
                         ]
                     },
                     {
                         "operator": "AND",
                         "negate": false,
-                        "result": false,
+                        "result": "false",
+                        "comment": "check screensaver idle delay and prevent user from changing it",
                         "node": [
                             {
                                 "operator": "OR",
                                 "negate": false,
-                                "result": false,
+                                "result": "true",
+                                "comment": null,
                                 "node": [
                                     {
                                         "operator": "AND",
                                         "negate": true,
-                                        "result": true,
+                                        "result": "true",
+                                        "comment": "dconf installed",
                                         "node": [
                                             {
                                                 "value_id": "oval:ssg-test_package_dconf_installed:tst:1",
                                                 "value": "true",
-                                                "negate": false
+                                                "negate": false,
+                                                "comment": "package dconf is installed"
                                             }
                                         ]
                                     },
                                     {
                                         "value_id": "oval:ssg-test_dconf_user_profile:tst:1",
                                         "value": "true",
-                                        "negate": false
+                                        "negate": false,
+                                        "comment": "dconf user profile exists"
                                     }
                                 ]
                             },
                             {
                                 "value_id": "oval:ssg-test_user_change_idle_delay_lock:tst:1",
                                 "value": "false",
-                                "negate": false
+                                "negate": false,
+                                "comment": null
                             }
                         ]
                     }

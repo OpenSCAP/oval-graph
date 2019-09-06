@@ -10,7 +10,8 @@ ns = {
     'XMLSchema': 'http://oval.mitre.org/XMLSchema/oval-results-5',
     'xccdf': 'http://checklists.nist.gov/xccdf/1.2',
     'arf': 'http://scap.nist.gov/schema/asset-reporting-format/1.1',
-    'oval-definitions': 'http://oval.mitre.org/XMLSchema/oval-definitions-5'
+    'oval-definitions': 'http://oval.mitre.org/XMLSchema/oval-definitions-5',
+    'scap': 'http://scap.nist.gov/schema/scap/source/1.2'
 }
 
 
@@ -247,11 +248,11 @@ class xml_parser():
             comment=criteria.get('comment'),
             node=[])
         for criterion in criteria:
-            if 'operator' in criterion:
+            if criterion.get('operator'):
                 comments['node'].append(
                     self.create_dict_form_criteria(criterion))
             else:
-                if 'definition_ref' in criterion:
+                if criterion.get('definition_ref'):
                     comments['node'].append(
                         dict(
                             extend_definition=criterion.get('definition_ref'),
@@ -284,29 +285,25 @@ class xml_parser():
     def recursive_help_fill_comments(self, comments, nodes):
         out = nodes
         out['comment'] = comments['comment']
-        if 'node' in comments:
-            for node, comment in zip(out['node'], comments['node']):
-                node['comment'] = comment['comment']
-                if 'operator' in node:
-                    self.recursive_help_fill_comments(comment, node)
-        return [out]
+        for node, comment in zip(out['node'], comments['node']):
+            node['comment'] = comment['comment']
+            if 'operator' in node:
+                self.recursive_help_fill_comments(comment, node)
 
     def fill_comment(self, comment_definition, data_definition):
         comments = comment_definition['node'][0]
         nodes = data_definition['node'][0]
-        return self.recursive_help_fill_comments(comments, nodes)
+        self.recursive_help_fill_comments(comments, nodes)
 
     def insert_comments(self, data):
-        oval_def = self.root.findall('.//oval-definitions:definition', ns)
+        oval_def = self.root.find(
+            './/arf:report-requests/arf:report-request/'
+            'arf:content/scap:data-stream-collection/'
+            'scap:component/oval-definitions:oval_definitions/'
+            'oval-definitions:definitions', ns)
         comment_definitions = self.prepare_definition_comments(oval_def)
-        clean_comment_definitions = []
-        for definition in comment_definitions:
-            if not self.is_definition_in_array(
-                    definition, clean_comment_definitions):
-                clean_comment_definitions.append(definition)
 
-        for comment_definition in clean_comment_definitions:
-            for data_definition in data['definitions']:
+        for data_definition in data['definitions']:
+            for comment_definition in comment_definitions:
                 if comment_definition['id'] == data_definition['id']:
-                    data_definition['node'] = self.fill_comment(
-                        comment_definition, data_definition)
+                    self.fill_comment(comment_definition, data_definition)

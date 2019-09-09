@@ -207,7 +207,12 @@ class xml_parser():
             nodes = []
             for value in definition['node']:
                 nodes.append(self._operator_as_child(value, scan))
-            out['definitions'].append(dict(id=definition['id'], node=nodes))
+            out['definitions'].append(
+                dict(
+                    id=definition['id'],
+                    comment=definition['comment'],
+                    node=nodes
+                    ))
         return out
 
     def _operator_as_child(self, value, scan):
@@ -270,7 +275,11 @@ class xml_parser():
     def prepare_definition_comments(self, oval_definitions):
         definitions = []
         for definition in oval_definitions:
-            comment_definition = dict(id=definition.get('id'), node=[])
+            comment_definition = dict(
+                id=definition.get('id'), comment=None, node=[])
+            title = definition.find(
+                './/oval-definitions:metadata/oval-definitions:title', ns)
+            comment_definition['comment'] = title.text
             criteria = definition.find('.//oval-definitions:criteria', ns)
             comment_definition['node'].append(
                 self.create_dict_form_criteria(criteria))
@@ -294,6 +303,7 @@ class xml_parser():
     def fill_comment(self, comment_definition, data_definition):
         comments = comment_definition['node'][0]
         nodes = data_definition['node'][0]
+        data_definition['comment'] = comment_definition['comment']
         self.recursive_help_fill_comments(comments, nodes)
 
     def insert_comments(self, data):

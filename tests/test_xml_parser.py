@@ -78,15 +78,6 @@ def test_parsing_and_evaluate_scan_1():
         src, rule_id, result)
 
 
-def test_parsing_and_evaluate_scan_1():
-    src = 'test_data/ssg-fedora-ds-arf.xml'
-    rule_id = 'xccdf_org.ssgproject.content_rule_sssd_offline_cred_expiration'
-    result = 'true'
-
-    tests.any_test_help.any_test_parsing_and_evaluate_scan_rule(
-        src, rule_id, result)
-
-
 def test_get_def_id_by_rule_id():
     src = 'test_data/ssg-fedora-ds-arf.xml'
     parser = graph.xml_parser.xml_parser(tests.any_test_help.get_src(src))
@@ -115,28 +106,6 @@ def test_str_to_bool():
         assert parser._str_to_bool('error')
 
 
-def test_get_def_id_by_notselected_rule_id():
-    src = 'test_data/ssg-fedora-ds-arf.xml'
-
-    parser = tests.any_test_help.get_parser(src)
-    rule_id = 'xccdf_org.ssgproject.content_rule_ntpd_specify_remote_server'
-
-    with pytest.raises(Exception, match=('err- rule "{}" was not selected,'
-                                         ' so there are no results.')
-                       .format(rule_id)):
-        assert parser.get_def_id_by_rule_id(rule_id)
-
-
-def test_str_to_bool():
-    src = 'test_data/ssg-fedora-ds-arf.xml'
-    parser = tests.any_test_help.get_parser(src)
-
-    assert parser._str_to_bool('true')
-    assert not parser._str_to_bool('false')
-    with pytest.raises(Exception, match="err- negation is not bool"):
-        assert parser._str_to_bool('error')
-
-
 def test_use_bat_report_file():
     src = (
         'test_data/xccdf_org.ssgproject.'
@@ -150,9 +119,9 @@ def test_use_bat_report_file():
 def test_get_rule_dict():
     src = 'test_data/ssg-fedora-ds-arf.xml'
     parser = graph.xml_parser.xml_parser(tests.any_test_help.get_src(src))
-    dict = parser.get_rule_dict(
+    rule_dict = parser.get_rule_dict(
         'xccdf_org.ssgproject.content_rule_dconf_gnome_session_idle_user_locks')
     src = 'test_data/rule_dict.json'
     with open(tests.any_test_help.get_src(src), 'r') as f:
         data = json.load(f)
-    assert data == dict
+    assert data == rule_dict

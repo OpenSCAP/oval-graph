@@ -4,7 +4,7 @@ var data_json ={
             "id": "xccdf_org.ssgproject.content_rule_package_abrt_removed",
             "label": "rule_package_abrt_removed",
             "url": "null",
-            "text": null,
+            "text": "Package abrt Removed",
             "title": "xccdf_org.ssgproject.content_rule_package_abrt_removed",
             "x": 0,
             "y": 0.36,

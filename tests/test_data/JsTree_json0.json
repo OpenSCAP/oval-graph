@@ -1,5 +1,5 @@
 {
-    "text": "<strong><span class=\"text-danger\">rule_accounts_passwords_pam_faillock_deny</span></strong> <i></i>",
+    "text": "<strong><span class=\"text-danger\">rule_accounts_passwords_pam_faillock_deny</span></strong> <i>Lock out account after failed login attempts</i>",
     "icon": "glyphicon glyphicon-remove text-danger",
     "state": {
         "opened": true

@@ -4,7 +4,7 @@
             "id": "xccdf_org.ssgproject.content_rule_disable_host_auth",
             "label": "rule_disable_host_auth",
             "url": "null",
-            "text": null,
+            "text": "Disable Host-Based Authentication",
             "title": "xccdf_org.ssgproject.content_rule_disable_host_auth",
             "x": 0,
             "y": 0.36,

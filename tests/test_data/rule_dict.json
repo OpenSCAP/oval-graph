@@ -33,7 +33,7 @@
                                 "operator": "OR",
                                 "negate": false,
                                 "result": "true",
-                                "comment": null,
+                                "comment": "dconf user profile exists",
                                 "node": [
                                     {
                                         "operator": "AND",
@@ -61,7 +61,7 @@
                                 "value_id": "oval:ssg-test_user_change_idle_delay_lock:tst:1",
                                 "value": "false",
                                 "negate": false,
-                                "comment": null
+                                "comment": "prevent user from changing idle delay"
                             }
                         ]
                     }

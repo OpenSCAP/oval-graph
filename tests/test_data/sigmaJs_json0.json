@@ -79,11 +79,11 @@
             "borderColor": "#ff0000"
         },
         {
-            "id": "1c2097d7-f0aa-4da6-8108-38399f81a15c",
+            "id": "31ace7de-e8cf-4195-8bf0-12739625df10",
             "label": "and",
             "url": "null",
             "text": null,
-            "title": "1c2097d7-f0aa-4da6-8108-38399f81a15c",
+            "title": "31ace7de-e8cf-4195-8bf0-12739625df10",
             "x": 4,
             "y": 4.8999999999999995,
             "size": 3,
@@ -92,11 +92,11 @@
             "borderColor": "#ff0000"
         },
         {
-            "id": "68dbb09c-6bd0-41fd-92c1-a8b41d7e98af",
+            "id": "da419999-75fa-4681-bda2-6eda7b78a32d",
             "label": "or",
             "url": "null",
-            "text": null,
-            "title": "68dbb09c-6bd0-41fd-92c1-a8b41d7e98af",
+            "text": "system-auth",
+            "title": "da419999-75fa-4681-bda2-6eda7b78a32d",
             "x": -2,
             "y": 4.1,
             "size": 3,
@@ -105,11 +105,11 @@
             "borderColor": "#ff0000"
         },
         {
-            "id": "06fc0460-e14b-4723-b876-3946c7c5be2f",
+            "id": "616ebfbc-436d-4290-a8e4-ae5957681126",
             "label": "or",
             "url": "null",
-            "text": null,
-            "title": "06fc0460-e14b-4723-b876-3946c7c5be2f",
+            "text": "password-auth",
+            "title": "616ebfbc-436d-4290-a8e4-ae5957681126",
             "x": 2,
             "y": 4.1,
             "size": 3,
@@ -121,7 +121,7 @@
             "id": "oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_system-auth:tst:1",
             "label": "accounts_passwords_pam_faillock_numeric_default_check_system-auth",
             "url": "null",
-            "text": null,
+            "text": "Perform check if pam_faillock authfail follows pam_unix even with lines skipped",
             "title": "oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_system-auth:tst:1",
             "x": -4,
             "y": 4.36,
@@ -134,7 +134,7 @@
             "id": "oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_system-auth:tst:1",
             "label": "accounts_passwords_pam_faillock_authfail_deny_system-auth",
             "url": "null",
-            "text": null,
+            "text": "Perform check if pam_faillock authfail follows pam_unix with either sufficient or default=ignore",
             "title": "oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_system-auth:tst:1",
             "x": -2,
             "y": 4.72,
@@ -147,7 +147,7 @@
             "id": "oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_password-auth:tst:1",
             "label": "accounts_passwords_pam_faillock_numeric_default_check_password-auth",
             "url": "null",
-            "text": null,
+            "text": "Perform check if pam_faillock authfail follows pam_unix even with lines skipped",
             "title": "oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_password-auth:tst:1",
             "x": 0,
             "y": 5.08,
@@ -160,7 +160,7 @@
             "id": "oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_password-auth:tst:1",
             "label": "accounts_passwords_pam_faillock_authfail_deny_password-auth",
             "url": "null",
-            "text": null,
+            "text": "pam_faillock.so authfail deny value set in password-auth",
             "title": "oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_password-auth:tst:1",
             "x": 2,
             "y": 5.4399999999999995,
@@ -172,74 +172,74 @@
     ],
     "edges": [
         {
-            "id": "0d45291a-dc31-49e0-9222-dcdab651912f",
+            "id": "6488056a-f9d8-456c-9f06-5f19443ff574",
             "source": "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny",
             "target": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
             "color": "#ff0000"
         },
         {
-            "id": "190c4af4-6650-4a07-8524-35c4abd2d5a9",
+            "id": "8ce6dc23-4272-4b0e-9f76-6c516138af3e",
             "source": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
             "target": "oval:ssg-test_accounts_passwords_pam_faillock_preauth_silent_system-auth:tst:1",
             "color": "#ff0000"
         },
         {
-            "id": "e53a6e8e-5ea4-4a18-9357-661c1a812f0e",
+            "id": "a34d7dc8-4726-4374-a0e1-e268ba52bdf1",
             "source": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
             "target": "oval:ssg-test_accounts_passwords_pam_faillock_account_phase_system-auth:tst:1",
             "color": "#ff0000"
         },
         {
-            "id": "48a56c60-418f-433a-8013-199de1b0a299",
+            "id": "04d0d03f-973a-429f-8141-59d009015c3c",
             "source": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
             "target": "oval:ssg-test_accounts_passwords_pam_faillock_preauth_silent_password-auth:tst:1",
             "color": "#ff0000"
         },
         {
-            "id": "e2d5691f-693e-4c38-9c80-660949d6598b",
+            "id": "7a3e7f48-fab2-4466-840c-88d8bd5cc9cb",
             "source": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
             "target": "oval:ssg-test_accounts_passwords_pam_faillock_account_phase_password-auth:tst:1",
             "color": "#ff0000"
         },
         {
-            "id": "f7320847-22b8-476b-b128-a30cc9229a49",
+            "id": "9a2cb6bd-8050-470f-bc29-08fdfb2335bc",
             "source": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
-            "target": "1c2097d7-f0aa-4da6-8108-38399f81a15c",
+            "target": "31ace7de-e8cf-4195-8bf0-12739625df10",
             "color": "#ff0000"
         },
         {
-            "id": "139a7940-ddbe-4da3-ae04-b70e8de3e3f1",
-            "source": "1c2097d7-f0aa-4da6-8108-38399f81a15c",
-            "target": "68dbb09c-6bd0-41fd-92c1-a8b41d7e98af",
+            "id": "9894f7a2-3d15-4744-9ac1-1c10eed31ea1",
+            "source": "31ace7de-e8cf-4195-8bf0-12739625df10",
+            "target": "da419999-75fa-4681-bda2-6eda7b78a32d",
             "color": "#ff0000"
         },
         {
-            "id": "c24e4b25-c5b9-4719-a63b-b73774cea310",
-            "source": "68dbb09c-6bd0-41fd-92c1-a8b41d7e98af",
+            "id": "e47fa458-8ab4-477d-936f-398dd09c856d",
+            "source": "da419999-75fa-4681-bda2-6eda7b78a32d",
             "target": "oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_system-auth:tst:1",
             "color": "#ff0000"
         },
         {
-            "id": "ec6cc0b6-8498-43a6-86a6-aa9320f715f6",
-            "source": "68dbb09c-6bd0-41fd-92c1-a8b41d7e98af",
+            "id": "6303ea43-310e-4cb7-90ed-66575064b5f0",
+            "source": "da419999-75fa-4681-bda2-6eda7b78a32d",
             "target": "oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_system-auth:tst:1",
             "color": "#ff0000"
         },
         {
-            "id": "cd0d5f83-4ac4-48a2-80e0-92138587e28c",
-            "source": "1c2097d7-f0aa-4da6-8108-38399f81a15c",
-            "target": "06fc0460-e14b-4723-b876-3946c7c5be2f",
+            "id": "e5ae8f31-f144-49c5-9ace-1caa12243d03",
+            "source": "31ace7de-e8cf-4195-8bf0-12739625df10",
+            "target": "616ebfbc-436d-4290-a8e4-ae5957681126",
             "color": "#ff0000"
         },
         {
-            "id": "8416bdab-8135-46ae-a4ea-fc06b156d40c",
-            "source": "06fc0460-e14b-4723-b876-3946c7c5be2f",
+            "id": "5037d71c-a038-4b13-b7be-6b436f347691",
+            "source": "616ebfbc-436d-4290-a8e4-ae5957681126",
             "target": "oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_password-auth:tst:1",
             "color": "#ff0000"
         },
         {
-            "id": "6a0c5c5b-4018-4815-a027-897b42fbbac6",
-            "source": "06fc0460-e14b-4723-b876-3946c7c5be2f",
+            "id": "e0ac644b-b8e5-427d-b989-7c2d53b6f5da",
+            "source": "616ebfbc-436d-4290-a8e4-ae5957681126",
             "target": "oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_password-auth:tst:1",
             "color": "#ff0000"
         }

@@ -20,7 +20,7 @@
                     },
                     "children": [
                         {
-                            "text": "<strong><span class=\"text-success\">or</span></strong> <i></i>",
+                            "text": "<strong><span class=\"text-success\">or</span></strong> <i>sshd is not required or requirement is unset</i>",
                             "icon": "glyphicon glyphicon-ok text-success",
                             "state": {
                                 "opened": true
@@ -52,7 +52,7 @@
                             ]
                         },
                         {
-                            "text": "<strong><span class=\"text-danger\">and</span></strong> <i></i>",
+                            "text": "<strong><span class=\"text-danger\">and</span></strong> <i>rpm package openssh-server removed</i>",
                             "icon": "glyphicon glyphicon-remove text-danger",
                             "state": {
                                 "opened": true
@@ -77,7 +77,7 @@
                     },
                     "children": [
                         {
-                            "text": "<strong><span class=\"text-success\">or</span></strong> <i></i>",
+                            "text": "<strong><span class=\"text-success\">or</span></strong> <i>sshd is required or requirement is unset</i>",
                             "icon": "glyphicon glyphicon-ok text-success",
                             "state": {
                                 "opened": true
@@ -109,7 +109,7 @@
                             ]
                         },
                         {
-                            "text": "<strong><span class=\"text-success\">and</span></strong> <i></i>",
+                            "text": "<strong><span class=\"text-success\">and</span></strong> <i>rpm package openssh-server installed</i>",
                             "icon": "glyphicon glyphicon-ok text-success",
                             "state": {
                                 "opened": true
@@ -125,7 +125,7 @@
                             ]
                         },
                         {
-                            "text": "<strong><span class=\"text-success\">sshd_hostbasedauthentication</span></strong> <i></i>",
+                            "text": "<strong><span class=\"text-success\">sshd_hostbasedauthentication</span></strong> <i>Check HostbasedAuthentication in /etc/ssh/sshd_config</i>",
                             "icon": "glyphicon glyphicon-ok text-success",
                             "state": {
                                 "opened": true

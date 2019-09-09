@@ -205,7 +205,7 @@ class OvalNode():
 
     def get_comment(self):
         if self.comment is not None:
-            return '<i>' + str(self.comment) + '</i>'
+            return str(self.comment)
         return ""
 
     def to_JsTree_dict(self):
@@ -213,7 +213,7 @@ class OvalNode():
         out = {
             'text': '<strong><span class="' + icons['color'] + '">' +
                     self._get_label() + '</span></strong>' +
-                    ' ' + self.get_comment(),
+                    ' <i>' + self.get_comment() + '</i>',
             "icon": icons['icon'] + ' ' + icons['color'],
             "state": {
                     "opened": True}}

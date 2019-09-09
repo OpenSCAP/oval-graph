@@ -1,12 +1,12 @@
 var data_json ={
-    "text": "<strong><span class=\"text-danger\">rule_package_abrt_removed</span></strong> ",
+    "text": "<strong><span class=\"text-danger\">rule_package_abrt_removed</span></strong> <i></i>",
     "icon": "glyphicon glyphicon-remove text-danger",
     "state": {
         "opened": true
     },
     "children": [
         {
-            "text": "<strong><span class=\"text-danger\">and</span></strong> ",
+            "text": "<strong><span class=\"text-danger\">and</span></strong> <i></i>",
             "icon": "glyphicon glyphicon-remove text-danger",
             "state": {
                 "opened": true

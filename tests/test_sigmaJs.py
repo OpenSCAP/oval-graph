@@ -14,7 +14,7 @@ def test_create_node_dict_for_sigmaJs_0():
         'id': 1,
         'label': 'and',
         'size': 3,
-        'text': 'null',
+        'text': None,
         'url': 'null',
         'title': 1,
         'x': 0,
@@ -32,14 +32,14 @@ def test_create_node_dict_for_sigmaJs_1():
         'id': 1,
         'label': 'and',
         'size': 3,
-        'text': 'null',
+        'text': None,
         'url': 'null',
         'title': 1,
         'x': 0,
         'y': 0
     }
-    Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', False, [
-        graph.oval_graph.OvalNode(2, 'value', "true", False)
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', False, None, [
+        graph.oval_graph.OvalNode(2, 'value', "true", False, None)
     ]
     )
 
@@ -54,14 +54,14 @@ def test_create_node_dict_for_sigmaJs_2():
         'id': 1,
         'label': 'and',
         'size': 3,
-        'text': 'null',
+        'text': None,
         'url': 'null',
         'title': '1 and',
         'x': 0,
         'y': 0
     }
-    Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', False, [
-        graph.oval_graph.OvalNode(2, 'value', "noteval", False)
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', False, None, [
+        graph.oval_graph.OvalNode(2, 'value', "noteval", False, None)
     ]
     )
 
@@ -76,13 +76,13 @@ def test_create_node_dict_for_sigmaJs_3():
         'id': 1,
         'label': '1',
         'size': 3,
-        'text': 'null',
+        'text': None,
         'url': 'null',
         'title': 1,
         'x': 0,
         'y': 0
     }
-    Tree = graph.oval_graph.OvalNode(1, 'value', 'false', False)
+    Tree = graph.oval_graph.OvalNode(1, 'value', 'false', False, None)
 
     tests.any_test_help.any_test_create_node_dict_for_sigmaJs(Tree, out)
 
@@ -95,13 +95,13 @@ def test_create_node_dict_for_sigmaJs_4():
         'id': 1,
         'label': '1',
         'size': 3,
-        'text': 'null',
+        'text': None,
         'url': 'null',
         'title': 1,
         'x': 0,
         'y': 0
     }
-    Tree = graph.oval_graph.OvalNode(1, 'value', 'true', False)
+    Tree = graph.oval_graph.OvalNode(1, 'value', 'true', False, None)
 
     tests.any_test_help.any_test_create_node_dict_for_sigmaJs(Tree, out)
 
@@ -114,13 +114,13 @@ def test_create_node_dict_for_sigmaJs_5():
         'id': 1,
         'label': '1',
         'size': 3,
-        'text': 'null',
+        'text': None,
         'url': 'null',
         'title': '1 error',
         'x': 0,
         'y': 0
     }
-    Tree = graph.oval_graph.OvalNode(1, 'value', 'error', False)
+    Tree = graph.oval_graph.OvalNode(1, 'value', 'error', False, None)
 
     tests.any_test_help.any_test_create_node_dict_for_sigmaJs(Tree, out)
 
@@ -133,14 +133,14 @@ def test_create_node_with_negation_dict_for_sigmaJs():
         'id': 1,
         'label': 'and',
         'size': 3,
-        'text': 'null',
+        'text': None,
         'url': 'null',
         'title': 1,
         'x': 0,
         'y': 0
     }
-    Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', True, [
-        graph.oval_graph.OvalNode(2, 'value', "false", False)
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', True, None, [
+        graph.oval_graph.OvalNode(2, 'value', "false", False, None)
     ]
     )
 
@@ -155,14 +155,14 @@ def test_create_node_with_negation_dict_for_sigmaJs1():
         'id': 1,
         'label': 'and',
         'size': 3,
-        'text': 'null',
+        'text': None,
         'url': 'null',
         'title': 1,
         'x': 0,
         'y': 0
     }
-    Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', True, [
-        graph.oval_graph.OvalNode(2, 'value', "true", False)
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', True, None, [
+        graph.oval_graph.OvalNode(2, 'value', "true", False, None)
     ]
     )
 
@@ -177,14 +177,14 @@ def test_create_node_with_negation_dict_for_sigmaJs2():
         'id': 2,
         'label': '2',
         'size': 3,
-        'text': 'null',
+        'text': None,
         'url': 'null',
         'title': 2,
         'x': 0,
         'y': 0
     }
-    Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', False, [
-        graph.oval_graph.OvalNode(2, 'value', "true", True)
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', False, None, [
+        graph.oval_graph.OvalNode(2, 'value', "true", True, None)
     ]
     )
 
@@ -200,14 +200,14 @@ def test_create_node_with_negation_dict_for_sigmaJs3():
         'id': 2,
         'label': '2',
         'size': 3,
-        'text': 'null',
+        'text': None,
         'url': 'null',
         'title': 2,
         'x': 0,
         'y': 0
     }
-    Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', False, [
-        graph.oval_graph.OvalNode(2, 'value', "false", True)
+    Tree = graph.oval_graph.OvalNode(1, 'operator', 'and', False, None, [
+        graph.oval_graph.OvalNode(2, 'value', "false", True, None)
     ]
     )
 
@@ -230,7 +230,7 @@ def test_create_edge_dict_for_sigmaJs():
         'id': 2,
         'label': 'error',
         'size': 3,
-        'text': 'null',
+        'text': None,
         'url': 'null',
         'title': '1 error',
         'x': 0,

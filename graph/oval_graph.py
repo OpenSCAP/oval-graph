@@ -37,7 +37,9 @@ class OvalNode():
             input_node_type,
             input_value,
             input_negation,
+            comment,
             children=None):
+        self.comment = comment
         self.node_id = node_id
         if isinstance(input_negation, bool):
             self.negation = input_negation
@@ -148,6 +150,7 @@ class OvalNode():
                 'type': self.node_type,
                 'value': self.value,
                 'negation': self.negation,
+                'comment': self.comment,
                 'child': None
             }
         return {
@@ -155,6 +158,7 @@ class OvalNode():
             'type': self.node_type,
             'value': self.value,
             'negation': self.negation,
+            'comment': self.comment,
             'child': [child.save_tree_to_dict() for child in self.children]
         }
 
@@ -199,10 +203,17 @@ class OvalNode():
             color=VALUE_TO_COLOR[value],
             icon=VALUE_TO_ICON[icon])
 
+    def get_comment(self):
+        if self.comment is not None:
+            return str(self.comment)
+        return ""
+
     def to_JsTree_dict(self):
         icons = self._get_node_icon()
         out = {
-            'text': '<span class="' + icons['color'] + '">' + self._get_label() + '</span>',
+            'text': '<strong><span class="' + icons['color'] + '">' +
+                    self._get_label() + '</span></strong>' +
+                    ' <i>' + self.get_comment() + '</i>',
             "icon": icons['icon'] + ' ' + icons['color'],
             "state": {
                     "opened": True}}
@@ -291,7 +302,7 @@ class OvalNode():
             'id': self.node_id,
             'label': self._get_label(),
             'url': 'null',
-            'text': 'null',
+            'text': self.comment,
             'title': self._get_node_title(),
             "x": x,
             "y": y,
@@ -525,10 +536,12 @@ def restore_dict_to_tree(dict_of_tree):
             dict_of_tree["node_id"],
             dict_of_tree["type"],
             dict_of_tree["value"],
-            dict_of_tree["negation"])
+            dict_of_tree["negation"],
+            dict_of_tree['comment'])
     return OvalNode(
         dict_of_tree["node_id"],
         dict_of_tree["type"],
         dict_of_tree["value"],
         dict_of_tree["negation"],
+        dict_of_tree['comment'],
         [restore_dict_to_tree(i) for i in dict_of_tree["child"]])

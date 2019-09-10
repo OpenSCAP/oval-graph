@@ -6,7 +6,7 @@ var data_json ={
     },
     "children": [
         {
-            "text": "<strong><span class=\"text-danger\">and</span></strong> <i></i>",
+            "text": "<strong><span class=\"text-danger\">AND</span></strong> <i></i>",
             "icon": "glyphicon glyphicon-remove text-danger",
             "state": {
                 "opened": true

@@ -15,7 +15,7 @@
         },
         {
             "id": "oval:ssg-disable_host_auth:def:1",
-            "label": "or",
+            "label": "OR",
             "url": "null",
             "text": "SSH is configured correctly or is not installed",
             "title": "oval:ssg-disable_host_auth:def:1",

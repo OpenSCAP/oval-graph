@@ -98,7 +98,10 @@ class converter():
                 return re.sub(
                     '(xccdf_org.ssgproject.content_)', '', str(
                         self.tree.node_id))
-            return self.tree.value
+            else:
+                if self.tree.negation:
+                    return ('n'+str(self.tree.value)).upper()
+                return (self.tree.value).upper()
 
     def _is_negated_boolean(self, boolean, value):
         if value == boolean and self.tree.negation:

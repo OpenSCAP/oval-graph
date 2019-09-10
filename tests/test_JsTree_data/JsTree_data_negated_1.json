@@ -1,5 +1,5 @@
 {
-    "text": "<strong><span class=\"text-danger\">and</span></strong> <i></i>",
+    "text": "<strong><span class=\"text-danger\">NAND</span></strong> <i></i>",
     "icon": "glyphicon glyphicon-ok text-danger",
     "state": {
         "opened": true

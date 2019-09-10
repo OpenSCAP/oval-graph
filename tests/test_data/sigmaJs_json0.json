@@ -15,7 +15,7 @@
         },
         {
             "id": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
-            "label": "and",
+            "label": "AND",
             "url": "null",
             "text": "Checks common to both scenarios",
             "title": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",

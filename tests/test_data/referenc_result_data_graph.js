@@ -15,7 +15,7 @@ var data_json ={
         },
         {
             "id": "oval:ssg-package_abrt_removed:def:1",
-            "label": "and",
+            "label": "AND",
             "url": "null",
             "text": null,
             "title": "oval:ssg-package_abrt_removed:def:1",
@@ -42,13 +42,21 @@ var data_json ={
     ],
     "edges": [
         {
+<<<<<<< HEAD
             "id": "UUID-HASH",
+=======
+            "id": "e4fd7f98-fd2d-44ef-ba32-181b23af0ba3",
+>>>>>>> 653e5a9... Changed label of negated operator and update test files
             "source": "xccdf_org.ssgproject.content_rule_package_abrt_removed",
             "target": "oval:ssg-package_abrt_removed:def:1",
             "color": "#ff0000"
         },
         {
+<<<<<<< HEAD
             "id": "UUID-HASH",
+=======
+            "id": "d03f36fe-6b1f-4628-ad48-d64d17cf8259",
+>>>>>>> 653e5a9... Changed label of negated operator and update test files
             "source": "oval:ssg-package_abrt_removed:def:1",
             "target": "oval:ssg-test_package_abrt_removed:tst:1",
             "color": "#ff0000"

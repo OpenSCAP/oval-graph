@@ -6,7 +6,7 @@
     },
     "children": [
         {
-            "text": "<strong><span class=\"text-danger\">and</span></strong> <i>Checks common to both scenarios</i>",
+            "text": "<strong><span class=\"text-danger\">AND</span></strong> <i>Checks common to both scenarios</i>",
             "icon": "glyphicon glyphicon-remove text-danger",
             "state": {
                 "opened": true
@@ -41,14 +41,14 @@
                     }
                 },
                 {
-                    "text": "<strong><span class=\"text-danger\">and</span></strong> <i></i>",
+                    "text": "<strong><span class=\"text-danger\">AND</span></strong> <i></i>",
                     "icon": "glyphicon glyphicon-remove text-danger",
                     "state": {
                         "opened": true
                     },
                     "children": [
                         {
-                            "text": "<strong><span class=\"text-danger\">or</span></strong> <i>system-auth</i>",
+                            "text": "<strong><span class=\"text-danger\">OR</span></strong> <i>system-auth</i>",
                             "icon": "glyphicon glyphicon-remove text-danger",
                             "state": {
                                 "opened": true
@@ -71,7 +71,7 @@
                             ]
                         },
                         {
-                            "text": "<strong><span class=\"text-danger\">or</span></strong> <i>password-auth</i>",
+                            "text": "<strong><span class=\"text-danger\">OR</span></strong> <i>password-auth</i>",
                             "icon": "glyphicon glyphicon-remove text-danger",
                             "state": {
                                 "opened": true

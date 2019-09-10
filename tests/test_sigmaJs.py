@@ -1,5 +1,6 @@
 import tests.any_test_help
 import graph.oval_graph
+import graph.converter
 
 
 def test_create_node_dict_for_sigmaJs_0():
@@ -232,17 +233,14 @@ def test_create_edge_dict_for_sigmaJs():
         'x': 0,
         'y': 0
     }
-
-    assert tests.any_test_help.get_simple_tree()._create_edge(
-        1, 2, target_node)['source'] == out['source']
-    assert tests.any_test_help.get_simple_tree()._create_edge(
-        1, 2, target_node)['target'] == out['target']
-    assert tests.any_test_help.get_simple_tree()._create_edge(
-        1, 2, target_node)['color'] == out['color']
+    converter = tests.any_test_help.get_converter_simple_tree()
+    assert converter._create_edge(1, 2, target_node)['source'] == out['source']
+    assert converter._create_edge(1, 2, target_node)['target'] == out['target']
+    assert converter._create_edge(1, 2, target_node)['color'] == out['color']
 
 
 def test_create_array_of_ids_form_tree():
-    array = tests.any_test_help.get_simple_tree().create_list_of_id()
+    array = tests.any_test_help.get_converter_simple_tree().create_list_of_id()
     assert array == [1, 2, 3, 4, 5, 6]
 
 

@@ -1,4 +1,5 @@
 import graph.oval_graph
+import graph.converter
 import os
 import py
 import json
@@ -40,14 +41,18 @@ def any_get_test_data_json(src):
 
 
 def any_test_create_node_dict_for_sigmaJs(Tree, out):
-    assert Tree._create_node(0, 0) == out
+    assert graph.converter.converter(Tree)._create_node(0, 0) == out
+
+
+def get_converter_simple_tree():
+    return graph.converter.converter(get_simple_tree())
 
 
 def any_test_create_node_dict_for_JsTree(Tree, json_src):
     data = dict()
     with open(get_src(json_src), "r") as f:
         data = json.load(f)
-    assert Tree.to_JsTree_dict() == data
+    assert graph.converter.converter(Tree).to_JsTree_dict() == data
 
 
 def get_simple_tree():
@@ -74,7 +79,7 @@ def any_test_transformation_tree_to_Json_for_SigmaJs(
     oval_tree = graph.oval_graph.build_nodes_form_xml(src, rule_id)
 
     assert oval_tree.node_id == rule_id
-    out_data = oval_tree.to_sigma_dict(0, 0)
+    out_data = graph.converter.converter(oval_tree).to_sigma_dict(0, 0)
     for i in range(len(out_data['nodes'])):
         assert out_data['nodes'][i]['label'] == test_data['nodes'][i]['label']
         assert out_data['nodes'][i]['text'] == test_data['nodes'][i]['text']
@@ -88,7 +93,7 @@ def any_test_transformation_tree_to_Json_for_JsTree(
     oval_tree = graph.oval_graph.build_nodes_form_xml(src, rule_id)
 
     assert oval_tree.node_id == rule_id
-    out_data = oval_tree.to_JsTree_dict()
+    out_data = graph.converter.converter(oval_tree).to_JsTree_dict()
     assert out_data == test_data
 
 

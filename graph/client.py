@@ -2,6 +2,7 @@ from __future__ import print_function, unicode_literals
 import re
 import graph.xml_parser
 import graph.oval_graph
+import graph.converter
 import webbrowser
 import json
 import argparse
@@ -98,11 +99,12 @@ class client():
             return rules
 
     def create_dict_of_rule(self, rule_id):
+        converter = graph.converter.converter(
+            graph.oval_graph.build_nodes_form_xml(
+                self.source_filename, rule_id))
         if self.tree:
-            return graph.oval_graph.build_nodes_form_xml(
-                self.source_filename, rule_id).to_JsTree_dict()
-        return graph.oval_graph.build_nodes_form_xml(
-            self.source_filename, rule_id).to_sigma_dict(0, 0)
+            return converter.to_JsTree_dict()
+        return converter.to_sigma_dict(0, 0)
 
     def save_dict(self, dict):
         with open(self.html_interpreter + '/data.js', "w+") as data_file:

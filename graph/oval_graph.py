@@ -37,24 +37,33 @@ class OvalNode():
             input_value,
             input_negation,
             comment,
-            children=None):
+            children=None
+    ):
         self.comment = comment
         self.node_id = node_id
-        if isinstance(input_negation, bool):
-            self.negation = input_negation
-        else:
+        self.negation = self.validate_negation(input_negation)
+        self.node_type = self.validate_type(input_node_type)
+        self.value = self.validate_type_and_value(input_value)
+        self.children = []
+        self.validate_children(children)
+        if children:
+            for child in children:
+                self.add_child(child)
+
+    def validate_negation(self, input_negation):
+        if not isinstance(input_negation, bool):
             raise ValueError("err- negation is bool (only True or False)")
-        value = input_value.lower()
+        return input_negation
+
+    def validate_type(self, input_node_type):
         node_type = input_node_type.lower()
-        if node_type == "value" or node_type == "operator":
-            self.node_type = node_type
-        else:
+        if node_type != "value" and node_type != "operator":
             raise ValueError("err- unknown type")
-        allowed_operators = [
-            "or",
-            "and",
-            "one",
-            "xor"]
+        return node_type
+
+    def validate_type_and_value(self, input_value):
+        value = input_value.lower()
+
         allowed_values = [
             "true",
             "false",
@@ -62,23 +71,20 @@ class OvalNode():
             "unknown",
             "noteval",
             "notappl"]
+        allowed_operators = ["or", "and", "one", "xor"]
+
         if self.node_type == "value":
-            if value in allowed_values:
-                self.value = value
-            else:
+            if value not in allowed_values:
                 raise ValueError("err- unknown value")
+
         if self.node_type == "operator":
-            if value in allowed_operators:
-                self.value = value
-            else:
+            if value not in allowed_operators:
                 raise ValueError("err- unknown operator")
-        self.children = []
-        if children is not None:
-            for child in children:
-                self.add_child(child)
-        else:
-            if self.node_type == "operator":
-                raise ValueError('err- Operator node has child!')
+        return value
+
+    def validate_children(self, children):
+        if children is None and self.node_type == "operator":
+            raise ValueError('err- Operator node has child!')
 
     def __repr__(self):
         return self.value

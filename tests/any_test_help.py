@@ -44,7 +44,6 @@ def any_test_create_node_dict_for_sigmaJs(Tree, out):
 
 
 def any_test_create_node_dict_for_JsTree(Tree, json_src):
-    print(json.dumps(Tree.to_JsTree_dict()))
     data = dict()
     with open(get_src(json_src), "r") as f:
         data = json.load(f)
@@ -90,7 +89,6 @@ def any_test_transformation_tree_to_Json_for_JsTree(
 
     assert oval_tree.node_id == rule_id
     out_data = oval_tree.to_JsTree_dict()
-    print(json.dumps(out_data))
     assert out_data == test_data
 
 

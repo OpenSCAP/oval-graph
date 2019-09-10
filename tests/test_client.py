@@ -143,7 +143,6 @@ def test_get_questions_with_option_show_fail_rules():
         Separator('= The rules ID ='),
         Separator('= The not selected rules ID ='))
     rule1 = 'xccdf_org.ssgproject.content_rule_package_abrt_removed'
-    print(out)
     assert out[0]['choices'][1]['name'] == rule1
     with pytest.raises(Exception, match="list index out of range"):
         assert out[0]['choices'][2]['name'] is None

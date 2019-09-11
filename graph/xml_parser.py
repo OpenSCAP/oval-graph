@@ -5,6 +5,8 @@
 from lxml import etree as ET
 import uuid
 import graph.oval_graph
+import os
+import py
 
 ns = {
     'XMLSchema': 'http://oval.mitre.org/XMLSchema/oval-results-5',
@@ -21,10 +23,16 @@ class xml_parser():
         self.tree = ET.parse(self.src)
         self.root = self.tree.getroot()
         if not self.validate(
-                './schemas/arf/1.1/asset-reporting-format_1.1.0.xsd'):
+                '../schemas/arf/1.1/asset-reporting-format_1.1.0.xsd'):
             raise ValueError("err- This is not arf report file.")
 
+    def get_src(self, src):
+        _dir = os.path.dirname(os.path.realpath(__file__))
+        FIXTURE_DIR = py.path.local(_dir) / src
+        return str(FIXTURE_DIR)
+
     def validate(self, xsd_path):
+        xsd_path = self.get_src(xsd_path)
         xmlschema_doc = ET.parse(xsd_path)
         xmlschema = ET.XMLSchema(xmlschema_doc)
 

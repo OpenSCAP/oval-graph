@@ -79,11 +79,11 @@
             "borderColor": "#ff0000"
         },
         {
-            "id": "31ace7de-e8cf-4195-8bf0-12739625df10",
+            "id": "UUID-HASH",
             "label": "and",
             "url": "null",
             "text": null,
-            "title": "31ace7de-e8cf-4195-8bf0-12739625df10",
+            "title": "UUID-HASH",
             "x": 4,
             "y": 4.8999999999999995,
             "size": 3,
@@ -92,11 +92,11 @@
             "borderColor": "#ff0000"
         },
         {
-            "id": "da419999-75fa-4681-bda2-6eda7b78a32d",
+            "id": "UUID-HASH",
             "label": "or",
             "url": "null",
             "text": "system-auth",
-            "title": "da419999-75fa-4681-bda2-6eda7b78a32d",
+            "title": "UUID-HASH",
             "x": -2,
             "y": 4.1,
             "size": 3,
@@ -105,11 +105,11 @@
             "borderColor": "#ff0000"
         },
         {
-            "id": "616ebfbc-436d-4290-a8e4-ae5957681126",
+            "id": "UUID-HASH",
             "label": "or",
             "url": "null",
             "text": "password-auth",
-            "title": "616ebfbc-436d-4290-a8e4-ae5957681126",
+            "title": "UUID-HASH",
             "x": 2,
             "y": 4.1,
             "size": 3,
@@ -172,74 +172,74 @@
     ],
     "edges": [
         {
-            "id": "6488056a-f9d8-456c-9f06-5f19443ff574",
+            "id": "UUID-HASH",
             "source": "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny",
             "target": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
             "color": "#ff0000"
         },
         {
-            "id": "8ce6dc23-4272-4b0e-9f76-6c516138af3e",
+            "id": "UUID-HASH",
             "source": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
             "target": "oval:ssg-test_accounts_passwords_pam_faillock_preauth_silent_system-auth:tst:1",
             "color": "#ff0000"
         },
         {
-            "id": "a34d7dc8-4726-4374-a0e1-e268ba52bdf1",
+            "id": "UUID-HASH",
             "source": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
             "target": "oval:ssg-test_accounts_passwords_pam_faillock_account_phase_system-auth:tst:1",
             "color": "#ff0000"
         },
         {
-            "id": "04d0d03f-973a-429f-8141-59d009015c3c",
+            "id": "UUID-HASH",
             "source": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
             "target": "oval:ssg-test_accounts_passwords_pam_faillock_preauth_silent_password-auth:tst:1",
             "color": "#ff0000"
         },
         {
-            "id": "7a3e7f48-fab2-4466-840c-88d8bd5cc9cb",
+            "id": "UUID-HASH",
             "source": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
             "target": "oval:ssg-test_accounts_passwords_pam_faillock_account_phase_password-auth:tst:1",
             "color": "#ff0000"
         },
         {
-            "id": "9a2cb6bd-8050-470f-bc29-08fdfb2335bc",
+            "id": "UUID-HASH",
             "source": "oval:ssg-accounts_passwords_pam_faillock_deny:def:1",
-            "target": "31ace7de-e8cf-4195-8bf0-12739625df10",
+            "target": "UUID-HASH",
             "color": "#ff0000"
         },
         {
-            "id": "9894f7a2-3d15-4744-9ac1-1c10eed31ea1",
-            "source": "31ace7de-e8cf-4195-8bf0-12739625df10",
-            "target": "da419999-75fa-4681-bda2-6eda7b78a32d",
+            "id": "UUID-HASH",
+            "source": "UUID-HASH",
+            "target": "UUID-HASH",
             "color": "#ff0000"
         },
         {
-            "id": "e47fa458-8ab4-477d-936f-398dd09c856d",
-            "source": "da419999-75fa-4681-bda2-6eda7b78a32d",
+            "id": "UUID-HASH",
+            "source": "UUID-HASH",
             "target": "oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_system-auth:tst:1",
             "color": "#ff0000"
         },
         {
-            "id": "6303ea43-310e-4cb7-90ed-66575064b5f0",
-            "source": "da419999-75fa-4681-bda2-6eda7b78a32d",
+            "id": "UUID-HASH",
+            "source": "UUID-HASH",
             "target": "oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_system-auth:tst:1",
             "color": "#ff0000"
         },
         {
-            "id": "e5ae8f31-f144-49c5-9ace-1caa12243d03",
-            "source": "31ace7de-e8cf-4195-8bf0-12739625df10",
-            "target": "616ebfbc-436d-4290-a8e4-ae5957681126",
+            "id": "UUID-HASH",
+            "source": "UUID-HASH",
+            "target": "UUID-HASH",
             "color": "#ff0000"
         },
         {
-            "id": "5037d71c-a038-4b13-b7be-6b436f347691",
-            "source": "616ebfbc-436d-4290-a8e4-ae5957681126",
+            "id": "UUID-HASH",
+            "source": "UUID-HASH",
             "target": "oval:ssg-test_accounts_passwords_pam_faillock_numeric_default_check_password-auth:tst:1",
             "color": "#ff0000"
         },
         {
-            "id": "e0ac644b-b8e5-427d-b989-7c2d53b6f5da",
-            "source": "616ebfbc-436d-4290-a8e4-ae5957681126",
+            "id": "UUID-HASH",
+            "source": "UUID-HASH",
             "target": "oval:ssg-test_accounts_passwords_pam_faillock_authfail_deny_password-auth:tst:1",
             "color": "#ff0000"
         }

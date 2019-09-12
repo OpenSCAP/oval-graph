@@ -27,11 +27,11 @@
             "borderColor": "#00ff00"
         },
         {
-            "id": "007eab61-851e-4561-8d27-dcd8c873872b",
+            "id": "UUID-HASH",
             "label": "and",
             "url": "null",
             "text": "sshd is not installed",
-            "title": "007eab61-851e-4561-8d27-dcd8c873872b",
+            "title": "UUID-HASH",
             "x": -2,
             "y": 2,
             "size": 3,
@@ -40,11 +40,11 @@
             "borderColor": "#ff0000"
         },
         {
-            "id": "e01843d7-4f82-4c56-a12a-4a1ec1dd5bc8",
+            "id": "UUID-HASH",
             "label": "and",
             "url": "null",
             "text": "sshd is installed and configured",
-            "title": "e01843d7-4f82-4c56-a12a-4a1ec1dd5bc8",
+            "title": "UUID-HASH",
             "x": 2,
             "y": 2,
             "size": 3,
@@ -53,11 +53,11 @@
             "borderColor": "#00ff00"
         },
         {
-            "id": "5fa7431e-24ab-4517-98ff-b205ad47c86d",
+            "id": "UUID-HASH",
             "label": "or",
             "url": "null",
             "text": "sshd is not required or requirement is unset",
-            "title": "5fa7431e-24ab-4517-98ff-b205ad47c86d",
+            "title": "UUID-HASH",
             "x": -4,
             "y": 3,
             "size": 3,
@@ -66,11 +66,11 @@
             "borderColor": "#00ff00"
         },
         {
-            "id": "6c0d6de3-0090-4080-977b-00ca40f95e0b",
+            "id": "UUID-HASH",
             "label": "and",
             "url": "null",
             "text": "rpm package openssh-server removed",
-            "title": "6c0d6de3-0090-4080-977b-00ca40f95e0b",
+            "title": "UUID-HASH",
             "x": -2,
             "y": 3,
             "size": 3,
@@ -79,11 +79,11 @@
             "borderColor": "#ff0000"
         },
         {
-            "id": "dffa0d9f-9ae0-4cf6-b558-7a5dccf9da39",
+            "id": "UUID-HASH",
             "label": "or",
             "url": "null",
             "text": "sshd is required or requirement is unset",
-            "title": "dffa0d9f-9ae0-4cf6-b558-7a5dccf9da39",
+            "title": "UUID-HASH",
             "x": 0,
             "y": 3,
             "size": 3,
@@ -92,11 +92,11 @@
             "borderColor": "#00ff00"
         },
         {
-            "id": "fba7de69-242b-489b-8693-1cfa6a2be1a1",
+            "id": "UUID-HASH",
             "label": "and",
             "url": "null",
             "text": "rpm package openssh-server installed",
-            "title": "fba7de69-242b-489b-8693-1cfa6a2be1a1",
+            "title": "UUID-HASH",
             "x": 2,
             "y": 3,
             "size": 3,
@@ -131,11 +131,11 @@
             "borderColor": "#ff0000"
         },
         {
-            "id": "e9b5de7b-a8ec-4eac-aeeb-5fdcd1322ebc",
+            "id": "UUID-HASH",
             "label": "and",
             "url": "null",
             "text": "SSH requirement is unset",
-            "title": "e9b5de7b-a8ec-4eac-aeeb-5fdcd1322ebc",
+            "title": "UUID-HASH",
             "x": -4,
             "y": 4,
             "size": 3,
@@ -170,11 +170,11 @@
             "borderColor": "#ff0000"
         },
         {
-            "id": "49a828a0-0552-4ab9-a5e1-382b9f9bde0f",
+            "id": "UUID-HASH",
             "label": "and",
             "url": "null",
             "text": "SSH requirement is unset",
-            "title": "49a828a0-0552-4ab9-a5e1-382b9f9bde0f",
+            "title": "UUID-HASH",
             "x": 2,
             "y": 4.36,
             "size": 3,
@@ -211,98 +211,98 @@
     ],
     "edges": [
         {
-            "id": "f447875a-7bc5-4d4e-aa0a-36fbc7e6c7c5",
+            "id": "UUID-HASH",
             "source": "xccdf_org.ssgproject.content_rule_disable_host_auth",
             "target": "oval:ssg-disable_host_auth:def:1",
             "color": "#00ff00"
         },
         {
-            "id": "c7a87e1d-d737-4e90-8793-9f9693aa2011",
+            "id": "UUID-HASH",
             "source": "oval:ssg-disable_host_auth:def:1",
-            "target": "007eab61-851e-4561-8d27-dcd8c873872b",
+            "target": "UUID-HASH",
             "color": "#ff0000"
         },
         {
-            "id": "eb0a8707-271f-43c0-8682-de601cdfac56",
-            "source": "007eab61-851e-4561-8d27-dcd8c873872b",
-            "target": "5fa7431e-24ab-4517-98ff-b205ad47c86d",
+            "id": "UUID-HASH",
+            "source": "UUID-HASH",
+            "target": "UUID-HASH",
             "color": "#00ff00"
         },
         {
-            "id": "1fb30aeb-8994-47bf-ae34-b127d64a11fc",
-            "source": "5fa7431e-24ab-4517-98ff-b205ad47c86d",
+            "id": "UUID-HASH",
+            "source": "UUID-HASH",
             "target": "oval:ssg-test_sshd_not_required:tst:1",
             "color": "#ff0000"
         },
         {
-            "id": "008cf81d-da61-486f-a6a9-896cc7ba1c9b",
-            "source": "5fa7431e-24ab-4517-98ff-b205ad47c86d",
-            "target": "e9b5de7b-a8ec-4eac-aeeb-5fdcd1322ebc",
+            "id": "UUID-HASH",
+            "source": "UUID-HASH",
+            "target": "UUID-HASH",
             "color": "#00ff00"
         },
         {
-            "id": "a6b79944-ad9b-453e-9741-24bad2b514e9",
-            "source": "e9b5de7b-a8ec-4eac-aeeb-5fdcd1322ebc",
+            "id": "UUID-HASH",
+            "source": "UUID-HASH",
             "target": "oval:ssg-test_sshd_requirement_unset:tst:1",
             "color": "#00ff00"
         },
         {
-            "id": "161fd199-1715-482b-9fbe-b914150144df",
-            "source": "007eab61-851e-4561-8d27-dcd8c873872b",
-            "target": "6c0d6de3-0090-4080-977b-00ca40f95e0b",
+            "id": "UUID-HASH",
+            "source": "UUID-HASH",
+            "target": "UUID-HASH",
             "color": "#ff0000"
         },
         {
-            "id": "259abde4-66dc-4b44-b6e9-2967e2dec77b",
-            "source": "6c0d6de3-0090-4080-977b-00ca40f95e0b",
+            "id": "UUID-HASH",
+            "source": "UUID-HASH",
             "target": "oval:ssg-test_package_openssh-server_removed:tst:1",
             "color": "#ff0000"
         },
         {
-            "id": "27cf3aeb-d4c6-4e8f-b7db-04100d833aed",
+            "id": "UUID-HASH",
             "source": "oval:ssg-disable_host_auth:def:1",
-            "target": "e01843d7-4f82-4c56-a12a-4a1ec1dd5bc8",
+            "target": "UUID-HASH",
             "color": "#00ff00"
         },
         {
-            "id": "2202777f-fe3e-4e08-b8e3-0ebe6abb9c50",
-            "source": "e01843d7-4f82-4c56-a12a-4a1ec1dd5bc8",
-            "target": "dffa0d9f-9ae0-4cf6-b558-7a5dccf9da39",
+            "id": "UUID-HASH",
+            "source": "UUID-HASH",
+            "target": "UUID-HASH",
             "color": "#00ff00"
         },
         {
-            "id": "b3366a49-28f5-4308-a184-2a1dad1a3c9c",
-            "source": "dffa0d9f-9ae0-4cf6-b558-7a5dccf9da39",
+            "id": "UUID-HASH",
+            "source": "UUID-HASH",
             "target": "oval:ssg-test_sshd_required:tst:1",
             "color": "#ff0000"
         },
         {
-            "id": "dedee3b2-25e9-4634-9dbe-f2cb16539e06",
-            "source": "dffa0d9f-9ae0-4cf6-b558-7a5dccf9da39",
-            "target": "49a828a0-0552-4ab9-a5e1-382b9f9bde0f",
+            "id": "UUID-HASH",
+            "source": "UUID-HASH",
+            "target": "UUID-HASH",
             "color": "#00ff00"
         },
         {
-            "id": "48945504-dd2e-4c93-92c9-a590de674c4d",
-            "source": "49a828a0-0552-4ab9-a5e1-382b9f9bde0f",
+            "id": "UUID-HASH",
+            "source": "UUID-HASH",
             "target": "oval:ssg-test_sshd_requirement_unset:tst:1",
             "color": "#00ff00"
         },
         {
-            "id": "2496b94d-c3cf-42ae-b100-3680891797d2",
-            "source": "e01843d7-4f82-4c56-a12a-4a1ec1dd5bc8",
-            "target": "fba7de69-242b-489b-8693-1cfa6a2be1a1",
+            "id": "UUID-HASH",
+            "source": "UUID-HASH",
+            "target": "UUID-HASH",
             "color": "#00ff00"
         },
         {
-            "id": "8b96f821-8eed-43ef-99f0-be5f39e7e909",
-            "source": "fba7de69-242b-489b-8693-1cfa6a2be1a1",
+            "id": "UUID-HASH",
+            "source": "UUID-HASH",
             "target": "oval:ssg-test_package_openssh-server_installed:tst:1",
             "color": "#00ff00"
         },
         {
-            "id": "43b21c9a-e072-40ee-b0c9-923e80d16f59",
-            "source": "e01843d7-4f82-4c56-a12a-4a1ec1dd5bc8",
+            "id": "UUID-HASH",
+            "source": "UUID-HASH",
             "target": "oval:ssg-test_sshd_hostbasedauthentication:tst:1",
             "color": "#00ff00"
         }

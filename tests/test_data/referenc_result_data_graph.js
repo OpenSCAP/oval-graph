@@ -42,13 +42,13 @@ var data_json ={
     ],
     "edges": [
         {
-            "id": "c84530e6-2ffb-4128-b911-bd43bb34508b",
+            "id": "UUID-HASH",
             "source": "xccdf_org.ssgproject.content_rule_package_abrt_removed",
             "target": "oval:ssg-package_abrt_removed:def:1",
             "color": "#ff0000"
         },
         {
-            "id": "bc0f649c-d5f1-4c9a-acca-12e204f4b1d7",
+            "id": "UUID-HASH",
             "source": "oval:ssg-package_abrt_removed:def:1",
             "target": "oval:ssg-test_package_abrt_removed:tst:1",
             "color": "#ff0000"

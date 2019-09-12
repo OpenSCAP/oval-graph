@@ -11,7 +11,7 @@ ns = {
     'xccdf': 'http://checklists.nist.gov/xccdf/1.2',
     'arf': 'http://scap.nist.gov/schema/asset-reporting-format/1.1',
     'oval-definitions': 'http://oval.mitre.org/XMLSchema/oval-definitions-5',
-    'scap': 'http://scap.nist.gov/schema/scap/source/1.2'
+    'scap': 'http://scap.nist.gov/schema/scap/source/1.2',
 }
 
 
@@ -59,7 +59,7 @@ class xml_parser():
                         id_rule=ruleResult.get('idref'),
                         id_def=check_content_ref.attrib.get('name'),
                         href=check_content_ref.attrib.get('href'),
-                        result=result.text
+                        result=result.text,
                     ))
         return rules
 
@@ -96,7 +96,7 @@ class xml_parser():
                         'value',
                         child['value'],
                         child['negate'],
-                        child['comment']
+                        child['comment'],
                     ))
 
         if 'id' in dict_of_definition:
@@ -109,7 +109,7 @@ class xml_parser():
                 dict_of_definition['operator'],
                 dict_of_definition['negate'],
                 dict_of_definition['comment'],
-                children
+                children,
             )
 
     def get_def_id_by_rule_id(self, rule_id):
@@ -136,7 +136,7 @@ class xml_parser():
             'and',
             False,
             None,
-            [self._xml_dict_to_node(dict_of_definition)]
+            [self._xml_dict_to_node(dict_of_definition)],
         )
 
     def get_oval_graph(self, rule_id=None):
@@ -145,7 +145,7 @@ class xml_parser():
     def build_graph(self, tree_data):
         graph = dict(
             id=tree_data.get('definition_id'),
-            node=[]
+            node=[],
         )
         for tree in tree_data:
             negate_status = False
@@ -173,7 +173,7 @@ class xml_parser():
             negate=negate_status,
             result=tree.get('result'),
             comment=None,
-            node=[]
+            node=[],
         )
         for child in tree:
             if child.get('operator') is not None:
@@ -189,7 +189,7 @@ class xml_parser():
                             extend_definition=child.get('definition_ref'),
                             result=child.get('result'),
                             negate=negate_status,
-                            comment=None
+                            comment=None,
                         ))
                 else:
                     node['node'].append(
@@ -197,7 +197,7 @@ class xml_parser():
                             value_id=child.get('test_ref'),
                             value=child.get('result'),
                             negate=negate_status,
-                            comment=None
+                            comment=None,
                         ))
         return node
 
@@ -216,7 +216,7 @@ class xml_parser():
             negate=value['negate'],
             result=value['result'],
             comment=value['comment'],
-            node=[]
+            node=[],
         )
         for child in value['node']:
             if 'operator' in child:
@@ -227,7 +227,7 @@ class xml_parser():
                         scan,
                         child['extend_definition'],
                         child['negate'],
-                        child['comment']
+                        child['comment'],
                     ))
             elif 'value_id' in child:
                 out['node'].append(child)
@@ -246,7 +246,8 @@ class xml_parser():
         comments = dict(
             operator='AND' if criteria.get('operator') is None else criteria.get('operator'),
             comment=criteria.get('comment'),
-            node=[])
+            node=[],
+        )
         for criterion in criteria:
             if criterion.get('operator'):
                 comments['node'].append(
@@ -256,13 +257,13 @@ class xml_parser():
                     comments['node'].append(
                         dict(
                             extend_definition=criterion.get('definition_ref'),
-                            comment=criterion.get('comment')
+                            comment=criterion.get('comment'),
                         ))
                 else:
                     comments['node'].append(
                         dict(
                             value_id=criterion.get('test_ref'),
-                            comment=criterion.get('comment')
+                            comment=criterion.get('comment'),
                         ))
         return comments
 

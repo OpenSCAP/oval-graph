@@ -10,7 +10,8 @@ ns = {
     'XMLSchema': 'http://oval.mitre.org/XMLSchema/oval-results-5',
     'xccdf': 'http://checklists.nist.gov/xccdf/1.2',
     'arf': 'http://scap.nist.gov/schema/asset-reporting-format/1.1',
-    'oval-definitions': 'http://oval.mitre.org/XMLSchema/oval-definitions-5'
+    'oval-definitions': 'http://oval.mitre.org/XMLSchema/oval-definitions-5',
+    'scap': 'http://scap.nist.gov/schema/scap/source/1.2',
 }
 
 
@@ -58,7 +59,7 @@ class xml_parser():
                         id_rule=ruleResult.get('idref'),
                         id_def=check_content_ref.attrib.get('name'),
                         href=check_content_ref.attrib.get('href'),
-                        result=result.text
+                        result=result.text,
                     ))
         return rules
 
@@ -95,7 +96,7 @@ class xml_parser():
                         'value',
                         child['value'],
                         child['negate'],
-                        child['comment']
+                        child['comment'],
                     ))
 
         if 'id' in dict_of_definition:
@@ -108,7 +109,7 @@ class xml_parser():
                 dict_of_definition['operator'],
                 dict_of_definition['negate'],
                 dict_of_definition['comment'],
-                children
+                children,
             )
 
     def get_def_id_by_rule_id(self, rule_id):
@@ -135,7 +136,7 @@ class xml_parser():
             'and',
             False,
             None,
-            [self._xml_dict_to_node(dict_of_definition)]
+            [self._xml_dict_to_node(dict_of_definition)],
         )
 
     def get_oval_graph(self, rule_id=None):
@@ -144,7 +145,7 @@ class xml_parser():
     def build_graph(self, tree_data):
         graph = dict(
             id=tree_data.get('definition_id'),
-            node=[]
+            node=[],
         )
         for tree in tree_data:
             negate_status = False
@@ -172,7 +173,7 @@ class xml_parser():
             negate=negate_status,
             result=tree.get('result'),
             comment=None,
-            node=[]
+            node=[],
         )
         for child in tree:
             if child.get('operator') is not None:
@@ -188,7 +189,7 @@ class xml_parser():
                             extend_definition=child.get('definition_ref'),
                             result=child.get('result'),
                             negate=negate_status,
-                            comment=None
+                            comment=None,
                         ))
                 else:
                     node['node'].append(
@@ -196,7 +197,7 @@ class xml_parser():
                             value_id=child.get('test_ref'),
                             value=child.get('result'),
                             negate=negate_status,
-                            comment=None
+                            comment=None,
                         ))
         return node
 
@@ -215,7 +216,7 @@ class xml_parser():
             negate=value['negate'],
             result=value['result'],
             comment=value['comment'],
-            node=[]
+            node=[],
         )
         for child in value['node']:
             if 'operator' in child:
@@ -226,7 +227,7 @@ class xml_parser():
                         scan,
                         child['extend_definition'],
                         child['negate'],
-                        child['comment']
+                        child['comment'],
                     ))
             elif 'value_id' in child:
                 out['node'].append(child)
@@ -245,23 +246,24 @@ class xml_parser():
         comments = dict(
             operator='AND' if criteria.get('operator') is None else criteria.get('operator'),
             comment=criteria.get('comment'),
-            node=[])
+            node=[],
+        )
         for criterion in criteria:
-            if 'operator' in criterion:
+            if criterion.get('operator'):
                 comments['node'].append(
                     self.create_dict_form_criteria(criterion))
             else:
-                if 'definition_ref' in criterion:
+                if criterion.get('definition_ref'):
                     comments['node'].append(
                         dict(
                             extend_definition=criterion.get('definition_ref'),
-                            comment=criterion.get('comment')
+                            comment=criterion.get('comment'),
                         ))
                 else:
                     comments['node'].append(
                         dict(
                             value_id=criterion.get('test_ref'),
-                            comment=criterion.get('comment')
+                            comment=criterion.get('comment'),
                         ))
         return comments
 
@@ -284,29 +286,25 @@ class xml_parser():
     def recursive_help_fill_comments(self, comments, nodes):
         out = nodes
         out['comment'] = comments['comment']
-        if 'node' in comments:
-            for node, comment in zip(out['node'], comments['node']):
-                node['comment'] = comment['comment']
-                if 'operator' in node:
-                    self.recursive_help_fill_comments(comment, node)
-        return [out]
+        for node, comment in zip(out['node'], comments['node']):
+            node['comment'] = comment['comment']
+            if 'operator' in node:
+                self.recursive_help_fill_comments(comment, node)
 
     def fill_comment(self, comment_definition, data_definition):
         comments = comment_definition['node'][0]
         nodes = data_definition['node'][0]
-        return self.recursive_help_fill_comments(comments, nodes)
+        self.recursive_help_fill_comments(comments, nodes)
 
     def insert_comments(self, data):
-        oval_def = self.root.findall('.//oval-definitions:definition', ns)
+        oval_def = self.root.find(
+            './/arf:report-requests/arf:report-request/'
+            'arf:content/scap:data-stream-collection/'
+            'scap:component/oval-definitions:oval_definitions/'
+            'oval-definitions:definitions', ns)
         comment_definitions = self.prepare_definition_comments(oval_def)
-        clean_comment_definitions = []
-        for definition in comment_definitions:
-            if not self.is_definition_in_array(
-                    definition, clean_comment_definitions):
-                clean_comment_definitions.append(definition)
 
-        for comment_definition in clean_comment_definitions:
-            for data_definition in data['definitions']:
+        for data_definition in data['definitions']:
+            for comment_definition in comment_definitions:
                 if comment_definition['id'] == data_definition['id']:
-                    data_definition['node'] = self.fill_comment(
-                        comment_definition, data_definition)
+                    self.fill_comment(comment_definition, data_definition)

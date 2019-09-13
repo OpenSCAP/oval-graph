@@ -14,3 +14,5 @@ notes.txt
 playground*
 
 scan-data/
+
+/*.egg-info

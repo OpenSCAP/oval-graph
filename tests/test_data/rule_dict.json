@@ -1,6 +1,7 @@
 {
     "rule_id": "xccdf_org.ssgproject.content_rule_dconf_gnome_session_idle_user_locks",
     "definition": {
+        "comment": "Ensure Users Cannot Change GNOME3 Session Idle Settings",
         "id": "oval:ssg-dconf_gnome_session_idle_user_locks:def:1",
         "node": [
             {

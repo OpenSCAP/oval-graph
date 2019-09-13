@@ -1,5 +1,5 @@
 var data_json ={
-    "text": "<strong><span class=\"text-danger\">rule_package_abrt_removed</span></strong> <i></i>",
+    "text": "<strong><span class=\"text-danger\">rule_package_abrt_removed</span></strong> <i>Package abrt Removed</i>",
     "icon": "glyphicon glyphicon-remove text-danger",
     "state": {
         "opened": true

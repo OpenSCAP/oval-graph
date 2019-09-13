@@ -4,7 +4,7 @@
             "id": "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny",
             "label": "rule_accounts_passwords_pam_faillock_deny",
             "url": "null",
-            "text": null,
+            "text": "Lock out account after failed login attempts",
             "title": "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny",
             "x": 0,
             "y": 0.36,

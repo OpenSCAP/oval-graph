@@ -28,7 +28,7 @@
         },
         {
             "id": "UUID-HASH",
-            "label": "and",
+            "label": "AND",
             "url": "null",
             "text": "sshd is not installed",
             "title": "UUID-HASH",
@@ -41,7 +41,7 @@
         },
         {
             "id": "UUID-HASH",
-            "label": "and",
+            "label": "AND",
             "url": "null",
             "text": "sshd is installed and configured",
             "title": "UUID-HASH",
@@ -54,7 +54,7 @@
         },
         {
             "id": "UUID-HASH",
-            "label": "or",
+            "label": "OR",
             "url": "null",
             "text": "sshd is not required or requirement is unset",
             "title": "UUID-HASH",
@@ -67,7 +67,7 @@
         },
         {
             "id": "UUID-HASH",
-            "label": "and",
+            "label": "AND",
             "url": "null",
             "text": "rpm package openssh-server removed",
             "title": "UUID-HASH",
@@ -80,7 +80,7 @@
         },
         {
             "id": "UUID-HASH",
-            "label": "or",
+            "label": "OR",
             "url": "null",
             "text": "sshd is required or requirement is unset",
             "title": "UUID-HASH",
@@ -93,7 +93,7 @@
         },
         {
             "id": "UUID-HASH",
-            "label": "and",
+            "label": "AND",
             "url": "null",
             "text": "rpm package openssh-server installed",
             "title": "UUID-HASH",
@@ -132,7 +132,7 @@
         },
         {
             "id": "UUID-HASH",
-            "label": "and",
+            "label": "AND",
             "url": "null",
             "text": "SSH requirement is unset",
             "title": "UUID-HASH",
@@ -171,7 +171,7 @@
         },
         {
             "id": "UUID-HASH",
-            "label": "and",
+            "label": "AND",
             "url": "null",
             "text": "SSH requirement is unset",
             "title": "UUID-HASH",

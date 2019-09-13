@@ -135,7 +135,7 @@ class xml_parser():
             'operator',
             'and',
             False,
-            None,
+            dict_of_definition['comment'],
             [self._xml_dict_to_node(dict_of_definition)],
         )
 
@@ -211,7 +211,7 @@ class xml_parser():
                 dict(
                     id=definition['id'],
                     comment=definition['comment'],
-                    node=nodes
+                    node=nodes,
                     ))
         return out
 

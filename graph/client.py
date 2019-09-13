@@ -20,9 +20,9 @@ class client():
         self.rule_name = self.arg.rule_id
         self.xml_parser = graph.xml_parser.xml_parser(self.source_filename)
         if self.tree:
-            self.html_interpreter = '../tree_html_interpreter'
+            self.html_interpreter = 'tree_html_interpreter'
         else:
-            self.html_interpreter = '../graph_html_interpreter'
+            self.html_interpreter = 'graph_html_interpreter'
         if self.remove_pass_tests:
             raise NotImplementedError('Not implemented!')
 

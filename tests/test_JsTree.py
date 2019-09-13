@@ -102,7 +102,7 @@ def test_create_node_with_negation_dict_for_JsTree3():
 
 def test_transformation_tree_to_Json_for_JsTree_0():
     test_data_src = 'test_data/JsTree_json0.json'
-    src = 'data/ssg-fedora-ds-arf.xml'
+    src = 'test_data/ssg-fedora-ds-arf.xml'
     rule_id = 'xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny'
 
     tests.any_test_help.any_test_transformation_tree_to_Json_for_JsTree(
@@ -111,7 +111,7 @@ def test_transformation_tree_to_Json_for_JsTree_0():
 
 def test_transformation_tree_to_Json_for_JsTree_with_duplicated_test():
     test_data_src = 'test_data/JsTree_json1.json'
-    src = 'data/ssg-fedora-ds-arf.xml'
+    src = 'test_data/ssg-fedora-ds-arf.xml'
     rule_id = 'xccdf_org.ssgproject.content_rule_disable_host_auth'
 
     tests.any_test_help.any_test_transformation_tree_to_Json_for_JsTree(

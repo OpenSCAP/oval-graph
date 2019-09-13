@@ -23,7 +23,7 @@ class xml_parser():
         self.tree = ET.parse(self.src)
         self.root = self.tree.getroot()
         if not self.validate(
-                '../schemas/arf/1.1/asset-reporting-format_1.1.0.xsd'):
+                'schemas/arf/1.1/asset-reporting-format_1.1.0.xsd'):
             raise ValueError("err- This is not arf report file.")
 
     def get_src(self, src):

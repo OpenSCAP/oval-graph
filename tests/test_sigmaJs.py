@@ -246,7 +246,7 @@ def test_create_array_of_ids_form_tree():
 
 def test_transformation_tree_to_Json_for_SigmaJs_0():
     test_data_src = 'test_data/sigmaJs_json0.json'
-    src = 'data/ssg-fedora-ds-arf.xml'
+    src = 'test_data/ssg-fedora-ds-arf.xml'
     rule_id = 'xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny'
 
     tests.any_test_help.any_test_transformation_tree_to_Json_for_SigmaJs(
@@ -255,7 +255,7 @@ def test_transformation_tree_to_Json_for_SigmaJs_0():
 
 def test_transformation_tree_to_Json_for_SigmaJs_with_duplicated_test():
     test_data_src = 'test_data/sigmaJs_json1.json'
-    src = 'data/ssg-fedora-ds-arf.xml'
+    src = 'test_data/ssg-fedora-ds-arf.xml'
     rule_id = 'xccdf_org.ssgproject.content_rule_disable_host_auth'
 
     tests.any_test_help.any_test_transformation_tree_to_Json_for_SigmaJs(

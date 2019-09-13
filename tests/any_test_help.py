@@ -76,7 +76,7 @@ def any_test_transformation_tree_to_Json_for_SigmaJs(
         src, test_data_src, rule_id):
     test_data = any_get_test_data_json(test_data_src)
 
-    oval_tree = graph.oval_graph.build_nodes_form_xml(src, rule_id)
+    oval_tree = graph.oval_graph.build_nodes_form_xml(get_src(src), rule_id)
 
     assert oval_tree.node_id == rule_id
     out_data = graph.converter.converter(oval_tree).to_sigma_dict(0, 0)
@@ -90,7 +90,7 @@ def any_test_transformation_tree_to_Json_for_JsTree(
         src, test_data_src, rule_id):
     test_data = any_get_test_data_json(test_data_src)
 
-    oval_tree = graph.oval_graph.build_nodes_form_xml(src, rule_id)
+    oval_tree = graph.oval_graph.build_nodes_form_xml(get_src(src), rule_id)
 
     assert oval_tree.node_id == rule_id
     out_data = graph.converter.converter(oval_tree).to_JsTree_dict()

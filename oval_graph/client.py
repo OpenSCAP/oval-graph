@@ -109,10 +109,12 @@ class client():
             return converter.to_JsTree_dict()
         return converter.to_sigma_dict(0, 0)
 
-    def save_dict(self, dict, rule, date):
-        with open(os.path.join(tempfile.gettempdir(), 'graph-of-' + rule + date, 'data.js'), "w+") as data_file:
+    def save_dict(self, dict_, rule, date):
+        with open(os.path.join(tempfile.gettempdir(),
+                               'graph-of-' + rule +
+                               date, 'data.js'), "w+") as data_file:
             data_file.write("var data_json =" + str(json.dumps(
-                dict, sort_keys=False, indent=4) + ";"))
+                dict_, sort_keys=False, indent=4) + ";"))
 
     def copy_interpreter(self, rule, date):
         src = self.xml_parser.get_src(self.html_interpreter)

@@ -6,6 +6,33 @@ import uuid
 
 class converter():
     def __init__(self, tree):
+        self.VALUE_TO_BOOTSTRAP_COLOR = {
+            "true": "text-success",
+            "false": "text-danger",
+            "error": "text-dark",
+            "unknown": "text-dark",
+            "noteval": "text-dark",
+            "notappl": "text-dark"
+        }
+
+        self.VALUE_TO_ICON = {
+            "true": "glyphicon glyphicon-ok",
+            "false": "glyphicon glyphicon-remove",
+            "error": "glyphicon glyphicon-question-sign",
+            "unknown": "glyphicon glyphicon-question-sign",
+            "noteval": "glyphicon glyphicon-question-sign",
+            "notappl": "glyphicon glyphicon-question-sign"
+        }
+        
+        self.VALUE_TO_HEX_COLOR = {
+            "true": "#00ff00",
+            "false": "#ff0000",
+            "error": "#000000",
+            "unknown": "#000000",
+            "noteval": "#000000",
+            "notappl": "#000000"
+        }
+
         if isinstance(tree, graph.oval_graph.OvalNode):
             self.tree = tree
         else:
@@ -30,27 +57,9 @@ class converter():
             else:
                 icon = value
 
-        VALUE_TO_COLOR = {
-            "true": "text-success",
-            "false": "text-danger",
-            "error": "text-dark",
-            "unknown": "text-dark",
-            "noteval": "text-dark",
-            "notappl": "text-dark"
-        }
-
-        VALUE_TO_ICON = {
-            "true": "glyphicon glyphicon-ok",
-            "false": "glyphicon glyphicon-remove",
-            "error": "glyphicon glyphicon-question-sign",
-            "unknown": "glyphicon glyphicon-question-sign",
-            "noteval": "glyphicon glyphicon-question-sign",
-            "notappl": "glyphicon glyphicon-question-sign"
-        }
-
         return dict(
-            color=VALUE_TO_COLOR[value],
-            icon=VALUE_TO_ICON[icon])
+            color=self.VALUE_TO_BOOTSTRAP_COLOR[value],
+            icon=self.VALUE_TO_ICON[icon])
 
     def get_comment(self):
         if self.tree.comment is not None:
@@ -107,17 +116,10 @@ class converter():
                 borderValue = 'true'
             else:
                 borderValue = value
-        VALUE_TO_COLOR = {
-            "true": "#00ff00",
-            "false": "#ff0000",
-            "error": "#000000",
-            "unknown": "#000000",
-            "noteval": "#000000",
-            "notappl": "#000000"
-        }
+
         return dict(
-            color=VALUE_TO_COLOR[value],
-            borderColor=VALUE_TO_COLOR[borderValue])
+            color=self.VALUE_TO_HEX_COLOR[value],
+            borderColor=self.VALUE_TO_HEX_COLOR[borderValue])
 
     def _get_node_title(self):
         value = self.tree.evaluate_tree()

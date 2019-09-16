@@ -23,7 +23,7 @@ class converter():
             "noteval": "glyphicon glyphicon-question-sign",
             "notappl": "glyphicon glyphicon-question-sign"
         }
-        
+
         self.VALUE_TO_HEX_COLOR = {
             "true": "#00ff00",
             "false": "#ff0000",
@@ -39,27 +39,11 @@ class converter():
             raise ValueError('err - this is not tree created from OvalNodes')
 
     def _get_node_icon(self):
-        value = self.tree.evaluate_tree()
-        icon = None
-        if value is None:
-            if self._is_negated_boolean('true', self.tree.value):
-                icon = 'false'
-            elif self._is_negated_boolean('false', self.tree.value):
-                icon = 'true'
-            else:
-                icon = self.tree.value
-            icon, value = self.tree.value, icon
-        else:
-            if self._is_negated_boolean('true', value):
-                icon = 'false'
-            elif self._is_negated_boolean('false', value):
-                icon = 'true'
-            else:
-                icon = value
-
+        values = self._get_node_style()
         return dict(
-            color=self.VALUE_TO_BOOTSTRAP_COLOR[value],
-            icon=self.VALUE_TO_ICON[icon])
+            color=self.VALUE_TO_BOOTSTRAP_COLOR[values['negation_color']],
+            icon=self.VALUE_TO_ICON[values['out_color']],
+        )
 
     def get_comment(self):
         if self.tree.comment is not None:
@@ -80,6 +64,29 @@ class converter():
                                for child in self.tree.children]
         return out
 
+    def _get_node_style(self):
+        value = self.tree.evaluate_tree()
+        out_color = None
+        if value is None:
+            if self._is_negated_boolean('true', self.tree.value):
+                out_color = 'false'
+            elif self._is_negated_boolean('false', self.tree.value):
+                out_color = 'true'
+            else:
+                out_color = self.tree.value
+            out_color, value = self.tree.value, out_color
+        else:
+            if self._is_negated_boolean('true', value):
+                out_color = 'false'
+            elif self._is_negated_boolean('false', value):
+                out_color = 'true'
+            else:
+                out_color = value
+        return dict(
+            negation_color=value,
+            out_color=out_color,
+        )
+
 # Methods for interpreting oval tree with SigmaJS
 
     def _get_label(self):
@@ -99,27 +106,11 @@ class converter():
         return False
 
     def _get_node_colors(self):
-        value = self.tree.evaluate_tree()
-        borderValue = None
-        if value is None:
-            if self._is_negated_boolean('true', self.tree.value):
-                borderValue = 'false'
-            elif self._is_negated_boolean('false', self.tree.value):
-                borderValue = 'true'
-            else:
-                borderValue = self.tree.value
-            borderValue, value = self.tree.value, borderValue
-        else:
-            if self._is_negated_boolean('true', value):
-                borderValue = 'false'
-            elif self._is_negated_boolean('false', value):
-                borderValue = 'true'
-            else:
-                borderValue = value
-
+        values = self._get_node_style()
         return dict(
-            color=self.VALUE_TO_HEX_COLOR[value],
-            borderColor=self.VALUE_TO_HEX_COLOR[borderValue])
+            color=self.VALUE_TO_HEX_COLOR[values['negation_color']],
+            borderColor=self.VALUE_TO_HEX_COLOR[values['out_color']],
+        )
 
     def _get_node_title(self):
         value = self.tree.evaluate_tree()

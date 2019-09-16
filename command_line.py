@@ -1,9 +1,9 @@
-import graph.client
+import oval_graph.client
 import sys
 
 
 def main():
-    client = graph.client.client(sys.argv[1:])
+    client = oval_graph.client.client(sys.argv[1:])
     rules = client.search_rules_id()
     if len(rules) > 1:
         answers = client.run_gui_and_return_answers()

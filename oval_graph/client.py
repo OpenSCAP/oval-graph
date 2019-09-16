@@ -1,8 +1,8 @@
 from __future__ import print_function, unicode_literals
 import re
-import graph.xml_parser
-import graph.oval_graph
-import graph.converter
+import oval_graph.xml_parser
+import oval_graph.oval_graph
+import oval_graph.converter
 import webbrowser
 import json
 import argparse
@@ -18,7 +18,7 @@ class client():
         self.source_filename = self.arg.source_filename
         self.tree = self.arg.tree
         self.rule_name = self.arg.rule_id
-        self.xml_parser = graph.xml_parser.xml_parser(self.source_filename)
+        self.xml_parser = oval_graph.xml_parser.xml_parser(self.source_filename)
         if self.tree:
             self.html_interpreter = 'tree_html_interpreter'
         else:
@@ -92,15 +92,15 @@ class client():
                  " wasn't a part of the executed profile"
                  " and therefore it wasn't evaluated "
                  "during the scan.")
-                .format(notselected_rules[0]['id_rule']))
+               .format(notselected_rules[0]['id_rule']))
         elif not notselected_rules and not rules:
             raise ValueError('err- 404 rule not found!')
         else:
             return rules
 
     def create_dict_of_rule(self, rule_id):
-        converter = graph.converter.converter(
-            graph.oval_graph.build_nodes_form_xml(
+        converter = oval_graph.converter.converter(
+            oval_graph.oval_graph.build_nodes_form_xml(
                 self.source_filename, rule_id))
         if self.tree:
             return converter.to_JsTree_dict()

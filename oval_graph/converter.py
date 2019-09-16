@@ -1,4 +1,4 @@
-import graph.oval_graph
+import oval_graph.oval_graph
 import collections
 import re
 import uuid
@@ -33,7 +33,7 @@ class converter():
             "notappl": "#000000"
         }
 
-        if isinstance(tree, graph.oval_graph.OvalNode):
+        if isinstance(tree, oval_graph.oval_graph.OvalNode):
             self.tree = tree
         else:
             raise ValueError('err - this is not tree created from OvalNodes')

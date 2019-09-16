@@ -1,8 +1,8 @@
 '''
     Modules form my lib and for create ID
 '''
-import graph.xml_parser
-import graph.evaluate
+import oval_graph.xml_parser
+import oval_graph.evaluate
 import uuid
 
 
@@ -14,7 +14,7 @@ import uuid
 
 class OvalNode():
     '''
-    The OvalNode object is one node of oval graph.
+    The OvalNode object is one node of oval oval_graph.
 
     Args:
         node_id (str|int): identifies node
@@ -129,17 +129,17 @@ class OvalNode():
     def evaluate_tree(self):
         result = self._get_result_counts()
         out_result = None
-        if graph.evaluate.is_notapp_result(result):
+        if oval_graph.evaluate.is_notapp_result(result):
             out_result = "notappl"
         else:
             if self.value == "or":
-                out_result = graph.evaluate.oval_operator_or(result)
+                out_result = oval_graph.evaluate.oval_operator_or(result)
             elif self.value == "and":
-                out_result = graph.evaluate.oval_operator_and(result)
+                out_result = oval_graph.evaluate.oval_operator_and(result)
             elif self.value == "one":
-                out_result = graph.evaluate.oval_operator_one(result)
+                out_result = oval_graph.evaluate.oval_operator_one(result)
             elif self.value == "xor":
-                out_result = graph.evaluate.oval_operator_xor(result)
+                out_result = oval_graph.evaluate.oval_operator_xor(result)
 
         if out_result == 'true' and self.negation:
             out_result = 'false'
@@ -186,7 +186,7 @@ class OvalNode():
 
 
 def build_nodes_form_xml(xml_src, rule_id):
-    parser = graph.xml_parser.xml_parser(xml_src)
+    parser = oval_graph.xml_parser.xml_parser(xml_src)
     return parser.get_oval_graph(rule_id)
 
 

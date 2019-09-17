@@ -8,7 +8,6 @@ import tests.any_test_help
 from oval_graph.xml_parser import xml_parser
 
 
-
 def test_parsing_full_scan_XML_and_evaluate():
     src = 'test_data/ssg-fedora-ds-arf.xml'
     rule_id = 'xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny'

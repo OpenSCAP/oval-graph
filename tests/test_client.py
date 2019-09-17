@@ -22,23 +22,25 @@ def get_client_on_web_browser(src, rule):
 
 
 def get_client_with_option_show_fail_rules(src, rule):
-    return client(
-        ["--show-fail-rules", "--off-web-browser", tests.any_test_help.get_src(src), rule])
+    return client(["--show-fail-rules", "--off-web-browser",
+                   tests.any_test_help.get_src(src), rule])
 
 
 def get_client_with_option_show_not_selected_rules(src, rule):
-    return client(
-        ["--show-not-selected-rules", "--off-web-browser", tests.any_test_help.get_src(src), rule])
+    return client(["--show-not-selected-rules",
+                   "--off-web-browser",
+                   tests.any_test_help.get_src(src),
+                   rule])
 
 
 def get_client_with_option_show_not_selected_rules_and_show_fail_rules(
         src,
         rule):
     return client(["--show-not-selected-rules",
-                                "--show-fail-rules",
-                                "--off-web-browser",
-                                tests.any_test_help.get_src(src),
-                                rule])
+                   "--show-fail-rules",
+                   "--off-web-browser",
+                   tests.any_test_help.get_src(src),
+                   rule])
 
 
 def test_client():

@@ -185,7 +185,7 @@ class oval_node():
 
     def change_tree_value(self, node_id, value):
         self.find_node_with_ID(node_id).value = value
-        
+
 
 def restore_dict_to_tree(dict_of_tree):
     if dict_of_tree["child"] is None:

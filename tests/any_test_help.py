@@ -31,7 +31,7 @@ def any_test_treeEvaluation(tree, expect, file_name=None):
 
 def any_test_parsing_and_evaluate_scan_rule(src, rule_id, result):
     parser = xml_parser(get_src(src))
-    oval_tree = parser.get_oval_graph(rule_id)
+    oval_tree = parser.get_oval_tree(rule_id)
     any_test_treeEvaluation(oval_tree, result)
 
 
@@ -74,7 +74,7 @@ def any_test_transformation_tree_to_Json_for_JsTree(
     test_data = any_get_test_data_json(test_data_src)
 
     parser = xml_parser(get_src(src))
-    oval_tree = parser.get_oval_graph(rule_id)
+    oval_tree = parser.get_oval_tree(rule_id)
 
     assert oval_tree.node_id == rule_id
     out_data = converter(oval_tree).to_JsTree_dict()

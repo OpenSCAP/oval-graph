@@ -147,7 +147,7 @@ class xml_parser():
             [self._xml_dict_to_node(dict_of_definition)],
         )
 
-    def get_oval_graph(self, rule_id=None):
+    def get_oval_tree(self, rule_id=None):
         return self.xml_dict_of_rule_to_node(self.parse_data_to_dict(rule_id))
 
     def build_graph(self, tree_data):

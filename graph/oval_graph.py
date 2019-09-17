@@ -4,8 +4,7 @@
 import graph.xml_parser
 import graph.evaluate
 import uuid
-import collections
-import re
+
 
 '''
     This module contains methods and classes for
@@ -38,24 +37,33 @@ class OvalNode():
             input_value,
             input_negation,
             comment,
-            children=None):
+            children=None
+    ):
         self.comment = comment
         self.node_id = node_id
-        if isinstance(input_negation, bool):
-            self.negation = input_negation
-        else:
+        self.negation = self.validate_negation(input_negation)
+        self.node_type = self.validate_type(input_node_type)
+        self.value = self.validate_type_and_value(input_value)
+        self.children = []
+        self.validate_children(children)
+        if children:
+            for child in children:
+                self.add_child(child)
+
+    def validate_negation(self, input_negation):
+        if not isinstance(input_negation, bool):
             raise ValueError("err- negation is bool (only True or False)")
-        value = input_value.lower()
+        return input_negation
+
+    def validate_type(self, input_node_type):
         node_type = input_node_type.lower()
-        if node_type == "value" or node_type == "operator":
-            self.node_type = node_type
-        else:
+        if node_type != "value" and node_type != "operator":
             raise ValueError("err- unknown type")
-        allowed_operators = [
-            "or",
-            "and",
-            "one",
-            "xor"]
+        return node_type
+
+    def validate_type_and_value(self, input_value):
+        value = input_value.lower()
+
         allowed_values = [
             "true",
             "false",
@@ -63,23 +71,20 @@ class OvalNode():
             "unknown",
             "noteval",
             "notappl"]
+        allowed_operators = ["or", "and", "one", "xor"]
+
         if self.node_type == "value":
-            if value in allowed_values:
-                self.value = value
-            else:
+            if value not in allowed_values:
                 raise ValueError("err- unknown value")
+
         if self.node_type == "operator":
-            if value in allowed_operators:
-                self.value = value
-            else:
+            if value not in allowed_operators:
                 raise ValueError("err- unknown operator")
-        self.children = []
-        if children is not None:
-            for child in children:
-                self.add_child(child)
-        else:
-            if self.node_type == "operator":
-                raise ValueError('err- Operator node has child!')
+        return value
+
+    def validate_children(self, children):
+        if children is None and self.node_type == "operator":
+            raise ValueError('err- Operator node has child!')
 
     def __repr__(self):
         return self.value
@@ -162,66 +167,6 @@ class OvalNode():
             'child': [child.save_tree_to_dict() for child in self.children]
         }
 
-    def _get_node_icon(self):
-        value = self.evaluate_tree()
-        icon = None
-        if value is None:
-            if self._is_negated_boolean('true', self.value):
-                icon = 'false'
-            elif self._is_negated_boolean('false', self.value):
-                icon = 'true'
-            else:
-                icon = self.value
-            icon, value = self.value, icon
-        else:
-            if self._is_negated_boolean('true', value):
-                icon = 'false'
-            elif self._is_negated_boolean('false', value):
-                icon = 'true'
-            else:
-                icon = value
-
-        VALUE_TO_COLOR = {
-            "true": "text-success",
-            "false": "text-danger",
-            "error": "text-dark",
-            "unknown": "text-dark",
-            "noteval": "text-dark",
-            "notappl": "text-dark"
-        }
-
-        VALUE_TO_ICON = {
-            "true": "glyphicon glyphicon-ok",
-            "false": "glyphicon glyphicon-remove",
-            "error": "glyphicon glyphicon-question-sign",
-            "unknown": "glyphicon glyphicon-question-sign",
-            "noteval": "glyphicon glyphicon-question-sign",
-            "notappl": "glyphicon glyphicon-question-sign"
-        }
-
-        return dict(
-            color=VALUE_TO_COLOR[value],
-            icon=VALUE_TO_ICON[icon])
-
-    def get_comment(self):
-        if self.comment is not None:
-            return str(self.comment)
-        return ""
-
-    def to_JsTree_dict(self):
-        icons = self._get_node_icon()
-        out = {
-            'text': '<strong><span class="' + icons['color'] + '">' +
-                    self._get_label() + '</span></strong>' +
-                    ' <i>' + self.get_comment() + '</i>',
-            "icon": icons['icon'] + ' ' + icons['color'],
-            "state": {
-                    "opened": True}}
-        if self.children:
-            out['children'] = [child.to_JsTree_dict()
-                               for child in self.children]
-        return out
-
     def find_node_with_ID(self, node_id):
         if self.node_id == node_id:
             return self
@@ -238,291 +183,6 @@ class OvalNode():
 
     def change_tree_value(self, node_id, value):
         self.find_node_with_ID(node_id).value = value
-
-    # Methods for interpreting oval tree with SigmaJS
-
-    def _get_label(self):
-        if self.node_type == 'value':
-            return re.sub(
-                '(oval:ssg-test_|oval:ssg-)|(:def:1|:tst:1)', '', str(self.node_id))
-        else:
-            if str(self.node_id).startswith('xccdf_org'):
-                return re.sub(
-                    '(xccdf_org.ssgproject.content_)', '', str(
-                        self.node_id))
-            return self.value
-
-    def _is_negated_boolean(self, boolean, value):
-        if value == boolean and self.negation:
-            return True
-        return False
-
-    def _get_node_colors(self):
-        value = self.evaluate_tree()
-        borderValue = None
-        if value is None:
-            if self._is_negated_boolean('true', self.value):
-                borderValue = 'false'
-            elif self._is_negated_boolean('false', self.value):
-                borderValue = 'true'
-            else:
-                borderValue = self.value
-            borderValue, value = self.value, borderValue
-        else:
-            if self._is_negated_boolean('true', value):
-                borderValue = 'false'
-            elif self._is_negated_boolean('false', value):
-                borderValue = 'true'
-            else:
-                borderValue = value
-        VALUE_TO_COLOR = {
-            "true": "#00ff00",
-            "false": "#ff0000",
-            "error": "#000000",
-            "unknown": "#000000",
-            "noteval": "#000000",
-            "notappl": "#000000"
-        }
-        return dict(
-            color=VALUE_TO_COLOR[value],
-            borderColor=VALUE_TO_COLOR[borderValue])
-
-    def _get_node_title(self):
-        value = self.evaluate_tree()
-        if value is None:
-            value = self.value
-        if value == 'true' or value == 'false':
-            return self.node_id
-        return str(self.node_id) + ' ' + self.value
-
-    def _create_node(self, x, y):
-        # print(self.evaluate_tree(),self.value)
-        colors = self._get_node_colors()
-        return {
-            'id': self.node_id,
-            'label': self._get_label(),
-            'url': 'null',
-            'text': self.comment,
-            'title': self._get_node_title(),
-            "x": x,
-            "y": y,
-            "size": 3,
-            "color": colors['color'],
-            "type": "circle",
-            "borderColor": colors['borderColor']}
-
-    def _create_edge(self, id_source, id_target, target_node):
-        return {
-            "id": str(uuid.uuid4()),
-            "source": id_source,
-            "target": id_target,
-            "color": self._get_color_edge(target_node)
-        }
-
-    def _get_color_edge(self, target_node):
-        return target_node['color']
-
-    def create_list_of_id(self, array_of_ids=None):
-        if array_of_ids is None:
-            array_of_ids = []
-            array_of_ids.append(self.node_id)
-        for child in self.children:
-            if child.node_type != "operator":
-                array_of_ids.append(child.node_id)
-            else:
-                array_of_ids.append(child.node_id)
-                child.create_list_of_id(array_of_ids)
-        return array_of_ids
-
-    def _remove_Duplication(self, graph_data):
-        array_of_ids = self.create_list_of_id()
-        out = dict(nodes=[], edges=graph_data['edges'])
-        duplicate_ids = [item for item, count in collections.Counter(
-            array_of_ids).items() if count > 1]
-
-        for node in graph_data['nodes']:
-            if node['id'] not in duplicate_ids:
-                out['nodes'].append(node)
-
-        for id in duplicate_ids:
-            for node in graph_data['nodes']:
-                if node['id'] == id:
-                    out['nodes'].append(node)
-                    break
-        return out
-
-    def _fix_graph(self, preprocessed_graph_data):
-        for node in preprocessed_graph_data['nodes']:
-            for node1 in preprocessed_graph_data['nodes']:
-                if node['x'] == node1['x'] and node['y'] == node1['y']:
-                    node['x'] = node['x'] - 1
-        return preprocessed_graph_data
-
-    def _help_to_sigma_dict(self, x, y, preprocessed_graph_data=None):
-        if preprocessed_graph_data is None:
-            preprocessed_graph_data = dict(nodes=[], edges=[])
-            preprocessed_graph_data['nodes'].append(self._create_node(x, y))
-        y_row = y + 1
-        x_row = x
-        for node in self.children:
-            preprocessed_graph_data['nodes'].append(
-                node._create_node(x_row, y_row))
-            preprocessed_graph_data['edges'].append(node._create_edge(
-                self.node_id, node.node_id, preprocessed_graph_data['nodes'][-1]))
-            x_row = x_row + 1
-            if node.children is not None:
-                preprocessed_graph_data = node._help_to_sigma_dict(
-                    x_row + 1, y_row + 1, preprocessed_graph_data)
-        return self._fix_graph(preprocessed_graph_data)
-
-    def _count_max_y(self, out):
-        max_y = 0
-
-        for node in out['nodes']:
-            if max_y < node['y']:
-                max_y = node['y']
-        return max_y
-
-    def _create_nodes_in_rows(self, rows):
-        nodes_in_rows = dict()
-
-        for i in range(rows + 1):
-            nodes_in_rows[i] = []
-        return nodes_in_rows
-
-    def _push_nodes_to_nodes_in_row(self, out, nodes_in_rows):
-        for node in out['nodes']:
-            nodes_in_rows[node['y']].append(node)
-
-    def _remove_empty_rows(self, nodes_in_rows, max_y):
-        for row in range(max_y + 1):
-            if not nodes_in_rows[row]:
-                del nodes_in_rows[row]
-
-    def _move_rows(self, nodes_in_rows):
-        count = 0
-        nodes_in_rows1 = dict()
-
-        for row in nodes_in_rows:
-            nodes_in_rows1[count] = nodes_in_rows[row]
-            for node in nodes_in_rows1[count]:
-                node['y'] = count
-            count += 1
-        return nodes_in_rows1
-
-    def _create_positions(self, nodes_in_rows):
-        positions = []
-        for row in nodes_in_rows:
-            len_of_row = len(nodes_in_rows[row])
-            if len_of_row > 1:
-                if (len_of_row % 2) == 1:
-                    len_of_row += 1
-
-                for i in range((int(-(len_of_row / 2))) * 2,
-                               (int(+(len_of_row / 2)) + 1) * 2, 2):
-                    positions.append(i)
-
-                if len_of_row == 2:
-                    positions.remove(0)
-
-                if len(nodes_in_rows[row]) < len(positions):
-                    positions.pop()
-                    if len(nodes_in_rows[row]) < len(positions):
-                        positions.pop(0)
-
-                count = 0
-
-                for pos in positions:
-                    nodes_in_rows[row][count]['x'] = pos
-                    count += 1
-                positions = []
-            else:
-                nodes_in_rows[row][0]['x'] = 0
-
-        return positions
-
-    def _convert_nodes_in_rows_to_nodes(self, nodes_in_rows):
-        nodes = []
-        for row in nodes_in_rows:
-            for node in nodes_in_rows[row]:
-                nodes.append(node)
-        return nodes
-
-    def _change_position(self, nodes_in_rows):
-        x = 0.6
-        up_and_down = True
-        down = False
-        down_row = False
-        save_x = 0
-        continue_move = False
-
-        for row in nodes_in_rows:
-            for node in nodes_in_rows[row]:
-                if (len(node['label']) > 6
-                        and len(node['label']) < 40
-                        or continue_move):
-                    if up_and_down:
-                        node['y'] = node['y'] + (0.6 * x)
-                        up_and_down = False
-                    else:
-                        up_and_down = True
-                    continue_move = True
-                elif len(node['label']) > 30:
-                    node['y'] = node['y'] + (0.6 * x)
-                    x += 0.6
-                    save_x = x
-                    down = True
-                else:
-                    if down:
-                        node['y'] = node['y'] + (0.6 * save_x)
-
-                    if down_row:
-                        node['y'] = node['y'] + (0.6 * save_x) - 0.7
-            if down:
-                down = False
-                down_row = True
-            continue_move = False
-            x = 0.6
-
-    def _sort(self, array):
-        less = []
-        equal = []
-        greater = []
-
-        if len(array) > 1:
-            pivot = array[0]['x']
-            for node in array:
-                if node['x'] < pivot:
-                    less.append(node)
-                if node['x'] == pivot:
-                    equal.append(node)
-                if node['x'] > pivot:
-                    greater.append(node)
-            return self._sort(less) + equal + self._sort(greater)
-        else:
-            return array
-
-    def _sort_nodes(self, nodes_in_rows):
-        for row in nodes_in_rows:
-            nodes_in_rows[row] = self._sort(nodes_in_rows[row])
-
-    def _center_graph(self, out):
-        max_y = self._count_max_y(out)
-        nodes_in_rows = self._create_nodes_in_rows(max_y)
-        self._push_nodes_to_nodes_in_row(out, nodes_in_rows)
-        self._remove_empty_rows(nodes_in_rows, max_y)
-        nodes_in_rows = self._move_rows(nodes_in_rows)
-        self._sort_nodes(nodes_in_rows)
-        self._create_positions(nodes_in_rows)
-        self._change_position(nodes_in_rows)
-        out['nodes'] = self._convert_nodes_in_rows_to_nodes(nodes_in_rows)
-        return out
-
-    def to_sigma_dict(self, x, y):
-        return self._center_graph(
-            self._remove_Duplication(
-                self._help_to_sigma_dict(
-                    x, y)))
 
 
 def build_nodes_form_xml(xml_src, rule_id):

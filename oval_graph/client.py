@@ -1,15 +1,15 @@
-from __future__ import print_function, unicode_literals
-from datetime import datetime
 import re
-import oval_graph.xml_parser
-import oval_graph.oval_graph
-import oval_graph.converter
 import webbrowser
 import json
 import argparse
 import tempfile
 import os
 import shutil
+from datetime import datetime
+
+from .xml_parser import xml_parser
+from .oval_node import oval_node
+from .converter import converter
 
 
 class client():
@@ -21,7 +21,7 @@ class client():
         self.off_webbrowser = self.arg.off_web_browser
         self.source_filename = self.arg.source_filename
         self.rule_name = self.arg.rule_id
-        self.xml_parser = oval_graph.xml_parser.xml_parser(
+        self.xml_parser = xml_parser(
             self.source_filename)
         self.html_interpreter = 'tree_html_interpreter'
         if self.remove_pass_tests:
@@ -98,9 +98,8 @@ class client():
             return rules
 
     def create_dict_of_rule(self, rule_id):
-        converter = oval_graph.converter.converter(
-            oval_graph.oval_graph.build_nodes_form_xml(
-                self.source_filename, rule_id))
+        parser = xml_parser(self.source_filename)
+        converter = converter(parser.get_oval_tree(rule_id))
         return converter.to_JsTree_dict()
 
     def save_dict(self, dict_, src):

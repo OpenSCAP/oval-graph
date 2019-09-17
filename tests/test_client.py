@@ -1,6 +1,3 @@
-import oval_graph.client
-import pytest
-import tests.any_test_help
 import re
 import json
 import mock
@@ -8,35 +5,40 @@ import sys
 import os
 import tempfile
 
+import pytest
+
+from oval_graph.client import client
+import tests.any_test_help
+
 
 def get_client(src, rule):
-    return oval_graph.client.client(
+    return client(
         ["--off-web-browser", tests.any_test_help.get_src(src), rule])
 
 
 def get_client_on_web_browser(src, rule):
-    return oval_graph.client.client(
+    return client(
         [tests.any_test_help.get_src(src), rule])
 
 
 def get_client_with_option_show_fail_rules(src, rule):
-    return oval_graph.client.client(
+    return client(
         ["--show-fail-rules", "--off-web-browser", tests.any_test_help.get_src(src), rule])
 
 
 def get_client_with_option_show_not_selected_rules(src, rule):
-    return oval_graph.client.client(
+    return client(
         ["--show-not-selected-rules", "--off-web-browser", tests.any_test_help.get_src(src), rule])
 
 
 def get_client_with_option_show_not_selected_rules_and_show_fail_rules(
         src,
         rule):
-    return oval_graph.client.client(["--show-not-selected-rules",
-                                     "--show-fail-rules",
-                                     "--off-web-browser",
-                                     tests.any_test_help.get_src(src),
-                                     rule])
+    return client(["--show-not-selected-rules",
+                                "--show-fail-rules",
+                                "--off-web-browser",
+                                tests.any_test_help.get_src(src),
+                                rule])
 
 
 def test_client():

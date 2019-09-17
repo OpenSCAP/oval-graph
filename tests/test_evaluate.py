@@ -1,4 +1,5 @@
-import oval_graph.oval_graph
+from oval_graph.oval_node import oval_node
+import oval_graph.evaluate
 import tests.any_test_help
 
 

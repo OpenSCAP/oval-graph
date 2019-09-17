@@ -1,9 +1,9 @@
 '''
     Modules form my lib and for create ID
 '''
-import oval_graph.xml_parser
-import oval_graph.evaluate
 import uuid
+
+import oval_graph.evaluate
 
 
 '''
@@ -12,7 +12,7 @@ import uuid
 '''
 
 
-class OvalNode():
+class oval_node():
     '''
     The OvalNode object is one node of oval_graph.
 
@@ -93,7 +93,7 @@ class OvalNode():
 
     def add_child(self, node):
         if self.node_type == "operator":
-            assert isinstance(node, OvalNode)
+            assert isinstance(node, oval_node)
             self.children.append(node)
         else:
             self.children = None
@@ -185,22 +185,17 @@ class OvalNode():
 
     def change_tree_value(self, node_id, value):
         self.find_node_with_ID(node_id).value = value
-
-
-def build_nodes_form_xml(xml_src, rule_id):
-    parser = oval_graph.xml_parser.xml_parser(xml_src)
-    return parser.get_oval_graph(rule_id)
-
+        
 
 def restore_dict_to_tree(dict_of_tree):
     if dict_of_tree["child"] is None:
-        return OvalNode(
+        return oval_node(
             dict_of_tree["node_id"],
             dict_of_tree["type"],
             dict_of_tree["value"],
             dict_of_tree["negation"],
             dict_of_tree['comment'])
-    return OvalNode(
+    return oval_node(
         dict_of_tree["node_id"],
         dict_of_tree["type"],
         dict_of_tree["value"],

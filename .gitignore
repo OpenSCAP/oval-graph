@@ -6,7 +6,6 @@ __pycache__/
 htmlcov/
 .coverage
 
-oval_graph/graph_html_interpreter/data.js
 oval_graph/tree_html_interpreter/data.js
 
 notes.txt

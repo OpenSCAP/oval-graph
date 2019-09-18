@@ -19,11 +19,6 @@ def get_client_on_web_browser(src, rule):
         [tests.any_test_help.get_src(src), rule])
 
 
-def get_client_tree(src, rule):
-    return oval_graph.client.client(
-        ["--tree", "--off-web-browser", tests.any_test_help.get_src(src), rule])
-
-
 def get_client_with_option_show_fail_rules(src, rule):
     return oval_graph.client.client(
         ["--show-fail-rules", "--off-web-browser", tests.any_test_help.get_src(src), rule])
@@ -200,23 +195,10 @@ def test_search_not_selected_rule():
         assert get_client(src, non_existent_rule).search_rules_id()
 
 
-def test_prepare_graph():
-    src = 'test_data/ssg-fedora-ds-arf.xml'
-    rule = 'xccdf_org.ssgproject.content_rule_package_abrt_removed'
-    client = get_client(src, rule)
-    rules = {'rules': [rule]}
-    results_src = client.prepare_data(rules)
-    result = load_tested_file(
-        os.path.join(results_src[0], 'data.js'))
-    referenc_result = load_tested_file(
-        'test_data/referenc_result_data_graph.js')
-    assert result == referenc_result
-
-
 def test_prepare_tree():
     src = 'test_data/ssg-fedora-ds-arf.xml'
     rule = 'xccdf_org.ssgproject.content_rule_package_abrt_removed'
-    client = get_client_tree(src, rule)
+    client = get_client(src, rule)
     rules = {'rules': [rule]}
     results_src = client.prepare_data(rules)
     result = load_tested_file(

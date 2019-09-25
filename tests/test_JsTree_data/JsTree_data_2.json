@@ -1,12 +1,12 @@
 {
-    "text": "<strong><span class=\"text-dark\">AND</span></strong> <i></i>",
+    "text": " <strong><span class=\"text-dark\">AND</span></strong> <i></i>",
     "icon": "glyphicon glyphicon-question-sign text-dark",
     "state": {
         "opened": true
     },
     "children": [
         {
-            "text": "<strong><span class=\"text-dark\">2</span></strong> <i></i>",
+            "text": " <strong><span class=\"text-dark\">2</span></strong> <i></i>",
             "icon": "glyphicon glyphicon-question-sign text-dark",
             "state": {
                 "opened": true

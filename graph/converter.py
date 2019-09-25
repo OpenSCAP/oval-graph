@@ -124,7 +124,7 @@ class converter():
         values = self._get_node_style()
         return dict(
             color=self.VALUE_TO_HEX_COLOR[values['negation_color']],
-            borderColor=self.VALUE_TO_HEX_COLOR[values['out_color']],
+            borderColor=self.VALUE_TO_HEX_COLOR[values['test_value']],
         )
 
     def _get_node_title(self):

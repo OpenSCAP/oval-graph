@@ -125,10 +125,10 @@ def test_create_node_dict_for_sigmaJs_5():
 def test_create_node_with_negation_dict_for_sigmaJs():
     out = {
         'type': 'circle',
-        'borderColor': '#ff0000',
-        'color': '#00ff00',
+        'borderColor': '#00ff00',
+        'color': '#ff0000',
         'id': 1,
-        'label': 'NAND',
+        'label': 'AND',
         'size': 3,
         'text': None,
         'url': 'null',
@@ -147,10 +147,10 @@ def test_create_node_with_negation_dict_for_sigmaJs():
 def test_create_node_with_negation_dict_for_sigmaJs1():
     out = {
         'type': 'circle',
-        'borderColor': '#00ff00',
-        'color': '#ff0000',
+        'borderColor': '#ff0000',
+        'color': '#00ff00',
         'id': 1,
-        'label': 'NAND',
+        'label': 'AND',
         'size': 3,
         'text': None,
         'url': 'null',

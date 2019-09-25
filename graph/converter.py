@@ -54,11 +54,11 @@ class converter():
         icons = self._get_node_icon()
         label = self._get_label()
         out = {
-            'text': str(label['negation'] if label['negation'] else "") +
-            ' <strong><span class="' +
-            icons['color'] + '">' +
-            label['str'] + '</span></strong>' +
-            ' <i>' + self.get_comment() + '</i>',
+            'text': (str(label['negation'] if label['negation'] else "") +
+                     ' <strong><span class="' + icons['color'] + '">' +
+                     label['str'] + '</span></strong>' +
+                     ' <i>' + self.get_comment() + '</i>'
+                     ),
             "icon": icons['icon'],
             "state": {
                 "opened": True}}
@@ -87,10 +87,16 @@ class converter():
         )
 
 # Methods for interpreting oval tree with SigmaJS
+    def get_negation_character(self, value):
+        return ('<strong><span class="' +
+                self.VALUE_TO_BOOTSTRAP_COLOR[value] +
+                '">&not;</strong></span>')
 
     def _get_label(self):
         out = dict(negation=None, str="")
         if self.tree.node_type == 'value':
+            if self.tree.negation:
+                out['negation'] = self.get_negation_character(self.tree.value)
             out['str'] = re.sub(
                 '(oval:ssg-test_|oval:ssg-)|(:def:1|:tst:1)', '', str(self.tree.node_id))
             return out
@@ -102,11 +108,8 @@ class converter():
                 return out
             else:
                 if self.tree.negation:
-                    out['negation'] = ('<strong><span class="' +
-                                       self.VALUE_TO_BOOTSTRAP_COLOR[self.tree.evaluate_tree()] +
-                                       '">&not;</strong></span>')
-                    out['str'] = (str(self.tree.value)).upper()
-                    return out
+                    out['negation'] = self.get_negation_character(
+                        self.tree.evaluate_tree())
                 out['str'] = (self.tree.value).upper()
                 return out
 
@@ -137,7 +140,7 @@ class converter():
         colors = self._get_node_colors()
         return {
             'id': self.tree.node_id,
-            'label': self._get_label(),
+            'label': self._get_label()['str'],
             'url': 'null',
             'text': self.tree.comment,
             'title': self._get_node_title(),

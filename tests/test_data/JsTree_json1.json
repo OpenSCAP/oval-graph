@@ -1,47 +1,47 @@
 {
-    "text": "<strong><span class=\"text-success\">rule_disable_host_auth</span></strong> <i>Disable Host-Based Authentication</i>",
+    "text": " <strong><span class=\"text-success\">rule_disable_host_auth</span></strong> <i>Disable Host-Based Authentication</i>",
     "icon": "glyphicon glyphicon-ok text-success",
     "state": {
         "opened": true
     },
     "children": [
         {
-            "text": "<strong><span class=\"text-success\">or</span></strong> <i>SSH is configured correctly or is not installed</i>",
+            "text": " <strong><span class=\"text-success\">OR</span></strong> <i>SSH is configured correctly or is not installed</i>",
             "icon": "glyphicon glyphicon-ok text-success",
             "state": {
                 "opened": true
             },
             "children": [
                 {
-                    "text": "<strong><span class=\"text-danger\">and</span></strong> <i>sshd is not installed</i>",
+                    "text": " <strong><span class=\"text-danger\">AND</span></strong> <i>sshd is not installed</i>",
                     "icon": "glyphicon glyphicon-remove text-danger",
                     "state": {
                         "opened": true
                     },
                     "children": [
                         {
-                            "text": "<strong><span class=\"text-success\">or</span></strong> <i>sshd is not required or requirement is unset</i>",
+                            "text": " <strong><span class=\"text-success\">OR</span></strong> <i>sshd is not required or requirement is unset</i>",
                             "icon": "glyphicon glyphicon-ok text-success",
                             "state": {
                                 "opened": true
                             },
                             "children": [
                                 {
-                                    "text": "<strong><span class=\"text-danger\">sshd_not_required</span></strong> <i></i>",
+                                    "text": " <strong><span class=\"text-danger\">sshd_not_required</span></strong> <i></i>",
                                     "icon": "glyphicon glyphicon-remove text-danger",
                                     "state": {
                                         "opened": true
                                     }
                                 },
                                 {
-                                    "text": "<strong><span class=\"text-success\">and</span></strong> <i>SSH requirement is unset</i>",
+                                    "text": " <strong><span class=\"text-success\">AND</span></strong> <i>SSH requirement is unset</i>",
                                     "icon": "glyphicon glyphicon-ok text-success",
                                     "state": {
                                         "opened": true
                                     },
                                     "children": [
                                         {
-                                            "text": "<strong><span class=\"text-success\">sshd_requirement_unset</span></strong> <i></i>",
+                                            "text": " <strong><span class=\"text-success\">sshd_requirement_unset</span></strong> <i></i>",
                                             "icon": "glyphicon glyphicon-ok text-success",
                                             "state": {
                                                 "opened": true
@@ -52,14 +52,14 @@
                             ]
                         },
                         {
-                            "text": "<strong><span class=\"text-danger\">and</span></strong> <i>rpm package openssh-server removed</i>",
+                            "text": " <strong><span class=\"text-danger\">AND</span></strong> <i>rpm package openssh-server removed</i>",
                             "icon": "glyphicon glyphicon-remove text-danger",
                             "state": {
                                 "opened": true
                             },
                             "children": [
                                 {
-                                    "text": "<strong><span class=\"text-danger\">package_openssh-server_removed</span></strong> <i>package openssh-server is removed</i>",
+                                    "text": " <strong><span class=\"text-danger\">package_openssh-server_removed</span></strong> <i>package openssh-server is removed</i>",
                                     "icon": "glyphicon glyphicon-remove text-danger",
                                     "state": {
                                         "opened": true
@@ -70,35 +70,35 @@
                     ]
                 },
                 {
-                    "text": "<strong><span class=\"text-success\">and</span></strong> <i>sshd is installed and configured</i>",
+                    "text": " <strong><span class=\"text-success\">AND</span></strong> <i>sshd is installed and configured</i>",
                     "icon": "glyphicon glyphicon-ok text-success",
                     "state": {
                         "opened": true
                     },
                     "children": [
                         {
-                            "text": "<strong><span class=\"text-success\">or</span></strong> <i>sshd is required or requirement is unset</i>",
+                            "text": " <strong><span class=\"text-success\">OR</span></strong> <i>sshd is required or requirement is unset</i>",
                             "icon": "glyphicon glyphicon-ok text-success",
                             "state": {
                                 "opened": true
                             },
                             "children": [
                                 {
-                                    "text": "<strong><span class=\"text-danger\">sshd_required</span></strong> <i></i>",
+                                    "text": " <strong><span class=\"text-danger\">sshd_required</span></strong> <i></i>",
                                     "icon": "glyphicon glyphicon-remove text-danger",
                                     "state": {
                                         "opened": true
                                     }
                                 },
                                 {
-                                    "text": "<strong><span class=\"text-success\">and</span></strong> <i>SSH requirement is unset</i>",
+                                    "text": " <strong><span class=\"text-success\">AND</span></strong> <i>SSH requirement is unset</i>",
                                     "icon": "glyphicon glyphicon-ok text-success",
                                     "state": {
                                         "opened": true
                                     },
                                     "children": [
                                         {
-                                            "text": "<strong><span class=\"text-success\">sshd_requirement_unset</span></strong> <i></i>",
+                                            "text": " <strong><span class=\"text-success\">sshd_requirement_unset</span></strong> <i></i>",
                                             "icon": "glyphicon glyphicon-ok text-success",
                                             "state": {
                                                 "opened": true
@@ -109,14 +109,14 @@
                             ]
                         },
                         {
-                            "text": "<strong><span class=\"text-success\">and</span></strong> <i>rpm package openssh-server installed</i>",
+                            "text": " <strong><span class=\"text-success\">AND</span></strong> <i>rpm package openssh-server installed</i>",
                             "icon": "glyphicon glyphicon-ok text-success",
                             "state": {
                                 "opened": true
                             },
                             "children": [
                                 {
-                                    "text": "<strong><span class=\"text-success\">package_openssh-server_installed</span></strong> <i>package openssh-server is installed</i>",
+                                    "text": " <strong><span class=\"text-success\">package_openssh-server_installed</span></strong> <i>package openssh-server is installed</i>",
                                     "icon": "glyphicon glyphicon-ok text-success",
                                     "state": {
                                         "opened": true
@@ -125,7 +125,7 @@
                             ]
                         },
                         {
-                            "text": "<strong><span class=\"text-success\">sshd_hostbasedauthentication</span></strong> <i>Check HostbasedAuthentication in /etc/ssh/sshd_config</i>",
+                            "text": " <strong><span class=\"text-success\">sshd_hostbasedauthentication</span></strong> <i>Check HostbasedAuthentication in /etc/ssh/sshd_config</i>",
                             "icon": "glyphicon glyphicon-ok text-success",
                             "state": {
                                 "opened": true

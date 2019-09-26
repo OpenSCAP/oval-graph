@@ -16,12 +16,12 @@ class converter():
         }
 
         self.VALUE_TO_ICON = {
-            "true": "glyphicon glyphicon-ok",
-            "false": "glyphicon glyphicon-remove",
-            "error": "glyphicon glyphicon-question-sign",
-            "unknown": "glyphicon glyphicon-question-sign",
-            "noteval": "glyphicon glyphicon-question-sign",
-            "notappl": "glyphicon glyphicon-question-sign"
+            "true": "glyphicon glyphicon-ok text-success",
+            "false": "glyphicon glyphicon-remove text-danger",
+            "error": "glyphicon glyphicon-question-sign text-dark",
+            "unknown": "glyphicon glyphicon-question-sign text-dark",
+            "noteval": "glyphicon glyphicon-question-sign text-dark",
+            "notappl": "glyphicon glyphicon-question-sign text-dark"
         }
 
         self.VALUE_TO_HEX_COLOR = {
@@ -42,7 +42,7 @@ class converter():
         values = self._get_node_style()
         return dict(
             color=self.VALUE_TO_BOOTSTRAP_COLOR[values['negation_color']],
-            icon=self.VALUE_TO_ICON[values['out_color']],
+            icon=self.VALUE_TO_ICON[values['test_value']],
         )
 
     def get_comment(self):
@@ -52,13 +52,16 @@ class converter():
 
     def to_JsTree_dict(self):
         icons = self._get_node_icon()
+        label = self._get_label()
         out = {
-            'text': '<strong><span class="' + icons['color'] + '">' +
-                    self._get_label() + '</span></strong>' +
-                    ' <i>' + self.get_comment() + '</i>',
-            "icon": icons['icon'] + ' ' + icons['color'],
+            'text': (str(label['negation'] if label['negation'] else "") +
+                     ' <strong><span class="' + icons['color'] + '">' +
+                     label['str'] + '</span></strong>' +
+                     ' <i>' + self.get_comment() + '</i>'
+                     ),
+            "icon": icons['icon'],
             "state": {
-                    "opened": True}}
+                "opened": True}}
         if self.tree.children:
             out['children'] = [converter(child).to_JsTree_dict()
                                for child in self.tree.children]
@@ -68,48 +71,60 @@ class converter():
         value = self.tree.evaluate_tree()
         out_color = None
         if value is None:
-            if self._is_negated_boolean('true', self.tree.value):
-                out_color = 'false'
-            elif self._is_negated_boolean('false', self.tree.value):
-                out_color = 'true'
+            if self.tree.negation:
+                out_color = self.negate_bool(self.tree.value)
             else:
                 out_color = self.tree.value
-            out_color, value = self.tree.value, out_color
+            value = self.tree.value
         else:
-            if self._is_negated_boolean('true', value):
-                out_color = 'false'
-            elif self._is_negated_boolean('false', value):
-                out_color = 'true'
+            if self.tree.negation:
+                out_color = self.negate_bool(value)
             else:
                 out_color = value
         return dict(
-            negation_color=value,
-            out_color=out_color,
+            negation_color=out_color,
+            test_value=value,
         )
 
 # Methods for interpreting oval tree with SigmaJS
+    def get_negation_character(self, value):
+        return ('<strong><span class="' +
+                self.VALUE_TO_BOOTSTRAP_COLOR[value] +
+                '">&not;</strong></span>')
 
     def _get_label(self):
+        out = dict(negation=None, str="")
         if self.tree.node_type == 'value':
-            return re.sub(
+            if self.tree.negation:
+                out['negation'] = self.get_negation_character(self.tree.value)
+            out['str'] = re.sub(
                 '(oval:ssg-test_|oval:ssg-)|(:def:1|:tst:1)', '', str(self.tree.node_id))
+            return out
         else:
             if str(self.tree.node_id).startswith('xccdf_org'):
-                return re.sub(
+                out['str'] = re.sub(
                     '(xccdf_org.ssgproject.content_)', '', str(
                         self.tree.node_id))
-            return self.tree.value
+                return out
+            else:
+                if self.tree.negation:
+                    out['negation'] = self.get_negation_character(
+                        self.tree.evaluate_tree())
+                out['str'] = (self.tree.value).upper()
+                return out
 
-    def _is_negated_boolean(self, boolean, value):
-        if value == boolean and self.tree.negation:
-            return True
-        return False
+    def negate_bool(self, value):
+        values = {
+            "true": "false",
+            "false": "true",
+        }
+        return values[str(value)]
 
     def _get_node_colors(self):
         values = self._get_node_style()
         return dict(
             color=self.VALUE_TO_HEX_COLOR[values['negation_color']],
-            borderColor=self.VALUE_TO_HEX_COLOR[values['out_color']],
+            borderColor=self.VALUE_TO_HEX_COLOR[values['test_value']],
         )
 
     def _get_node_title(self):
@@ -125,7 +140,7 @@ class converter():
         colors = self._get_node_colors()
         return {
             'id': self.tree.node_id,
-            'label': self._get_label(),
+            'label': self._get_label()['str'],
             'url': 'null',
             'text': self.tree.comment,
             'title': self._get_node_title(),

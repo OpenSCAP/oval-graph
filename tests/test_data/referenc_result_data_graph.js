@@ -15,7 +15,7 @@ var data_json ={
         },
         {
             "id": "oval:ssg-package_abrt_removed:def:1",
-            "label": "and",
+            "label": "AND",
             "url": "null",
             "text": null,
             "title": "oval:ssg-package_abrt_removed:def:1",

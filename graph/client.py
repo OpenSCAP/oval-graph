@@ -20,9 +20,9 @@ class client():
         self.rule_name = self.arg.rule_id
         self.xml_parser = graph.xml_parser.xml_parser(self.source_filename)
         if self.tree:
-            self.html_interpreter = 'tree_html_interpreter'
+            self.html_interpreter = '../tree_html_interpreter'
         else:
-            self.html_interpreter = 'graph_html_interpreter'
+            self.html_interpreter = '../graph_html_interpreter'
         if self.remove_pass_tests:
             raise NotImplementedError('Not implemented!')
 
@@ -107,7 +107,7 @@ class client():
         return converter.to_sigma_dict(0, 0)
 
     def save_dict(self, dict):
-        with open(self.html_interpreter + '/data.js', "w+") as data_file:
+        with open(self.xml_parser.get_src(self.html_interpreter + '/data.js'), "w+") as data_file:
             data_file.write("var data_json =" + str(json.dumps(
                 dict, sort_keys=False, indent=4) + ";"))
 
@@ -124,11 +124,11 @@ class client():
     def open_web_browser(self):
         if not self.off_webbrowser:
             try:
-                webbrowser.get('firefox').open_new_tab(
-                    self.html_interpreter + '/index.html')
+                webbrowser.get('firefox').open_new_tab(self.xml_parser.get_src(
+                    self.html_interpreter + '/index.html'))
             except BaseException:
-                webbrowser.open_new_tab(
-                    self.src_html_interpreter + '/index.html')
+                webbrowser.open_new_tab(self.xml_parser.get_src(
+                    self.src_html_interpreter + '/index.html'))
 
     def parse_arguments(self, args):
         parser = argparse.ArgumentParser(

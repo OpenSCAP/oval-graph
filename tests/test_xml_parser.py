@@ -1,5 +1,5 @@
 import tests.any_test_help
-import graph.oval_graph
+import oval_graph.oval_graph
 import os
 import py
 import pytest
@@ -80,7 +80,7 @@ def test_parsing_and_evaluate_scan_1():
 
 def test_get_def_id_by_rule_id():
     src = 'test_data/ssg-fedora-ds-arf.xml'
-    parser = graph.xml_parser.xml_parser(tests.any_test_help.get_src(src))
+    parser = oval_graph.xml_parser.xml_parser(tests.any_test_help.get_src(src))
 
     with pytest.raises(Exception, match="err- 404 rule not found!"):
         assert parser.get_def_id_by_rule_id('hello')
@@ -118,7 +118,7 @@ def test_use_bat_report_file():
 
 def test_get_rule_dict():
     src = 'test_data/ssg-fedora-ds-arf.xml'
-    parser = graph.xml_parser.xml_parser(tests.any_test_help.get_src(src))
+    parser = oval_graph.xml_parser.xml_parser(tests.any_test_help.get_src(src))
     rule_dict = parser.get_rule_dict(
         'xccdf_org.ssgproject.content_rule_dconf_gnome_session_idle_user_locks')
     src = 'test_data/rule_dict.json'

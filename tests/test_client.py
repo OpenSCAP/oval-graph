@@ -1,4 +1,4 @@
-import graph.client
+import oval_graph.client
 import pytest
 import tests.any_test_help
 import re
@@ -8,34 +8,34 @@ import sys
 
 
 def get_client(src, rule):
-    return graph.client.client(
+    return oval_graph.client.client(
         ["--off-web-browser", tests.any_test_help.get_src(src), rule])
 
 
 def get_client_on_web_browser(src, rule):
-    return graph.client.client(
+    return oval_graph.client.client(
         [tests.any_test_help.get_src(src), rule])
 
 
 def get_client_tree(src, rule):
-    return graph.client.client(
+    return oval_graph.client.client(
         ["--tree", "--off-web-browser", tests.any_test_help.get_src(src), rule])
 
 
 def get_client_with_option_show_fail_rules(src, rule):
-    return graph.client.client(
+    return oval_graph.client.client(
         ["--show-fail-rules", "--off-web-browser", tests.any_test_help.get_src(src), rule])
 
 
 def get_client_with_option_show_not_selected_rules(src, rule):
-    return graph.client.client(
+    return oval_graph.client.client(
         ["--show-not-selected-rules", "--off-web-browser", tests.any_test_help.get_src(src), rule])
 
 
 def get_client_with_option_show_not_selected_rules_and_show_fail_rules(
         src,
         rule):
-    return graph.client.client(["--show-not-selected-rules",
+    return oval_graph.client.client(["--show-not-selected-rules",
                                 "--show-fail-rules",
                                 "--off-web-browser",
                                 tests.any_test_help.get_src(src),
@@ -202,7 +202,7 @@ def test_prepare_graph():
     client = get_client(src, rule)
     rules = {'rules': [rule]}
     client.prepare_data(rules)
-    result = load_tested_file('../graph_html_interpreter/data.js')
+    result = load_tested_file('../oval_graph/graph_html_interpreter/data.js')
     referenc_result = load_tested_file(
         'test_data/referenc_result_data_graph.js')
     assert result == referenc_result
@@ -214,7 +214,7 @@ def test_prepare_tree():
     client = get_client_tree(src, rule)
     rules = {'rules': [rule]}
     client.prepare_data(rules)
-    result = load_tested_file('../tree_html_interpreter/data.js')
+    result = load_tested_file('../oval_graph/tree_html_interpreter/data.js')
     referenc_result = load_tested_file(
         'test_data/referenc_result_data_tree.js')
     assert result == referenc_result

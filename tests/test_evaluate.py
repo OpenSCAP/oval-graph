@@ -1,4 +1,4 @@
-import graph.oval_graph
+import oval_graph.oval_graph
 import tests.any_test_help
 
 
@@ -156,46 +156,46 @@ results_counts1 = {
 
 
 def test_and_or_eq_zero():
-    assert not graph.evaluate.and_or_eq_zero('and', results_counts)
-    assert not graph.evaluate.and_or_eq_zero('or', results_counts)
-    assert graph.evaluate.and_or_eq_zero('xor', results_counts) is None
+    assert not oval_graph.evaluate.and_or_eq_zero('and', results_counts)
+    assert not oval_graph.evaluate.and_or_eq_zero('or', results_counts)
+    assert oval_graph.evaluate.and_or_eq_zero('xor', results_counts) is None
 
 
 def test_bad_results_counts_for_operator_and():
-    assert graph.evaluate.oval_operator_and(results_counts) is None
+    assert oval_graph.evaluate.oval_operator_and(results_counts) is None
 
 
 def test_bad_results_counts_for_operator_one():
-    assert graph.evaluate.oval_operator_one(results_counts) is None
+    assert oval_graph.evaluate.oval_operator_one(results_counts) is None
 
 
 def test_bad_results_counts_for_operator_or():
-    assert graph.evaluate.oval_operator_or(results_counts) is None
+    assert oval_graph.evaluate.oval_operator_or(results_counts) is None
 
 
 def test_bad_results_counts_for_operator_xor():
-    assert graph.evaluate.oval_operator_xor(results_counts) is None
+    assert oval_graph.evaluate.oval_operator_xor(results_counts) is None
 
 
 def test_false_noteval_greater_zero():
-    assert not graph.evaluate.greater_zero(results_counts, 'noteval_cnt')
+    assert not oval_graph.evaluate.greater_zero(results_counts, 'noteval_cnt')
 
 
 def test_false_smaller_then_two():
-    assert not graph.evaluate.smaller_than_two(
+    assert not oval_graph.evaluate.smaller_than_two(
         results_counts1, 'true_cnt')
 
 
 def test_false_eq_zero_duo():
-    assert not graph.evaluate.eq_zero_duo(
+    assert not oval_graph.evaluate.eq_zero_duo(
         results_counts, 'noteval_cnt', 'error_cnt')
 
 
 def test_false_eq_or_greater_zero_unknown_noteval_notappl():
-    assert not graph.evaluate.eq_or_greater_zero_unknown_noteval_notappl(
+    assert not oval_graph.evaluate.eq_or_greater_zero_unknown_noteval_notappl(
         results_counts1)
 
 
 def test_false_error_unknown_eq_noteval_greater_zero():
-    assert not graph.evaluate.error_unknown_eq_noteval_greater_zero(
+    assert not oval_graph.evaluate.error_unknown_eq_noteval_greater_zero(
         results_counts)

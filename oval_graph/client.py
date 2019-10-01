@@ -38,6 +38,10 @@ class client():
                 rules = self.get_only_fail_rule(rules)
             for rule in rules:
                 print(rule['id_rule'] + r'\b')
+            if self.show_not_selected_rules:
+                print('== The not selected rule IDs ==')
+                for rule in self._get_wanted_not_selected_rules():
+                    print(rule['id_rule'] + '(Not selected)')
             return None
 
     def get_questions(self):
@@ -47,6 +51,10 @@ class client():
         choices_ = []
         for rule in rules:
             choices_.append(rule['id_rule'])
+        if self.show_not_selected_rules:
+                print('== The not selected rule IDs ==')
+                for rule in self._get_wanted_not_selected_rules():
+                    print(rule['id_rule'] + '(Not selected)')
         from inquirer.questions import Checkbox as checkbox
         questions = [
             checkbox(

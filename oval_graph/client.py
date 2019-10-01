@@ -52,9 +52,9 @@ class client():
         for rule in rules:
             choices_.append(rule['id_rule'])
         if self.show_not_selected_rules:
-                print('== The not selected rule IDs ==')
-                for rule in self._get_wanted_not_selected_rules():
-                    print(rule['id_rule'] + '(Not selected)')
+            print('== The not selected rule IDs ==')
+            for rule in self._get_wanted_not_selected_rules():
+                print(rule['id_rule'] + '(Not selected)')
         from inquirer.questions import Checkbox as checkbox
         questions = [
             checkbox(

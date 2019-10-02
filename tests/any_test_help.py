@@ -1,7 +1,6 @@
 import oval_graph.oval_graph
 import oval_graph.converter
 import os
-import py
 import json
 
 
@@ -121,5 +120,5 @@ def get_parser(src):
 
 def get_src(src):
     _dir = os.path.dirname(os.path.realpath(__file__))
-    FIXTURE_DIR = py.path.local(_dir) / src
+    FIXTURE_DIR = os.path.join(_dir, src)
     return str(FIXTURE_DIR)

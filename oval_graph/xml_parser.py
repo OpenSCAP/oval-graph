@@ -6,7 +6,6 @@ from lxml import etree as ET
 import uuid
 import oval_graph.oval_graph
 import os
-import py
 
 ns = {
     'XMLSchema': 'http://oval.mitre.org/XMLSchema/oval-results-5',
@@ -28,7 +27,7 @@ class xml_parser():
 
     def get_src(self, src):
         _dir = os.path.dirname(os.path.realpath(__file__))
-        FIXTURE_DIR = py.path.local(_dir) / src
+        FIXTURE_DIR = os.path.join(_dir, src)
         return str(FIXTURE_DIR)
 
     def validate(self, xsd_path):

@@ -1,7 +1,6 @@
 import tests.any_test_help
 import oval_graph.oval_graph
 import os
-import py
 import pytest
 import json
 

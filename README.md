@@ -14,7 +14,7 @@ Example:
 * *id-rule*  - Rule ID to be visualized. A part from the full rule ID a part of the ID or a regular expression can be used. If brackets are used in the regular expression the regular expression must be quoted.
 
 It opens web browser with graph. Default is Firefox. If Firefox not installed it opens default web browser in OS.  
-![demo-screenshot](demo-screenshot.png "demo-screenshot")
+![demo-screenshot](https://raw.githubusercontent.com/OpenSCAP/OVAL-visualization-as-graph/master/demo-screenshot.png "demo-screenshot")
 * ### Minimal requirements:
   * **python3**
   * lxml

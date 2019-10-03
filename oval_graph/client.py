@@ -18,7 +18,8 @@ class client():
         self.source_filename = self.arg.source_filename
         self.tree = self.arg.tree
         self.rule_name = self.arg.rule_id
-        self.xml_parser = oval_graph.xml_parser.xml_parser(self.source_filename)
+        self.xml_parser = oval_graph.xml_parser.xml_parser(
+            self.source_filename)
         if self.tree:
             self.html_interpreter = 'tree_html_interpreter'
         else:
@@ -28,11 +29,8 @@ class client():
 
     def run_gui_and_return_answers(self):
         try:
-            from PyInquirer import style_from_dict, Token, prompt, Separator
-            return prompt(
-                self.get_questions(
-                    Separator('= The Rules IDs ='),
-                    Separator('= The not selected rule IDs =')))
+            import inquirer
+            return inquirer.prompt(self.get_questions())
         except ImportError:
             print('== The Rule IDs ==')
             rules = self.search_rules_id()
@@ -46,26 +44,27 @@ class client():
                     print(rule['id_rule'] + '(Not selected)')
             return None
 
-    def get_questions(
-            self,
-            separator_rule_ids,
-            separator_not_selected_rule_ids):
+    def get_questions(self):
         rules = self.search_rules_id()
         if self.show_fail_rules:
             rules = self.get_only_fail_rule(rules)
-        questions = [{
-            'type': 'checkbox',
-            'message': 'Select rule(s)',
-            'name': 'rules',
-            'choices': [separator_rule_ids]
-        }]
+        choices_ = []
         for rule in rules:
-            questions[0]['choices'].append(dict(name=rule['id_rule']))
+            choices_.append(rule['id_rule'])
         if self.show_not_selected_rules:
-            questions[0]['choices'].append(separator_not_selected_rule_ids)
+            print('== The not selected rule IDs ==')
             for rule in self._get_wanted_not_selected_rules():
-                questions[0]['choices'].append(
-                    dict(name=rule['id_rule'], disabled='Not selected'))
+                print(rule['id_rule'] + '(Not selected)')
+        from inquirer.questions import Checkbox as checkbox
+        questions = [
+            checkbox(
+                'rules',
+                message=(
+                    "= The Rules IDs = (move - UP and DOWN arrows,"
+                    " select - SPACE or LEFT and RIGHT arrows, submit - ENTER)"),
+                choices=choices_,
+            ),
+        ]
         return questions
 
     def get_only_fail_rule(self, rules):
@@ -92,7 +91,7 @@ class client():
                  " wasn't a part of the executed profile"
                  " and therefore it wasn't evaluated "
                  "during the scan.")
-               .format(notselected_rules[0]['id_rule']))
+                .format(notselected_rules[0]['id_rule']))
         elif not notselected_rules and not rules:
             raise ValueError('err- 404 rule not found!')
         else:

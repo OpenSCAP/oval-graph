@@ -16,3 +16,7 @@ playground*
 scan-data/
 
 /*.egg-info
+/.egg
+/build
+/dist
+coverage.xml

@@ -1,0 +1,5 @@
+include README.md
+include LICENSE
+recursive-include oval_graph/graph_html_interpreter *
+recursive-include oval_graph/schemas *
+recursive-include oval_graph/tree_html_interpreter *

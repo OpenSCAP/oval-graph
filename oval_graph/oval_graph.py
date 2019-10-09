@@ -14,12 +14,14 @@ import uuid
 
 class OvalNode():
     '''
-    The OvalNode object is one node of oval oval_graph.
+    The OvalNode object is one node of oval_graph.
 
     Args:
         node_id (str|int): identifies node
         input_node_type (str): type of node (value or operator)
         input_value (str): value of node
+        input_negation (bool): value indicating whether the node is negated or not
+        comment (str): text about node
         children ([OvalNode]): array of children of node
 
     Attributes:

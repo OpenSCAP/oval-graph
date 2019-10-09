@@ -8,7 +8,7 @@ def main():
     if len(rules) > 1:
         answers = client.run_gui_and_return_answers()
         if answers is None:
-            print("You haven't got installed PyInquirer lib. "
+            print("You haven't got installed inquirer lib. "
                   "Please copy id rule with you want use and put it in command")
         else:
             client.prepare_data(answers)

@@ -109,16 +109,13 @@ class client():
             return converter.to_JsTree_dict()
         return converter.to_sigma_dict(0, 0)
 
-    def save_dict(self, dict_, name_dir):
-        with open(os.path.join(
-                tempfile.gettempdir(),
-                'graph-of-' + name_dir, 'data.js'), "w+") as data_file:
+    def save_dict(self, dict_, src):
+        with open(os.path.join(src, 'data.js'), "w+") as data_file:
             data_file.write("var data_json =" + str(json.dumps(
                 dict_, sort_keys=False, indent=4) + ";"))
 
-    def copy_interpreter(self, name_dir):
+    def copy_interpreter(self, dst):
         src = self.xml_parser.get_src(self.html_interpreter)
-        dst = os.path.join(tempfile.gettempdir(), 'graph-of-' + name_dir)
         os.mkdir(dst)
         for item in os.listdir(src):
             s = os.path.join(src, item)
@@ -130,26 +127,25 @@ class client():
 
     def prepare_data(self, rules):
         try:
-            date = str(datetime.now().strftime("_%d-%m-%Y_%H:%M:%S"))
+            out = []
             for rule in rules['rules']:
                 oval_tree = self.create_dict_of_rule(rule)
-                tempfile.gettempdir()
                 date = str(datetime.now().strftime("_%d-%m-%Y_%H:%M:%S"))
-                name_dir = rule + date
-                self.copy_interpreter(name_dir)
-                self.save_dict(oval_tree, name_dir)
-                self.open_web_browser(name_dir)
+                src = os.path.join(
+                    tempfile.gettempdir(),
+                    'graph-of-' + rule + date)
+                self.copy_interpreter(src)
+                self.save_dict(oval_tree, src)
+                self.open_web_browser(src)
                 print('Rule "{}" done!'.format(rule))
-            return date
+                out.append(src)
+            return out
         except Exception as error:
             raise ValueError('Rule: "{}" Error: "{}"'.format(rule, error))
 
-    def open_web_browser(self, name_dir):
+    def open_web_browser(self, src):
         if not self.off_webbrowser:
-            src = os.path.join(
-                tempfile.gettempdir(),
-                'graph-of-' + name_dir,
-                'index.html')
+            src = os.path.join(src, 'index.html')
             try:
                 webbrowser.get('firefox').open_new_tab(src)
             except BaseException:

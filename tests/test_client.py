@@ -205,12 +205,9 @@ def test_prepare_graph():
     rule = 'xccdf_org.ssgproject.content_rule_package_abrt_removed'
     client = get_client(src, rule)
     rules = {'rules': [rule]}
-    date = client.prepare_data(rules)
+    results_src = client.prepare_data(rules)
     result = load_tested_file(
-        os.path.join(
-            tempfile.gettempdir(),
-            'graph-of-' + rule + date,
-            'data.js'))
+        os.path.join(results_src[0], 'data.js'))
     referenc_result = load_tested_file(
         'test_data/referenc_result_data_graph.js')
     assert result == referenc_result
@@ -221,12 +218,9 @@ def test_prepare_tree():
     rule = 'xccdf_org.ssgproject.content_rule_package_abrt_removed'
     client = get_client_tree(src, rule)
     rules = {'rules': [rule]}
-    date = client.prepare_data(rules)
+    results_src = client.prepare_data(rules)
     result = load_tested_file(
-        os.path.join(
-            tempfile.gettempdir(),
-            'graph-of-' + rule + date,
-            'data.js'))
+        os.path.join(results_src[0], 'data.js'))
     referenc_result = load_tested_file(
         'test_data/referenc_result_data_tree.js')
     assert result == referenc_result

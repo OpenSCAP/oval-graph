@@ -109,16 +109,16 @@ class client():
             return converter.to_JsTree_dict()
         return converter.to_sigma_dict(0, 0)
 
-    def save_dict(self, dict_, rule, date):
-        with open(os.path.join(tempfile.gettempdir(),
-                               'graph-of-' + rule +
-                               date, 'data.js'), "w+") as data_file:
+    def save_dict(self, dict_, name_dir):
+        with open(os.path.join(
+                tempfile.gettempdir(),
+                'graph-of-' + name_dir, 'data.js'), "w+") as data_file:
             data_file.write("var data_json =" + str(json.dumps(
                 dict_, sort_keys=False, indent=4) + ";"))
 
-    def copy_interpreter(self, rule, date):
+    def copy_interpreter(self, name_dir):
         src = self.xml_parser.get_src(self.html_interpreter)
-        dst = os.path.join(tempfile.gettempdir(), 'graph-of-' + rule + date)
+        dst = os.path.join(tempfile.gettempdir(), 'graph-of-' + name_dir)
         os.mkdir(dst)
         for item in os.listdir(src):
             s = os.path.join(src, item)
@@ -135,9 +135,10 @@ class client():
                 oval_tree = self.create_dict_of_rule(rule)
                 tempfile.gettempdir()
                 date = str(datetime.now().strftime("_%d-%m-%Y_%H:%M:%S"))
-                self.copy_interpreter(rule, date)
-                self.save_dict(oval_tree, rule, date)
-                self.open_web_browser(rule, date)
+                name_dir = rule + date
+                self.copy_interpreter(name_dir)
+                self.save_dict(oval_tree, name_dir)
+                self.open_web_browser(name_dir)
                 print('Rule "{}" done!'.format(rule))
             return date
         except Exception as error:

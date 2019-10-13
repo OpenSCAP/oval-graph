@@ -144,20 +144,16 @@ class client():
         except Exception as error:
             raise ValueError('Rule: "{}" Error: "{}"'.format(rule, error))
 
-    def open_web_browser(self, rule, date):
+    def open_web_browser(self, name_dir):
         if not self.off_webbrowser:
+            src = os.path.join(
+                tempfile.gettempdir(),
+                'graph-of-' + name_dir,
+                'index.html')
             try:
-                webbrowser.get('firefox').open_new_tab(
-                    os.path.join(
-                        tempfile.gettempdir(),
-                        'graph-of-' + rule + date,
-                        'index.html'))
+                webbrowser.get('firefox').open_new_tab(src)
             except BaseException:
-                webbrowser.open_new_tab(
-                    os.path.join(
-                        tempfile.gettempdir(),
-                        'graph-of-' + rule + date,
-                        'index.html'))
+                webbrowser.open_new_tab(src)
 
     def parse_arguments(self, args):
         parser = argparse.ArgumentParser(

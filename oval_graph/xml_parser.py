@@ -126,7 +126,7 @@ class xml_parser():
             if rule['id_rule'] == rule_id:
                 raise ValueError(
                     'err- rule "{}" was not selected, so there are no results.'
-                   .format(rule_id))
+                    .format(rule_id))
         for rule in used_rules:
             if rule['id_rule'] == rule_id:
                 return rule['id_def']
@@ -219,7 +219,7 @@ class xml_parser():
                     id=definition['id'],
                     comment=definition['comment'],
                     node=nodes,
-                    ))
+                ))
         return out
 
     def _operator_as_child(self, value, scan):

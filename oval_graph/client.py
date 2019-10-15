@@ -1,4 +1,5 @@
 from __future__ import print_function, unicode_literals
+from datetime import datetime
 import re
 import oval_graph.xml_parser
 import oval_graph.oval_graph
@@ -6,6 +7,9 @@ import oval_graph.converter
 import webbrowser
 import json
 import argparse
+import tempfile
+import os
+import shutil
 
 
 class client():
@@ -105,29 +109,47 @@ class client():
             return converter.to_JsTree_dict()
         return converter.to_sigma_dict(0, 0)
 
-    def save_dict(self, dict):
-        with open(self.xml_parser.get_src(self.html_interpreter + '/data.js'), "w+") as data_file:
+    def save_dict(self, dict_, src):
+        with open(os.path.join(src, 'data.js'), "w+") as data_file:
             data_file.write("var data_json =" + str(json.dumps(
-                dict, sort_keys=False, indent=4) + ";"))
+                dict_, sort_keys=False, indent=4) + ";"))
+
+    def copy_interpreter(self, dst):
+        src = self.xml_parser.get_src(self.html_interpreter)
+        os.mkdir(dst)
+        for item in os.listdir(src):
+            s = os.path.join(src, item)
+            d = os.path.join(dst, item)
+            if os.path.isdir(s):
+                shutil.copytree(s, d)
+            else:
+                shutil.copy2(s, d)
 
     def prepare_data(self, rules):
         try:
+            out = []
             for rule in rules['rules']:
                 oval_tree = self.create_dict_of_rule(rule)
-                self.save_dict(oval_tree)
-                self.open_web_browser()
+                date = str(datetime.now().strftime("_%d-%m-%Y_%H:%M:%S"))
+                src = os.path.join(
+                    tempfile.gettempdir(),
+                    'graph-of-' + rule + date)
+                self.copy_interpreter(src)
+                self.save_dict(oval_tree, src)
+                self.open_web_browser(src)
                 print('Rule "{}" done!'.format(rule))
+                out.append(src)
+            return out
         except Exception as error:
             raise ValueError('Rule: "{}" Error: "{}"'.format(rule, error))
 
-    def open_web_browser(self):
+    def open_web_browser(self, src):
         if not self.off_webbrowser:
+            src = os.path.join(src, 'index.html')
             try:
-                webbrowser.get('firefox').open_new_tab(self.xml_parser.get_src(
-                    self.html_interpreter + '/index.html'))
+                webbrowser.get('firefox').open_new_tab(src)
             except BaseException:
-                webbrowser.open_new_tab(self.xml_parser.get_src(
-                    self.src_html_interpreter + '/index.html'))
+                webbrowser.open_new_tab(src)
 
     def parse_arguments(self, args):
         parser = argparse.ArgumentParser(

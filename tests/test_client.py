@@ -5,6 +5,8 @@ import re
 import json
 import mock
 import sys
+import os
+import tempfile
 
 
 def get_client(src, rule):
@@ -203,8 +205,9 @@ def test_prepare_graph():
     rule = 'xccdf_org.ssgproject.content_rule_package_abrt_removed'
     client = get_client(src, rule)
     rules = {'rules': [rule]}
-    client.prepare_data(rules)
-    result = load_tested_file('../oval_graph/graph_html_interpreter/data.js')
+    results_src = client.prepare_data(rules)
+    result = load_tested_file(
+        os.path.join(results_src[0], 'data.js'))
     referenc_result = load_tested_file(
         'test_data/referenc_result_data_graph.js')
     assert result == referenc_result
@@ -215,16 +218,21 @@ def test_prepare_tree():
     rule = 'xccdf_org.ssgproject.content_rule_package_abrt_removed'
     client = get_client_tree(src, rule)
     rules = {'rules': [rule]}
-    client.prepare_data(rules)
-    result = load_tested_file('../oval_graph/tree_html_interpreter/data.js')
+    results_src = client.prepare_data(rules)
+    result = load_tested_file(
+        os.path.join(results_src[0], 'data.js'))
     referenc_result = load_tested_file(
         'test_data/referenc_result_data_tree.js')
     assert result == referenc_result
 
 
 def load_tested_file(src):
-    with open(tests.any_test_help.get_src(src), 'r') as f:
-        data = f.readlines()
+    if '/tmp' in src:
+        with open(src, 'r') as f:
+            data = f.readlines()
+    else:
+        with open(tests.any_test_help.get_src(src), 'r') as f:
+            data = f.readlines()
     out = []
     edge = False
     for row in data:

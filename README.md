@@ -21,10 +21,10 @@ git clone https://github.com/OpenSCAP/OVAL-visualization-as-graph.git
 cd OVAL-visualization-as-graph
 
 # Install package with nice cli futures (recommended)
-python3 setup.py install ".[niceCli]"
+sudo pip3 install ".[niceCli]"
 
 # Install package without futures (light version)
-python3 setup.py install .
+sudo pip3 install .
 ```
 #### Example usage
 ```

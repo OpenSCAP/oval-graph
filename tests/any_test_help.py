@@ -39,10 +39,6 @@ def any_get_test_data_json(src):
     return data
 
 
-def any_test_create_node_dict_for_sigmaJs(Tree, out):
-    assert oval_graph.converter.converter(Tree)._create_node(0, 0) == out
-
-
 def get_converter_simple_tree():
     return oval_graph.converter.converter(get_simple_tree())
 
@@ -69,20 +65,6 @@ def get_simple_tree():
 
 def get_dict_of_simple_tree():
     return get_simple_tree().save_tree_to_dict()
-
-
-def any_test_transformation_tree_to_Json_for_SigmaJs(
-        src, test_data_src, rule_id):
-    test_data = any_get_test_data_json(test_data_src)
-
-    oval_tree = oval_graph.oval_graph.build_nodes_form_xml(get_src(src), rule_id)
-
-    assert oval_tree.node_id == rule_id
-    out_data = oval_graph.converter.converter(oval_tree).to_sigma_dict(0, 0)
-    for i in range(len(out_data['nodes'])):
-        assert out_data['nodes'][i]['label'] == test_data['nodes'][i]['label']
-        assert out_data['nodes'][i]['text'] == test_data['nodes'][i]['text']
-        assert out_data['nodes'][i]['url'] == test_data['nodes'][i]['url']
 
 
 def any_test_transformation_tree_to_Json_for_JsTree(

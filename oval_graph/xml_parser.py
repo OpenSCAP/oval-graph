@@ -293,12 +293,6 @@ class xml_parser():
             definitions.append(comment_definition)
         return definitions
 
-    def is_definition_in_array(self, definition_, array):
-        for definition in array:
-            if definition_['id'] == definition['id']:
-                return True
-        return False
-
     def recursive_help_fill_comments(self, comments, nodes):
         out = nodes
         out['comment'] = comments['comment']

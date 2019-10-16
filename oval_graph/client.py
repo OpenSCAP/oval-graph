@@ -20,14 +20,10 @@ class client():
         self.show_not_selected_rules = self.arg.show_not_selected_rules
         self.off_webbrowser = self.arg.off_web_browser
         self.source_filename = self.arg.source_filename
-        self.tree = self.arg.tree
         self.rule_name = self.arg.rule_id
         self.xml_parser = oval_graph.xml_parser.xml_parser(
             self.source_filename)
-        if self.tree:
-            self.html_interpreter = 'tree_html_interpreter'
-        else:
-            self.html_interpreter = 'graph_html_interpreter'
+        self.html_interpreter = 'tree_html_interpreter'
         if self.remove_pass_tests:
             raise NotImplementedError('Not implemented!')
 
@@ -105,9 +101,7 @@ class client():
         converter = oval_graph.converter.converter(
             oval_graph.oval_graph.build_nodes_form_xml(
                 self.source_filename, rule_id))
-        if self.tree:
-            return converter.to_JsTree_dict()
-        return converter.to_sigma_dict(0, 0)
+        return converter.to_JsTree_dict()
 
     def save_dict(self, dict_, src):
         with open(os.path.join(src, 'data.js'), "w+") as data_file:
@@ -169,11 +163,6 @@ class client():
             action="store_true",
             default=False,
             help="It does not start the web browser.")
-        parser.add_argument(
-            '--tree',
-            action="store_true",
-            default=False,
-            help="Render the graph in a form of directory tree")
         parser.add_argument(
             '--remove-pass-tests',
             action="store_true",

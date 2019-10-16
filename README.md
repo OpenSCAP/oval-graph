@@ -8,11 +8,11 @@ This client generate tree graph from ARF xml report from OpenSCAP scan.
 ## Prerequisites
 ##### Minimal requirements
    - **python3**
-   - lxml
+   - [lxml](https://pypi.org/project/lxml/)
    
 ##### Recommended requirements
   * include minimal requirements
-  * inquirer
+  * [inquirer](https://pypi.org/project/inquirer/)
 
 ### Installation
 

@@ -1,6 +1,6 @@
 import sys
 
-from .client import client
+from .client import Client
 
 
 def print_where_is_saved_result(results_src):
@@ -10,18 +10,18 @@ def print_where_is_saved_result(results_src):
 
 
 def main():
-    client_ = client(sys.argv[1:])
-    rules = client_.search_rules_id()
+    client = Client(sys.argv[1:])
+    rules = client.search_rules_id()
     if len(rules) > 1:
-        answers = client_.run_gui_and_return_answers()
+        answers = client.run_gui_and_return_answers()
         if answers is None:
             print("You haven't got installed inquirer lib. "
                   "Please copy id rule with you want use and put it in command")
         else:
-            results_src = client_.prepare_data(answers)
+            results_src = client.prepare_data(answers)
             print_where_is_saved_result(results_src)
     else:
-        results_src = client_.prepare_data({'rules': [rules[0]['id_rule']]})
+        results_src = client.prepare_data({'rules': [rules[0]['id_rule']]})
         print_where_is_saved_result(results_src)
 
 

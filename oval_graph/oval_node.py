@@ -12,7 +12,7 @@ import oval_graph.evaluate
 '''
 
 
-class oval_node():
+class OvalNode():
     '''
     The OvalNode object is one node of oval_graph.
 
@@ -93,7 +93,7 @@ class oval_node():
 
     def add_child(self, node):
         if self.node_type == "operator":
-            assert isinstance(node, oval_node)
+            assert isinstance(node, OvalNode)
             self.children.append(node)
         else:
             self.children = None
@@ -189,13 +189,13 @@ class oval_node():
 
 def restore_dict_to_tree(dict_of_tree):
     if dict_of_tree["child"] is None:
-        return oval_node(
+        return OvalNode(
             dict_of_tree["node_id"],
             dict_of_tree["type"],
             dict_of_tree["value"],
             dict_of_tree["negation"],
             dict_of_tree['comment'])
-    return oval_node(
+    return OvalNode(
         dict_of_tree["node_id"],
         dict_of_tree["type"],
         dict_of_tree["value"],

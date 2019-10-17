@@ -1,9 +1,9 @@
 import os
 import json
 
-from oval_graph.oval_node import restore_dict_to_tree, oval_node
-from oval_graph.converter import converter
-from oval_graph.xml_parser import xml_parser
+from oval_graph.oval_node import restore_dict_to_tree, OvalNode
+from oval_graph.converter import Converter
+from oval_graph.xml_parser import XmlParser
 
 
 def any_test_treeEvaluation(tree, expect, file_name=None):
@@ -30,7 +30,7 @@ def any_test_treeEvaluation(tree, expect, file_name=None):
 
 
 def any_test_parsing_and_evaluate_scan_rule(src, rule_id, result):
-    parser = xml_parser(get_src(src))
+    parser = XmlParser(get_src(src))
     oval_tree = parser.get_oval_tree(rule_id)
     any_test_treeEvaluation(oval_tree, result)
 
@@ -41,24 +41,24 @@ def any_get_test_data_json(src):
     return data
 
 
-def get_converter_simple_tree():
-    return converter(get_simple_tree())
+def get_Converter_simple_tree():
+    return Converter(get_simple_tree())
 
 
 def any_test_create_node_dict_for_JsTree(Tree, json_src):
     data = dict()
     with open(get_src(json_src), "r") as f:
         data = json.load(f)
-    assert converter(Tree).to_JsTree_dict() == data
+    assert Converter(Tree).to_JsTree_dict() == data
 
 
 def get_simple_tree():
-    return oval_node(1, 'operator', 'and', False, None, [
-        oval_node(2, 'value', "true", False, None),
-        oval_node(3, 'value', "false", False, None),
-        oval_node(4, 'operator', 'or', False, None, [
-            oval_node(5, 'value', "false", False, None),
-            oval_node(6, 'value', "true", False, None)
+    return OvalNode(1, 'operator', 'and', False, None, [
+        OvalNode(2, 'value', "true", False, None),
+        OvalNode(3, 'value', "false", False, None),
+        OvalNode(4, 'operator', 'or', False, None, [
+            OvalNode(5, 'value', "false", False, None),
+            OvalNode(6, 'value', "true", False, None)
         ]
         )
     ]
@@ -73,11 +73,11 @@ def any_test_transformation_tree_to_Json_for_JsTree(
         src, test_data_src, rule_id):
     test_data = any_get_test_data_json(test_data_src)
 
-    parser = xml_parser(get_src(src))
+    parser = XmlParser(get_src(src))
     oval_tree = parser.get_oval_tree(rule_id)
 
     assert oval_tree.node_id == rule_id
-    out_data = converter(oval_tree).to_JsTree_dict()
+    out_data = Converter(oval_tree).to_JsTree_dict()
     assert out_data == test_data
 
 
@@ -100,7 +100,7 @@ def any_test_dict_to_tree(dict_of_tree):
 
 
 def get_parser(src):
-    return xml_parser(get_src(src))
+    return XmlParser(get_src(src))
 
 
 def get_src(src):

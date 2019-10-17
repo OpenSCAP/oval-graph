@@ -6,7 +6,7 @@ import os
 
 from lxml import etree as ET
 
-from .oval_node import oval_node
+from .oval_node import OvalNode
 
 ns = {
     'XMLSchema': 'http://oval.mitre.org/XMLSchema/oval-results-5',
@@ -17,7 +17,7 @@ ns = {
 }
 
 
-class xml_parser():
+class XmlParser():
     def __init__(self, src):
         self.src = src
         self.tree = ET.parse(self.src)
@@ -99,7 +99,7 @@ class xml_parser():
                 children.append(self._xml_dict_to_node(child))
             else:
                 children.append(
-                    oval_node(
+                    OvalNode(
                         child['value_id'],
                         'value',
                         child['value'],
@@ -111,7 +111,7 @@ class xml_parser():
             children[0].node_id = dict_of_definition['id']
             return children[0]
         else:
-            return oval_node(
+            return OvalNode(
                 str(uuid.uuid4()),
                 'operator',
                 dict_of_definition['operator'],
@@ -138,7 +138,7 @@ class xml_parser():
 
     def xml_dict_of_rule_to_node(self, rule):
         dict_of_definition = rule['definition']
-        return oval_node(
+        return OvalNode(
             rule['rule_id'],
             'operator',
             'and',

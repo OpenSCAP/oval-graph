@@ -7,13 +7,12 @@ import os
 import shutil
 from datetime import datetime
 
-from .xml_parser import xml_parser
-from .oval_node import oval_node
-from .converter import converter
+from .xml_parser import XmlParser
+from .oval_node import OvalNode
+from .converter import Converter
 
 
-
-class client():
+class Client():
     def __init__(self, args):
         self.arg = self.parse_arguments(args)
         self.remove_pass_tests = self.arg.remove_pass_tests
@@ -22,7 +21,7 @@ class client():
         self.off_webbrowser = self.arg.off_web_browser
         self.source_filename = self.arg.source_filename
         self.rule_name = self.arg.rule_id
-        self.xml_parser = xml_parser(
+        self.XmlParser = XmlParser(
             self.source_filename)
         self.html_interpreter = 'tree_html_interpreter'
         if self.remove_pass_tests:
@@ -73,12 +72,12 @@ class client():
 
     def _get_wanted_rules(self):
         return [
-            x for x in self.xml_parser.get_used_rules() if re.search(
+            x for x in self.XmlParser.get_used_rules() if re.search(
                 self.rule_name, x['id_rule'])]
 
     def _get_wanted_not_selected_rules(self):
         return [
-            x for x in self.xml_parser.get_notselected_rules() if re.search(
+            x for x in self.XmlParser.get_notselected_rules() if re.search(
                 self.rule_name, x['id_rule'])]
 
     def search_rules_id(self):
@@ -99,8 +98,8 @@ class client():
             return rules
 
     def create_dict_of_rule(self, rule_id):
-        parser = xml_parser(self.source_filename)
-        converter = converter(parser.get_oval_tree(rule_id))
+        parser = XmlParser(self.source_filename)
+        converter = Converter(parser.get_oval_tree(rule_id))
         return converter.to_JsTree_dict()
 
     def save_dict(self, dict_, src):
@@ -109,7 +108,7 @@ class client():
                 dict_, sort_keys=False, indent=4) + ";"))
 
     def copy_interpreter(self, dst):
-        src = self.xml_parser.get_src(self.html_interpreter)
+        src = self.XmlParser.get_src(self.html_interpreter)
         os.mkdir(dst)
         for item in os.listdir(src):
             s = os.path.join(src, item)

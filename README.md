@@ -1,24 +1,36 @@
 # OVAL visualization as graph
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/OpenSCAP/OVAL-visualization-as-graph/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/OpenSCAP/OVAL-visualization-as-graph/?branch=master) [![Code Coverage](https://scrutinizer-ci.com/g/OpenSCAP/OVAL-visualization-as-graph/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/OpenSCAP/OVAL-visualization-as-graph/?branch=master) [![Build Status](https://scrutinizer-ci.com/g/OpenSCAP/OVAL-visualization-as-graph/badges/build.png?b=master)](https://scrutinizer-ci.com/g/OpenSCAP/OVAL-visualization-as-graph/build-status/master) [![Code Intelligence Status](https://scrutinizer-ci.com/g/OpenSCAP/OVAL-visualization-as-graph/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence)
-
 Understanding result in the blink of an eye
 
-### Usage
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/OpenSCAP/OVAL-visualization-as-graph/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/OpenSCAP/OVAL-visualization-as-graph/?branch=master) [![Code Coverage](https://scrutinizer-ci.com/g/OpenSCAP/OVAL-visualization-as-graph/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/OpenSCAP/OVAL-visualization-as-graph/?branch=master) [![Build Status](https://scrutinizer-ci.com/g/OpenSCAP/OVAL-visualization-as-graph/badges/build.png?b=master)](https://scrutinizer-ci.com/g/OpenSCAP/OVAL-visualization-as-graph/build-status/master) [![Code Intelligence Status](https://scrutinizer-ci.com/g/OpenSCAP/OVAL-visualization-as-graph/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence)
+
+## Visualization of SCAP rule evaluation results
+This client generate tree graph from ARF xml report from OpenSCAP scan.
+## Prerequisites
+##### Minimal requirements
+   - **python3**
+   - [lxml](https://pypi.org/project/lxml/)
+   
+##### Recommended requirements
+  * include minimal requirements
+  * [inquirer](https://pypi.org/project/inquirer/)
+
+### Installation
+
+```bash
+git clone https://github.com/OpenSCAP/OVAL-visualization-as-graph.git
+cd OVAL-visualization-as-graph
+
+# Install package with nice cli futures (recommended)
+sudo pip3 install ".[niceCli]"
+
+# Install package without futures (light version)
+sudo pip3 install .
 ```
-Command:
-    python3 run.py ARF-file.xml id-rule
-Example:
-    python3 run.py data/ssg-fedora-ds-arf.xml xccdf_org.ssgproject.content_rule_disable_host_auth
+#### Example usage
 ```
-* *ARF-file.xml* -  ARF xml report from OpenSCAP scan. 
-* *id-rule*  - Rule ID to be visualized. A part from the full rule ID a part of the ID or a regular expression can be used. If brackets are used in the regular expression the regular expression must be quoted.
+arf-to-graph scan-results/ssg-fedora-ds-arf.xml xccdf_org.ssgproject.content_rule_disable_host_auth
+```
+It saves all necessary files to a directory named `rule_id` and `date`(The date the graph was created.) in `/tmp`. And default it opens web browser with graph. Default is Firefox. If Firefox not installed it opens default web browser in OS.  
 
 It opens web browser with graph. Default is Firefox. If Firefox not installed it opens default web browser in OS.  
 ![demo-screenshot](https://raw.githubusercontent.com/OpenSCAP/OVAL-visualization-as-graph/master/demo-screenshot.png "demo-screenshot")
-* ### Minimal requirements:
-  * **python3**
-  * lxml
-
-* ### Recommended requirements:
-  * include minimal requirements
-  * PyInquirer **(If installation of PyInquirer fails, try to install _python3-devel.x86_64_ and retry the installation.)**

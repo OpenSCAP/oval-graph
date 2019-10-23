@@ -1,5 +1,6 @@
-import oval_graph.client
 import sys
+
+from .client import Client
 
 
 def print_where_is_saved_result(results_src):
@@ -9,7 +10,7 @@ def print_where_is_saved_result(results_src):
 
 
 def main():
-    client = oval_graph.client.client(sys.argv[1:])
+    client = Client(sys.argv[1:])
     rules = client.search_rules_id()
     if len(rules) > 1:
         answers = client.run_gui_and_return_answers()

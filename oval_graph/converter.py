@@ -1,10 +1,10 @@
-import oval_graph.oval_graph
-import collections
 import re
 import uuid
 
+from .oval_node import OvalNode
 
-class converter():
+
+class Converter():
     def __init__(self, tree):
         self.VALUE_TO_BOOTSTRAP_COLOR = {
             "true": "text-success",
@@ -24,7 +24,7 @@ class converter():
             "notappl": "glyphicon glyphicon-question-sign text-dark"
         }
 
-        if isinstance(tree, oval_graph.oval_graph.OvalNode):
+        if isinstance(tree, OvalNode):
             self.tree = tree
         else:
             raise ValueError('err - this is not tree created from OvalNodes')
@@ -54,7 +54,7 @@ class converter():
             "state": {
                 "opened": True}}
         if self.tree.children:
-            out['children'] = [converter(child).to_JsTree_dict()
+            out['children'] = [Converter(child).to_JsTree_dict()
                                for child in self.tree.children]
         return out
 

@@ -1,11 +1,12 @@
 '''
     Modules for create node IDs and parsing xml
 '''
+import uuid
+import os
 
 from lxml import etree as ET
-import uuid
-import oval_graph.oval_graph
-import os
+
+from .oval_node import OvalNode
 
 ns = {
     'XMLSchema': 'http://oval.mitre.org/XMLSchema/oval-results-5',
@@ -16,7 +17,7 @@ ns = {
 }
 
 
-class xml_parser():
+class XmlParser():
     def __init__(self, src):
         self.src = src
         self.tree = ET.parse(self.src)
@@ -98,7 +99,7 @@ class xml_parser():
                 children.append(self._xml_dict_to_node(child))
             else:
                 children.append(
-                    oval_graph.oval_graph.OvalNode(
+                    OvalNode(
                         child['value_id'],
                         'value',
                         child['value'],
@@ -110,7 +111,7 @@ class xml_parser():
             children[0].node_id = dict_of_definition['id']
             return children[0]
         else:
-            return oval_graph.oval_graph.OvalNode(
+            return OvalNode(
                 str(uuid.uuid4()),
                 'operator',
                 dict_of_definition['operator'],
@@ -137,7 +138,7 @@ class xml_parser():
 
     def xml_dict_of_rule_to_node(self, rule):
         dict_of_definition = rule['definition']
-        return oval_graph.oval_graph.OvalNode(
+        return OvalNode(
             rule['rule_id'],
             'operator',
             'and',
@@ -146,7 +147,7 @@ class xml_parser():
             [self._xml_dict_to_node(dict_of_definition)],
         )
 
-    def get_oval_graph(self, rule_id=None):
+    def get_oval_tree(self, rule_id=None):
         return self.xml_dict_of_rule_to_node(self.parse_data_to_dict(rule_id))
 
     def build_graph(self, tree_data):

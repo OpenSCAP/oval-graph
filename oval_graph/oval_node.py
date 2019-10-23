@@ -1,9 +1,9 @@
 '''
     Modules form my lib and for create ID
 '''
-import oval_graph.xml_parser
-import oval_graph.evaluate
 import uuid
+
+import oval_graph.evaluate
 
 
 '''
@@ -185,11 +185,6 @@ class OvalNode():
 
     def change_tree_value(self, node_id, value):
         self.find_node_with_ID(node_id).value = value
-
-
-def build_nodes_form_xml(xml_src, rule_id):
-    parser = oval_graph.xml_parser.xml_parser(xml_src)
-    return parser.get_oval_graph(rule_id)
 
 
 def restore_dict_to_tree(dict_of_tree):

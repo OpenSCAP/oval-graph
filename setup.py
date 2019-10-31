@@ -13,8 +13,8 @@ def get_long_description():
 
 
 setup(name='oval_graph',
-      version='0.0.5',
-      description='Client for visualization of SCAP rule evaluation results',
+      version='0.0.1',
+      description='Tool for visualization of SCAP rule evaluation results',
       long_description=get_long_description(),
       long_description_content_type="text/markdown",
       url='https://github.com/OpenSCAP/OVAL-visualization-as-graph',

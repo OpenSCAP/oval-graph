@@ -37,8 +37,12 @@ def any_test_parsing_and_evaluate_scan_rule(src, rule_id, result):
 
 def any_get_test_data_json(src):
     with open(get_src(src), 'r') as f:
-        data = json.load(f)
-    return data
+        return json.load(f)
+
+
+def any_get_tested_file(src):
+    with open(get_src(src), 'r') as f:
+        return f.readlines()
 
 
 def get_Converter_simple_tree():

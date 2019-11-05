@@ -118,4 +118,10 @@ def compare_results_js(result):
         os.path.join(result, 'data.js'))
     referenc_result = any_get_tested_file(
         'test_data/referenc_result_data_tree.js')
+
+
+def compare_results_json(result):
+    result = any_get_test_data_json(result + '.json')
+    referenc_result = any_get_test_data_json(
+        'test_data/referenc_result_data_json.json')
     assert result == referenc_result

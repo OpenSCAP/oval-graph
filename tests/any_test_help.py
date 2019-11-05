@@ -111,3 +111,11 @@ def get_src(src):
     _dir = os.path.dirname(os.path.realpath(__file__))
     FIXTURE_DIR = os.path.join(_dir, src)
     return str(FIXTURE_DIR)
+
+
+def compare_results_js(result):
+    result = any_get_tested_file(
+        os.path.join(result, 'data.js'))
+    referenc_result = any_get_tested_file(
+        'test_data/referenc_result_data_tree.js')
+    assert result == referenc_result

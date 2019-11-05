@@ -13,7 +13,7 @@ import tests.any_test_help
 
 def get_client(src, rule):
     return Client(
-        ["--off-web-browser", tests.any_test_help.get_src(src), rule])
+        [tests.any_test_help.get_src(src), rule])
 
 
 def get_client_on_web_browser(src, rule):
@@ -22,13 +22,12 @@ def get_client_on_web_browser(src, rule):
 
 
 def get_client_with_option_show_fail_rules(src, rule):
-    return Client(["--show-fail-rules", "--off-web-browser",
+    return Client(["--show-fail-rules",
                    tests.any_test_help.get_src(src), rule])
 
 
 def get_client_with_option_show_not_selected_rules(src, rule):
     return Client(["--show-not-selected-rules",
-                   "--off-web-browser",
                    tests.any_test_help.get_src(src),
                    rule])
 
@@ -38,17 +37,8 @@ def get_client_with_option_show_not_selected_rules_and_show_fail_rules(
         rule):
     return Client(["--show-not-selected-rules",
                    "--show-fail-rules",
-                   "--off-web-browser",
                    tests.any_test_help.get_src(src),
                    rule])
-
-
-def get_client_with_define_dest(src, rule):
-    return Client(
-        ["--out", tests.any_test_help.get_src(tempfile.gettempdir() + "/saveTestData"),
-         "--off-web-browser",
-         tests.any_test_help.get_src(src),
-         rule])
 
 
 def test_client():
@@ -207,51 +197,6 @@ def test_search_not_selected_rule():
         assert get_client(src, non_existent_rule).search_rules_id()
 
 
-def test_prepare_tree():
-    src = 'test_data/ssg-fedora-ds-arf.xml'
-    rule = 'xccdf_org.ssgproject.content_rule_package_abrt_removed'
-    client = get_client(src, rule)
-    rules = {'rules': [rule]}
-    results_src = client.prepare_data(rules)
-    result = tests.any_test_help.any_get_tested_file(
-        os.path.join(results_src[0], 'data.js'))
-    referenc_result = tests.any_test_help.any_get_tested_file(
-        'test_data/referenc_result_data_tree.js')
-    assert result == referenc_result
-
-
-def test_prepare_tree_and_save_in_defined_destination():
-    src = 'test_data/ssg-fedora-ds-arf.xml'
-    rule = 'xccdf_org.ssgproject.content_rule_package_abrt_removed'
-    client = get_client_with_define_dest(src, rule)
-    rules = {'rules': [rule]}
-    results_src = client.prepare_data(rules)
-    result = tests.any_test_help.any_get_tested_file(
-        os.path.join(results_src[0], 'data.js'))
-    referenc_result = tests.any_test_help.any_get_tested_file(
-        'test_data/referenc_result_data_tree.js')
-    assert result == referenc_result
-
-
-def try_expection_for_prepare_graph(src, rule, err):
-    client = get_client(src, rule)
-    rules = {'rules': [rule]}
-    with pytest.raises(Exception, match=err):
-        assert client.prepare_data(rules)
-
-
-def test_prepare_graph_with_non_existent_rule():
-    src = 'test_data/ssg-fedora-ds-arf.xml'
-    rule = 'non-existent_rule'
-    try_expection_for_prepare_graph(src, rule, '404')
-
-
-def test_prepare_graph_with_not_selected_rule():
-    src = 'test_data/ssg-fedora-ds-arf.xml'
-    rule = 'xccdf_org.ssgproject.content_rule_package_nis_removed'
-    try_expection_for_prepare_graph(src, rule, 'not selected')
-
-
 def test_if_not_installed_inquirer(capsys):
     with mock.patch.dict(sys.modules, {'inquirer': None}):
         src = 'test_data/ssg-fedora-ds-arf.xml'
@@ -263,7 +208,9 @@ def test_if_not_installed_inquirer(capsys):
         assert captured.out == (
             '== The Rule IDs ==\n'
             'xccdf_org.ssgproject.content_rule_package_abrt_removed\\b\n'
-            'xccdf_org.ssgproject.content_rule_package_sendmail_removed\\b\n')
+            'xccdf_org.ssgproject.content_rule_package_sendmail_removed\\b\n'
+            "You haven't got installed inquirer lib. Please copy id rule with you"
+            " want use and put it in command\n")
 
 
 def test_if_not_installed_inquirer_with_option_show_fail_rules(capsys):
@@ -276,7 +223,9 @@ def test_if_not_installed_inquirer_with_option_show_fail_rules(capsys):
         captured = capsys.readouterr()
         assert captured.out == (
             '== The Rule IDs ==\n'
-            'xccdf_org.ssgproject.content_rule_package_abrt_removed\\b\n')
+            'xccdf_org.ssgproject.content_rule_package_abrt_removed\\b\n'
+            "You haven't got installed inquirer lib. Please copy id rule with you"
+            " want use and put it in command\n")
 
 
 def test_if_not_installed_inquirer_with_option_show_not_selected_rules(
@@ -298,7 +247,9 @@ def test_if_not_installed_inquirer_with_option_show_not_selected_rules(
             'xccdf_org.ssgproject.content_rule_package_telnetd_removed(Not selected)\n'
             'xccdf_org.ssgproject.content_rule_package_gdm_removed(Not selected)\n'
             'xccdf_org.ssgproject.content_rule_package_setroubleshoot_removed(Not selected)\n'
-            'xccdf_org.ssgproject.content_rule_package_mcstrans_removed(Not selected)\n')
+            'xccdf_org.ssgproject.content_rule_package_mcstrans_removed(Not selected)\n'
+            "You haven't got installed inquirer lib. Please copy id rule with you"
+            " want use and put it in command\n")
 
 
 def test_if_not_installed_inquirer_with_option_show_not_selected_rules_and_show_fail_rules(
@@ -320,4 +271,6 @@ def test_if_not_installed_inquirer_with_option_show_not_selected_rules_and_show_
             'xccdf_org.ssgproject.content_rule_package_telnetd_removed(Not selected)\n'
             'xccdf_org.ssgproject.content_rule_package_gdm_removed(Not selected)\n'
             'xccdf_org.ssgproject.content_rule_package_setroubleshoot_removed(Not selected)\n'
-            'xccdf_org.ssgproject.content_rule_package_mcstrans_removed(Not selected)\n')
+            'xccdf_org.ssgproject.content_rule_package_mcstrans_removed(Not selected)\n'
+            "You haven't got installed inquirer lib. Please copy id rule with you"
+            " want use and put it in command\n")

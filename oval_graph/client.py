@@ -2,6 +2,7 @@ import re
 import argparse
 import tempfile
 import os
+import webbrowser
 import json
 import shutil
 from datetime import datetime
@@ -80,6 +81,39 @@ class Client():
             x for x in self.xml_parser.get_notselected_rules() if re.search(
                 self.rule_name, x['id_rule'])]
 
+    def create_dict_of_rule(self, rule_id):
+        converter = Converter(self.xml_parser.get_oval_tree(rule_id))
+        return converter.to_JsTree_dict()
+
+    def save_dict(self, dict_, src):
+        with open(os.path.join(src, 'data.js'), "w+") as data_file:
+            data_file.write("var data_json =" + str(json.dumps(
+                dict_, sort_keys=False, indent=4) + ";"))
+
+    def get_src(self, src):
+        _dir = os.path.dirname(os.path.realpath(__file__))
+        FIXTURE_DIR = os.path.join(_dir, src)
+        return str(FIXTURE_DIR)
+
+    def copy_interpreter(self, dst):
+        src = self.get_src('tree_html_interpreter')
+        os.mkdir(dst)
+        for item in os.listdir(src):
+            s = os.path.join(src, item)
+            d = os.path.join(dst, item)
+            if os.path.isdir(s):
+                shutil.copytree(s, d)
+            else:
+                shutil.copy2(s, d)
+
+    def open_web_browser(self, src):
+        if not self.off_webbrowser:
+            src = os.path.join(src, 'index.html')
+            try:
+                webbrowser.get('firefox').open_new_tab(src)
+            except BaseException:
+                webbrowser.open_new_tab(src)
+
     def search_rules_id(self):
         rules = self._get_wanted_rules()
         notselected_rules = self._get_wanted_not_selected_rules()
@@ -97,26 +131,10 @@ class Client():
         else:
             return rules
 
-    def create_dict_of_rule(self, rule_id):
-        parser = XmlParser(self.source_filename)
-        converter = Converter(parser.get_oval_tree(rule_id))
-        return converter.to_JsTree_dict()
-
     def save_dict(self, dict_, src):
         with open(os.path.join(src, 'data.js'), "w+") as data_file:
             data_file.write("var data_json =" + str(json.dumps(
                 dict_, sort_keys=False, indent=4) + ";"))
-
-    def copy_interpreter(self, dst):
-        src = self.XmlParser.get_src(self.html_interpreter)
-        os.mkdir(dst)
-        for item in os.listdir(src):
-            s = os.path.join(src, item)
-            d = os.path.join(dst, item)
-            if os.path.isdir(s):
-                shutil.copytree(s, d)
-            else:
-                shutil.copy2(s, d)
 
     def get_save_src(self, rule):
         date = str(datetime.now().strftime("-%d_%m_%Y-%H_%M_%S"))

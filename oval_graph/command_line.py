@@ -2,6 +2,7 @@ import sys
 
 from .arf_to_html import ArfToHtml
 from .arf_to_json import ArfToJson
+from .json_to_html import JsonToHtml
 
 
 def print_where_is_saved_result(results_src):
@@ -24,6 +25,13 @@ def arf_to_json(args=None):
         main(ArfToJson(sys.argv[1:]))
 
 
+def json_to_graph(args=None):
+    if args is not None:
+        main(JsonToHtml(args))
+    else:
+        main(JsonToHtml(sys.argv[1:]))
+
+
 def main(client):
     rules = client.search_rules_id()
     if len(rules) > 1:
@@ -41,5 +49,7 @@ if __name__ == '__main__':
         arf_to_graph(sys.argv[2:])
     if sys.argv[1] == "arf-to-json":
         arf_to_json(sys.argv[2:])
+    if sys.argv[1] == "json-to-graph":
+        json_to_graph(sys.argv[2:])
     else:
         print("err- Bad command!")

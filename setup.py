@@ -36,6 +36,7 @@ setup(name='oval_graph',
           'console_scripts': [
               'arf-to-graph=oval_graph.command_line:arf_to_graph',
               'arf-to-json=oval_graph.command_line:arf_to_json',
+              'json-to-graph=oval_graph.command_line:json_to_graph',
           ],
       },
       python_requires='>=3.6',

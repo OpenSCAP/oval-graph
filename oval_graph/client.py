@@ -175,7 +175,7 @@ class Client():
             '--out',
             action="store",
             default=False,
-            help="Save the output files where it is defined.")
+            help="The directory where to save output files.")
         parser.add_argument(
             '--remove-pass-tests',
             action="store_true",

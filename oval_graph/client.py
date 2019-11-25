@@ -120,7 +120,7 @@ class Client():
                 shutil.copy2(s, d)
 
     def get_save_src(self):
-        if isinstance(self.out, str):
+        if self.out is not None:
             if not os.path.isdir(self.out):
                 os.mkdir(self.out)
                 return self.out
@@ -174,7 +174,7 @@ class Client():
         parser.add_argument(
             '--out',
             action="store",
-            default=False,
+            default=None,
             help="The directory where to save output files.")
         parser.add_argument(
             '--remove-pass-tests',

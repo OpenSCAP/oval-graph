@@ -21,6 +21,7 @@ class Client():
         self.off_webbrowser = self.arg.off_web_browser
         self.source_filename = self.arg.source_filename
         self.rule_name = self.arg.rule_id
+        self.out = self.arg.out
         self.XmlParser = XmlParser(
             self.source_filename)
         self.html_interpreter = 'tree_html_interpreter'
@@ -118,6 +119,14 @@ class Client():
             else:
                 shutil.copy2(s, d)
 
+    def get_save_src(self):
+        if self.out is not None:
+            if not os.path.isdir(self.out):
+                os.mkdir(self.out)
+                return self.out
+            return self.out
+        return tempfile.gettempdir()
+
     def prepare_data(self, rules):
         try:
             out = []
@@ -125,7 +134,7 @@ class Client():
                 oval_tree = self.create_dict_of_rule(rule)
                 date = str(datetime.now().strftime("_%d-%m-%Y_%H:%M:%S"))
                 src = os.path.join(
-                    tempfile.gettempdir(),
+                    self.get_save_src(),
                     'graph-of-' + rule + date)
                 self.copy_interpreter(src)
                 self.save_dict(oval_tree, src)
@@ -162,6 +171,11 @@ class Client():
             action="store_true",
             default=False,
             help="It does not start the web browser.")
+        parser.add_argument(
+            '--out',
+            action="store",
+            default=None,
+            help="The directory where to save output files.")
         parser.add_argument(
             '--remove-pass-tests',
             action="store_true",

@@ -43,6 +43,14 @@ def get_client_with_option_show_not_selected_rules_and_show_fail_rules(
                    rule])
 
 
+def get_client_with_define_dest(src, rule):
+    return Client(
+        ["--out", tests.any_test_help.get_src(tempfile.gettempdir() + "/saveTestData"),
+         "--off-web-browser",
+         tests.any_test_help.get_src(src),
+         rule])
+
+
 def test_client():
     src = 'test_data/ssg-fedora-ds-arf.xml'
     rule = 'rule'
@@ -205,28 +213,24 @@ def test_prepare_tree():
     client = get_client(src, rule)
     rules = {'rules': [rule]}
     results_src = client.prepare_data(rules)
-    result = load_tested_file(
+    result = tests.any_test_help.any_get_tested_file(
         os.path.join(results_src[0], 'data.js'))
-    referenc_result = load_tested_file(
+    referenc_result = tests.any_test_help.any_get_tested_file(
         'test_data/referenc_result_data_tree.js')
     assert result == referenc_result
 
 
-def load_tested_file(src):
-    if '/tmp' in src:
-        with open(src, 'r') as f:
-            data = f.readlines()
-    else:
-        with open(tests.any_test_help.get_src(src), 'r') as f:
-            data = f.readlines()
-    out = []
-    edge = False
-    for row in data:
-        if row == '    "edges": [\n':
-            edge = True
-        if not edge:
-            out.append(row)
-    return out
+def test_prepare_tree_and_save_in_defined_destination():
+    src = 'test_data/ssg-fedora-ds-arf.xml'
+    rule = 'xccdf_org.ssgproject.content_rule_package_abrt_removed'
+    client = get_client_with_define_dest(src, rule)
+    rules = {'rules': [rule]}
+    results_src = client.prepare_data(rules)
+    result = tests.any_test_help.any_get_tested_file(
+        os.path.join(results_src[0], 'data.js'))
+    referenc_result = tests.any_test_help.any_get_tested_file(
+        'test_data/referenc_result_data_tree.js')
+    assert result == referenc_result
 
 
 def try_expection_for_prepare_graph(src, rule, err):

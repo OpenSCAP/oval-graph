@@ -1,6 +1,6 @@
 import sys
 
-from .client import Client
+from .arf_to_html import ArfToHtml
 
 
 def print_where_is_saved_result(results_src):
@@ -9,15 +9,12 @@ def print_where_is_saved_result(results_src):
         print(src)
 
 
-def main():
-    client = Client(sys.argv[1:])
+def arf_to_html():
+    client = ArfToHtml(sys.argv[1:])
     rules = client.search_rules_id()
     if len(rules) > 1:
         answers = client.run_gui_and_return_answers()
-        if answers is None:
-            print("You haven't got installed inquirer lib. "
-                  "Please copy id rule with you want use and put it in command")
-        else:
+        if answers is not None:
             results_src = client.prepare_data(answers)
             print_where_is_saved_result(results_src)
     else:
@@ -26,4 +23,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    arf_to_html()

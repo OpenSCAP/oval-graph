@@ -27,8 +27,8 @@ sudo pip3 install ".[niceCli]"
 sudo pip3 install .
 ```
 #### Example usage
-```
-arf-to-graph scan-results/ssg-fedora-ds-arf.xml xccdf_org.ssgproject.content_rule_disable_host_auth
+```bash
+arf-to-graph scan-data/ssg-fedora-ds-arf.xml xccdf_org.ssgproject.content_rule_audit_rules_unsuccessful_file_modification_creat
 ```
 It saves all necessary files to a directory named `rule_id` and `date`(The date the graph was created.) in `/tmp`. And default it opens web browser with graph. Default is Firefox. If Firefox not installed it opens default web browser in OS.  
 

@@ -80,7 +80,7 @@ class Converter():
     def get_negation_character(self, value):
         return ('<strong><span class="' +
                 self.VALUE_TO_BOOTSTRAP_COLOR[value] +
-                '">&not;</strong></span>')
+                '">NOT</strong></span>')
 
     def _get_label(self):
         out = dict(negation=None, str="")

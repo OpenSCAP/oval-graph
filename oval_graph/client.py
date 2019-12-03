@@ -119,7 +119,7 @@ class Client():
                 shutil.copy2(s, d)
 
     def get_save_src(self, rule):
-        date = str(datetime.now().strftime("_%d-%m-%Y_%H:%M:%S"))
+        date = str(datetime.now().strftime("-%d_%m_%Y-%H_%M_%S"))
         if self.out is not None:
             if not os.path.isdir(self.out):
                 os.mkdir(self.out)

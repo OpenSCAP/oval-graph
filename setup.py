@@ -33,7 +33,10 @@ setup(name='oval_graph',
       include_package_data=True,
       zip_safe=False,
       entry_points={
-          'console_scripts': ['arf-to-graph=oval_graph.command_line:main'],
+          'console_scripts': [
+              'arf-to-graph=oval_graph.command_line:arf_to_graph',
+              'arf-to-json=oval_graph.command_line:arf_to_json',
+          ],
       },
       python_requires='>=3.6',
       )

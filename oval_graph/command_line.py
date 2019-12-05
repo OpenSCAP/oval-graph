@@ -6,9 +6,10 @@ from .json_to_html import JsonToHtml
 
 
 def print_where_is_saved_result(results_src):
-    print("Results are saved:")
-    for src in results_src:
-        print(src)
+    if results_src:
+        print("Results are saved:")
+        for src in results_src:
+            print(src)
 
 
 def arf_to_graph(args=None):
@@ -47,9 +48,9 @@ def main(client):
 if __name__ == '__main__':
     if sys.argv[1] == "arf-to-graph":
         arf_to_graph(sys.argv[2:])
-    if sys.argv[1] == "arf-to-json":
+    elif sys.argv[1] == "arf-to-json":
         arf_to_json(sys.argv[2:])
-    if sys.argv[1] == "json-to-graph":
+    elif sys.argv[1] == "json-to-graph":
         json_to_graph(sys.argv[2:])
     else:
         print("err- Bad command!")

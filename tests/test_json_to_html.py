@@ -20,6 +20,7 @@ def get_client_json_to_html_with_define_dest(src):
          tests.any_test_help.get_src(src)])
 
 
+@pytest.mark.usefixtures("remove_generated_reports_in_root")
 def test_prepare_tree():
     src = 'test_data/referenc_result_data_json.json'
     client = get_client_json_to_html(src)

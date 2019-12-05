@@ -146,7 +146,7 @@ class Client():
                 self.out,
                 'graph-of-' + rule + date)
         return os.path.join(
-            tempfile.gettempdir(),
+            os.getcwd(),
             'graph-of-' + rule + date)
 
     def parse_arguments(self, args):

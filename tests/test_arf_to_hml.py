@@ -40,6 +40,7 @@ def test_prepare_graph_with_not_selected_rule():
     try_expection_for_prepare_graph(src, rule, 'not selected')
 
 
+@pytest.mark.usefixtures("remove_generated_reports_in_root")
 def test_prepare_tree():
     src = 'test_data/ssg-fedora-ds-arf.xml'
     rule = 'xccdf_org.ssgproject.content_rule_package_abrt_removed'

@@ -17,7 +17,7 @@ class JsonToHtml(Client):
         self.arg = self.parse_arguments(args)
         self.off_webbrowser = self.arg.off_web_browser
         self.source_filename = self.arg.source_filename
-        self.out = self.arg.out
+        self.out = self.arg.output
         self.oval_tree = None
 
     def load_json_to_oval_tree(self):
@@ -55,7 +55,7 @@ class JsonToHtml(Client):
             default=False,
             help="It does not start the web browser.")
         self.parser.add_argument(
-            '--out',
+            '--output',
             action="store",
             default=None,
             help="Save the output files where it is defined.")

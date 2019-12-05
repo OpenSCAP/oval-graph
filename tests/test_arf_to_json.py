@@ -14,7 +14,7 @@ def get_client_arf_to_json(src, rule):
 
 
 def get_client_arf_to_json_with_define_dest(src, rule):
-    return ArfToJson(["--out",
+    return ArfToJson(["--output",
                       tests.any_test_help.get_src(os.path.join(tempfile.gettempdir(),
                                                                str(uuid.uuid4()))),
                       tests.any_test_help.get_src(src),

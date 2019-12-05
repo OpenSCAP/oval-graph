@@ -20,7 +20,7 @@ class Client():
         self.show_not_selected_rules = self.arg.show_not_selected_rules
         self.source_filename = self.arg.source_filename
         self.rule_name = self.arg.rule_id
-        self.out = self.arg.out
+        self.out = self.arg.output
         self.xml_parser = XmlParser(
             self.source_filename)
         if self.remove_pass_tests:
@@ -168,7 +168,7 @@ class Client():
             default=False,
             help="Show notselected rules. These rules will not be visualized.")
         self.parser.add_argument(
-            '--out',
+            '--output',
             action="store",
             default=None,
             help="The directory where to save output files.")

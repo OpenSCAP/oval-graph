@@ -14,7 +14,7 @@ def get_client_json_to_html(src):
 
 def get_client_json_to_html_with_define_dest(src):
     return JsonToHtml(
-        ["--out", tests.any_test_help.get_src(
+        ["--output", tests.any_test_help.get_src(
             os.path.join(tempfile.gettempdir(), str(uuid.uuid4()))),
          "--off-web-browser",
          tests.any_test_help.get_src(src)])

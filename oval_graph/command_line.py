@@ -34,15 +34,19 @@ def json_to_graph(args=None):
 
 
 def main(client):
-    rules = client.search_rules_id()
-    if len(rules) > 1:
-        answers = client.run_gui_and_return_answers()
-        if answers is not None:
-            results_src = client.prepare_data(answers)
-            print_where_is_saved_result(results_src)
+    rules = []
+    results_src = []
+    if not isinstance(client, JsonToHtml):
+        rules = client.search_rules_id()
+        if len(rules) > 1:
+            answers = client.run_gui_and_return_answers()
+            if answers is not None:
+                results_src = client.prepare_data(answers)
+        else:
+            results_src = client.prepare_data({'rules': [rules[0]['id_rule']]})
     else:
-        results_src = client.prepare_data({'rules': [rules[0]['id_rule']]})
-        print_where_is_saved_result(results_src)
+        results_src = client.prepare_data()
+    print_where_is_saved_result(results_src)
 
 
 if __name__ == '__main__':

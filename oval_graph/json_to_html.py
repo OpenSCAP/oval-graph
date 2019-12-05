@@ -22,7 +22,10 @@ class JsonToHtml(Client):
 
     def load_json_to_oval_tree(self):
         with open(self.source_filename, 'r') as f:
-            return restore_dict_to_tree(json.load(f))
+            try:
+                return restore_dict_to_tree(json.load(f))
+            except Exception as error:
+                raise ValueError("err- Used file is not json or valid.")
 
     def create_dict_of_oval_node(self, oval_node):
         converter = Converter(oval_node)

@@ -15,16 +15,37 @@ This tool generate tree graph from ARF xml report from OpenSCAP scan.
   * [inquirer](https://pypi.org/project/inquirer/)
 
 ### Installation
+#### Fedora 30 and later
+```bash
+sudo dnf install oval-graph
+# Install inquirer, if you want have nice cli futures. (optional)
+sudo pip3 install inquirer
+```
+#### Install via [pip](https://pypi.org/project/oval-graph/)
+```bash
+# If you want to install oval-graph to $HOME/.local/bin, you have to run the below command:
+pip3 install --user oval-graph
+# Install inquirer, if you want have nice cli futures. (optional)
+pip3 install --user inquirer
 
+# If you want to install oval-graph globally instead, you have to run the below commands as admin, e.g. on Linux:
+sudo pip3 install oval-graph
+# Install inquirer, if you want have nice cli futures. (optional)
+sudo pip3 install inquirer
+
+```
+#### Install from source
 ```bash
 git clone https://github.com/OpenSCAP/OVAL-visualization-as-graph.git
 cd OVAL-visualization-as-graph
 
-# Install package with nice cli futures (recommended)
-sudo pip3 install ".[niceCli]"
-
-# Install package without futures (light version)
+# Install without futures (light version)
 sudo pip3 install .
+
+# OR
+
+# Install with nice cli futures
+sudo pip3 install ".[niceCli]"
 ```
 #### Example usage
 ```bash

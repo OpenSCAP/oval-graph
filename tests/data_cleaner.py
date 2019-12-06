@@ -1,9 +1,27 @@
-"""
-Data_cleaner is script which removes randomly generated items from test files.
-"""
 import fileinput
 import re
 import os
+from glob import glob
+from shutil import rmtree
+
+"""
+cleandir is function which removes generated reports.
+"""
+
+
+def cleandir():
+    path = os.getcwd()
+    pattern = os.path.join(path, "graph-of-*")
+
+    for item in glob(pattern):
+        if not os.path.isdir(item):
+            continue
+        rmtree(item)
+
+
+"""
+Data_cleaner is script which removes randomly generated items from test files.
+"""
 
 
 def replace_hash(line):

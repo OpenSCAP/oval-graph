@@ -19,3 +19,5 @@ scan-data/
 /build
 /dist
 coverage.xml
+
+/graph-of-*

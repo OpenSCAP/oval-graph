@@ -31,19 +31,23 @@ class Client():
             import inquirer
             return inquirer.prompt(self.get_questions())
         except ImportError:
-            print('== The Rule IDs ==')
-            rules = self.search_rules_id()
-            if self.show_fail_rules:
-                rules = self._get_only_fail_rule(rules)
-            for rule in rules:
-                print(rule['id_rule'] + r'\b')
-            if self.show_not_selected_rules:
-                print('== The not selected rule IDs ==')
-                for rule in self._get_wanted_not_selected_rules():
-                    print(rule['id_rule'] + '(Not selected)')
-            print("You haven't got installed inquirer lib. "
-                  "Please copy id rule with you want use and put it in command")
+            print(self.get_selection_rules())
             return None
+
+    def get_selection_rules(self):
+        out = '== The Rule IDs ==\n'
+        rules = self.search_rules_id()
+        if self.show_fail_rules:
+            rules = self._get_only_fail_rule(rules)
+        for rule in rules:
+            out = out + rule['id_rule'] + r'\b' + "\n"
+        if self.show_not_selected_rules:
+            out = out + '== The not selected rule IDs ==\n'
+            for rule in self._get_wanted_not_selected_rules():
+                out = out + rule['id_rule'] + '(Not selected)\n'
+        out = out + ("You haven't got installed inquirer lib. "
+                     "Please copy id rule with you want use and put it in command")
+        return out
 
     def get_questions(self):
         rules = self.search_rules_id()

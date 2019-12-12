@@ -4,13 +4,25 @@ import os
 import shutil
 import pprint
 from datetime import datetime
-
+import sys
 
 from .converter import Converter
 from .client import Client
 
 
 class ArfToJson(Client):
+
+    def run_gui_and_return_answers(self):
+        try:
+            if sys.stdout.isatty():
+                import inquirer
+                return inquirer.prompt(self.get_questions())
+            else:
+                return {'rules': [
+                    rule['id_rule'] for rule in self.search_rules_id()]}
+        except ImportError:
+            print(self.get_selection_rules())
+            return None
 
     def create_dict_of_rule(self, rule_id):
         return self.xml_parser.get_oval_tree(rule_id).save_tree_to_dict()

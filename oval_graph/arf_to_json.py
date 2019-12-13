@@ -22,14 +22,16 @@ class ArfToJson(Client):
     def prepare_data(self, rules):
         try:
             out = []
+            out_oval_tree_dict = dict()
             for rule in rules['rules']:
-                oval_tree_dict = self.create_dict_of_rule(rule)
+                out_oval_tree_dict[rule] = self.create_dict_of_rule(rule)
                 if self.out is not None:
                     src = self.get_save_src(rule)
-                    self.save_dict_as_json(oval_tree_dict, src)
+                    self.save_dict_as_json(out_oval_tree_dict, src)
                     out.append(src)
                 else:
-                    print(str(json.dumps(oval_tree_dict, sort_keys=False, indent=4)))
+                    print(
+                        str(json.dumps(out_oval_tree_dict, sort_keys=False, indent=4)))
             return out
         except Exception as error:
             raise ValueError('Rule: "{}" Error: "{}"'.format(rule, error))

@@ -29,9 +29,8 @@ class ArfToJson(Client):
                     src = self.get_save_src(rule)
                     self.save_dict_as_json(out_oval_tree_dict, src)
                     out.append(src)
-                else:
-                    print(
-                        str(json.dumps(out_oval_tree_dict, sort_keys=False, indent=4)))
+            print(
+                str(json.dumps(out_oval_tree_dict, sort_keys=False, indent=4)))
             return out
         except Exception as error:
             raise ValueError('Rule: "{}" Error: "{}"'.format(rule, error))

@@ -34,20 +34,27 @@ class Client():
             print(self.get_selection_rules())
             return None
 
-    def get_selection_rules(self):
-        out = '== The Rule IDs ==\n'
+    def get_list_of_matched_rules(self):
         rules = self.search_rules_id()
         if self.show_fail_rules:
             rules = self._get_only_fail_rule(rules)
-        for rule in rules:
-            out = out + rule['id_rule'] + r'\b' + "\n"
+        return rules
+
+    def get_list_of_lines(self):
+        lines = ['== The Rule IDs ==']
+        for rule in self.get_list_of_matched_rules():
+            lines.append(rule['id_rule'] + r'\b')
         if self.show_not_selected_rules:
-            out = out + '== The not selected rule IDs ==\n'
+            lines.append('== The not selected rule IDs ==')
             for rule in self._get_wanted_not_selected_rules():
-                out = out + rule['id_rule'] + '(Not selected)\n'
-        out = out + ("You haven't got installed inquirer lib. "
-                     "Please copy id rule with you want use and put it in command")
-        return out
+                lines.append(rule['id_rule'] + '(Not selected)')
+        lines.append(
+            "You haven't got installed inquirer lib. "
+            "Please copy id rule with you want use and put it in command")
+        return lines
+
+    def get_selection_rules(self):
+        return "\n".join(self.get_list_of_lines())
 
     def get_questions(self):
         rules = self.search_rules_id()

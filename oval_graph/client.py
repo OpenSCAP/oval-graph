@@ -43,7 +43,7 @@ class Client():
     def get_list_of_lines(self):
         lines = ['== The Rule IDs ==']
         for rule in self.get_list_of_matched_rules():
-            lines.append(rule['id_rule'] + r'\b')
+            lines.append("'" + rule['id_rule'] + r'\b' + "'")
         if self.show_not_selected_rules:
             lines.append('== The not selected rule IDs ==')
             for rule in self._get_wanted_not_selected_rules():

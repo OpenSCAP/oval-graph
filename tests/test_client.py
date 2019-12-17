@@ -207,8 +207,8 @@ def test_if_not_installed_inquirer(capsys):
         captured = capsys.readouterr()
         assert captured.out == (
             '== The Rule IDs ==\n'
-            'xccdf_org.ssgproject.content_rule_package_abrt_removed\\b\n'
-            'xccdf_org.ssgproject.content_rule_package_sendmail_removed\\b\n'
+            "'xccdf_org.ssgproject.content_rule_package_abrt_removed\\b'\n"
+            "'xccdf_org.ssgproject.content_rule_package_sendmail_removed\\b'\n"
             "You haven't got installed inquirer lib. Please copy id rule with you"
             " want use and put it in command\n")
 
@@ -223,7 +223,7 @@ def test_if_not_installed_inquirer_with_option_show_fail_rules(capsys):
         captured = capsys.readouterr()
         assert captured.out == (
             '== The Rule IDs ==\n'
-            'xccdf_org.ssgproject.content_rule_package_abrt_removed\\b\n'
+            "'xccdf_org.ssgproject.content_rule_package_abrt_removed\\b'\n"
             "You haven't got installed inquirer lib. Please copy id rule with you"
             " want use and put it in command\n")
 
@@ -239,8 +239,8 @@ def test_if_not_installed_inquirer_with_option_show_not_selected_rules(
         captured = capsys.readouterr()
         assert captured.out == (
             '== The Rule IDs ==\n'
-            'xccdf_org.ssgproject.content_rule_package_abrt_removed\\b\n'
-            'xccdf_org.ssgproject.content_rule_package_sendmail_removed\\b\n'
+            "'xccdf_org.ssgproject.content_rule_package_abrt_removed\\b'\n"
+            "'xccdf_org.ssgproject.content_rule_package_sendmail_removed\\b'\n"
             '== The not selected rule IDs ==\n'
             'xccdf_org.ssgproject.content_rule_package_nis_removed(Not selected)\n'
             'xccdf_org.ssgproject.content_rule_package_ntpdate_removed(Not selected)\n'
@@ -264,7 +264,7 @@ def test_if_not_installed_inquirer_with_option_show_not_selected_rules_and_show_
         captured = capsys.readouterr()
         assert captured.out == (
             '== The Rule IDs ==\n'
-            'xccdf_org.ssgproject.content_rule_package_abrt_removed\\b\n'
+            "'xccdf_org.ssgproject.content_rule_package_abrt_removed\\b'\n"
             '== The not selected rule IDs ==\n'
             'xccdf_org.ssgproject.content_rule_package_nis_removed(Not selected)\n'
             'xccdf_org.ssgproject.content_rule_package_ntpdate_removed(Not selected)\n'

@@ -20,10 +20,10 @@ class JsonToHtml(Client):
         self.out = self.arg.output
         self.oval_tree = None
 
-    def load_json_to_oval_tree(self):
+    def load_json_to_oval_tree(self, rule):
         with open(self.source_filename, 'r') as f:
             try:
-                return restore_dict_to_tree(json.load(f))
+                return restore_dict_to_tree(json.load(f)[rule])
             except Exception as error:
                 raise ValueError("err- Used file is not json or valid.")
 
@@ -31,18 +31,26 @@ class JsonToHtml(Client):
         converter = Converter(oval_node)
         return converter.to_JsTree_dict()
 
+    def load_rule_names(self):
+        with open(self.source_filename, 'r') as f:
+            try:
+                return json.load(f).keys()
+            except Exception as error:
+                raise ValueError("err- Used file is not json or valid.")
+
     def prepare_data(self):
         try:
             out = []
-            self.oval_tree = self.load_json_to_oval_tree()
-            rule_name = self.oval_tree.node_id
-            oval_tree_dict = self.create_dict_of_oval_node(self.oval_tree)
-            src = self.get_save_src(rule_name)
-            self.copy_interpreter(src)
-            self.save_dict(oval_tree_dict, src)
-            self.open_web_browser(src)
-            print('Rule "{}" done!'.format(rule_name))
-            out.append(src)
+            for rule in self.load_rule_names():
+                self.oval_tree = self.load_json_to_oval_tree(rule)
+                rule_name = self.oval_tree.node_id
+                oval_tree_dict = self.create_dict_of_oval_node(self.oval_tree)
+                src = self.get_save_src(rule_name)
+                self.copy_interpreter(src)
+                self.save_dict(oval_tree_dict, src)
+                self.open_web_browser(src)
+                print('Rule "{}" done!'.format(rule_name))
+                out.append(src)
             return out
         except Exception as error:
             raise ValueError(

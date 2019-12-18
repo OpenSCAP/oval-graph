@@ -12,6 +12,10 @@ from .client import Client
 
 class ArfToJson(Client):
 
+    def __init__(self, args):
+        super().__init__(args)
+        self.all_rules = self.arg.all
+
     def run_gui_and_return_answers(self):
         try:
             if sys.stdout.isatty():
@@ -46,3 +50,11 @@ class ArfToJson(Client):
             return out
         except Exception as error:
             raise ValueError('Rule: "{}" Error: "{}"'.format(rule, error))
+
+    def prepare_parser(self):
+        super().prepare_parser()
+        self.parser.add_argument(
+            '--all',
+            action="store_true",
+            default=False,
+            help="Process all matched rules.")

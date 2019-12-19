@@ -11,23 +11,6 @@ from .client import Client
 
 
 class ArfToJson(Client):
-
-    def __init__(self, args):
-        super().__init__(args)
-        self.all_rules = self.arg.all
-
-    def run_gui_and_return_answers(self):
-        try:
-            if sys.stdout.isatty():
-                import inquirer
-                return inquirer.prompt(self.get_questions())
-            else:
-                return {'rules': [
-                    rule['id_rule'] for rule in self.search_rules_id()]}
-        except ImportError:
-            print(self.get_selection_rules())
-            return None
-
     def create_dict_of_rule(self, rule_id):
         return self.xml_parser.get_oval_tree(rule_id).save_tree_to_dict()
 
@@ -38,23 +21,17 @@ class ArfToJson(Client):
     def prepare_data(self, rules):
         try:
             out = []
+            rule = None
             out_oval_tree_dict = dict()
             for rule in rules['rules']:
                 out_oval_tree_dict[rule] = self.create_dict_of_rule(rule)
-                if self.out is not None:
-                    src = self.get_save_src(rule)
-                    self.save_dict_as_json(out_oval_tree_dict, src)
-                    out.append(src)
-            print(
-                str(json.dumps(out_oval_tree_dict, sort_keys=False, indent=4)))
+            if self.out is not None:
+                src = self.get_save_src(rule)
+                self.save_dict_as_json(out_oval_tree_dict, src)
+                out.append(src)
+            else:
+                print(
+                    str(json.dumps(out_oval_tree_dict, sort_keys=False, indent=4)))
             return out
         except Exception as error:
             raise ValueError('Rule: "{}" Error: "{}"'.format(rule, error))
-
-    def prepare_parser(self):
-        super().prepare_parser()
-        self.parser.add_argument(
-            '--all',
-            action="store_true",
-            default=False,
-            help="Process all matched rules.")

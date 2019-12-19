@@ -8,7 +8,6 @@ class ArfToHtml(Client):
     def __init__(self, args):
         super().__init__(args)
         self.off_webbrowser = self.arg.off_web_browser
-        self.all_rules = self.arg.all
 
     def prepare_data(self, rules):
         try:
@@ -32,8 +31,3 @@ class ArfToHtml(Client):
             action="store_true",
             default=False,
             help="It does not start the web browser.")
-        self.parser.add_argument(
-            '--all',
-            action="store_true",
-            default=False,
-            help="Process all matched rules.")

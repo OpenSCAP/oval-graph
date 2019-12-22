@@ -5,6 +5,7 @@ import shutil
 import pprint
 from datetime import datetime
 import sys
+import uuid
 
 from .converter import Converter
 from .client import Client
@@ -14,8 +15,16 @@ class ArfToJson(Client):
     def create_dict_of_rule(self, rule_id):
         return self.xml_parser.get_oval_tree(rule_id).save_tree_to_dict()
 
+    def file_is_empty(self, path):
+        return os.stat(path).st_size == 0
+
     def save_dict_as_json(self, dict_, src):
-        with open(src + '.json', "w+") as f:
+        if os.path.isfile(src) and not self.file_is_empty(src):
+            with open(src, "r") as f:
+                data = json.load(f)
+                for key in data:
+                    dict_[key] = data[key]
+        with open(src, "w+") as f:
             json.dump(dict_, f)
 
     def prepare_data(self, rules):
@@ -24,11 +33,12 @@ class ArfToJson(Client):
             rule = None
             out_oval_tree_dict = dict()
             for rule in rules['rules']:
-                out_oval_tree_dict[rule] = self.create_dict_of_rule(rule)
+                date = str(datetime.now().strftime("-%d_%m_%Y-%H_%M_%S"))
+                out_oval_tree_dict['graph-of-' + rule +
+                                   date] = self.create_dict_of_rule(rule)
             if self.out is not None:
-                src = self.get_save_src(rule)
-                self.save_dict_as_json(out_oval_tree_dict, src)
-                out.append(src)
+                self.save_dict_as_json(out_oval_tree_dict, self.out)
+                out.append(self.out)
             else:
                 print(
                     str(json.dumps(out_oval_tree_dict, sort_keys=False, indent=4)))

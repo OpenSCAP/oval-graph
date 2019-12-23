@@ -121,7 +121,8 @@ def compare_results_js(result):
 
 
 def compare_results_json(result):
-    result = any_get_test_data_json(result + '.json')
+    result = any_get_test_data_json(result)
     referenc_result = any_get_test_data_json(
         'test_data/referenc_result_data_json.json')
-    assert result == referenc_result
+    assert result[list(result.keys())[
+        0]] == referenc_result["xccdf_org.ssgproject.content_rule_package_abrt_removed"]

@@ -45,3 +45,10 @@ class ArfToJson(Client):
             return out
         except Exception as error:
             raise ValueError('Rule: "{}" Error: "{}"'.format(rule, error))
+
+    def prepare_parser_out(self):
+        self.parser.add_argument(
+            '--output',
+            action="store",
+            default=None,
+            help="The file where to save output.")

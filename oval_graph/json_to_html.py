@@ -80,11 +80,6 @@ class JsonToHtml(Client):
             default=False,
             help="It does not start the web browser.")
         self.parser.add_argument(
-            '--output',
-            action="store",
-            default=None,
-            help="Save the output files where it is defined.")
-        self.parser.add_argument(
             '--all',
             action="store_true",
             default=False,

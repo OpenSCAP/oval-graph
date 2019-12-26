@@ -12,6 +12,11 @@ from .client import Client
 
 
 class ArfToJson(Client):
+    def __init__(self, args):
+        super().__init__(args)
+        self.show_fail_rules = self.arg.show_fail_rules
+        self.show_not_selected_rules = self.arg.show_not_selected_rules
+
     def create_dict_of_rule(self, rule_id):
         return self.xml_parser.get_oval_tree(rule_id).save_tree_to_dict()
 
@@ -46,10 +51,23 @@ class ArfToJson(Client):
         except Exception as error:
             raise ValueError('Rule: "{}" Error: "{}"'.format(rule, error))
 
-    def prepare_parser_out(self):
+    def prepare_parser(self):
+        super().prepare_parser()
         self.parser.add_argument(
-            '-o', 
-            '--output',
-            action="store",
-            default=None,
-            help="The file where to save output.")
+            '--show-fail-rules',
+            action="store_true",
+            default=False,
+            help="Show only FAIL rules")
+        self.parser.add_argument(
+            '--show-not-selected-rules',
+            action="store_true",
+            default=False,
+            help="Show notselected rules. These rules will not be visualized.")
+
+    def get_message(self, parameter):
+        messages = {
+            'description': 'Client for generating JSON of SCAP rule evaluation results',
+            '--output': 'The file where to save output.',
+            'source_filename': 'ARF scan file',
+        }
+        return messages[parameter]

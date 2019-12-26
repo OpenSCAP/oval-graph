@@ -72,16 +72,17 @@ class JsonToHtml(Client):
                     self.source_filename, error))
 
     def prepare_parser(self):
-        self.parser = argparse.ArgumentParser(
-            description="Client for visualization of SCAP rule evaluation results")
+        super().prepare_parser()
         self.parser.add_argument(
             '--off-web-browser',
             action="store_true",
             default=False,
             help="It does not start the web browser.")
-        self.parser.add_argument(
-            '--all',
-            action="store_true",
-            default=False,
-            help="Process all matched rules.")
-        self.parser.add_argument("source_filename", help="ARF scan file")
+
+    def get_message(self, parameter):
+        messages = {
+            'description': 'Client for visualization of JSON created by command arf-to-json',
+            '--output': 'The directory where to save output directory with files.',
+            'source_filename': 'JSON file',
+        }
+        return messages[parameter]

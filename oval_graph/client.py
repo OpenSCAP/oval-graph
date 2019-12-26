@@ -17,13 +17,13 @@ class Client():
         self.parser = None
         self.arg = self.parse_arguments(args)
         self.remove_pass_tests = self.arg.remove_pass_tests
-        self.show_fail_rules = self.arg.show_fail_rules
-        self.show_not_selected_rules = self.arg.show_not_selected_rules
         self.source_filename = self.arg.source_filename
         self.rule_name = self.arg.rule_id
         self.out = self.arg.output
         self.all_rules = self.arg.all
         self.isatty = sys.stdout.isatty()
+        self.show_fail_rules = False
+        self.show_not_selected_rules = False
         self.xml_parser = XmlParser(
             self.source_filename)
         if self.remove_pass_tests:
@@ -176,31 +176,12 @@ class Client():
 
     def parse_arguments(self, args):
         self.prepare_parser()
-        self.prepare_parser_out()
         args = self.parser.parse_args(args)
         return args
 
-    def prepare_parser_out(self):
-        self.parser.add_argument(
-            '-o',
-            '--output',
-            action="store",
-            default=None,
-            help="The directory where to save output files.")
-
     def prepare_parser(self):
         self.parser = argparse.ArgumentParser(
-            description="Client for visualization of SCAP rule evaluation results")
-        self.parser.add_argument(
-            '--show-fail-rules',
-            action="store_true",
-            default=False,
-            help="Show only FAIL rules")
-        self.parser.add_argument(
-            '--show-not-selected-rules',
-            action="store_true",
-            default=False,
-            help="Show notselected rules. These rules will not be visualized.")
+            description=self.get_message('description'))
         self.parser.add_argument(
             '--all',
             action="store_true",
@@ -213,10 +194,27 @@ class Client():
             help=(
                 "Do not display passing tests for better orientation in"
                 " graphs that contain a large amount of nodes.(Not implemented)"))
-        self.parser.add_argument("source_filename", help="ARF scan file")
+        self.parser.add_argument(
+            '-o',
+            '--output',
+            action="store",
+            default=None,
+            help=self.get_message('--output'))
+        self.parser.add_argument(
+            "source_filename",
+            help=self.get_message('source_filename'))
         self.parser.add_argument(
             "rule_id", help=(
                 "Rule ID to be visualized. A part from the full rule ID"
                 " a part of the ID or a regular expression can be used."
                 " If brackets are used in the regular expression "
                 "the regular expression must be quoted."))
+
+# Message text is defined in children of Client.
+    def get_message(self, parameter):
+        messages = {
+            'description': '',
+            '--output': '',
+            'source_filename': '',
+        }
+        return messages[parameter]

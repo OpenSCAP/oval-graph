@@ -5,7 +5,7 @@ import argparse
 import shutil
 from datetime import datetime
 import sys
-
+import re
 from .client import Client
 from .oval_node import restore_dict_to_tree
 from .converter import Converter
@@ -15,12 +15,18 @@ class JsonToHtml(Client):
     def __init__(self, args):
         self.parser = None
         self.arg = self.parse_arguments(args)
-        self.off_webbrowser = self.arg.off_web_browser
+        self.remove_pass_tests = self.arg.remove_pass_tests
         self.source_filename = self.arg.source_filename
+        self.rule_name = self.arg.rule_id
         self.out = self.arg.output
         self.all_rules = self.arg.all
-        self.oval_tree = None
         self.isatty = sys.stdout.isatty()
+        self.show_fail_rules = False
+        self.show_not_selected_rules = False
+        if self.remove_pass_tests:
+            raise NotImplementedError('Not implemented!')
+        self.oval_tree = None
+        self.off_webbrowser = self.arg.off_web_browser
 
     def load_json_to_oval_tree(self, rule):
         with open(self.source_filename, 'r') as f:
@@ -40,7 +46,7 @@ class JsonToHtml(Client):
             except Exception as error:
                 raise ValueError("err- Used file is not json or valid.")
 
-    def search_rules_id(self):
+    def get_rules_id(self):
         out = []
         for id in self.load_rule_names():
             out.append(dict(id_rule=id))
@@ -52,6 +58,14 @@ class JsonToHtml(Client):
         for rule in rules:
             choices.append(rule['id_rule'])
         return choices
+
+    def _get_wanted_rules(self):
+        return [
+            x for x in self.get_rules_id() if re.search(
+                self.rule_name, x['id_rule'])]
+
+    def _get_wanted_not_selected_rules(self):
+        return []
 
     def prepare_data(self, rules):
         try:

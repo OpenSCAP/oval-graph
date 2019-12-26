@@ -27,24 +27,27 @@ class JsonToHtml(Client):
             raise NotImplementedError('Not implemented!')
         self.oval_tree = None
         self.off_webbrowser = self.arg.off_web_browser
+        self.json_data_file = self.get_json_data_file()
 
-    def load_json_to_oval_tree(self, rule):
+    def get_json_data_file(self):
         with open(self.source_filename, 'r') as f:
             try:
-                return restore_dict_to_tree(json.load(f)[rule])
+                return json.load(f)
             except Exception as error:
                 raise ValueError("err- Used file is not json or valid.")
+
+    def load_json_to_oval_tree(self, rule):
+        try:
+            return restore_dict_to_tree(self.json_data_file[rule])
+        except Exception as error:
+            raise ValueError("err- Data is not valid for oval tree.")
 
     def create_dict_of_oval_node(self, oval_node):
         converter = Converter(oval_node)
         return converter.to_JsTree_dict()
 
     def load_rule_names(self):
-        with open(self.source_filename, 'r') as f:
-            try:
-                return json.load(f).keys()
-            except Exception as error:
-                raise ValueError("err- Used file is not json or valid.")
+        return self.json_data_file.keys()
 
     def get_rules_id(self):
         out = []

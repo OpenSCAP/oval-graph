@@ -84,12 +84,12 @@ class Client():
 
     def _get_wanted_rules(self):
         return [
-            x for x in self.xml_parser.get_used_rules() if re.search(
+            x for x in self.xml_parser.used_rules if re.search(
                 self.rule_name, x['id_rule'])]
 
     def _get_wanted_not_selected_rules(self):
         return [
-            x for x in self.xml_parser.get_notselected_rules() if re.search(
+            x for x in self.xml_parser.notselected_rules if re.search(
                 self.rule_name, x['id_rule'])]
 
     def create_dict_of_rule(self, rule_id):

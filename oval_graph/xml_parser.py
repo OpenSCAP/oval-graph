@@ -25,6 +25,8 @@ class XmlParser():
         if not self.validate(
                 'schemas/arf/1.1/asset-reporting-format_1.1.0.xsd'):
             raise ValueError("err- This is not arf report file.")
+        self.used_rules = self._get_used_rules()
+        self.notselected_rules = self._get_notselected_rules()
 
     def get_src(self, src):
         _dir = os.path.dirname(os.path.realpath(__file__))
@@ -53,7 +55,7 @@ class XmlParser():
              'XMLSchema:system/XMLSchema:definitions'), ns)
         return trees_data
 
-    def get_used_rules(self):
+    def _get_used_rules(self):
         rulesResults = self.root.findall(
             './/xccdf:TestResult/xccdf:rule-result', ns)
         rules = []
@@ -71,7 +73,7 @@ class XmlParser():
                     ))
         return rules
 
-    def get_notselected_rules(self):
+    def _get_notselected_rules(self):
         rulesResults = self.root.findall(
             './/xccdf:TestResult/xccdf:rule-result', ns)
         rules = []
@@ -83,8 +85,7 @@ class XmlParser():
 
     def parse_data_to_dict(self, rule_id):
         scan = dict(definitions=[])
-        used_rules = self.get_used_rules()
-        for i in self.get_data(used_rules[0]['href']):
+        for i in self.get_data(self.used_rules[0]['href']):
             scan['definitions'].append(self.build_graph(i))
         self.insert_comments(scan)
         definitions = self._fill_extend_definition(scan)
@@ -121,14 +122,12 @@ class XmlParser():
             )
 
     def get_def_id_by_rule_id(self, rule_id):
-        used_rules = self.get_used_rules()
-        notselected_rules = self.get_notselected_rules()
-        for rule in notselected_rules:
+        for rule in self.notselected_rules:
             if rule['id_rule'] == rule_id:
                 raise ValueError(
                     'err- rule "{}" was not selected, so there are no results.'
                     .format(rule_id))
-        for rule in used_rules:
+        for rule in self.used_rules:
             if rule['id_rule'] == rule_id:
                 return rule['id_def']
         raise ValueError('err- 404 rule not found!')

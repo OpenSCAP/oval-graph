@@ -21,3 +21,6 @@ scan-data/
 coverage.xml
 
 /graph-of-*
+
+output.png
+stats

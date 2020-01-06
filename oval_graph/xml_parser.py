@@ -25,6 +25,9 @@ class XmlParser():
         if not self.validate(
                 'schemas/arf/1.1/asset-reporting-format_1.1.0.xsd'):
             raise ValueError("err- This is not arf report file.")
+        self.used_rules = self._get_used_rules()
+        self.notselected_rules = self._get_notselected_rules()
+        self.scan_definitions = self._get_scan()
 
     def get_src(self, src):
         _dir = os.path.dirname(os.path.realpath(__file__))
@@ -53,7 +56,7 @@ class XmlParser():
              'XMLSchema:system/XMLSchema:definitions'), ns)
         return trees_data
 
-    def get_used_rules(self):
+    def _get_used_rules(self):
         rulesResults = self.root.findall(
             './/xccdf:TestResult/xccdf:rule-result', ns)
         rules = []
@@ -71,7 +74,7 @@ class XmlParser():
                     ))
         return rules
 
-    def get_notselected_rules(self):
+    def _get_notselected_rules(self):
         rulesResults = self.root.findall(
             './/xccdf:TestResult/xccdf:rule-result', ns)
         rules = []
@@ -81,14 +84,15 @@ class XmlParser():
                 rules.append(dict(id_rule=ruleResult.get('idref')))
         return rules
 
-    def parse_data_to_dict(self, rule_id):
+    def _get_scan(self):
         scan = dict(definitions=[])
-        used_rules = self.get_used_rules()
-        for i in self.get_data(used_rules[0]['href']):
+        for i in self.get_data(self.used_rules[0]['href']):
             scan['definitions'].append(self.build_graph(i))
         self.insert_comments(scan)
-        definitions = self._fill_extend_definition(scan)
-        for definition in definitions['definitions']:
+        return self._fill_extend_definition(scan)
+
+    def parse_data_to_dict(self, rule_id):
+        for definition in self.scan_definitions['definitions']:
             if self.get_def_id_by_rule_id(rule_id) == definition['id']:
                 return dict(rule_id=rule_id, definition=definition)
 
@@ -121,14 +125,12 @@ class XmlParser():
             )
 
     def get_def_id_by_rule_id(self, rule_id):
-        used_rules = self.get_used_rules()
-        notselected_rules = self.get_notselected_rules()
-        for rule in notselected_rules:
+        for rule in self.notselected_rules:
             if rule['id_rule'] == rule_id:
                 raise ValueError(
                     'err- rule "{}" was not selected, so there are no results.'
                     .format(rule_id))
-        for rule in used_rules:
+        for rule in self.used_rules:
             if rule['id_rule'] == rule_id:
                 return rule['id_def']
         raise ValueError('err- 404 rule not found!')
@@ -280,7 +282,12 @@ class XmlParser():
                         ))
         return comments
 
-    def prepare_definition_comments(self, oval_definitions):
+    def _prepare_definition_comments(self):
+        oval_definitions = self.root.find(
+            './/arf:report-requests/arf:report-request/'
+            'arf:content/scap:data-stream-collection/'
+            'scap:component/oval-definitions:oval_definitions/'
+            'oval-definitions:definitions', ns)
         definitions = []
         for definition in oval_definitions:
             comment_definition = dict(
@@ -309,13 +316,7 @@ class XmlParser():
         self.recursive_help_fill_comments(comments, nodes)
 
     def insert_comments(self, data):
-        oval_def = self.root.find(
-            './/arf:report-requests/arf:report-request/'
-            'arf:content/scap:data-stream-collection/'
-            'scap:component/oval-definitions:oval_definitions/'
-            'oval-definitions:definitions', ns)
-        comment_definitions = self.prepare_definition_comments(oval_def)
-
+        comment_definitions = self._prepare_definition_comments()
         for data_definition in data['definitions']:
             for comment_definition in comment_definitions:
                 if comment_definition['id'] == data_definition['id']:

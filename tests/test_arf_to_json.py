@@ -68,7 +68,7 @@ def test_prepare_json(capsys):
         '                "type": "operator",\n'
         '                "value": "and",\n'
         '                "negation": false,\n'
-        '                "comment": null,\n'
+        '                "comment": "The RPM package abrt should be removed.",\n'
         '                "child": [\n'
         '                    {\n'
         '                        "node_id": "oval:ssg-test_package_abrt_removed:tst:1",\n'

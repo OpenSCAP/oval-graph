@@ -8,7 +8,7 @@
                 "operator": "OR",
                 "negate": false,
                 "result": "false",
-                "comment": null,
+                "comment": "Ensure that users cannot change GNOME3 session idle settings.",
                 "node": [
                     {
                         "operator": "AND",

@@ -11,7 +11,7 @@
                 "type": "operator",
                 "value": "and",
                 "negation": false,
-                "comment": null,
+                "comment": "The RPM package abrt should be removed.",
                 "child": [
                     {
                         "node_id": "oval:ssg-test_package_abrt_removed:tst:1",

@@ -257,16 +257,16 @@ class XmlParser():
                 definition['node'][0]['comment'] = comment
                 return self._operator_as_child(definition['node'][0], scan)
 
-    def create_dict_form_criteria(self, criteria):
+    def create_dict_form_criteria(self, criteria, description):
         comments = dict(
             operator='AND' if criteria.get('operator') is None else criteria.get('operator'),
-            comment=criteria.get('comment'),
+            comment=description if criteria.get('comment') is None else criteria.get('comment'),
             node=[],
         )
         for criterion in criteria:
             if criterion.get('operator'):
                 comments['node'].append(
-                    self.create_dict_form_criteria(criterion))
+                    self.create_dict_form_criteria(criterion, None))
             else:
                 if criterion.get('definition_ref'):
                     comments['node'].append(
@@ -294,10 +294,12 @@ class XmlParser():
                 id=definition.get('id'), comment=None, node=[])
             title = definition.find(
                 './/oval-definitions:metadata/oval-definitions:title', ns)
+            description = definition.find(
+                './/oval-definitions:metadata/oval-definitions:description', ns)
             comment_definition['comment'] = title.text
             criteria = definition.find('.//oval-definitions:criteria', ns)
             comment_definition['node'].append(
-                self.create_dict_form_criteria(criteria))
+                self.create_dict_form_criteria(criteria, description.text))
             definitions.append(comment_definition)
         return definitions
 

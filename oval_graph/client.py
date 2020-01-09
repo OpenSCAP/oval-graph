@@ -9,7 +9,6 @@ from datetime import datetime
 import sys
 
 from .xml_parser import XmlParser
-from .converter import Converter
 
 
 class Client():
@@ -143,10 +142,6 @@ class Client():
                 webbrowser.get('firefox').open_new_tab(src)
             except BaseException:
                 webbrowser.open_new_tab(src)
-
-    def create_dict_of_rule(self, rule_id):
-        converter = Converter(self.xml_parser.get_oval_tree(rule_id))
-        return converter.to_JsTree_dict()
 
     def copy_interpreter(self, dst):
         src = self.get_src('tree_html_interpreter')

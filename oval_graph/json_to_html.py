@@ -52,7 +52,7 @@ class JsonToHtml(Client):
 
     def create_dict_of_oval_node(self, oval_node):
         converter = Converter(oval_node)
-        return converter.to_JsTree_dict()
+        return converter.to_JsTree_dict(self.hide_passing_tests)
 
     def load_rule_names(self):
         return self.json_data_file.keys()

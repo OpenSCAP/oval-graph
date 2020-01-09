@@ -51,7 +51,6 @@ def test_prepare_json(capsys):
     results_src = client.prepare_data(rules)
     assert not results_src
     captured = capsys.readouterr()
-    print(repr(captured.out))
     assert captured.out == (
         '{\n'
         '    "graph-of-xccdf_org.ssgproject.content_rule_package_abrt_removed' +
@@ -62,6 +61,7 @@ def test_prepare_json(capsys):
         '        "value": "and",\n'
         '        "negation": false,\n'
         '        "comment": "Package abrt Removed",\n'
+        '        "tag": "Rule",\n'
         '        "child": [\n'
         '            {\n'
         '                "node_id": "oval:ssg-package_abrt_removed:def:1",\n'
@@ -69,6 +69,7 @@ def test_prepare_json(capsys):
         '                "value": "and",\n'
         '                "negation": false,\n'
         '                "comment": "The RPM package abrt should be removed.",\n'
+        '                "tag": "Definition",\n'
         '                "child": [\n'
         '                    {\n'
         '                        "node_id": "oval:ssg-test_package_abrt_removed:tst:1",\n'
@@ -76,6 +77,7 @@ def test_prepare_json(capsys):
         '                        "value": "false",\n'
         '                        "negation": false,\n'
         '                        "comment": "package abrt is removed",\n'
+        '                        "tag": "Test",\n'
         '                        "child": null\n'
         '                    }\n'
         '                ]\n'

@@ -1,5 +1,5 @@
 {
-    "text": " <strong><span class=\"text-success\">1</span></strong> <i></i>",
+    "text": " <strong><span class=\"text-success\">1</span></strong> <span class=\"label label-success\"></span> <i></i>",
     "icon": "glyphicon glyphicon-ok text-success",
     "state": {
         "opened": true

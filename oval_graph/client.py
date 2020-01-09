@@ -17,7 +17,7 @@ class Client():
         self.parser = None
         self.MESSAGES = self._get_message()
         self.arg = self.parse_arguments(args)
-        self.remove_pass_tests = self.arg.remove_pass_tests
+        self.hide_passing_tests = self.arg.hide_passing_tests
         self.source_filename = self.arg.source_filename
         self.rule_name = self.arg.rule_id
         self.out = self.arg.output
@@ -27,8 +27,6 @@ class Client():
         self.show_not_selected_rules = False
         self.xml_parser = XmlParser(
             self.source_filename)
-        if self.remove_pass_tests:
-            raise NotImplementedError('Not implemented!')
 
     def _get_message(self):
         MESSAGES = {
@@ -198,7 +196,7 @@ class Client():
             default=False,
             help="Process all matched rules.")
         self.parser.add_argument(
-            '--remove-pass-tests',
+            '--hide-passing-tests',
             action="store_true",
             default=False,
             help=(

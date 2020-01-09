@@ -16,7 +16,8 @@ class JsonToHtml(Client):
         self.parser = None
         self.MESSAGES = self._get_message()
         self.arg = self.parse_arguments(args)
-        self.remove_pass_tests = self.arg.remove_pass_tests
+        self.off_webbrowser = self.arg.off_web_browser
+        self.hide_passing_tests = self.arg.hide_passing_tests
         self.source_filename = self.arg.source_filename
         self.rule_name = self.arg.rule_id
         self.out = self.arg.output
@@ -24,8 +25,6 @@ class JsonToHtml(Client):
         self.isatty = sys.stdout.isatty()
         self.show_fail_rules = False
         self.show_not_selected_rules = False
-        if self.remove_pass_tests:
-            raise NotImplementedError('Not implemented!')
         self.oval_tree = None
         self.off_webbrowser = self.arg.off_web_browser
         self.json_data_file = self.get_json_data_file()

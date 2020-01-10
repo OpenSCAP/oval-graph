@@ -202,6 +202,7 @@ def test_if_not_installed_inquirer(capsys):
         src = 'test_data/ssg-fedora-ds-arf.xml'
         regex = r'_package_\w+_removed'
         client = get_client(src, regex)
+        client.isatty = True
         out = client.run_gui_and_return_answers()
         assert out is None
         captured = capsys.readouterr()
@@ -218,6 +219,7 @@ def test_if_not_installed_inquirer_with_option_show_fail_rules(capsys):
         src = 'test_data/ssg-fedora-ds-arf.xml'
         regex = r'_package_\w+_removed'
         client = get_client_with_option_show_fail_rules(src, regex)
+        client.isatty = True
         out = client.run_gui_and_return_answers()
         assert out is None
         captured = capsys.readouterr()
@@ -234,6 +236,7 @@ def test_if_not_installed_inquirer_with_option_show_not_selected_rules(
         src = 'test_data/ssg-fedora-ds-arf.xml'
         regex = r'_package_\w+_removed'
         client = get_client_with_option_show_not_selected_rules(src, regex)
+        client.isatty = True
         out = client.run_gui_and_return_answers()
         assert out is None
         captured = capsys.readouterr()
@@ -259,6 +262,7 @@ def test_if_not_installed_inquirer_with_option_show_not_selected_rules_and_show_
         regex = r'_package_\w+_removed'
         client = get_client_with_option_show_not_selected_rules_and_show_fail_rules(
             src, regex)
+        client.isatty = True
         out = client.run_gui_and_return_answers()
         assert out is None
         captured = capsys.readouterr()

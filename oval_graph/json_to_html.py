@@ -46,22 +46,12 @@ class JsonToHtml(Client):
             out.append(dict(id_rule=id))
         return out
 
-    def get_questions(self):
+    def get_choices(self):
         rules = self.search_rules_id()
-        choices_ = []
+        choices = []
         for rule in rules:
-            choices_.append(rule['id_rule'])
-        from inquirer.questions import Checkbox as checkbox
-        questions = [
-            checkbox(
-                'rules',
-                message=(
-                    "= The Rules IDs = (move - UP and DOWN arrows,"
-                    " select - SPACE or LEFT and RIGHT arrows, submit - ENTER)"),
-                choices=choices_,
-            ),
-        ]
-        return questions
+            choices.append(rule['id_rule'])
+        return choices
 
     def prepare_data(self, rules):
         try:

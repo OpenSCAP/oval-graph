@@ -73,15 +73,19 @@ class Client():
             out.append(rule['id_rule'] + '(Not selected)')
         return out
 
-    def get_questions(self):
+    def get_choices(self):
         rules = self.search_rules_id()
         if self.show_fail_rules:
             rules = self._get_only_fail_rule(rules)
-        choices_ = []
+        choices = []
         for rule in rules:
-            choices_.append(rule['id_rule'])
+            choices.append(rule['id_rule'])
         if self.show_not_selected_rules:
             print("\n".join(self.get_lines_of_wanted_not_selected_rules()))
+        return choices
+
+    def get_questions(self):
+        choices = self.get_choices()
         from inquirer.questions import Checkbox as checkbox
         questions = [
             checkbox(
@@ -89,7 +93,7 @@ class Client():
                 message=(
                     "= The Rules IDs = (move - UP and DOWN arrows,"
                     " select - SPACE or LEFT and RIGHT arrows, submit - ENTER)"),
-                choices=choices_,
+                choices=choices,
             ),
         ]
         return questions

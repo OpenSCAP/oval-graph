@@ -1,6 +1,7 @@
 import sys
 from setuptools import setup, find_packages
 from setuptools.command.test import test as TestCommand
+import oval_graph
 
 
 def get_long_description():
@@ -13,7 +14,7 @@ def get_long_description():
 
 
 setup(name='oval_graph',
-      version='0.0.1',
+      version=oval_graph.__version__,
       description='Tool for visualization of SCAP rule evaluation results',
       long_description=get_long_description(),
       long_description_content_type="text/markdown",

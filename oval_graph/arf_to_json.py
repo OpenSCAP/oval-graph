@@ -48,6 +48,7 @@ class ArfToJson(Client):
 
     def prepare_parser_out(self):
         self.parser.add_argument(
+            '-o', 
             '--output',
             action="store",
             default=None,

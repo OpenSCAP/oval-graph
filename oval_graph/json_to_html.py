@@ -58,13 +58,12 @@ class JsonToHtml(Client):
             out = []
             for rule in rules["rules"]:
                 self.oval_tree = self.load_json_to_oval_tree(rule)
-                rule_name = self.oval_tree.node_id
                 oval_tree_dict = self.create_dict_of_oval_node(self.oval_tree)
-                src = self.get_save_src(rule_name)
+                src = self.get_save_src(rule.replace('graph-of-', '') + "-")
                 self.copy_interpreter(src)
                 self.save_dict(oval_tree_dict, src)
                 self.open_web_browser(src)
-                print('Rule "{}" done!'.format(rule_name))
+                print('Rule "{}" done!'.format(rule))
                 out.append(src)
             return out
         except Exception as error:
@@ -80,11 +79,6 @@ class JsonToHtml(Client):
             action="store_true",
             default=False,
             help="It does not start the web browser.")
-        self.parser.add_argument(
-            '--output',
-            action="store",
-            default=None,
-            help="Save the output files where it is defined.")
         self.parser.add_argument(
             '--all',
             action="store_true",

@@ -176,8 +176,17 @@ class Client():
 
     def parse_arguments(self, args):
         self.prepare_parser()
+        self.prepare_parser_out()
         args = self.parser.parse_args(args)
         return args
+
+    def prepare_parser_out(self):
+        self.parser.add_argument(
+            '-o',
+            '--output',
+            action="store",
+            default=None,
+            help="The directory where to save output files.")
 
     def prepare_parser(self):
         self.parser = argparse.ArgumentParser(
@@ -192,11 +201,6 @@ class Client():
             action="store_true",
             default=False,
             help="Show notselected rules. These rules will not be visualized.")
-        self.parser.add_argument(
-            '--output',
-            action="store",
-            default=None,
-            help="The directory where to save output files.")
         self.parser.add_argument(
             '--all',
             action="store_true",

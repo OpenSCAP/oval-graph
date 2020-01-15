@@ -1,40 +1,40 @@
 {
-    "text": " <strong><span class=\"text-danger\">AND</span></strong> <i></i>",
+    "text": " <strong><span class=\"text-danger\">AND</span></strong> <span class=\"label label-danger\"></span> <i></i>",
     "icon": "glyphicon glyphicon-remove text-danger",
     "state": {
         "opened": true
     },
     "children": [
         {
-            "text": " <strong><span class=\"text-success\">2</span></strong> <i></i>",
+            "text": " <strong><span class=\"text-success\">2</span></strong> <span class=\"label label-success\"></span> <i></i>",
             "icon": "glyphicon glyphicon-ok text-success",
             "state": {
                 "opened": true
             }
         },
         {
-            "text": " <strong><span class=\"text-danger\">3</span></strong> <i></i>",
+            "text": " <strong><span class=\"text-danger\">3</span></strong> <span class=\"label label-danger\"></span> <i></i>",
             "icon": "glyphicon glyphicon-remove text-danger",
             "state": {
                 "opened": true
             }
         },
         {
-            "text": " <strong><span class=\"text-success\">OR</span></strong> <i></i>",
+            "text": " <strong><span class=\"text-success\">OR</span></strong> <span class=\"label label-success\"></span> <i></i>",
             "icon": "glyphicon glyphicon-ok text-success",
             "state": {
                 "opened": true
             },
             "children": [
                 {
-                    "text": " <strong><span class=\"text-danger\">5</span></strong> <i></i>",
+                    "text": " <strong><span class=\"text-danger\">5</span></strong> <span class=\"label label-danger\"></span> <i></i>",
                     "icon": "glyphicon glyphicon-remove text-danger",
                     "state": {
                         "opened": true
                     }
                 },
                 {
-                    "text": " <strong><span class=\"text-success\">6</span></strong> <i></i>",
+                    "text": " <strong><span class=\"text-success\">6</span></strong> <span class=\"label label-success\"></span> <i></i>",
                     "icon": "glyphicon glyphicon-ok text-success",
                     "state": {
                         "opened": true

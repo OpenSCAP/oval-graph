@@ -15,6 +15,11 @@ class Converter():
             "notappl": "text-dark"
         }
 
+        self.BOOTSTRAP_COLOR_TO_LABEL_COLOR = {
+            "text-success": "label-success",
+            "text-danger": "label-danger",
+            "text-dark": "label-default"
+        }
         self.VALUE_TO_ICON = {
             "true": "glyphicon glyphicon-ok text-success",
             "false": "glyphicon glyphicon-remove text-danger",
@@ -41,18 +46,26 @@ class Converter():
             return str(self.tree.comment)
         return ""
 
+    def get_tag(self):
+        if self.tree.tag is not None:
+            return str(self.tree.tag)
+        return ""
+
     def to_JsTree_dict(self):
         icons = self._get_node_icon()
         label = self._get_label()
-        out = {
-            'text': (str(label['negation'] if label['negation'] else "") +
-                     ' <strong><span class="' + icons['color'] + '">' +
-                     label['str'] + '</span></strong>' +
-                     ' <i>' + self.get_comment() + '</i>'
-                     ),
-            "icon": icons['icon'],
-            "state": {
-                "opened": True}}
+        out = {'text':
+               '{negation} <strong><span class="{icon}">{label}</span></strong>'
+               ' <span class="label {color_tag}">{tag}</span> <i>{comment}</i>'
+               .format(negation=str(
+                   label['negation'] if label['negation'] else ""),
+                   icon=icons['color'],
+                   label=label['str'],
+                   color_tag=self.BOOTSTRAP_COLOR_TO_LABEL_COLOR[icons['color']],
+                   tag=self.get_tag(),
+                   comment=self.get_comment()),
+               "icon": icons['icon'],
+               "state": {"opened": True}}
         if self.tree.children:
             out['children'] = [Converter(child).to_JsTree_dict()
                                for child in self.tree.children]

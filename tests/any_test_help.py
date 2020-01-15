@@ -57,12 +57,12 @@ def any_test_create_node_dict_for_JsTree(Tree, json_src):
 
 
 def get_simple_tree():
-    return OvalNode(1, 'operator', 'and', False, None, [
-        OvalNode(2, 'value', "true", False, None),
-        OvalNode(3, 'value', "false", False, None),
-        OvalNode(4, 'operator', 'or', False, None, [
-            OvalNode(5, 'value', "false", False, None),
-            OvalNode(6, 'value', "true", False, None)
+    return OvalNode(1, 'operator', 'and', False, None, None, [
+        OvalNode(2, 'value', "true", False, None, None),
+        OvalNode(3, 'value', "false", False, None, None),
+        OvalNode(4, 'operator', 'or', False, None, None, [
+            OvalNode(5, 'value', "false", False, None, None),
+            OvalNode(6, 'value', "true", False, None, None)
         ]
         )
     ]

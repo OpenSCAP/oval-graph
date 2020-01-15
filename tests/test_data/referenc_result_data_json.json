@@ -5,13 +5,15 @@
         "value": "and",
         "negation": false,
         "comment": "Package abrt Removed",
+        "tag": "Rule",
         "child": [
             {
                 "node_id": "oval:ssg-package_abrt_removed:def:1",
                 "type": "operator",
                 "value": "and",
                 "negation": false,
-                "comment": null,
+                "comment": "The RPM package abrt should be removed.",
+                "tag": "Definition",
                 "child": [
                     {
                         "node_id": "oval:ssg-test_package_abrt_removed:tst:1",
@@ -19,6 +21,7 @@
                         "value": "false",
                         "negation": false,
                         "comment": "package abrt is removed",
+                        "tag": "Test",
                         "child": null
                     }
                 ]

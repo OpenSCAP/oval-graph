@@ -3,14 +3,16 @@
     "type": "operator",
     "value": "and",
     "negation": false,
-    "comment":null,
+    "comment": null,
+    "tag": null,
     "child": [
         {
             "node_id": 2,
             "type": "value",
             "value": "false",
             "negation": false,
-            "comment":null,
+            "comment": null,
+            "tag": null,
             "child": null
         },
         {
@@ -18,7 +20,8 @@
             "type": "value",
             "value": "true",
             "negation": false,
-            "comment":null,
+            "comment": null,
+            "tag": null,
             "child": null
         }
     ]

@@ -3,14 +3,16 @@
     "type": "operator",
     "value": "one",
     "negation": false,
-    "comment":null,
+    "comment": null,
+    "tag": null,
     "child": [
         {
             "node_id": 2,
             "type": "value",
             "value": "true",
             "negation": false,
-            "comment":null,
+            "comment": null,
+            "tag": null,
             "child": null
         },
         {
@@ -18,7 +20,8 @@
             "type": "value",
             "value": "true",
             "negation": false,
-            "comment":null,
+            "comment": null,
+            "tag": null,
             "child": null
         },
         {
@@ -26,7 +29,8 @@
             "type": "value",
             "value": "false",
             "negation": false,
-            "comment":null,
+            "comment": null,
+            "tag": null,
             "child": null
         },
         {
@@ -34,7 +38,8 @@
             "type": "value",
             "value": "error",
             "negation": false,
-            "comment":null,
+            "comment": null,
+            "tag": null,
             "child": null
         },
         {
@@ -42,7 +47,8 @@
             "type": "value",
             "value": "unknown",
             "negation": false,
-            "comment":null,
+            "comment": null,
+            "tag": null,
             "child": null
         },
         {
@@ -50,7 +56,8 @@
             "type": "value",
             "value": "noteval",
             "negation": false,
-            "comment":null,
+            "comment": null,
+            "tag": null,
             "child": null
         },
         {
@@ -58,7 +65,8 @@
             "type": "value",
             "value": "notappl",
             "negation": false,
-            "comment":null,
+            "comment": null,
+            "tag": null,
             "child": null
         }
     ]

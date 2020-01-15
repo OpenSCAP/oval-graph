@@ -109,6 +109,7 @@ class XmlParser():
                         child['value'],
                         child['negate'],
                         child['comment'],
+                        child['tag']
                     ))
 
         if 'id' in dict_of_definition:
@@ -121,6 +122,7 @@ class XmlParser():
                 dict_of_definition['operator'],
                 dict_of_definition['negate'],
                 dict_of_definition['comment'],
+                dict_of_definition['tag'],
                 children,
             )
 
@@ -146,6 +148,7 @@ class XmlParser():
             'and',
             False,
             dict_of_definition['comment'],
+            "Rule",
             [self._xml_dict_to_node(dict_of_definition)],
         )
 
@@ -162,7 +165,7 @@ class XmlParser():
             if 'negate' in tree:
                 negate_status = self._str_to_bool(tree.get('negate'))
             graph['negate'] = negate_status
-            graph['node'].append(self._build_node(tree))
+            graph['node'].append(self._build_node(tree, "Definition"))
         return graph
 
     def _str_to_bool(self, s):
@@ -173,7 +176,7 @@ class XmlParser():
         else:
             raise ValueError('err- negation is not bool')
 
-    def _build_node(self, tree):
+    def _build_node(self, tree, tag):
         negate_status = False
         if tree.get('negate') is not None:
             negate_status = self._str_to_bool(tree.get('negate'))
@@ -183,11 +186,12 @@ class XmlParser():
             negate=negate_status,
             result=tree.get('result'),
             comment=None,
+            tag=tag,
             node=[],
         )
         for child in tree:
             if child.get('operator') is not None:
-                node['node'].append(self._build_node(child))
+                node['node'].append(self._build_node(child, "Criteria"))
             else:
                 negate_status = False
                 if child.get('negate') is not None:
@@ -200,6 +204,7 @@ class XmlParser():
                             result=child.get('result'),
                             negate=negate_status,
                             comment=None,
+                            tag="Extend definition",
                         ))
                 else:
                     node['node'].append(
@@ -208,6 +213,7 @@ class XmlParser():
                             value=child.get('result'),
                             negate=negate_status,
                             comment=None,
+                            tag="Test",
                         ))
         return node
 
@@ -231,6 +237,7 @@ class XmlParser():
             negate=value['negate'],
             result=value['result'],
             comment=value['comment'],
+            tag=value['tag'],
             node=[],
         )
         for child in value['node']:
@@ -243,6 +250,7 @@ class XmlParser():
                         child['extend_definition'],
                         child['negate'],
                         child['comment'],
+                        child['tag'],
                     ))
             elif 'value_id' in child:
                 out['node'].append(child)
@@ -250,23 +258,24 @@ class XmlParser():
                 raise ValueError('error - unknown child')
         return out
 
-    def _find_definition_by_id(self, scan, id, negate_status, comment):
+    def _find_definition_by_id(self, scan, id, negate_status, comment, tag):
         for definition in scan['definitions']:
             if definition['id'] == id:
                 definition['node'][0]['negate'] = negate_status
                 definition['node'][0]['comment'] = comment
+                definition['node'][0]['tag'] = tag
                 return self._operator_as_child(definition['node'][0], scan)
 
-    def create_dict_form_criteria(self, criteria):
+    def create_dict_form_criteria(self, criteria, description):
         comments = dict(
             operator='AND' if criteria.get('operator') is None else criteria.get('operator'),
-            comment=criteria.get('comment'),
+            comment=description if criteria.get('comment') is None else criteria.get('comment'),
             node=[],
         )
         for criterion in criteria:
             if criterion.get('operator'):
                 comments['node'].append(
-                    self.create_dict_form_criteria(criterion))
+                    self.create_dict_form_criteria(criterion, None))
             else:
                 if criterion.get('definition_ref'):
                     comments['node'].append(
@@ -294,10 +303,12 @@ class XmlParser():
                 id=definition.get('id'), comment=None, node=[])
             title = definition.find(
                 './/oval-definitions:metadata/oval-definitions:title', ns)
+            description = definition.find(
+                './/oval-definitions:metadata/oval-definitions:description', ns)
             comment_definition['comment'] = title.text
             criteria = definition.find('.//oval-definitions:criteria', ns)
             comment_definition['node'].append(
-                self.create_dict_form_criteria(criteria))
+                self.create_dict_form_criteria(criteria, description.text))
             definitions.append(comment_definition)
         return definitions
 

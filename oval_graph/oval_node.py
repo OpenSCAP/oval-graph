@@ -22,6 +22,7 @@ class OvalNode():
         input_value (str): value of node
         input_negation (bool): value indicating whether the node is negated or not
         comment (str): text about node
+        tag (str): tag specifies if the node represents OVAL test, OVAL definition or XCCDF rule
         children ([OvalNode]): array of children of node
 
     Attributes:
@@ -39,6 +40,7 @@ class OvalNode():
             input_value,
             input_negation,
             comment,
+            tag,
             children=None
     ):
         self.comment = comment
@@ -48,6 +50,7 @@ class OvalNode():
         self.value = self.validate_type_and_value(input_value)
         self.children = []
         self.validate_children(children)
+        self.tag = tag
         if children:
             for child in children:
                 self.add_child(child)
@@ -158,6 +161,7 @@ class OvalNode():
                 'value': self.value,
                 'negation': self.negation,
                 'comment': self.comment,
+                'tag': self.tag,
                 'child': None
             }
         return {
@@ -166,6 +170,7 @@ class OvalNode():
             'value': self.value,
             'negation': self.negation,
             'comment': self.comment,
+            'tag': self.tag,
             'child': [child.save_tree_to_dict() for child in self.children]
         }
 
@@ -194,6 +199,7 @@ def restore_dict_to_tree(dict_of_tree):
             dict_of_tree["type"],
             dict_of_tree["value"],
             dict_of_tree["negation"],
+            dict_of_tree["tag"],
             dict_of_tree['comment'])
     return OvalNode(
         dict_of_tree["node_id"],
@@ -201,4 +207,5 @@ def restore_dict_to_tree(dict_of_tree):
         dict_of_tree["value"],
         dict_of_tree["negation"],
         dict_of_tree['comment'],
+        dict_of_tree["tag"],
         [restore_dict_to_tree(i) for i in dict_of_tree["child"]])

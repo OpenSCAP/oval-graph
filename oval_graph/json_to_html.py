@@ -14,6 +14,7 @@ from .converter import Converter
 class JsonToHtml(Client):
     def __init__(self, args):
         self.parser = None
+        self.MESSAGES = self._get_message()
         self.arg = self.parse_arguments(args)
         self.remove_pass_tests = self.arg.remove_pass_tests
         self.source_filename = self.arg.source_filename
@@ -28,6 +29,14 @@ class JsonToHtml(Client):
         self.oval_tree = None
         self.off_webbrowser = self.arg.off_web_browser
         self.json_data_file = self.get_json_data_file()
+
+    def _get_message(self):
+        MESSAGES = {
+            'description': 'Client for visualization of JSON created by command arf-to-json',
+            '--output': 'The directory where to save output directory with files.',
+            'source_filename': 'JSON file',
+        }
+        return MESSAGES
 
     def get_json_data_file(self):
         with open(self.source_filename, 'r') as f:
@@ -95,11 +104,3 @@ class JsonToHtml(Client):
             action="store_true",
             default=False,
             help="It does not start the web browser.")
-
-    def get_message(self, parameter):
-        messages = {
-            'description': 'Client for visualization of JSON created by command arf-to-json',
-            '--output': 'The directory where to save output directory with files.',
-            'source_filename': 'JSON file',
-        }
-        return messages[parameter]

@@ -15,6 +15,7 @@ from .converter import Converter
 class Client():
     def __init__(self, args):
         self.parser = None
+        self.MESSAGES = self._get_message()
         self.arg = self.parse_arguments(args)
         self.remove_pass_tests = self.arg.remove_pass_tests
         self.source_filename = self.arg.source_filename
@@ -28,6 +29,15 @@ class Client():
             self.source_filename)
         if self.remove_pass_tests:
             raise NotImplementedError('Not implemented!')
+
+    def _get_message(self):
+        MESSAGES = {
+            'description': '',
+            '--output': '',
+            'source_filename': '',
+        }
+        return MESSAGES
+
 
     def run_gui_and_return_answers(self):
         if self.isatty:
@@ -181,7 +191,7 @@ class Client():
 
     def prepare_parser(self):
         self.parser = argparse.ArgumentParser(
-            description=self.get_message('description'))
+            description=self.MESSAGES.get('description'))
         self.parser.add_argument(
             '--all',
             action="store_true",
@@ -199,22 +209,13 @@ class Client():
             '--output',
             action="store",
             default=None,
-            help=self.get_message('--output'))
+            help=self.MESSAGES.get('--output'))
         self.parser.add_argument(
             "source_filename",
-            help=self.get_message('source_filename'))
+            help=self.MESSAGES.get('source_filename'))
         self.parser.add_argument(
             "rule_id", help=(
                 "Rule ID to be visualized. A part from the full rule ID"
                 " a part of the ID or a regular expression can be used."
                 " If brackets are used in the regular expression "
                 "the regular expression must be quoted."))
-
-# Message text is defined in children of Client.
-    def get_message(self, parameter):
-        messages = {
-            'description': '',
-            '--output': '',
-            'source_filename': '',
-        }
-        return messages[parameter]

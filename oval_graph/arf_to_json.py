@@ -17,6 +17,14 @@ class ArfToJson(Client):
         self.show_fail_rules = self.arg.show_fail_rules
         self.show_not_selected_rules = self.arg.show_not_selected_rules
 
+    def _get_message(self):
+        MESSAGES = {
+            'description': 'Client for generating JSON of SCAP rule evaluation results',
+            '--output': 'The file where to save output.',
+            'source_filename': 'ARF scan file',
+        }
+        return MESSAGES
+
     def create_dict_of_rule(self, rule_id):
         return self.xml_parser.get_oval_tree(rule_id).save_tree_to_dict()
 
@@ -63,11 +71,3 @@ class ArfToJson(Client):
             action="store_true",
             default=False,
             help="Show notselected rules. These rules will not be visualized.")
-
-    def get_message(self, parameter):
-        messages = {
-            'description': 'Client for generating JSON of SCAP rule evaluation results',
-            '--output': 'The file where to save output.',
-            'source_filename': 'ARF scan file',
-        }
-        return messages[parameter]

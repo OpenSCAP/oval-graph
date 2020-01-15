@@ -11,6 +11,14 @@ class ArfToHtml(Client):
         self.show_fail_rules = self.arg.show_fail_rules
         self.show_not_selected_rules = self.arg.show_not_selected_rules
 
+    def _get_message(self):
+        MESSAGES = {
+            'description': 'Client for visualization of SCAP rule evaluation results',
+            '--output': 'The directory where to save output directory with files.',
+            'source_filename': 'ARF scan file',
+        }
+        return MESSAGES
+
     def prepare_data(self, rules):
         try:
             out = []
@@ -43,11 +51,3 @@ class ArfToHtml(Client):
             action="store_true",
             default=False,
             help="Show notselected rules. These rules will not be visualized.")
-
-    def get_message(self, parameter):
-        messages = {
-            'description': 'Client for visualization of SCAP rule evaluation results',
-            '--output': 'The directory where to save output directory with files.',
-            'source_filename': 'ARF scan file',
-        }
-        return messages[parameter]

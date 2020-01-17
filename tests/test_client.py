@@ -21,26 +21,6 @@ def get_client_on_web_browser(src, rule):
         [tests.any_test_help.get_src(src), rule])
 
 
-def get_client_with_option_show_fail_rules(src, rule):
-    return Client(["--show-fail-rules",
-                   tests.any_test_help.get_src(src), rule])
-
-
-def get_client_with_option_show_not_selected_rules(src, rule):
-    return Client(["--show-not-selected-rules",
-                   tests.any_test_help.get_src(src),
-                   rule])
-
-
-def get_client_with_option_show_not_selected_rules_and_show_fail_rules(
-        src,
-        rule):
-    return Client(["--show-not-selected-rules",
-                   "--show-fail-rules",
-                   tests.any_test_help.get_src(src),
-                   rule])
-
-
 def test_client():
     src = 'test_data/ssg-fedora-ds-arf.xml'
     rule = 'rule'
@@ -95,58 +75,6 @@ def test_get_questions():
     rule2 = 'xccdf_org.ssgproject.content_rule_package_sendmail_removed'
     assert out[0] == rule1
     assert out[1] == rule2
-
-
-def test_get_questions_not_selected(capsys):
-    src = 'test_data/ssg-fedora-ds-arf.xml'
-    regex = r'_package_\w+_removed'
-    client = get_client_with_option_show_not_selected_rules(src, regex)
-    out = client.get_questions()[0].choices
-    outResult = [
-        'xccdf_org.ssgproject.content_rule_package_abrt_removed',
-        'xccdf_org.ssgproject.content_rule_package_sendmail_removed']
-    assert out == outResult
-    captured = capsys.readouterr()
-    assert captured.out == (
-        '== The not selected rule IDs ==\n'
-        'xccdf_org.ssgproject.content_rule_package_nis_removed(Not selected)\n'
-        'xccdf_org.ssgproject.content_rule_package_ntpdate_removed(Not selected)\n'
-        'xccdf_org.ssgproject.content_rule_package_telnetd_removed(Not selected)\n'
-        'xccdf_org.ssgproject.content_rule_package_gdm_removed(Not selected)\n'
-        'xccdf_org.ssgproject.content_rule_package_setroubleshoot_removed(Not selected)\n'
-        'xccdf_org.ssgproject.content_rule_package_mcstrans_removed(Not selected)\n')
-
-
-def test_get_questions_not_selected_and_show_fail_rules(capsys):
-    src = 'test_data/ssg-fedora-ds-arf.xml'
-    regex = r'_package_\w+_removed'
-    client = get_client_with_option_show_not_selected_rules_and_show_fail_rules(
-        src, regex)
-    out = client.get_questions()[0].choices
-    outResult = ['xccdf_org.ssgproject.content_rule_package_abrt_removed']
-    assert out == outResult
-    assert len(out) == 1
-    captured = capsys.readouterr()
-    print(captured.out)
-    assert captured.out == (
-        '== The not selected rule IDs ==\n'
-        'xccdf_org.ssgproject.content_rule_package_nis_removed(Not selected)\n'
-        'xccdf_org.ssgproject.content_rule_package_ntpdate_removed(Not selected)\n'
-        'xccdf_org.ssgproject.content_rule_package_telnetd_removed(Not selected)\n'
-        'xccdf_org.ssgproject.content_rule_package_gdm_removed(Not selected)\n'
-        'xccdf_org.ssgproject.content_rule_package_setroubleshoot_removed(Not selected)\n'
-        'xccdf_org.ssgproject.content_rule_package_mcstrans_removed(Not selected)\n')
-
-
-def test_get_questions_with_option_show_fail_rules():
-    src = 'test_data/ssg-fedora-ds-arf.xml'
-    regex = r'_package_\w+_removed'
-    client = get_client_with_option_show_fail_rules(src, regex)
-    out = client.get_questions()[0].choices
-    rule1 = 'xccdf_org.ssgproject.content_rule_package_abrt_removed'
-    assert out[0] == rule1
-    with pytest.raises(Exception, match="list index out of range"):
-        assert out[2] is None
 
 
 def test_get_wanted_not_selected_rules():
@@ -210,71 +138,5 @@ def test_if_not_installed_inquirer(capsys):
             '== The Rule IDs ==\n'
             "'xccdf_org.ssgproject.content_rule_package_abrt_removed\\b'\n"
             "'xccdf_org.ssgproject.content_rule_package_sendmail_removed\\b'\n"
-            "You haven't got installed inquirer lib. Please copy id rule with you"
-            " want use and put it in command\n")
-
-
-def test_if_not_installed_inquirer_with_option_show_fail_rules(capsys):
-    with mock.patch.dict(sys.modules, {'inquirer': None}):
-        src = 'test_data/ssg-fedora-ds-arf.xml'
-        regex = r'_package_\w+_removed'
-        client = get_client_with_option_show_fail_rules(src, regex)
-        client.isatty = True
-        out = client.run_gui_and_return_answers()
-        assert out is None
-        captured = capsys.readouterr()
-        assert captured.out == (
-            '== The Rule IDs ==\n'
-            "'xccdf_org.ssgproject.content_rule_package_abrt_removed\\b'\n"
-            "You haven't got installed inquirer lib. Please copy id rule with you"
-            " want use and put it in command\n")
-
-
-def test_if_not_installed_inquirer_with_option_show_not_selected_rules(
-        capsys):
-    with mock.patch.dict(sys.modules, {'inquirer': None}):
-        src = 'test_data/ssg-fedora-ds-arf.xml'
-        regex = r'_package_\w+_removed'
-        client = get_client_with_option_show_not_selected_rules(src, regex)
-        client.isatty = True
-        out = client.run_gui_and_return_answers()
-        assert out is None
-        captured = capsys.readouterr()
-        assert captured.out == (
-            '== The Rule IDs ==\n'
-            "'xccdf_org.ssgproject.content_rule_package_abrt_removed\\b'\n"
-            "'xccdf_org.ssgproject.content_rule_package_sendmail_removed\\b'\n"
-            '== The not selected rule IDs ==\n'
-            'xccdf_org.ssgproject.content_rule_package_nis_removed(Not selected)\n'
-            'xccdf_org.ssgproject.content_rule_package_ntpdate_removed(Not selected)\n'
-            'xccdf_org.ssgproject.content_rule_package_telnetd_removed(Not selected)\n'
-            'xccdf_org.ssgproject.content_rule_package_gdm_removed(Not selected)\n'
-            'xccdf_org.ssgproject.content_rule_package_setroubleshoot_removed(Not selected)\n'
-            'xccdf_org.ssgproject.content_rule_package_mcstrans_removed(Not selected)\n'
-            "You haven't got installed inquirer lib. Please copy id rule with you"
-            " want use and put it in command\n")
-
-
-def test_if_not_installed_inquirer_with_option_show_not_selected_rules_and_show_fail_rules(
-        capsys):
-    with mock.patch.dict(sys.modules, {'inquirer': None}):
-        src = 'test_data/ssg-fedora-ds-arf.xml'
-        regex = r'_package_\w+_removed'
-        client = get_client_with_option_show_not_selected_rules_and_show_fail_rules(
-            src, regex)
-        client.isatty = True
-        out = client.run_gui_and_return_answers()
-        assert out is None
-        captured = capsys.readouterr()
-        assert captured.out == (
-            '== The Rule IDs ==\n'
-            "'xccdf_org.ssgproject.content_rule_package_abrt_removed\\b'\n"
-            '== The not selected rule IDs ==\n'
-            'xccdf_org.ssgproject.content_rule_package_nis_removed(Not selected)\n'
-            'xccdf_org.ssgproject.content_rule_package_ntpdate_removed(Not selected)\n'
-            'xccdf_org.ssgproject.content_rule_package_telnetd_removed(Not selected)\n'
-            'xccdf_org.ssgproject.content_rule_package_gdm_removed(Not selected)\n'
-            'xccdf_org.ssgproject.content_rule_package_setroubleshoot_removed(Not selected)\n'
-            'xccdf_org.ssgproject.content_rule_package_mcstrans_removed(Not selected)\n'
             "You haven't got installed inquirer lib. Please copy id rule with you"
             " want use and put it in command\n")

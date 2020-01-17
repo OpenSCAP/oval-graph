@@ -3,6 +3,8 @@ import tempfile
 import os
 import uuid
 import json
+import mock
+import sys
 from datetime import datetime
 import time
 
@@ -19,6 +21,26 @@ def get_client_arf_to_json_with_define_dest(src, rule):
     return ArfToJson(["--output",
                       tests.any_test_help.get_src(os.path.join(tempfile.gettempdir(),
                                                                str(uuid.uuid4()) + ".json")),
+                      tests.any_test_help.get_src(src),
+                      rule])
+
+
+def get_client_arf_to_json_with_option_show_fail_rules(src, rule):
+    return ArfToJson(["--show-fail-rules",
+                      tests.any_test_help.get_src(src), rule])
+
+
+def get_client_arf_to_json_with_option_show_not_selected_rules(src, rule):
+    return ArfToJson(["--show-not-selected-rules",
+                      tests.any_test_help.get_src(src),
+                      rule])
+
+
+def get_client_arf_to_json_with_option_show_not_selected_rules_and_show_fail_rules(
+        src,
+        rule):
+    return ArfToJson(["--show-not-selected-rules",
+                      "--show-fail-rules",
                       tests.any_test_help.get_src(src),
                       rule])
 
@@ -150,3 +172,62 @@ def test_creation_json_two_selected_rules():
     assert referenc_result[
         "xccdf_org.ssgproject.content_rule_package_abrt_removed"] == data[rules_id[0]]
     assert rule1 in rules_id[1]
+
+
+def test_get_questions_not_selected(capsys):
+    src = 'test_data/ssg-fedora-ds-arf.xml'
+    regex = r'_package_\w+_removed'
+    client = get_client_arf_to_json_with_option_show_not_selected_rules(
+        src, regex)
+    tests.any_test_help.get_questions_not_selected(capsys, client)
+
+
+def test_get_questions_not_selected_and_show_fail_rules(capsys):
+    src = 'test_data/ssg-fedora-ds-arf.xml'
+    regex = r'_package_\w+_removed'
+    client = get_client_arf_to_json_with_option_show_not_selected_rules_and_show_fail_rules(
+        src, regex)
+    tests.any_test_help.get_questions_not_selected_and_show_fail_rules(
+        capsys, client)
+
+
+def test_get_questions_with_option_show_fail_rules():
+    src = 'test_data/ssg-fedora-ds-arf.xml'
+    regex = r'_package_\w+_removed'
+    client = get_client_arf_to_json_with_option_show_fail_rules(src, regex)
+    tests.any_test_help.get_questions_with_option_show_fail_rules(client)
+
+
+def test_if_not_installed_inquirer_with_option_show_fail_rules(capsys):
+    with mock.patch.dict(sys.modules, {'inquirer': None}):
+        src = 'test_data/ssg-fedora-ds-arf.xml'
+        regex = r'_package_\w+_removed'
+        client = get_client_arf_to_json_with_option_show_fail_rules(src, regex)
+        client.isatty = True
+        tests.any_test_help.if_not_installed_inquirer_with_option_show_fail_rules(
+            capsys, client)
+
+
+def test_if_not_installed_inquirer_with_option_show_not_selected_rules(
+        capsys):
+    with mock.patch.dict(sys.modules, {'inquirer': None}):
+        src = 'test_data/ssg-fedora-ds-arf.xml'
+        regex = r'_package_\w+_removed'
+        client = get_client_arf_to_json_with_option_show_not_selected_rules(
+            src, regex)
+        client.isatty = True
+        tests.any_test_help.if_not_installed_inquirer_with_option_show_not_selected_rules(
+            capsys, client)
+
+
+def test_if_not_installed_inquirer_with_option_show_not_selected_rules_and_show_fail_rules(
+        capsys):
+    with mock.patch.dict(sys.modules, {'inquirer': None}):
+        src = 'test_data/ssg-fedora-ds-arf.xml'
+        regex = r'_package_\w+_removed'
+        client = get_client_arf_to_json_with_option_show_not_selected_rules_and_show_fail_rules(
+            src, regex)
+        client.isatty = True
+        (tests.any_test_help.
+         if_not_installed_inquirer_with_option_show_not_selected_rules_and_show_fail_rules(
+             capsys, client))

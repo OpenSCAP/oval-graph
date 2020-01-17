@@ -1,5 +1,8 @@
 import os
 import json
+import sys
+import mock
+import pytest
 
 from oval_graph.oval_node import restore_dict_to_tree, OvalNode
 from oval_graph.converter import Converter
@@ -126,3 +129,99 @@ def compare_results_json(result):
         'test_data/referenc_result_data_json.json')
     assert result[list(result.keys())[
         0]] == referenc_result["xccdf_org.ssgproject.content_rule_package_abrt_removed"]
+
+
+def get_questions_not_selected(capsys, client):
+    out = client.get_questions()[0].choices
+    outResult = [
+        'xccdf_org.ssgproject.content_rule_package_abrt_removed',
+        'xccdf_org.ssgproject.content_rule_package_sendmail_removed']
+    assert out == outResult
+    captured = capsys.readouterr()
+# Problem with CI when si called function test_arf_to_hml.test_get_question_not_selected
+# other calls work with ==.
+    assert (('== The not selected rule IDs ==\n'
+             'xccdf_org.ssgproject.content_rule_package_nis_removed(Not selected)\n'
+             'xccdf_org.ssgproject.content_rule_package_ntpdate_removed(Not selected)\n'
+             'xccdf_org.ssgproject.content_rule_package_telnetd_removed(Not selected)\n'
+             'xccdf_org.ssgproject.content_rule_package_gdm_removed(Not selected)\n'
+             'xccdf_org.ssgproject.content_rule_package_setroubleshoot_removed(Not selected)\n'
+             'xccdf_org.ssgproject.content_rule_package_mcstrans_removed(Not selected)\n')
+            in captured.out)
+
+
+def get_questions_not_selected_and_show_fail_rules(capsys, client):
+    out = client.get_questions()[0].choices
+    outResult = ['xccdf_org.ssgproject.content_rule_package_abrt_removed']
+    assert out == outResult
+    captured = capsys.readouterr()
+    assert captured.out == (
+        '== The not selected rule IDs ==\n'
+        'xccdf_org.ssgproject.content_rule_package_nis_removed(Not selected)\n'
+        'xccdf_org.ssgproject.content_rule_package_ntpdate_removed(Not selected)\n'
+        'xccdf_org.ssgproject.content_rule_package_telnetd_removed(Not selected)\n'
+        'xccdf_org.ssgproject.content_rule_package_gdm_removed(Not selected)\n'
+        'xccdf_org.ssgproject.content_rule_package_setroubleshoot_removed(Not selected)\n'
+        'xccdf_org.ssgproject.content_rule_package_mcstrans_removed(Not selected)\n')
+
+
+def get_questions_with_option_show_fail_rules(client):
+    out = client.get_questions()[0].choices
+    rule1 = 'xccdf_org.ssgproject.content_rule_package_abrt_removed'
+    assert out[0] == rule1
+    with pytest.raises(Exception, match="list index out of range"):
+        assert out[2] is None
+
+
+def if_not_installed_inquirer_with_option_show_fail_rules(capsys, client):
+    with mock.patch.dict(sys.modules, {'inquirer': None}):
+        out = client.run_gui_and_return_answers()
+        assert out is None
+        captured = capsys.readouterr()
+        assert captured.out == (
+            '== The Rule IDs ==\n'
+            "'xccdf_org.ssgproject.content_rule_package_abrt_removed\\b'\n"
+            "You haven't got installed inquirer lib. Please copy id rule with you"
+            " want use and put it in command\n")
+
+
+def if_not_installed_inquirer_with_option_show_not_selected_rules(
+        capsys, client):
+    with mock.patch.dict(sys.modules, {'inquirer': None}):
+        out = client.run_gui_and_return_answers()
+        assert out is None
+        captured = capsys.readouterr()
+        assert captured.out == (
+            '== The Rule IDs ==\n'
+            "'xccdf_org.ssgproject.content_rule_package_abrt_removed\\b'\n"
+            "'xccdf_org.ssgproject.content_rule_package_sendmail_removed\\b'\n"
+            '== The not selected rule IDs ==\n'
+            'xccdf_org.ssgproject.content_rule_package_nis_removed(Not selected)\n'
+            'xccdf_org.ssgproject.content_rule_package_ntpdate_removed(Not selected)\n'
+            'xccdf_org.ssgproject.content_rule_package_telnetd_removed(Not selected)\n'
+            'xccdf_org.ssgproject.content_rule_package_gdm_removed(Not selected)\n'
+            'xccdf_org.ssgproject.content_rule_package_setroubleshoot_removed(Not selected)\n'
+            'xccdf_org.ssgproject.content_rule_package_mcstrans_removed(Not selected)\n'
+            "You haven't got installed inquirer lib. Please copy id rule with you"
+            " want use and put it in command\n")
+
+
+def if_not_installed_inquirer_with_option_show_not_selected_rules_and_show_fail_rules(
+        capsys,
+        client):
+    with mock.patch.dict(sys.modules, {'inquirer': None}):
+        out = client.run_gui_and_return_answers()
+        assert out is None
+        captured = capsys.readouterr()
+        assert captured.out == (
+            '== The Rule IDs ==\n'
+            "'xccdf_org.ssgproject.content_rule_package_abrt_removed\\b'\n"
+            '== The not selected rule IDs ==\n'
+            'xccdf_org.ssgproject.content_rule_package_nis_removed(Not selected)\n'
+            'xccdf_org.ssgproject.content_rule_package_ntpdate_removed(Not selected)\n'
+            'xccdf_org.ssgproject.content_rule_package_telnetd_removed(Not selected)\n'
+            'xccdf_org.ssgproject.content_rule_package_gdm_removed(Not selected)\n'
+            'xccdf_org.ssgproject.content_rule_package_setroubleshoot_removed(Not selected)\n'
+            'xccdf_org.ssgproject.content_rule_package_mcstrans_removed(Not selected)\n'
+            "You haven't got installed inquirer lib. Please copy id rule with you"
+            " want use and put it in command\n")

@@ -15,19 +15,29 @@ from .converter import Converter
 class Client():
     def __init__(self, args):
         self.parser = None
+        self.MESSAGES = self._get_message()
         self.arg = self.parse_arguments(args)
         self.remove_pass_tests = self.arg.remove_pass_tests
-        self.show_fail_rules = self.arg.show_fail_rules
-        self.show_not_selected_rules = self.arg.show_not_selected_rules
         self.source_filename = self.arg.source_filename
         self.rule_name = self.arg.rule_id
         self.out = self.arg.output
         self.all_rules = self.arg.all
         self.isatty = sys.stdout.isatty()
+        self.show_fail_rules = False
+        self.show_not_selected_rules = False
         self.xml_parser = XmlParser(
             self.source_filename)
         if self.remove_pass_tests:
             raise NotImplementedError('Not implemented!')
+
+    def _get_message(self):
+        MESSAGES = {
+            'description': '',
+            '--output': '',
+            'source_filename': '',
+        }
+        return MESSAGES
+
 
     def run_gui_and_return_answers(self):
         if self.isatty:
@@ -111,34 +121,6 @@ class Client():
             x for x in self.xml_parser.notselected_rules if re.search(
                 self.rule_name, x['id_rule'])]
 
-    def create_dict_of_rule(self, rule_id):
-        converter = Converter(self.xml_parser.get_oval_tree(rule_id))
-        return converter.to_JsTree_dict()
-
-    def get_src(self, src):
-        _dir = os.path.dirname(os.path.realpath(__file__))
-        FIXTURE_DIR = os.path.join(_dir, src)
-        return str(FIXTURE_DIR)
-
-    def copy_interpreter(self, dst):
-        src = self.get_src('tree_html_interpreter')
-        os.mkdir(dst)
-        for item in os.listdir(src):
-            s = os.path.join(src, item)
-            d = os.path.join(dst, item)
-            if os.path.isdir(s):
-                shutil.copytree(s, d)
-            else:
-                shutil.copy2(s, d)
-
-    def open_web_browser(self, src):
-        if not self.off_webbrowser:
-            src = os.path.join(src, 'index.html')
-            try:
-                webbrowser.get('firefox').open_new_tab(src)
-            except BaseException:
-                webbrowser.open_new_tab(src)
-
     def search_rules_id(self):
         rules = self._get_wanted_rules()
         notselected_rules = self._get_wanted_not_selected_rules()
@@ -155,6 +137,34 @@ class Client():
             raise ValueError('err- 404 rule not found!')
         else:
             return rules
+
+    def open_web_browser(self, src):
+        if not self.off_webbrowser:
+            src = os.path.join(src, 'index.html')
+            try:
+                webbrowser.get('firefox').open_new_tab(src)
+            except BaseException:
+                webbrowser.open_new_tab(src)
+
+    def create_dict_of_rule(self, rule_id):
+        converter = Converter(self.xml_parser.get_oval_tree(rule_id))
+        return converter.to_JsTree_dict()
+
+    def copy_interpreter(self, dst):
+        src = self.get_src('tree_html_interpreter')
+        os.mkdir(dst)
+        for item in os.listdir(src):
+            s = os.path.join(src, item)
+            d = os.path.join(dst, item)
+            if os.path.isdir(s):
+                shutil.copytree(s, d)
+            else:
+                shutil.copy2(s, d)
+
+    def get_src(self, src):
+        _dir = os.path.dirname(os.path.realpath(__file__))
+        FIXTURE_DIR = os.path.join(_dir, src)
+        return str(FIXTURE_DIR)
 
     def save_dict(self, dict_, src):
         with open(os.path.join(src, 'data.js'), "w+") as data_file:
@@ -176,31 +186,12 @@ class Client():
 
     def parse_arguments(self, args):
         self.prepare_parser()
-        self.prepare_parser_out()
         args = self.parser.parse_args(args)
         return args
 
-    def prepare_parser_out(self):
-        self.parser.add_argument(
-            '-o',
-            '--output',
-            action="store",
-            default=None,
-            help="The directory where to save output files.")
-
     def prepare_parser(self):
         self.parser = argparse.ArgumentParser(
-            description="Client for visualization of SCAP rule evaluation results")
-        self.parser.add_argument(
-            '--show-fail-rules',
-            action="store_true",
-            default=False,
-            help="Show only FAIL rules")
-        self.parser.add_argument(
-            '--show-not-selected-rules',
-            action="store_true",
-            default=False,
-            help="Show notselected rules. These rules will not be visualized.")
+            description=self.MESSAGES.get('description'))
         self.parser.add_argument(
             '--all',
             action="store_true",
@@ -213,7 +204,15 @@ class Client():
             help=(
                 "Do not display passing tests for better orientation in"
                 " graphs that contain a large amount of nodes.(Not implemented)"))
-        self.parser.add_argument("source_filename", help="ARF scan file")
+        self.parser.add_argument(
+            '-o',
+            '--output',
+            action="store",
+            default=None,
+            help=self.MESSAGES.get('--output'))
+        self.parser.add_argument(
+            "source_filename",
+            help=self.MESSAGES.get('source_filename'))
         self.parser.add_argument(
             "rule_id", help=(
                 "Rule ID to be visualized. A part from the full rule ID"

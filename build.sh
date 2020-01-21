@@ -10,7 +10,7 @@ if [ "$1" != "" ]; then
         git pull upstream master
         git status --porcelain=v1 | grep -q '^\(.M\|M.\)'
         status=$?
-        if [$status -eq 0];then
+        if [$status -eq 1];then
             # update version in file
             sed -i 's/${old_version}/${new_version}/g' ${module}/__init__.py
             if [$(python3 setup.py --version) == $new_version]; then

@@ -8,9 +8,9 @@ if [ "$1" != "" ]; then
         old_version=$(python3 setup.py --version)
         git checkout master
         git pull upstream master
-        git status --porcelain=v1 | grep -q '^\(.M\|M.\)'
-        status=$?
-        if [$status -eq 0];then
+        if git status --porcelain=v1 | grep -q '^\(.M\|M.\)'; then
+            echo "Not commited changes!"
+        else
             # update version in file
             sed -i 's/${old_version}/${new_version}/g' ${module}/__init__.py
             if [$(python3 setup.py --version) == $new_version]; then

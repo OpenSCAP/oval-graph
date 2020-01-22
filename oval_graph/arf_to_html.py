@@ -2,6 +2,7 @@ from datetime import datetime
 
 
 from .client import Client
+from .converter import Converter
 
 
 class ArfToHtml(Client):
@@ -18,6 +19,10 @@ class ArfToHtml(Client):
             'source_filename': 'ARF scan file',
         }
         return MESSAGES
+
+    def create_dict_of_rule(self, rule_id):
+        converter = Converter(self.xml_parser.get_oval_tree(rule_id))
+        return converter.to_JsTree_dict(self.hide_passing_tests)
 
     def prepare_data(self, rules):
         try:

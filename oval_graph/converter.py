@@ -20,6 +20,7 @@ class Converter():
             "text-danger": "label-danger",
             "text-dark": "label-default"
         }
+
         self.VALUE_TO_ICON = {
             "true": "glyphicon glyphicon-ok text-success",
             "false": "glyphicon glyphicon-remove text-danger",
@@ -51,7 +52,7 @@ class Converter():
             return str(self.tree.tag)
         return ""
 
-    def to_JsTree_dict(self):
+    def to_JsTree_dict(self, hide_passing_tests=False):
         icons = self._get_node_icon()
         label = self._get_label()
         out = {'text':
@@ -65,11 +66,19 @@ class Converter():
                    tag=self.get_tag(),
                    comment=self.get_comment()),
                "icon": icons['icon'],
-               "state": {"opened": True}}
+               "state": {"opened": self._show_node(hide_passing_tests)}}
         if self.tree.children:
-            out['children'] = [Converter(child).to_JsTree_dict()
-                               for child in self.tree.children]
+            out['children'] = [Converter(child).to_JsTree_dict(
+                hide_passing_tests) for child in self.tree.children]
         return out
+
+    def _show_node(self, hide_passing_tests):
+        value = self.tree.evaluate_tree()
+        if value is None:
+            value = self.tree.value
+        if value == 'true' and hide_passing_tests:
+            return False
+        return True
 
     def _get_node_style(self):
         value = self.tree.evaluate_tree()

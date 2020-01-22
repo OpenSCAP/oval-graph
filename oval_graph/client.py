@@ -9,7 +9,6 @@ from datetime import datetime
 import sys
 
 from .xml_parser import XmlParser
-from .converter import Converter
 
 
 class Client():
@@ -17,7 +16,7 @@ class Client():
         self.parser = None
         self.MESSAGES = self._get_message()
         self.arg = self.parse_arguments(args)
-        self.remove_pass_tests = self.arg.remove_pass_tests
+        self.hide_passing_tests = self.arg.hide_passing_tests
         self.source_filename = self.arg.source_filename
         self.rule_name = self.arg.rule_id
         self.out = self.arg.output
@@ -27,8 +26,6 @@ class Client():
         self.show_not_selected_rules = False
         self.xml_parser = XmlParser(
             self.source_filename)
-        if self.remove_pass_tests:
-            raise NotImplementedError('Not implemented!')
 
     def _get_message(self):
         MESSAGES = {
@@ -146,10 +143,6 @@ class Client():
             except BaseException:
                 webbrowser.open_new_tab(src)
 
-    def create_dict_of_rule(self, rule_id):
-        converter = Converter(self.xml_parser.get_oval_tree(rule_id))
-        return converter.to_JsTree_dict()
-
     def copy_interpreter(self, dst):
         src = self.get_src('tree_html_interpreter')
         os.mkdir(dst)
@@ -198,7 +191,7 @@ class Client():
             default=False,
             help="Process all matched rules.")
         self.parser.add_argument(
-            '--remove-pass-tests',
+            '--hide-passing-tests',
             action="store_true",
             default=False,
             help=(

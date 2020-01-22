@@ -12,7 +12,7 @@ if [ "$1" != "" ]; then
             echo "Not commited changes!"
         else
             # update version in file
-            sed -i 's/${old_version}/${new_version}/g' ${module}/__init__.py
+            sed -i "s/$old_version/$new_version/g" ${module}/__init__.py
             if [$(python3 setup.py --version) == $new_version]; then
                 # Commit version
                 git add ${module}/__init__.py

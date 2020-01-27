@@ -1,0 +1,40 @@
+specfile_path: oval-graph.spec
+synced_files:
+  # copy a file from root of the upstream repo to dist-git
+  - oval-graph.spec
+upstream_package_name: oval_graph
+downstream_package_name: oval-graph
+upstream_project_url: https://github.com/OpenSCAP/OVAL-visualization-as-graph
+
+# the version is different than with basic git describe
+create_tarball_command: ["python3", "setup.py", "sdist", "--dist-dir", "."]
+current_version_command: ["python3", "setup.py", "--version"]
+jobs:
+- job: sync_from_downstream
+  trigger: commit
+- job: propose_downstream
+  trigger: release
+  metadata:
+    dist-git-branch: master
+- job: propose_downstream
+  trigger: release
+  metadata:
+    dist-git-branch: f31
+- job: propose_downstream
+  trigger: release
+  metadata:
+    dist-git-branch: f30
+- job: copr_build
+  trigger: pull_request
+  metadata:
+    targets:
+    - fedora-30-x86_64
+    - fedora-31-x86_64
+    - fedora-rawhide-x86_64
+- job: tests
+  trigger: pull_request
+  metadata:
+    targets:
+    - fedora-30-x86_64
+    - fedora-31-x86_64
+    - fedora-rawhide-x86_64

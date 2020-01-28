@@ -84,13 +84,13 @@ class Converter():
         value = self.tree.evaluate_tree()
         out_color = None
         if value is None:
-            if self.tree.negation:
+            if self.tree.negation and self.is_bool(self.tree.value):
                 out_color = self.negate_bool(self.tree.value)
             else:
                 out_color = self.tree.value
             value = self.tree.value
         else:
-            if self.tree.negation:
+            if self.tree.negation and self.is_bool(value):
                 out_color = self.negate_bool(value)
             else:
                 out_color = value
@@ -131,3 +131,8 @@ class Converter():
             "false": "true",
         }
         return values[str(value)]
+
+    def is_bool(self, value):
+        if value == "true" or value == "false":
+            return True
+        return False

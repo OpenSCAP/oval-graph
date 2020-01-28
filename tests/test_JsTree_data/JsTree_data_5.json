@@ -1,5 +1,5 @@
 {
-    "text": " <strong><span class=\"text-dark\">1</span></strong> <span class=\"label label-default\"></span> <i></i>",
+    "text": " <strong><span class=\"text-dark\">1</span></strong> <span class=\"label label-default\"></span> <span class=\"label label-default\">error</span> <i></i>",
     "icon": "glyphicon glyphicon-question-sign text-dark",
     "state": {
         "opened": true

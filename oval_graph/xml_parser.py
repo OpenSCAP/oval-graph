@@ -3,6 +3,7 @@
 '''
 import uuid
 import os
+import sys
 
 from lxml import etree as ET
 
@@ -24,10 +25,15 @@ class XmlParser():
         self.root = self.tree.getroot()
         if not self.validate(
                 'schemas/arf/1.1/asset-reporting-format_1.1.0.xsd'):
+            CRED = '\033[91m'
+            CEND = '\033[0m'
+            print(CRED + "Warning: This file is not valid arf report." + CEND, file=sys.stderr)
+        try:
+            self.used_rules = self._get_used_rules()
+            self.notselected_rules = self._get_notselected_rules()
+            self.scan_definitions = self._get_scan()
+        except BaseException:
             raise ValueError("err- This is not arf report file.")
-        self.used_rules = self._get_used_rules()
-        self.notselected_rules = self._get_notselected_rules()
-        self.scan_definitions = self._get_scan()
 
     def get_src(self, src):
         _dir = os.path.dirname(os.path.realpath(__file__))

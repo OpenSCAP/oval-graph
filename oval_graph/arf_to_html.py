@@ -30,8 +30,7 @@ class ArfToHtml(Client):
             for rule in rules['rules']:
                 oval_tree_dict = self.create_dict_of_rule(rule)
                 src = self.get_save_src(rule)
-                self.copy_interpreter(src)
-                self.save_dict(oval_tree_dict, src)
+                self.save_html_report(oval_tree_dict, src)
                 self.open_web_browser(src)
                 print('Rule "{}" done!'.format(rule))
                 out.append(src)

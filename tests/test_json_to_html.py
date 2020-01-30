@@ -32,11 +32,16 @@ def try_expection_for_prepare_graph(src, rule, err):
         assert client.prepare_data(rules)
 
 
-def test_prepare_graph_with_non_existent_rule():
-    src = 'test_data/referenc_result_data_tree.js'
+def test_prepare_graph_with_not_valid_file():
+    src = 'test_data/ssg-fedora-ds-arf-passing-scan.xml'
     rule = 'xccdf_org.ssgproject.content_rule_package_abrt_removed'
     try_expection_for_prepare_graph(src, rule, 'json or valid')
 
+
+def test_prepare_graph_with_not_exist_rule():
+    src = 'test_data/referenc_html_report.html'
+    rule = 'xccdf_org.ssgproject.content_rule_package_abrt_removed'
+    try_expection_for_prepare_graph(src, rule, 'No such file or directory:')
 
 def test_prepare_graph_with_bat_data():
     src = 'test_data/bad_result_data_json.json'
@@ -51,7 +56,7 @@ def test_prepare_tree():
     client = get_client_json_to_html(src, rule)
     results_src = client.prepare_data({'rules': [
         rule['id_rule'] for rule in client.search_rules_id()]})
-    tests.any_test_help.compare_results_js(results_src[0])
+    tests.any_test_help.compare_results_html(results_src[0])
 
 
 def test_prepare_tree_and_save_in_defined_destination():
@@ -60,4 +65,4 @@ def test_prepare_tree_and_save_in_defined_destination():
     client = get_client_json_to_html_with_define_dest(src, rule)
     results_src = client.prepare_data({'rules': [
         rule['id_rule'] for rule in client.search_rules_id()]})
-    tests.any_test_help.compare_results_js(results_src[0])
+    tests.any_test_help.compare_results_html(results_src[0])

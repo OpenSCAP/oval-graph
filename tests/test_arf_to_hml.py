@@ -69,7 +69,7 @@ def test_prepare_tree():
     client = get_client_arf_to_html(src, rule)
     rules = {'rules': [rule]}
     results_src = client.prepare_data(rules)
-    tests.any_test_help.compare_results_js(results_src[0])
+    tests.any_test_help.compare_results_html(results_src[0])
 
 
 def test_prepare_tree_and_save_in_defined_destination():
@@ -78,7 +78,7 @@ def test_prepare_tree_and_save_in_defined_destination():
     client = get_client_arf_to_html_with_define_dest(src, rule)
     rules = {'rules': [rule]}
     results_src = client.prepare_data(rules)
-    tests.any_test_help.compare_results_js(results_src[0])
+    tests.any_test_help.compare_results_html(results_src[0])
 
 
 def test_get_questions_not_selected(capsys):

@@ -28,6 +28,7 @@ class JsonToHtml(Client):
         self.oval_tree = None
         self.off_webbrowser = self.arg.off_web_browser
         self.json_data_file = self.get_json_data_file()
+        self.parts = self.get_src('parts')
 
     def _get_message(self):
         MESSAGES = {

@@ -26,6 +26,7 @@ class Client():
         self.show_not_selected_rules = False
         self.xml_parser = XmlParser(
             self.source_filename)
+        self.parts = self.get_src('parts')
 
     def _get_message(self):
         MESSAGES = {
@@ -34,7 +35,6 @@ class Client():
             'source_filename': '',
         }
         return MESSAGES
-
 
     def run_gui_and_return_answers(self):
         if self.isatty:
@@ -137,45 +137,47 @@ class Client():
 
     def open_web_browser(self, src):
         if not self.off_webbrowser:
-            src = os.path.join(src, 'index.html')
             try:
                 webbrowser.get('firefox').open_new_tab(src)
             except BaseException:
                 webbrowser.open_new_tab(src)
-
-    def copy_interpreter(self, dst):
-        src = self.get_src('tree_html_interpreter')
-        os.mkdir(dst)
-        for item in os.listdir(src):
-            s = os.path.join(src, item)
-            d = os.path.join(dst, item)
-            if os.path.isdir(s):
-                shutil.copytree(s, d)
-            else:
-                shutil.copy2(s, d)
 
     def get_src(self, src):
         _dir = os.path.dirname(os.path.realpath(__file__))
         FIXTURE_DIR = os.path.join(_dir, src)
         return str(FIXTURE_DIR)
 
-    def save_dict(self, dict_, src):
-        with open(os.path.join(src, 'data.js'), "w+") as data_file:
-            data_file.write("var data_json =" + str(json.dumps(
-                dict_, sort_keys=False, indent=4) + ";"))
-
     def get_save_src(self, rule):
         date = str(datetime.now().strftime("-%d_%m_%Y-%H_%M_%S"))
         if self.out is not None:
-            if not os.path.isdir(self.out):
-                os.mkdir(self.out)
-                return os.path.join(self.out, 'graph-of-' + rule + date)
+            os.makedirs(self.out, exist_ok=True)
             return os.path.join(
                 self.out,
-                'graph-of-' + rule + date)
+                'graph-of-' + rule + date + '.html')
         return os.path.join(
             os.getcwd(),
-            'graph-of-' + rule + date)
+            'graph-of-' + rule + date + '.html')
+
+    def _get_head(self):
+        with open(os.path.join(self.parts, 'head.html'), "r") as data_file:
+            head = data_file.readlines()
+        return head
+
+    def _get_footer(self):
+        with open(os.path.join(self.parts, 'footer.html'), "r") as data_file:
+            footer = data_file.readlines()
+        return footer
+
+    def _merge_report_parts(self, data):
+        head = self._get_head()
+        footer = self._get_footer()
+        return [*head, data, *footer]
+
+    def save_html_report(self, dict_, src):
+        data = "var data_of_tree =" + str(
+            json.dumps(dict_, sort_keys=False, indent=4) + ";")
+        with open(src, "w+") as data_file:
+            data_file.writelines(self._merge_report_parts(data))
 
     def parse_arguments(self, args):
         self.prepare_parser()

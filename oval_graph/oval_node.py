@@ -206,6 +206,6 @@ def restore_dict_to_tree(dict_of_tree):
         dict_of_tree["type"],
         dict_of_tree["value"],
         dict_of_tree["negation"],
-        dict_of_tree['comment'],
+        dict_of_tree["comment"],
         dict_of_tree["tag"],
         [restore_dict_to_tree(i) for i in dict_of_tree["child"]])

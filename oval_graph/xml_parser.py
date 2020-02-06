@@ -15,6 +15,7 @@ ns = {
     'arf': 'http://scap.nist.gov/schema/asset-reporting-format/1.1',
     'oval-definitions': 'http://oval.mitre.org/XMLSchema/oval-definitions-5',
     'scap': 'http://scap.nist.gov/schema/scap/source/1.2',
+    'oval-characteristics': 'http://oval.mitre.org/XMLSchema/oval-system-characteristics-5',
 }
 
 
@@ -27,11 +28,23 @@ class XmlParser():
                 'schemas/arf/1.1/asset-reporting-format_1.1.0.xsd'):
             CRED = '\033[91m'
             CEND = '\033[0m'
-            print(CRED + "Warning: This file is not valid arf report." + CEND, file=sys.stderr)
+            print(
+                CRED +
+                "Warning: This file is not valid arf report." +
+                CEND,
+                file=sys.stderr)
         try:
             self.used_rules = self._get_used_rules()
+            self.report_data = self._get_report_data(
+                self.used_rules[0]['href'])
             self.notselected_rules = self._get_notselected_rules()
             self.scan_definitions = self._get_scan()
+            self.oval_definitions = self._get_oval_definitions()
+            self.tests = self._get_tests()
+            self.objects = self._get_objects()
+            self.collected_objects = self._get_collected_objects()
+            self.system_data = self._get_system_data()
+            self.tests_info = self._get_tests_info()
         except BaseException:
             raise ValueError("err- This is not arf report file.")
 
@@ -50,17 +63,48 @@ class XmlParser():
 
         return result
 
-    def get_data(self, href):
+    def _get_report_data(self, href):
         report_data = None
         reports = self.root.find('.//arf:reports', ns)
         for report in reports:
             if "#" + str(report.get("id")) == href:
                 report_data = report
+        return report_data
 
-        trees_data = report_data.find(
+    def _get_definitions(self):
+        data = self.report_data.find(
             ('.//XMLSchema:oval_results/XMLSchema:results/'
              'XMLSchema:system/XMLSchema:definitions'), ns)
-        return trees_data
+        return data
+
+    def _get_oval_definitions(self):
+        data = self.report_data.find(
+            ('.//XMLSchema:oval_results/oval-definitions:oval_definitions'), ns)
+        return data
+
+    def _get_collected_objects(self):
+        data = self.report_data.find(
+            ('.//XMLSchema:oval_results/XMLSchema:results/'
+             'XMLSchema:system/oval-characteristics:oval_system_characteristics'
+             '/oval-characteristics:collected_objects'), ns)
+        return data
+
+    def _get_system_data(self):
+        data = self.report_data.find(
+            ('.//XMLSchema:oval_results/XMLSchema:results/'
+             'XMLSchema:system/oval-characteristics:oval_system_characteristics'
+             '/oval-characteristics:system_data'), ns)
+        return data
+
+    def _get_tests(self):
+        data = self.oval_definitions.find(
+            ('.//oval-definitions:tests'), ns)
+        return data
+
+    def _get_objects(self):
+        data = self.oval_definitions.find(
+            ('.//oval-definitions:objects'), ns)
+        return data
 
     def _get_used_rules(self):
         rulesResults = self.root.findall(
@@ -92,7 +136,7 @@ class XmlParser():
 
     def _get_scan(self):
         scan = dict(definitions=[])
-        for i in self.get_data(self.used_rules[0]['href']):
+        for i in self._get_definitions():
             scan['definitions'].append(self.build_graph(i))
         self.insert_comments(scan)
         return self._fill_extend_definition(scan)
@@ -338,3 +382,101 @@ class XmlParser():
             for comment_definition in comment_definitions:
                 if comment_definition['id'] == data_definition['id']:
                     self.fill_comment(comment_definition, data_definition)
+
+    def _get_key_for_element(self, element):
+        return element.tag.split('}')[1] if '}' in element.tag else element.tag
+
+    def _find_item_ref(self, object_):
+        return [self._get_item_ref(item) for item in object_][-1]
+
+    def _get_item_ref(self, item):
+        return item.get('item_ref') if item.get('item_ref') else None
+
+    def _get_collected_objects_info(self, collected_object, object_):
+        out = {}
+        if len(collected_object) == 0:
+            out[
+                self._get_key_for_element(object_)
+            ] = self._get_object_items(object_)
+        else:
+            item_ref = self._find_item_ref(collected_object)
+            if item_ref:
+                out[
+                    self._get_key_for_element(object_)
+                ] = self._get_item(item_ref)
+            else:
+                out[
+                    self._get_key_for_element(object_)
+                ] = self._get_object_items(object_)
+        return out
+
+    def _xml_element_to_dict(self, object_, collected_object):
+        result = {}
+        if collected_object is not None:
+            result[
+                collected_object.attrib.get('id')
+            ] = collected_object.attrib.get('flag')
+            out = {}
+            result.update(
+                self._get_collected_objects_info(collected_object, object_))
+        else:
+            result[object_.attrib.get('id')] = "does not exist"
+            result[
+                self._get_key_for_element(object_)
+            ] = self._get_object_items(object_)
+        return result
+
+    def _get_object_items(self, object_):
+        out = {}
+        for element in object_.iterchildren():
+            if element.text and element.text.strip():
+                out[self._get_key_for_element(element)] = element.text
+            else:
+                out[self._get_key_for_element(element)] = "no value"
+        return out
+
+    def _get_item(self, item_ref):
+        item = self._find_item_by_id(self.system_data, item_ref)
+        out = {}
+        for element in item.iterchildren():
+            if element.text and element.text.strip():
+                if self._get_key_for_element(element) in out:
+                    unicade_id = str(uuid.uuid4())
+                    out[(
+                        self._get_key_for_element(element)
+                        + "@" + unicade_id)] = element.text
+                else:
+                    out[self._get_key_for_element(element)] = element.text
+        return out
+
+    def _find_item_by_id(self, items, id):
+        for item in items:
+            if item.attrib.get('id') == id:
+                return item
+
+    def _get_object_info(self, id_object):
+        object_ = self._find_item_by_id(self.objects, id_object)
+        object_collected = self._find_item_by_id(
+            self.collected_objects, id_object)
+        return self._xml_element_to_dict(object_, object_collected)
+
+    def _get_tests_info(self):
+        out = []
+        for test in self.tests:
+            objects = []
+            for item in test:
+                object_id = item.attrib.get('object_ref')
+                if object_id:
+                    objects.append(self._get_object_info(object_id))
+            out.append(
+                dict(
+                    id=test.attrib.get('id'),
+                    comment=test.attrib.get('comment'),
+                    objects=objects,
+                ))
+        return out
+
+    def get_info_about_test(self, id):
+        for test in self.tests_info:
+            if test['id'] == id:
+                return test

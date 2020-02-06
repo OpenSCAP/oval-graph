@@ -1,68 +1,68 @@
 {
-    "text": " <strong><span class=\"text-danger\">rule_accounts_passwords_pam_faillock_deny</span></strong> <span class=\"label label-danger\">Rule</span> <i>Lock out account after failed login attempts</i>",
+    "text": " <strong><span class=\"text-danger\">rule_accounts_passwords_pam_faillock_deny</span></strong> <span class=\"label label-danger\">Rule</span> <span class=\"label label-danger\">false</span> <i>Lock out account after failed login attempts</i>",
     "icon": "glyphicon glyphicon-remove text-danger",
     "state": {
         "opened": true
     },
     "children": [
         {
-            "text": " <strong><span class=\"text-danger\">AND</span></strong> <span class=\"label label-danger\">Definition</span> <i>Checks common to both scenarios</i>",
+            "text": " <strong><span class=\"text-danger\">AND</span></strong> <span class=\"label label-danger\">Definition</span> <span class=\"label label-danger\">false</span> <i>Checks common to both scenarios</i>",
             "icon": "glyphicon glyphicon-remove text-danger",
             "state": {
                 "opened": true
             },
             "children": [
                 {
-                    "text": " <strong><span class=\"text-danger\">accounts_passwords_pam_faillock_preauth_silent_system-auth</span></strong> <span class=\"label label-danger\">Test</span> <i>pam_faillock.so preauth silent set in system-auth</i>",
+                    "text": " <strong><span class=\"text-danger\">accounts_passwords_pam_faillock_preauth_silent_system-auth</span></strong> <span class=\"label label-danger\">Test</span> <span class=\"label label-danger\">false</span> <i>pam_faillock.so preauth silent set in system-auth</i>",
                     "icon": "glyphicon glyphicon-remove text-danger",
                     "state": {
                         "opened": true
                     }
                 },
                 {
-                    "text": " <strong><span class=\"text-danger\">accounts_passwords_pam_faillock_account_phase_system-auth</span></strong> <span class=\"label label-danger\">Test</span> <i>pam_faillock.so set in account phase of system-auth</i>",
+                    "text": " <strong><span class=\"text-danger\">accounts_passwords_pam_faillock_account_phase_system-auth</span></strong> <span class=\"label label-danger\">Test</span> <span class=\"label label-danger\">false</span> <i>pam_faillock.so set in account phase of system-auth</i>",
                     "icon": "glyphicon glyphicon-remove text-danger",
                     "state": {
                         "opened": true
                     }
                 },
                 {
-                    "text": " <strong><span class=\"text-danger\">accounts_passwords_pam_faillock_preauth_silent_password-auth</span></strong> <span class=\"label label-danger\">Test</span> <i>pam_faillock.so preauth silent set in password-auth</i>",
+                    "text": " <strong><span class=\"text-danger\">accounts_passwords_pam_faillock_preauth_silent_password-auth</span></strong> <span class=\"label label-danger\">Test</span> <span class=\"label label-danger\">false</span> <i>pam_faillock.so preauth silent set in password-auth</i>",
                     "icon": "glyphicon glyphicon-remove text-danger",
                     "state": {
                         "opened": true
                     }
                 },
                 {
-                    "text": " <strong><span class=\"text-danger\">accounts_passwords_pam_faillock_account_phase_password-auth</span></strong> <span class=\"label label-danger\">Test</span> <i>pam_faillock.so set in account phase of password-auth</i>",
+                    "text": " <strong><span class=\"text-danger\">accounts_passwords_pam_faillock_account_phase_password-auth</span></strong> <span class=\"label label-danger\">Test</span> <span class=\"label label-danger\">false</span> <i>pam_faillock.so set in account phase of password-auth</i>",
                     "icon": "glyphicon glyphicon-remove text-danger",
                     "state": {
                         "opened": true
                     }
                 },
                 {
-                    "text": " <strong><span class=\"text-danger\">AND</span></strong> <span class=\"label label-danger\">Criteria</span> <i></i>",
+                    "text": " <strong><span class=\"text-danger\">AND</span></strong> <span class=\"label label-danger\">Criteria</span> <span class=\"label label-danger\">false</span> <i></i>",
                     "icon": "glyphicon glyphicon-remove text-danger",
                     "state": {
                         "opened": true
                     },
                     "children": [
                         {
-                            "text": " <strong><span class=\"text-danger\">OR</span></strong> <span class=\"label label-danger\">Criteria</span> <i>system-auth</i>",
+                            "text": " <strong><span class=\"text-danger\">OR</span></strong> <span class=\"label label-danger\">Criteria</span> <span class=\"label label-danger\">false</span> <i>system-auth</i>",
                             "icon": "glyphicon glyphicon-remove text-danger",
                             "state": {
                                 "opened": true
                             },
                             "children": [
                                 {
-                                    "text": " <strong><span class=\"text-danger\">accounts_passwords_pam_faillock_numeric_default_check_system-auth</span></strong> <span class=\"label label-danger\">Test</span> <i>Perform check if pam_faillock authfail follows pam_unix even with lines skipped</i>",
+                                    "text": " <strong><span class=\"text-danger\">accounts_passwords_pam_faillock_numeric_default_check_system-auth</span></strong> <span class=\"label label-danger\">Test</span> <span class=\"label label-danger\">false</span> <i>Perform check if pam_faillock authfail follows pam_unix even with lines skipped</i>",
                                     "icon": "glyphicon glyphicon-remove text-danger",
                                     "state": {
                                         "opened": true
                                     }
                                 },
                                 {
-                                    "text": " <strong><span class=\"text-danger\">accounts_passwords_pam_faillock_authfail_deny_system-auth</span></strong> <span class=\"label label-danger\">Test</span> <i>Perform check if pam_faillock authfail follows pam_unix with either sufficient or default=ignore</i>",
+                                    "text": " <strong><span class=\"text-danger\">accounts_passwords_pam_faillock_authfail_deny_system-auth</span></strong> <span class=\"label label-danger\">Test</span> <span class=\"label label-danger\">false</span> <i>Perform check if pam_faillock authfail follows pam_unix with either sufficient or default=ignore</i>",
                                     "icon": "glyphicon glyphicon-remove text-danger",
                                     "state": {
                                         "opened": true
@@ -71,21 +71,21 @@
                             ]
                         },
                         {
-                            "text": " <strong><span class=\"text-danger\">OR</span></strong> <span class=\"label label-danger\">Criteria</span> <i>password-auth</i>",
+                            "text": " <strong><span class=\"text-danger\">OR</span></strong> <span class=\"label label-danger\">Criteria</span> <span class=\"label label-danger\">false</span> <i>password-auth</i>",
                             "icon": "glyphicon glyphicon-remove text-danger",
                             "state": {
                                 "opened": true
                             },
                             "children": [
                                 {
-                                    "text": " <strong><span class=\"text-danger\">accounts_passwords_pam_faillock_numeric_default_check_password-auth</span></strong> <span class=\"label label-danger\">Test</span> <i>Perform check if pam_faillock authfail follows pam_unix even with lines skipped</i>",
+                                    "text": " <strong><span class=\"text-danger\">accounts_passwords_pam_faillock_numeric_default_check_password-auth</span></strong> <span class=\"label label-danger\">Test</span> <span class=\"label label-danger\">false</span> <i>Perform check if pam_faillock authfail follows pam_unix even with lines skipped</i>",
                                     "icon": "glyphicon glyphicon-remove text-danger",
                                     "state": {
                                         "opened": true
                                     }
                                 },
                                 {
-                                    "text": " <strong><span class=\"text-danger\">accounts_passwords_pam_faillock_authfail_deny_password-auth</span></strong> <span class=\"label label-danger\">Test</span> <i>pam_faillock.so authfail deny value set in password-auth</i>",
+                                    "text": " <strong><span class=\"text-danger\">accounts_passwords_pam_faillock_authfail_deny_password-auth</span></strong> <span class=\"label label-danger\">Test</span> <span class=\"label label-danger\">false</span> <i>pam_faillock.so authfail deny value set in password-auth</i>",
                                     "icon": "glyphicon glyphicon-remove text-danger",
                                     "state": {
                                         "opened": true

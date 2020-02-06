@@ -32,6 +32,9 @@ class Converter():
 
         if isinstance(tree, OvalNode):
             self.tree = tree
+            self.result = self.tree.evaluate_tree()
+            if not self.result:
+                self.result = self.tree.value
         else:
             raise ValueError('err - this is not tree created from OvalNodes')
 
@@ -57,13 +60,16 @@ class Converter():
         label = self._get_label()
         out = {'text':
                '{negation} <strong><span class="{icon}">{label}</span></strong>'
-               ' <span class="label {color_tag}">{tag}</span> <i>{comment}</i>'
+               ' <span class="label {color_tag}">{tag}</span>'
+               ' <span class="label {color_tag}">{result}</span>'
+               ' <i>{comment}</i>'
                .format(negation=str(
                    label['negation'] if label['negation'] else ""),
                    icon=icons['color'],
                    label=label['str'],
                    color_tag=self.BOOTSTRAP_COLOR_TO_LABEL_COLOR[icons['color']],
                    tag=self.get_tag(),
+                   result=self.result,
                    comment=self.get_comment()),
                "icon": icons['icon'],
                "state": {"opened": self._show_node(hide_passing_tests)}}
@@ -81,19 +87,12 @@ class Converter():
         return True
 
     def _get_node_style(self):
-        value = self.tree.evaluate_tree()
+        value = self.result
         out_color = None
-        if value is None:
-            if self.tree.negation:
-                out_color = self.negate_bool(self.tree.value)
-            else:
-                out_color = self.tree.value
-            value = self.tree.value
+        if self.tree.negation and self.is_bool(value):
+            out_color = self.negate_bool(value)
         else:
-            if self.tree.negation:
-                out_color = self.negate_bool(value)
-            else:
-                out_color = value
+            out_color = value
         return dict(
             negation_color=out_color,
             test_value=value,
@@ -131,3 +130,8 @@ class Converter():
             "false": "true",
         }
         return values[str(value)]
+
+    def is_bool(self, value):
+        if value == "true" or value == "false":
+            return True
+        return False

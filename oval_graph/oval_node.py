@@ -23,6 +23,7 @@ class OvalNode():
         input_negation (bool): value indicating whether the node is negated or not
         comment (str): text about node
         tag (str): tag specifies if the node represents OVAL test, OVAL definition or XCCDF rule
+        data (dict|None): information about test
         children ([OvalNode]): array of children of node
 
     Attributes:
@@ -41,6 +42,7 @@ class OvalNode():
             input_negation,
             comment,
             tag,
+            test_result_details,
             children=None
     ):
         self.comment = comment
@@ -51,6 +53,7 @@ class OvalNode():
         self.children = []
         self.validate_children(children)
         self.tag = tag
+        self.test_result_details = test_result_details
         if children:
             for child in children:
                 self.add_child(child)
@@ -162,6 +165,7 @@ class OvalNode():
                 'negation': self.negation,
                 'comment': self.comment,
                 'tag': self.tag,
+                'test_result_details': self.test_result_details,
                 'child': None
             }
         return {
@@ -171,6 +175,7 @@ class OvalNode():
             'negation': self.negation,
             'comment': self.comment,
             'tag': self.tag,
+            'test_result_details': self.test_result_details,
             'child': [child.save_tree_to_dict() for child in self.children]
         }
 
@@ -200,7 +205,8 @@ def restore_dict_to_tree(dict_of_tree):
             dict_of_tree["value"],
             dict_of_tree["negation"],
             dict_of_tree["comment"],
-            dict_of_tree["tag"])
+            dict_of_tree["tag"],
+            dict_of_tree["test_result_details"])
     return OvalNode(
         dict_of_tree["node_id"],
         dict_of_tree["type"],
@@ -208,4 +214,5 @@ def restore_dict_to_tree(dict_of_tree):
         dict_of_tree["negation"],
         dict_of_tree["comment"],
         dict_of_tree["tag"],
+        dict_of_tree["test_result_details"],
         [restore_dict_to_tree(i) for i in dict_of_tree["child"]])

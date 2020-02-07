@@ -159,7 +159,9 @@ class XmlParser():
                         child['value'],
                         child['negate'],
                         child['comment'],
-                        child['tag']
+                        child['tag'],
+                        self.get_info_about_test(child['value_id']),
+                        None
                     ))
 
         if 'id' in dict_of_definition:
@@ -173,6 +175,7 @@ class XmlParser():
                 dict_of_definition['negate'],
                 dict_of_definition['comment'],
                 dict_of_definition['tag'],
+                None,
                 children,
             )
 
@@ -199,6 +202,7 @@ class XmlParser():
             False,
             dict_of_definition['comment'],
             "Rule",
+            None,
             [self._xml_dict_to_node(dict_of_definition)],
         )
 

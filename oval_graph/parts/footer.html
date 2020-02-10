@@ -1,13 +1,83 @@
 </script>
+
 <body>
-    <div id="data"></div>
+	<div id="data"></div>
+	<div id="modal" class="modal">
+		<div class="modal-content">
+			<span id="close" class="close">&times;</span>
+			<div id="content"></div>
+		</div>
+	</div>
 	<script>
-	var data = JSON.parse(JSON.stringify(data_of_tree));
-	$('#data').jstree({
-            'core': {
-                'data': [data]
-            }
-		});	
+		function format_header(str) {
+			index_special_char = str.indexOf('@');
+			text = str.substring(0, index_special_char != -1 ? index_special_char : str.length);
+			text_with_spaces = text.replace("_", " ");
+			return text_with_spaces.charAt(0).toUpperCase() + text_with_spaces.slice(1);
+		}
+
+		function create_table(table_object) {
+			var html_table = '<div class="table-responsive"><table class="table table-bordered">';
+			html_table += '<tr class="active">';
+			Object.keys(table_object).forEach(col => {
+				html_table += '<th scope="col">' + format_header(col) + '</th>';
+			});
+			html_table += '</tr><tr>';
+			Object.values(table_object).forEach(row => {
+				html_table += '<td>' + row + '</td>';
+			});
+			html_table += '</tr>';
+			html_table += '</table></div>';
+			$("#content").append(html_table);
+		}
+
+		function show_object(obj) {
+			if (Object.values(obj).includes("complete")) {
+				$("#content").append("<p>Following items have been found on the system:</p>");
+				create_table(obj[Object.keys(obj)[1]]);
+			} else {
+				$("#content").append("<p>No items have been found conforming to the following objects:<br>" +
+					"Object <b>" + Object.keys(obj)[0] +
+					"</b> of type <b>" + Object.keys(obj)[1] + "</b></p>");
+				create_table(obj[Object.keys(obj)[1]]);
+			}
+		}
+
+		function open_modal(data) {
+			$("#content").empty();
+			$("#modal").show();
+			$("#content").append(
+				"<span class=\"label label-default\">OVAL test result details</span><br>" +
+				"<span class=\"label label-info\">" + data.comment + "</span>  " +
+				"<span class=\"label label-default\">" + data.id + "</span>" +
+				data.result
+			);
+			data.objects.forEach(show_object);
+		}
+
+		$('#modal').click(function (e) {
+			if (!$(e.target).closest('.modal-content').length) {
+				$("#modal").hide();
+			}
+		});
+
+		$("#close").click(function () {
+			$("#modal").hide();
+		});
+
+		var data = JSON.parse(JSON.stringify(data_of_tree));
+		$('#data')
+			.on('activate_node.jstree', function (e, data) {
+				if (data.node.original.info) {
+					open_modal(data.node.original.info);
+				}
+			})
+			.jstree({
+				'core': {
+					'data': [data]
+				}
+			});
 	</script>
 </body>
+
 </html>

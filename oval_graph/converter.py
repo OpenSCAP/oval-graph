@@ -58,6 +58,13 @@ class Converter():
     def to_JsTree_dict(self, hide_passing_tests=False):
         icons = self._get_node_icon()
         label = self._get_label()
+        if self.tree.test_result_details:
+            self.tree.test_result_details['result'] = (
+                ' <span class="label {color_tag}">{result}</span>'
+                .format(
+                    color_tag=self.BOOTSTRAP_COLOR_TO_LABEL_COLOR[icons['color']],
+                    result=self.result,
+                ))
         out = {'text':
                '{negation} <strong><span class="{icon}">{label}</span></strong>'
                ' <span class="label {color_tag}">{tag}</span>'
@@ -72,7 +79,9 @@ class Converter():
                    result=self.result,
                    comment=self.get_comment()),
                "icon": icons['icon'],
-               "state": {"opened": self._show_node(hide_passing_tests)}}
+               "state": {"opened": self._show_node(hide_passing_tests)},
+               "info": self.tree.test_result_details,
+               }
         if self.tree.children:
             out['children'] = [Converter(child).to_JsTree_dict(
                 hide_passing_tests) for child in self.tree.children]

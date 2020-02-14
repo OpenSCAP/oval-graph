@@ -116,11 +116,16 @@ def get_src(src):
     return str(FIXTURE_DIR)
 
 
-def compare_results_js(result):
-    result = any_get_tested_file(
-        os.path.join(result, 'data.js'))
-    referenc_result = any_get_tested_file(
-        'test_data/referenc_result_data_tree.js')
+def compare_results_html(result):
+    result_ = any_get_tested_file(result)
+    referenc_pattern = any_get_tested_file(
+        'test_data/referenc_pattern_html_report.html')
+    matched_rows = []
+    for row in result_:
+        for row_in_pattern in referenc_pattern:
+            if row == row_in_pattern:
+                matched_rows.append(row)
+    assert matched_rows == referenc_pattern
 
 
 def compare_results_json(result):

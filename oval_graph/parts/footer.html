@@ -1,0 +1,13 @@
+</script>
+<body>
+    <div id="data"></div>
+	<script>
+	var data = JSON.parse(JSON.stringify(data_of_tree));
+	$('#data').jstree({
+            'core': {
+                'data': [data]
+            }
+		});	
+	</script>
+</body>
+</html>

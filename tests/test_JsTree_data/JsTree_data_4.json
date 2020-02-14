@@ -3,5 +3,6 @@
     "icon": "glyphicon glyphicon-ok text-success",
     "state": {
         "opened": true
-    }
+    },
+    "info": null
 }

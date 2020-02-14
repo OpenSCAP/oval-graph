@@ -52,11 +52,11 @@ def bad_tree():
          t
     """
     t = OvalNode(
-        1, "value", "true", False, None, None,  [
+        1, "value", "true", False, None, None, None, [
            OvalNode(
-               2, "operator", "and", False, None, None,  [
+               2, "operator", "and", False, None, None, None, [
                    OvalNode(
-                       3, "value", "true", False, None, None)])])
+                       3, "value", "true", False, None, None, None)])])
     return
 
 
@@ -64,7 +64,7 @@ def tree_only_or():
     """
         or
     """
-    Tree = OvalNode(1, "operator", 'or', False, None, None)
+    Tree = OvalNode(1, "operator", 'or', False, None, None, None)
     return
 
 
@@ -72,28 +72,28 @@ def tree_only_and():
     """
         and
     """
-    Tree = OvalNode(1, "operator", 'and', False, None, None)
+    Tree = OvalNode(1, "operator", 'and', False, None, None, None)
     return
 
 
 def tree_with_bad_value_of_operator():
-    Tree = OvalNode(1, "operator", 'nad', False, None, None)
+    Tree = OvalNode(1, "operator", 'nad', False, None, None, None)
     return
 
 
 def tree_with_bad_value_of_value():
-    Tree = OvalNode(1, "value", 'and', False, None, None)
+    Tree = OvalNode(1, "value", 'and', False, None, None, None)
     return
 
 
 def tree_with_bad_type():
-    Tree = OvalNode(1, "car", 'and', False, None, None)
+    Tree = OvalNode(1, "car", 'and', False, None, None, None)
     return
 
 
 def tree_with_bad_value_of_negation():
-    Tree = OvalNode(1, "operator", "true", False, None, None,  [
-        OvalNode(2, "value", 'true', "random_string", None, None)])
+    Tree = OvalNode(1, "operator", "true", False, None, None, None, [
+        OvalNode(2, "value", 'true', "random_string", None, None, None)])
     return
 
 # normal trees
@@ -101,29 +101,29 @@ def tree_with_bad_value_of_negation():
 
 def test_UPPERCASETree():
     t = OvalNode(
-        1, "OPERATOR", "AND", False, None, None,  [
+        1, "OPERATOR", "AND", False, None, None, None, [
            OvalNode(
-               2, "VALUE", "TRUE", False, None, None), OvalNode(
-               3, "VALUE", "NOTAPPL", False, None, None)])
+               2, "VALUE", "TRUE", False, None, None, None), OvalNode(
+               3, "VALUE", "NOTAPPL", False, None, None, None)])
 
 
 def test_bigOvalTree():
-    Tree = OvalNode(1, 'operator', 'and', False, None, None,  [
-        OvalNode(2, 'value', "false", False, None, None),
-        OvalNode(3, 'operator', "xor", False, None, None,  [
-            OvalNode(4, 'value', 'true', False, None, None),
-            OvalNode(5, 'operator', 'one', False, None, None,  [
-                OvalNode(6, 'value', 'noteval', False, None, None),
-                OvalNode(7, 'value', 'true', False, None, None),
-                OvalNode(8, 'value', 'notappl', False, None, None)
+    Tree = OvalNode(1, 'operator', 'and', False, None, None, None, [
+        OvalNode(2, 'value', "false", False, None, None, None),
+        OvalNode(3, 'operator', "xor", False, None, None, None, [
+            OvalNode(4, 'value', 'true', False, None, None, None),
+            OvalNode(5, 'operator', 'one', False, None, None, None, [
+                OvalNode(6, 'value', 'noteval', False, None, None, None),
+                OvalNode(7, 'value', 'true', False, None, None, None),
+                OvalNode(8, 'value', 'notappl', False, None, None, None)
             ]
             ),
-            OvalNode(9, 'value', 'error', False, None, None)
+            OvalNode(9, 'value', 'error', False, None, None, None)
         ]
         ),
-        OvalNode(10, 'operator', 'or', False, None, None,  [
-            OvalNode(11, 'value', "unknown", False, None, None),
-            OvalNode(12, 'value', "true", False, None, None)
+        OvalNode(10, 'operator', 'or', False, None, None, None, [
+            OvalNode(11, 'value', "unknown", False, None, None, None),
+            OvalNode(12, 'value', "true", False, None, None, None)
         ]
         )
     ]
@@ -145,8 +145,8 @@ def test_treeRepr():
          |
          f
     """
-    Tree = OvalNode(1, 'operator', 'and', False, None, None,  [
-        OvalNode(2, 'value', "false", False, None, None)
+    Tree = OvalNode(1, 'operator', 'and', False, None, None, None, [
+        OvalNode(2, 'value', "false", False, None, None, None)
     ]
     )
     assert str(Tree) == "and"
@@ -162,11 +162,11 @@ def test_add_to_tree():
     test_data_src = 'test_data/add_to_tree.json'
     dict_of_tree = tests.any_test_help.any_get_test_data_json(test_data_src)
 
-    Tree = OvalNode(1, 'operator', 'and', False, None, None,  [
-        OvalNode(2, 'value', "false", False, None, None)
+    Tree = OvalNode(1, 'operator', 'and', False, None, None, None, [
+        OvalNode(2, 'value', "false", False, None, None, None)
     ]
     )
-    Tree1 = OvalNode(3, 'value', "true", False, None, None)
+    Tree1 = OvalNode(3, 'value', "true", False, None, None, None)
     Tree.add_to_tree(1, Tree1)
     assert Tree.save_tree_to_dict() == dict_of_tree
 
@@ -179,12 +179,12 @@ def test_ChangeValueTree():
           / \
          f   t
     """
-    Tree = OvalNode(1, 'operator', 'and', False, None, None,  [
-        OvalNode(2, 'value', "true", False, None, None),
-        OvalNode(3, 'value', "false", False, None, None),
-        OvalNode(4, 'operator', 'or', False, None, None,  [
-            OvalNode(5, 'value', "false", False, None, None),
-            OvalNode(6, 'value', "true", False, None, None)
+    Tree = OvalNode(1, 'operator', 'and', False, None, None, None, [
+        OvalNode(2, 'value', "true", False, None, None, None),
+        OvalNode(3, 'value', "false", False, None, None, None),
+        OvalNode(4, 'operator', 'or', False, None, None, None, [
+            OvalNode(5, 'value', "false", False, None, None, None),
+            OvalNode(6, 'value', "true", False, None, None, None)
         ]
         )
     ]
@@ -200,8 +200,8 @@ def test_node_operator_negate():
          |
          f
     """
-    Tree = OvalNode(1, 'operator', 'and', True, None, None,  [
-        OvalNode(2, 'value', "false", False, None, None)
+    Tree = OvalNode(1, 'operator', 'and', True, None, None, None, [
+        OvalNode(2, 'value', "false", False, None, None, None)
     ]
     )
     tests.any_test_help.any_test_treeEvaluation_with_tree(Tree, "true")
@@ -213,8 +213,8 @@ def test_node_operator_negate1():
          |
          t
     """
-    Tree = OvalNode(1, 'operator', 'and', False, None, None,  [
-        OvalNode(2, 'value', "true", False, None, None)
+    Tree = OvalNode(1, 'operator', 'and', False, None, None, None, [
+        OvalNode(2, 'value', "true", False, None, None, None)
     ]
     )
     tests.any_test_help.any_test_treeEvaluation_with_tree(Tree, "true")
@@ -226,8 +226,8 @@ def test_node_operator_negate1():
          |
          t
     """
-    Tree = OvalNode(1, 'operator', 'and', False, None, None,  [
-        OvalNode(2, 'value', "true", False, None, None)
+    Tree = OvalNode(1, 'operator', 'and', False, None, None, None, [
+        OvalNode(2, 'value', "true", False, None, None, None)
     ]
     )
     tests.any_test_help.any_test_treeEvaluation_with_tree(Tree, "true")
@@ -239,8 +239,8 @@ def test_node_value_negate():
          |
          !f
     """
-    Tree = OvalNode(1, 'operator', 'and', False, None, None,  [
-        OvalNode(2, 'value', "True", True, None, None)
+    Tree = OvalNode(1, 'operator', 'and', False, None, None, None, [
+        OvalNode(2, 'value', "True", True, None, None, None)
     ]
     )
     tests.any_test_help.any_test_treeEvaluation_with_tree(Tree, "true")
@@ -252,8 +252,8 @@ def test_node_value_negate1():
          |
          !t
     """
-    Tree = OvalNode(1, 'operator', 'and', False, None, None,  [
-        OvalNode(2, 'value', "false", True, None, None)
+    Tree = OvalNode(1, 'operator', 'and', False, None, None, None, [
+        OvalNode(2, 'value', "false", True, None, None, None)
     ]
     )
     tests.any_test_help.any_test_treeEvaluation_with_tree(Tree, "false")

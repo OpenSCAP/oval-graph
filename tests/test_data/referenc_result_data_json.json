@@ -6,6 +6,7 @@
         "negation": false,
         "comment": "Package abrt Removed",
         "tag": "Rule",
+        "test_result_details": null,
         "child": [
             {
                 "node_id": "oval:ssg-package_abrt_removed:def:1",
@@ -14,6 +15,7 @@
                 "negation": false,
                 "comment": "The RPM package abrt should be removed.",
                 "tag": "Definition",
+                "test_result_details": null,
                 "child": [
                     {
                         "node_id": "oval:ssg-test_package_abrt_removed:tst:1",
@@ -22,6 +24,25 @@
                         "negation": false,
                         "comment": "package abrt is removed",
                         "tag": "Test",
+                        "test_result_details": {
+                            "id": "oval:ssg-test_package_abrt_removed:tst:1",
+                            "comment": "package abrt is removed",
+                            "objects": [
+                                {
+                                    "oval:ssg-obj_package_abrt_removed:obj:1": "complete",
+                                    "rpminfo_object": {
+                                        "name": "abrt",
+                                        "arch": "x86_64",
+                                        "epoch": "(none)",
+                                        "release": "2.fc30",
+                                        "version": "2.12.0",
+                                        "evr": "0:2.12.0-2.fc30",
+                                        "signature_keyid": "ef3c111fcfc659b9",
+                                        "extended_name": "abrt-0:2.12.0-2.fc30.x86_64"
+                                    }
+                                }
+                            ]
+                        },
                         "child": null
                     }
                 ]

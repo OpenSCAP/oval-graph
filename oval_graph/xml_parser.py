@@ -87,14 +87,20 @@ class XmlParser():
             ('.//XMLSchema:oval_results/XMLSchema:results/'
              'XMLSchema:system/oval-characteristics:oval_system_characteristics'
              '/oval-characteristics:collected_objects'), ns)
-        return data
+        out = {}
+        for item in data:
+            out[item.attrib.get('id')] = item
+        return out
 
     def _get_system_data(self):
         data = self.report_data.find(
             ('.//XMLSchema:oval_results/XMLSchema:results/'
              'XMLSchema:system/oval-characteristics:oval_system_characteristics'
              '/oval-characteristics:system_data'), ns)
-        return data
+        out = {}
+        for item in data:
+            out[item.attrib.get('id')] = item
+        return out
 
     def _get_tests(self):
         data = self.oval_definitions.find(
@@ -104,7 +110,10 @@ class XmlParser():
     def _get_objects(self):
         data = self.oval_definitions.find(
             ('.//oval-definitions:objects'), ns)
-        return data
+        out = {}
+        for item in data:
+            out[item.attrib.get('id')] = item
+        return out
 
     def _get_used_rules(self):
         rulesResults = self.root.findall(
@@ -454,9 +463,9 @@ class XmlParser():
         return out
 
     def _find_item_by_id(self, items, id):
-        for item in items:
-            if item.attrib.get('id') == id:
-                return item
+        if id in items.keys():
+            return items[id]
+        return None
 
     def _get_object_info(self, id_object):
         object_ = self._find_item_by_id(self.objects, id_object)

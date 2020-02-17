@@ -9,14 +9,64 @@
 		</div>
 	</div>
 	<script>
+		function prepare_file_object(table_object) {
+			var permission = {
+				'uread': null,
+				'uwrite': null,
+				'uexec': null,
+				'gread': null,
+				'gwrite': null,
+				'gexec': null,
+				'oread': null,
+				'owrite': null,
+				'oexec': null
+			}
+			var new_table_object = {};
+			Object.keys(table_object).forEach(key => {
+				if (key in permission) {
+					permission[key] = table_object[key];
+				} else {
+					new_table_object[key] = table_object[key];
+				}
+			});
+			var out = '<code>';
+			Object.keys(permission).forEach(key => {
+				if (permission[key] == 'true') {
+					switch (key.substring(1, key.length)) {
+						case 'read':
+							out += "r";
+							break;
+						case 'write':
+							out += "w";
+							break;
+						case 'exec':
+							out += "x";
+							break;
+						default:
+							// pass
+							break;
+					}
+				} else {
+					out += "-";
+				}
+			});
+			out += '</code>';
+			new_table_object['permission'] = out;
+			return new_table_object;
+		}
+
 		function format_header(str) {
-			index_special_char = str.indexOf('@');
-			text = str.substring(0, index_special_char != -1 ? index_special_char : str.length);
-			text_with_spaces = text.replace("_", " ");
+			var index_special_char = str.indexOf('@');
+			var text = str.substring(0, index_special_char != -1 ? index_special_char : str.length);
+			var text_with_spaces = text.replace("_", " ");
 			return text_with_spaces.charAt(0).toUpperCase() + text_with_spaces.slice(1);
 		}
 
-		function create_table(table_object) {
+		function create_table(type, table_object) {
+			var fn = this["prepare_" + type]; 
+			if(typeof fn === 'function') {
+				table_object = fn(table_object);
+			}
 			var html_table = '<div class="table-responsive"><table class="table table-bordered">';
 			html_table += '<tr class="active">';
 			Object.keys(table_object).forEach(col => {
@@ -34,12 +84,12 @@
 		function show_object(obj) {
 			if (Object.values(obj).includes("complete")) {
 				$("#content").append("<p>Following items have been found on the system:</p>");
-				create_table(obj[Object.keys(obj)[1]]);
+				create_table(Object.keys(obj)[1], obj[Object.keys(obj)[1]]);
 			} else {
 				$("#content").append("<p>No items have been found conforming to the following objects:<br>" +
 					"Object <b>" + Object.keys(obj)[0] +
 					"</b> of type <b>" + Object.keys(obj)[1] + "</b></p>");
-				create_table(obj[Object.keys(obj)[1]]);
+				create_table(Object.keys(obj)[1], obj[Object.keys(obj)[1]]);
 			}
 		}
 

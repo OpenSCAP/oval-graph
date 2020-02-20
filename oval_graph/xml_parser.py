@@ -400,27 +400,37 @@ class XmlParser():
         return element.tag.split('}')[1] if '}' in element.tag else element.tag
 
     def _find_item_ref(self, object_):
-        return [self._get_item_ref(item) for item in object_][-1]
+        return list(
+            filter(
+                None, [
+                    self._get_item_ref(item) for item in object_]))
 
     def _get_item_ref(self, item):
         return item.get('item_ref') if item.get('item_ref') else None
 
+    def _get_unicate_key(self, key):
+        return key + '@' + str(uuid.uuid4())
+
+    def _get_unicate_id_in_dict(self, object_, dict_):
+        if self._get_key_for_element(object_) in dict_:
+            return self._get_unicate_key(self._get_key_for_element(object_))
+        else:
+            return self._get_key_for_element(object_)
+
     def _get_collected_objects_info(self, collected_object, object_):
         out = {}
         if len(collected_object) == 0:
-            out[
-                self._get_key_for_element(object_)
-            ] = self._get_object_items(object_)
-        else:
-            item_ref = self._find_item_ref(collected_object)
-            if item_ref:
-                out[
-                    self._get_key_for_element(object_)
-                ] = self._get_item(item_ref)
-            else:
-                out[
-                    self._get_key_for_element(object_)
+            out[self._get_unicate_id_in_dict(object_, out)
                 ] = self._get_object_items(object_)
+        else:
+            item_refs = self._find_item_ref(collected_object)
+            if item_refs:
+                for item_id in item_refs:
+                    out[self._get_unicate_id_in_dict(
+                        object_, out)] = self._get_item(item_id)
+            else:
+                out[self._get_unicate_id_in_dict(
+                    object_, out)] = self._get_object_items(object_)
         return out
 
     def _xml_element_to_dict(self, object_, collected_object):
@@ -434,18 +444,17 @@ class XmlParser():
                 self._get_collected_objects_info(collected_object, object_))
         else:
             result[object_.attrib.get('id')] = "does not exist"
-            result[
-                self._get_key_for_element(object_)
-            ] = self._get_object_items(object_)
+            result[self._get_unicate_id_in_dict(
+                object_, result)] = self._get_object_items(object_)
         return result
 
     def _get_object_items(self, object_):
         out = {}
         for element in object_.iterchildren():
             if element.text and element.text.strip():
-                out[self._get_key_for_element(element)] = element.text
+                out[self._get_unicate_id_in_dict(element, out)] = element.text
             else:
-                out[self._get_key_for_element(element)] = "no value"
+                out[self._get_unicate_id_in_dict(element, out)] = "no value"
         return out
 
     def _get_item(self, item_ref):
@@ -453,13 +462,7 @@ class XmlParser():
         out = {}
         for element in item.iterchildren():
             if element.text and element.text.strip():
-                if self._get_key_for_element(element) in out:
-                    unicade_id = str(uuid.uuid4())
-                    out[(
-                        self._get_key_for_element(element)
-                        + "@" + unicade_id)] = element.text
-                else:
-                    out[self._get_key_for_element(element)] = element.text
+                out[self._get_unicate_id_in_dict(element, out)] = element.text
         return out
 
     def _find_item_by_id(self, items, id):

@@ -29,6 +29,11 @@
 					new_table_object[key] = table_object[key];
 				}
 			});
+			for (const key in permission) {
+				if (permission[key] === null) {
+					return table_object;
+				}
+			}
 			var out = '<code>';
 			Object.keys(permission).forEach(key => {
 				if (permission[key] == 'true') {

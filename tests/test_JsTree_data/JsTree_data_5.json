@@ -3,5 +3,6 @@
     "icon": "glyphicon glyphicon-question-sign text-dark",
     "state": {
         "opened": true
-    }
+    },
+    "info": null
 }

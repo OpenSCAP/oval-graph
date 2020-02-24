@@ -4,13 +4,15 @@
     "state": {
         "opened": true
     },
+    "info": null,
     "children": [
         {
             "text": " <strong><span class=\"text-success\">2</span></strong> <span class=\"label label-success\"></span> <span class=\"label label-success\">true</span> <i></i>",
             "icon": "glyphicon glyphicon-ok text-success",
             "state": {
                 "opened": true
-            }
+            },
+            "info": null
         }
     ]
 }

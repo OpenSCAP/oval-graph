@@ -4,6 +4,7 @@
     "state": {
         "opened": true
     },
+    "info": null,
     "children": [
         {
             "text": " <strong><span class=\"text-success\">OR</span></strong> <span class=\"label label-success\">Definition</span> <span class=\"label label-success\">true</span> <i>SSH is configured correctly or is not installed</i>",
@@ -11,6 +12,7 @@
             "state": {
                 "opened": true
             },
+            "info": null,
             "children": [
                 {
                     "text": " <strong><span class=\"text-danger\">AND</span></strong> <span class=\"label label-danger\">Criteria</span> <span class=\"label label-danger\">false</span> <i>sshd is not installed</i>",
@@ -18,6 +20,7 @@
                     "state": {
                         "opened": true
                     },
+                    "info": null,
                     "children": [
                         {
                             "text": " <strong><span class=\"text-success\">OR</span></strong> <span class=\"label label-success\">Extend definition</span> <span class=\"label label-success\">true</span> <i>sshd is not required or requirement is unset</i>",
@@ -25,12 +28,27 @@
                             "state": {
                                 "opened": true
                             },
+                            "info": null,
                             "children": [
                                 {
                                     "text": " <strong><span class=\"text-danger\">sshd_not_required</span></strong> <span class=\"label label-danger\">Test</span> <span class=\"label label-danger\">false</span> <i></i>",
                                     "icon": "glyphicon glyphicon-remove text-danger",
                                     "state": {
                                         "opened": true
+                                    },
+                                    "info": {
+                                        "id": "oval:ssg-test_sshd_not_required:tst:1",
+                                        "comment": "Verify if Profile set Value sshd_required as not required",
+                                        "objects": [
+                                            {
+                                                "oval:ssg-object_sshd_not_required:obj:1": "complete",
+                                                "variable_object": {
+                                                    "var_ref": "oval:ssg-sshd_required:var:1",
+                                                    "value": "0"
+                                                }
+                                            }
+                                        ],
+                                        "result": " <span class=\"label label-danger\">false</span>"
                                     }
                                 },
                                 {
@@ -39,12 +57,27 @@
                                     "state": {
                                         "opened": true
                                     },
+                                    "info": null,
                                     "children": [
                                         {
                                             "text": " <strong><span class=\"text-success\">sshd_requirement_unset</span></strong> <span class=\"label label-success\">Test</span> <span class=\"label label-success\">true</span> <i></i>",
                                             "icon": "glyphicon glyphicon-ok text-success",
                                             "state": {
                                                 "opened": true
+                                            },
+                                            "info": {
+                                                "id": "oval:ssg-test_sshd_requirement_unset:tst:1",
+                                                "comment": "Verify if Value of sshd_required is the default",
+                                                "objects": [
+                                                    {
+                                                        "oval:ssg-object_sshd_requirement_unknown:obj:1": "complete",
+                                                        "variable_object": {
+                                                            "var_ref": "oval:ssg-sshd_required:var:1",
+                                                            "value": "0"
+                                                        }
+                                                    }
+                                                ],
+                                                "result": " <span class=\"label label-success\">true</span>"
                                             }
                                         }
                                     ]
@@ -57,12 +90,33 @@
                             "state": {
                                 "opened": true
                             },
+                            "info": null,
                             "children": [
                                 {
                                     "text": " <strong><span class=\"text-danger\">package_openssh-server_removed</span></strong> <span class=\"label label-danger\">Test</span> <span class=\"label label-danger\">false</span> <i>package openssh-server is removed</i>",
                                     "icon": "glyphicon glyphicon-remove text-danger",
                                     "state": {
                                         "opened": true
+                                    },
+                                    "info": {
+                                        "id": "oval:ssg-test_package_openssh-server_removed:tst:1",
+                                        "comment": "package openssh-server is removed",
+                                        "objects": [
+                                            {
+                                                "oval:ssg-obj_package_openssh-server_removed:obj:1": "complete",
+                                                "rpminfo_object": {
+                                                    "name": "openssh-server",
+                                                    "arch": "x86_64",
+                                                    "epoch": "(none)",
+                                                    "release": "2.fc30",
+                                                    "version": "8.0p1",
+                                                    "evr": "0:8.0p1-2.fc30",
+                                                    "signature_keyid": "ef3c111fcfc659b9",
+                                                    "extended_name": "openssh-server-0:8.0p1-2.fc30.x86_64"
+                                                }
+                                            }
+                                        ],
+                                        "result": " <span class=\"label label-danger\">false</span>"
                                     }
                                 }
                             ]
@@ -75,6 +129,7 @@
                     "state": {
                         "opened": true
                     },
+                    "info": null,
                     "children": [
                         {
                             "text": " <strong><span class=\"text-success\">OR</span></strong> <span class=\"label label-success\">Extend definition</span> <span class=\"label label-success\">true</span> <i>sshd is required or requirement is unset</i>",
@@ -82,12 +137,27 @@
                             "state": {
                                 "opened": true
                             },
+                            "info": null,
                             "children": [
                                 {
                                     "text": " <strong><span class=\"text-danger\">sshd_required</span></strong> <span class=\"label label-danger\">Test</span> <span class=\"label label-danger\">false</span> <i></i>",
                                     "icon": "glyphicon glyphicon-remove text-danger",
                                     "state": {
                                         "opened": true
+                                    },
+                                    "info": {
+                                        "id": "oval:ssg-test_sshd_required:tst:1",
+                                        "comment": "Verify if Profile set Value sshd_required as required",
+                                        "objects": [
+                                            {
+                                                "oval:ssg-object_sshd_required:obj:1": "complete",
+                                                "variable_object": {
+                                                    "var_ref": "oval:ssg-sshd_required:var:1",
+                                                    "value": "0"
+                                                }
+                                            }
+                                        ],
+                                        "result": " <span class=\"label label-danger\">false</span>"
                                     }
                                 },
                                 {
@@ -96,12 +166,27 @@
                                     "state": {
                                         "opened": true
                                     },
+                                    "info": null,
                                     "children": [
                                         {
                                             "text": " <strong><span class=\"text-success\">sshd_requirement_unset</span></strong> <span class=\"label label-success\">Test</span> <span class=\"label label-success\">true</span> <i></i>",
                                             "icon": "glyphicon glyphicon-ok text-success",
                                             "state": {
                                                 "opened": true
+                                            },
+                                            "info": {
+                                                "id": "oval:ssg-test_sshd_requirement_unset:tst:1",
+                                                "comment": "Verify if Value of sshd_required is the default",
+                                                "objects": [
+                                                    {
+                                                        "oval:ssg-object_sshd_requirement_unknown:obj:1": "complete",
+                                                        "variable_object": {
+                                                            "var_ref": "oval:ssg-sshd_required:var:1",
+                                                            "value": "0"
+                                                        }
+                                                    }
+                                                ],
+                                                "result": " <span class=\"label label-success\">true</span>"
                                             }
                                         }
                                     ]
@@ -114,12 +199,33 @@
                             "state": {
                                 "opened": true
                             },
+                            "info": null,
                             "children": [
                                 {
                                     "text": " <strong><span class=\"text-success\">package_openssh-server_installed</span></strong> <span class=\"label label-success\">Test</span> <span class=\"label label-success\">true</span> <i>package openssh-server is installed</i>",
                                     "icon": "glyphicon glyphicon-ok text-success",
                                     "state": {
                                         "opened": true
+                                    },
+                                    "info": {
+                                        "id": "oval:ssg-test_package_openssh-server_installed:tst:1",
+                                        "comment": "package openssh-server is installed",
+                                        "objects": [
+                                            {
+                                                "oval:ssg-obj_package_openssh-server_installed:obj:1": "complete",
+                                                "rpminfo_object": {
+                                                    "name": "openssh-server",
+                                                    "arch": "x86_64",
+                                                    "epoch": "(none)",
+                                                    "release": "2.fc30",
+                                                    "version": "8.0p1",
+                                                    "evr": "0:8.0p1-2.fc30",
+                                                    "signature_keyid": "ef3c111fcfc659b9",
+                                                    "extended_name": "openssh-server-0:8.0p1-2.fc30.x86_64"
+                                                }
+                                            }
+                                        ],
+                                        "result": " <span class=\"label label-success\">true</span>"
                                     }
                                 }
                             ]
@@ -129,6 +235,21 @@
                             "icon": "glyphicon glyphicon-ok text-success",
                             "state": {
                                 "opened": true
+                            },
+                            "info": {
+                                "id": "oval:ssg-test_sshd_hostbasedauthentication:tst:1",
+                                "comment": "sshd HostbasedAuthentication",
+                                "objects": [
+                                    {
+                                        "oval:ssg-object_sshd_hostbasedauthentication:obj:1": "does not exist",
+                                        "textfilecontent54_object": {
+                                            "filepath": "/etc/ssh/sshd_config",
+                                            "pattern": "^[\\s]*(?i)HostbasedAuthentication(?-i)[\\s]+yes[\\s]*(?:|(?:#.*))?$",
+                                            "instance": "1"
+                                        }
+                                    }
+                                ],
+                                "result": " <span class=\"label label-success\">true</span>"
                             }
                         }
                     ]

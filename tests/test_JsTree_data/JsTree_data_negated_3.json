@@ -3,5 +3,6 @@
     "icon": "glyphicon glyphicon-remove text-danger",
     "state": {
         "opened": true
-    }
+    },
+    "info": null
 }

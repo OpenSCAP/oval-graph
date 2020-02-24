@@ -60,12 +60,12 @@ def any_test_create_node_dict_for_JsTree(Tree, json_src):
 
 
 def get_simple_tree():
-    return OvalNode(1, 'operator', 'and', False, None, None, [
-        OvalNode(2, 'value', "true", False, None, None),
-        OvalNode(3, 'value', "false", False, None, None),
-        OvalNode(4, 'operator', 'or', False, None, None, [
-            OvalNode(5, 'value', "false", False, None, None),
-            OvalNode(6, 'value', "true", False, None, None)
+    return OvalNode(1, 'operator', 'and', False, None, None, None, [
+        OvalNode(2, 'value', "true", False, None, None, None),
+        OvalNode(3, 'value', "false", False, None, None, None),
+        OvalNode(4, 'operator', 'or', False, None, None, None, [
+            OvalNode(5, 'value', "false", False, None, None, None),
+            OvalNode(6, 'value', "true", False, None, None, None)
         ]
         )
     ]
@@ -132,6 +132,7 @@ def compare_results_json(result):
     result = any_get_test_data_json(result)
     referenc_result = any_get_test_data_json(
         'test_data/referenc_result_data_json.json')
+    print(json.dumps(result))
     assert result[list(result.keys())[
         0]] == referenc_result["xccdf_org.ssgproject.content_rule_package_abrt_removed"]
 

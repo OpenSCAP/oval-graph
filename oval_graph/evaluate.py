@@ -1,5 +1,5 @@
 """
-    Function for evaluate oval operators.
+    Function for evaluate OVAL operators.
 """
 
 
@@ -90,13 +90,14 @@ def oval_operator_xor(result):
 
 def error_unknown_noteval_for_operators_and_or(result, operator):
     out_result = None
-    if and_or_eq_zero(operator, result)\
+    value_for_check = 'false_cnt' if operator == 'and' else 'true_cnt'
+    if eq_zero(result, value_for_check)\
             and greater_zero(result, 'error_cnt'):
         out_result = 'error'
-    elif and_or_eq_zero(operator, result)\
+    elif eq_zero(result, value_for_check)\
             and error_unknown_eq_zero(result):
         out_result = 'unknown'
-    elif and_or_eq_zero(operator, result)\
+    elif eq_zero(result, value_for_check)\
             and error_unknown_eq_noteval_greater_zero(result):
         out_result = 'noteval'
     else:
@@ -104,146 +105,102 @@ def error_unknown_noteval_for_operators_and_or(result, operator):
     return out_result
 
 
-def and_or_eq_zero(operator, result):
-    if operator == 'and':
-        return eq_zero(result, 'false_cnt')
-    if operator == 'or':
-        return eq_zero(result, 'true_cnt')
-    return None
-
-
 def eq_zero(result, cnt):
-    if result[cnt] == 0:
-        return True
-    return False
+    return result[cnt] == 0
 
 
 def eq_zero_duo(result, cnt0, cnt1):
-    if result[cnt0] == 0 and result[cnt1] == 0:
-        return True
-    return False
+    return result[cnt0] == 0 and result[cnt1] == 0
 
 
 def greater_zero(result, cnt):
-    if result[cnt] > 0:
-        return True
-    return False
+    return result[cnt] > 0
 
 
 def eq_or_greater_zero(result, cnt):
-    if result[cnt] >= 0:
-        return True
-    return False
+    return result[cnt] >= 0
 
 
 def eq_or_greater_zero_duo(result, cnt0, cnt1):
-    if result[cnt0] >= 0 and result[cnt1] >= 0:
-        return True
-    return False
+    return result[cnt0] >= 0 and result[cnt1] >= 0
 
 
 def smaller_than_two(result, cnt):
-    if result[cnt] < 2:
-        return True
-    return False
+    return result[cnt] < 2
 
 
 def one_is_noteval(result):
-    if smaller_than_two(result, 'true_cnt')\
-            and eq_or_greater_zero_duo(result, 'false_cnt', 'notappl_cnt')\
-            and eq_zero_duo(result, 'error_cnt', 'unknown_cnt')\
-            and greater_zero(result, 'noteval_cnt'):
-        return True
-    return False
+    return (smaller_than_two(result, 'true_cnt')
+            and eq_or_greater_zero_duo(result, 'false_cnt', 'notappl_cnt')
+            and eq_zero_duo(result, 'error_cnt', 'unknown_cnt')
+            and greater_zero(result, 'noteval_cnt'))
 
 
 def one_is_unknown(result):
-    if smaller_than_two(result, 'true_cnt')\
-            and eq_or_greater_zero(result, 'false_cnt')\
-            and eq_zero(result, 'error_cnt')\
-            and result['unknown_cnt'] >= 1\
-            and eq_or_greater_zero_duo(result, 'noteval_cnt', 'notappl_cnt'):
-        return True
-    return False
+    return (smaller_than_two(result, 'true_cnt')
+            and eq_or_greater_zero(result, 'false_cnt')
+            and eq_zero(result, 'error_cnt')
+            and result['unknown_cnt'] >= 1
+            and eq_or_greater_zero_duo(result, 'noteval_cnt', 'notappl_cnt'))
 
 
 def one_is_error(result):
-    if smaller_than_two(result, 'true_cnt')\
-            and eq_or_greater_zero(result, 'false_cnt')\
-            and greater_zero(result, 'error_cnt')\
-            and eq_or_greater_zero_unknown_noteval_notappl(result):
-        return True
-    return False
+    return (smaller_than_two(result, 'true_cnt')
+            and eq_or_greater_zero(result, 'false_cnt')
+            and greater_zero(result, 'error_cnt')
+            and eq_or_greater_zero_unknown_noteval_notappl(result))
 
 
 def one_is_false(result):
-    if eq_zero(result, 'true_cnt')\
-            and eq_or_greater_zero(result, 'false_cnt')\
-            and error_unknown_noteval_eq_zero(result)\
-            and result['notappl_cnt'] >= 0:
-        return True
-    return False
+    return (eq_zero(result, 'true_cnt')
+            and eq_or_greater_zero(result, 'false_cnt')
+            and error_unknown_noteval_eq_zero(result)
+            and result['notappl_cnt'] >= 0)
 
 
 def one_is_false1(result):
-    if result['true_cnt'] >= 2\
-            and eq_or_greater_zero_duo(result, 'false_cnt', 'error_cnt')\
-            and eq_or_greater_zero_unknown_noteval_notappl(result):
-        return True
-    return False
+    return (result['true_cnt'] >= 2
+            and eq_or_greater_zero_duo(result, 'false_cnt', 'error_cnt')
+            and eq_or_greater_zero_unknown_noteval_notappl(result))
 
 
 def one_is_true(result):
-    if result['true_cnt'] == 1\
-            and eq_or_greater_zero_duo(result, 'false_cnt', 'notappl_cnt')\
-            and error_unknown_noteval_eq_zero(result):
-        return True
-    return False
+    return (result['true_cnt'] == 1
+            and eq_or_greater_zero_duo(result, 'false_cnt', 'notappl_cnt')
+            and error_unknown_noteval_eq_zero(result))
 
 
 def eq_or_greater_zero_unknown_noteval_notappl(result):
-    if eq_or_greater_zero(result, 'unknown_cnt')\
-            and eq_or_greater_zero(result, 'noteval_cnt')\
-            and eq_or_greater_zero(result, 'notappl_cnt'):
-        return True
-    return False
+    return (eq_or_greater_zero(result, 'unknown_cnt')
+            and eq_or_greater_zero(result, 'noteval_cnt')
+            and eq_or_greater_zero(result, 'notappl_cnt'))
 
 
 def eq_zero_unknown_noteval_notappl(result):
-    if eq_zero(result, 'error_cnt')\
-            and eq_zero(result, 'unknown_cnt')\
-            and eq_zero(result, 'noteval_cnt'):
-        return True
-    return False
+    return (eq_zero(result, 'error_cnt')
+            and eq_zero(result, 'unknown_cnt')
+            and eq_zero(result, 'noteval_cnt'))
 
 
 def error_unknown_noteval_eq_zero(result):
-    if eq_zero(result, 'error_cnt')\
-            and eq_zero(result, 'unknown_cnt')\
-            and eq_zero(result, 'noteval_cnt'):
-        return True
-    return False
+    return (eq_zero(result, 'error_cnt')
+            and eq_zero(result, 'unknown_cnt')
+            and eq_zero(result, 'noteval_cnt'))
 
 
 def error_unknown_eq_noteval_greater_zero(result):
-    if eq_zero(result, 'error_cnt')\
-            and eq_zero(result, 'unknown_cnt')\
-            and greater_zero(result, 'noteval_cnt'):
-        return True
-    return False
+    return (eq_zero(result, 'error_cnt')
+            and eq_zero(result, 'unknown_cnt')
+            and greater_zero(result, 'noteval_cnt'))
 
 
 def error_unknown_eq_zero(result):
-    if eq_zero(result, 'error_cnt')\
-            and greater_zero(result, 'unknown_cnt'):
-        return True
-    return False
+    return (eq_zero(result, 'error_cnt')
+            and greater_zero(result, 'unknown_cnt'))
 
 
 def is_notapp_result(result):
-    if (result['notappl_cnt'] > 0
+    return (result['notappl_cnt'] > 0
             and eq_zero(result, 'false_cnt')
             and error_unknown_noteval_eq_zero(result)
-            and eq_zero(result, 'true_cnt')):
-        return True
-    return False
+            and eq_zero(result, 'true_cnt'))

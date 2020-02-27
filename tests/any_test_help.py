@@ -52,23 +52,47 @@ def get_Converter_simple_tree():
     return Converter(get_simple_tree())
 
 
-def any_test_create_node_dict_for_JsTree(Tree, json_src):
+def any_test_create_node_dict_for_JsTree(tree, json_src):
     data = dict()
     with open(get_src(json_src), "r") as f:
         data = json.load(f)
-    assert Converter(Tree).to_JsTree_dict() == data
+    assert Converter(tree).to_JsTree_dict() == data
 
 
 def get_simple_tree():
-    return OvalNode(1, 'operator', 'and', False, None, None, None, [
-        OvalNode(2, 'value', "true", False, None, None, None),
-        OvalNode(3, 'value', "false", False, None, None, None),
-        OvalNode(4, 'operator', 'or', False, None, None, None, [
-            OvalNode(5, 'value', "false", False, None, None, None),
-            OvalNode(6, 'value', "true", False, None, None, None)
+    return OvalNode(
+        node_id=1,
+        node_type='operator',
+        value='and',
+        children=[
+            OvalNode(
+                node_id=2,
+                node_type='value',
+                value='true',
+            ),
+            OvalNode(
+                node_id=3,
+                node_type='value',
+                value='false',
+            ),
+            OvalNode(
+                node_id=4,
+                node_type='operator',
+                value='or',
+                children=[
+                    OvalNode(
+                        node_id=5,
+                        node_type='value',
+                        value='false',
+                    ),
+                    OvalNode(
+                        node_id=6,
+                        node_type='value',
+                        value="true",
+                    ),
+                ]
+            )
         ]
-        )
-    ]
     )
 
 
@@ -92,8 +116,8 @@ def any_test_tree_to_dict_of_tree(tree, dict_of_tree):
     assert tree.save_tree_to_dict() == dict_of_tree
 
 
-def find_any_node(Tree, node_id):
-    findTree = Tree.find_node_with_ID(node_id)
+def find_any_node(tree, node_id):
+    findTree = tree.find_node_with_ID(node_id)
     assert findTree.node_id == node_id
 
 
@@ -119,7 +143,7 @@ def get_src(src):
 def compare_results_html(result):
     result_ = any_get_tested_file(result)
     referenc_pattern = any_get_tested_file(
-        'test_data/referenc_pattern_html_report.html')
+        'test_data/referenc_pattern_html_report.txt')
     matched_rows = []
     for row in result_:
         for row_in_pattern in referenc_pattern:

@@ -156,12 +156,6 @@ results_counts1 = {
 }
 
 
-def test_and_or_eq_zero():
-    assert not oval_graph.evaluate.and_or_eq_zero('and', results_counts)
-    assert not oval_graph.evaluate.and_or_eq_zero('or', results_counts)
-    assert oval_graph.evaluate.and_or_eq_zero('xor', results_counts) is None
-
-
 def test_bad_results_counts_for_operator_and():
     assert oval_graph.evaluate.oval_operator_and(results_counts) is None
 

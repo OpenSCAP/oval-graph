@@ -163,14 +163,13 @@ class XmlParser():
             else:
                 children.append(
                     OvalNode(
-                        child['value_id'],
-                        'value',
-                        child['value'],
-                        child['negate'],
-                        child['comment'],
-                        child['tag'],
-                        self.get_info_about_test(child['value_id']),
-                        None
+                        node_id=child['value_id'],
+                        node_type='value',
+                        value=child['value'],
+                        negation=child['negate'],
+                        comment=child['comment'],
+                        tag=child['tag'],
+                        test_result_details=self.get_info_about_test(child['value_id']),
                     ))
 
         if 'id' in dict_of_definition:
@@ -178,14 +177,13 @@ class XmlParser():
             return children[0]
         else:
             return OvalNode(
-                str(uuid.uuid4()),
-                'operator',
-                dict_of_definition['operator'],
-                dict_of_definition['negate'],
-                dict_of_definition['comment'],
-                dict_of_definition['tag'],
-                None,
-                children,
+                node_id=str(uuid.uuid4()),
+                node_type='operator',
+                value=dict_of_definition['operator'],
+                negation=dict_of_definition['negate'],
+                comment=dict_of_definition['comment'],
+                tag=dict_of_definition['tag'],
+                children=children,
             )
 
     def get_def_id_by_rule_id(self, rule_id):
@@ -205,14 +203,13 @@ class XmlParser():
     def xml_dict_of_rule_to_node(self, rule):
         dict_of_definition = rule['definition']
         return OvalNode(
-            rule['rule_id'],
-            'operator',
-            'and',
-            False,
-            dict_of_definition['comment'],
-            "Rule",
-            None,
-            [self._xml_dict_to_node(dict_of_definition)],
+            node_id=rule['rule_id'],
+            node_type='operator',
+            value='and',
+            negation=False,
+            comment=dict_of_definition['comment'],
+            tag="Rule",
+            children=[self._xml_dict_to_node(dict_of_definition)],
         )
 
     def get_oval_tree(self, rule_id=None):

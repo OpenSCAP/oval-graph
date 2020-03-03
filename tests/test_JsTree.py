@@ -4,100 +4,163 @@ from oval_graph.oval_node import OvalNode
 
 def test_create_node_dict_for_JsTree_0():
     src = 'test_JsTree_data/JsTree_data_0.json'
-    Tree = tests.any_test_help.get_simple_tree()
-    tests.any_test_help.any_test_create_node_dict_for_JsTree(Tree, src)
+    tree = tests.any_test_help.get_simple_tree()
+    tests.any_test_help.any_test_create_node_dict_for_JsTree(tree, src)
 
 
 def test_create_node_dict_for_JsTree_1():
     src = 'test_JsTree_data/JsTree_data_1.json'
 
-    Tree = OvalNode(1, 'operator', 'and', False, None, None, None, [
-        OvalNode(2, 'value', "true", False, None, None, None)
-    ]
+    tree = OvalNode(
+        node_id=1,
+        node_type='operator',
+        value='and',
+        children=[
+            OvalNode(
+                node_id=2,
+                node_type='value',
+                value='true',
+            )
+        ]
     )
 
-    tests.any_test_help.any_test_create_node_dict_for_JsTree(Tree, src)
+    tests.any_test_help.any_test_create_node_dict_for_JsTree(tree, src)
 
 
 def test_create_node_dict_for_JsTree_2():
     src = 'test_JsTree_data/JsTree_data_2.json'
 
-    Tree = OvalNode(1, 'operator', 'and', False, None, None, None, [
-        OvalNode(2, 'value', "noteval", False, None, None, None)
-    ]
+    tree = OvalNode(
+        node_id=1,
+        node_type='operator',
+        value='and',
+        children=[
+            OvalNode(
+                node_id=2,
+                node_type='value',
+                value='noteval',
+            )
+        ]
     )
 
-    tests.any_test_help.any_test_create_node_dict_for_JsTree(Tree, src)
+    tests.any_test_help.any_test_create_node_dict_for_JsTree(tree, src)
 
 
 def test_create_node_dict_for_JsTree_3():
     src = 'test_JsTree_data/JsTree_data_3.json'
 
-    Tree = OvalNode(1, 'value', 'false', False, None, None, None)
-
-    tests.any_test_help.any_test_create_node_dict_for_JsTree(Tree, src)
+    tree = OvalNode(
+        node_id=1,
+        node_type='value',
+        value='false',
+    )
+    tests.any_test_help.any_test_create_node_dict_for_JsTree(tree, src)
 
 
 def test_create_node_dict_for_JsTree_4():
     src = 'test_JsTree_data/JsTree_data_4.json'
 
-    Tree = OvalNode(1, 'value', 'true', False, None, None, None)
+    tree = OvalNode(
+        node_id=1,
+        node_type='value',
+        value='true',
+    )
 
-    tests.any_test_help.any_test_create_node_dict_for_JsTree(Tree, src)
+    tests.any_test_help.any_test_create_node_dict_for_JsTree(tree, src)
 
 
 def test_create_node_dict_for_JsTree_5():
     src = 'test_JsTree_data/JsTree_data_5.json'
 
-    Tree = OvalNode(1, 'value', 'error', False, None, None, None)
+    tree = OvalNode(
+        node_id=1,
+        node_type='value',
+        value='error',
+    )
 
-    tests.any_test_help.any_test_create_node_dict_for_JsTree(Tree, src)
+    tests.any_test_help.any_test_create_node_dict_for_JsTree(tree, src)
 
 
 def test_create_node_with_negation_dict_for_JsTree():
     src = 'test_JsTree_data/JsTree_data_negated_0.json'
 
-    Tree = OvalNode(1, 'operator', 'and', True, None, None, None, [
-        OvalNode(2, 'value', "false", False, None, None, None)
-    ]
+    tree = OvalNode(
+        node_id=1,
+        node_type='operator',
+        value='and',
+        negation=True,
+        children=[
+            OvalNode(
+                node_id=2,
+                node_type='value',
+                value='false',
+            )
+        ]
     )
 
-    tests.any_test_help.any_test_create_node_dict_for_JsTree(Tree, src)
+    tests.any_test_help.any_test_create_node_dict_for_JsTree(tree, src)
 
 
 def test_create_node_with_negation_dict_for_JsTree1():
     src = 'test_JsTree_data/JsTree_data_negated_1.json'
 
-    Tree = OvalNode(1, 'operator', 'and', True, None, None, None, [
-        OvalNode(2, 'value', "true", False, None, None, None)
-    ]
+    tree = OvalNode(
+        node_id=1,
+        node_type='operator',
+        value='and',
+        negation=True,
+        children=[
+            OvalNode(
+                node_id=2,
+                node_type='value',
+                value='true',
+            )
+        ]
     )
 
-    tests.any_test_help.any_test_create_node_dict_for_JsTree(Tree, src)
+    tests.any_test_help.any_test_create_node_dict_for_JsTree(tree, src)
 
 
 def test_create_node_with_negation_dict_for_JsTree2():
     src = 'test_JsTree_data/JsTree_data_negated_2.json'
 
-    Tree = OvalNode(1, 'operator', 'and', False, None, None, None, [
-        OvalNode(2, 'value', "true", True, None, None, None)
-    ]
+    tree = OvalNode(
+        node_id=1,
+        node_type='operator',
+        value='and',
+        children=[
+            OvalNode(
+                node_id=2,
+                node_type='value',
+                value='true',
+                negation=True,
+            )
+        ]
     )
 
     tests.any_test_help.any_test_create_node_dict_for_JsTree(
-        Tree.children[0], src)
+        tree.children[0], src)
 
 
 def test_create_node_with_negation_dict_for_JsTree3():
     src = 'test_JsTree_data/JsTree_data_negated_3.json'
 
-    Tree = OvalNode(1, 'operator', 'and', False, None, None, None, [
-        OvalNode(2, 'value', "false", True, None, None, None)
-    ]
+    tree = OvalNode(
+        node_id=1,
+        node_type='operator',
+        value='and',
+        children=[
+            OvalNode(
+                node_id=2,
+                node_type='value',
+                value='false',
+                negation=True,
+            )
+        ]
     )
 
     tests.any_test_help.any_test_create_node_dict_for_JsTree(
-        Tree.children[0], src)
+        tree.children[0], src)
 
 
 def test_transformation_tree_to_Json_for_JsTree_0():

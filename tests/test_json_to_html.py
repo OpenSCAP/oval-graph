@@ -43,6 +43,7 @@ def test_prepare_graph_with_not_exist_rule():
     rule = 'xccdf_org.ssgproject.content_rule_package_abrt_removed'
     try_expection_for_prepare_graph(src, rule, 'No such file or directory:')
 
+
 def test_prepare_graph_with_bat_data():
     src = 'test_data/bad_result_data_json.json'
     rule = 'xccdf_org.ssgproject.content_rule_package_abrt_removed'

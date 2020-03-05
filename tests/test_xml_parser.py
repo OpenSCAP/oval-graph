@@ -118,13 +118,3 @@ def test_use_bat_report_file():
     with pytest.raises(Exception, match=r"arf\b|ARF\b"):
         assert tests.any_test_help.get_parser(src)
 
-
-def test_get_rule_dict():
-    src = 'test_data/ssg-fedora-ds-arf.xml'
-    parser = XmlParser(tests.any_test_help.get_src(src))
-    rule_dict = parser.get_rule_dict(
-        'xccdf_org.ssgproject.content_rule_dconf_gnome_session_idle_user_locks')
-    src = 'test_data/rule_dict.json'
-    with open(tests.any_test_help.get_src(src), 'r') as f:
-        data = json.load(f)
-    assert data == rule_dict

@@ -21,34 +21,23 @@ class _XmlParserScanDefinitions:
             node=[],
         )
         for tree in tree_data:
-            # rework this
-            negate_status = False
-            if 'negate' in tree:
-                negate_status = self._str_to_bool(tree.get('negate'))
-
-            graph['negate'] = negate_status
             graph['node'].append(self._build_node(tree, "Definition"))
         return graph
 
-    # rework this
-    @staticmethod
-    def _str_to_bool(s):
-        if s == 'true':
-            return True
-        elif s == 'false':
-            return False
-        else:
-            raise ValueError('err- negation is not bool')
+    def _get_negate_status(self, node):
+        str_to_bool = {
+            'true': True,
+            'false': False,
+        }
+        negate_status = False
+        if node.get('negate') is not None:
+            negate_status = str_to_bool[node.get('negate')]
+        return negate_status
 
     def _build_node(self, tree, tag):
-        # rework this
-        negate_status = False
-        if tree.get('negate') is not None:
-            negate_status = self._str_to_bool(tree.get('negate'))
-
         node = dict(
             operator=tree.get('operator'),
-            negate=negate_status,
+            negate=self._get_negate_status(tree),
             result=tree.get('result'),
             comment=None,
             tag=tag,
@@ -58,16 +47,13 @@ class _XmlParserScanDefinitions:
             if child.get('operator') is not None:
                 node['node'].append(self._build_node(child, "Criteria"))
             else:
-                # rework this
-                negate_status = False
-                if child.get('negate') is not None:
-                    negate_status = self._str_to_bool(child.get('negate'))
-
+                negate_status = self._get_negate_status(child)
+                result_of_node = child.get('result')
                 if child.get('definition_ref') is not None:
                     node['node'].append(
                         dict(
                             extend_definition=child.get('definition_ref'),
-                            result=child.get('result'),
+                            result=result_of_node,
                             negate=negate_status,
                             comment=None,
                             tag="Extend definition",
@@ -76,7 +62,7 @@ class _XmlParserScanDefinitions:
                     node['node'].append(
                         dict(
                             value_id=child.get('test_ref'),
-                            value=child.get('result'),
+                            value=result_of_node,
                             negate=negate_status,
                             comment=None,
                             tag="Test",
@@ -120,11 +106,8 @@ class _XmlParserScanDefinitions:
                         child['comment'],
                         child['tag'],
                     ))
-            # look at this
-            elif 'value_id' in child:
-                out['node'].append(child)
             else:
-                raise ValueError('error - unknown child')
+                out['node'].append(child)
         return out
 
     def _find_definition_by_id(self, scan, id, negate_status, comment, tag):

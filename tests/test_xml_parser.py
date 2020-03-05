@@ -101,11 +101,12 @@ def test_get_def_id_by_notselected_rule_id():
 def test_str_to_bool():
     src = 'test_data/ssg-fedora-ds-arf.xml'
     parser = tests.any_test_help.get_parser(src)
+    from oval_graph._xml_parser_oval_scan_definitions import _XmlParserScanDefinitions
 
-    assert parser._str_to_bool('true')
-    assert not parser._str_to_bool('false')
+    assert _XmlParserScanDefinitions._str_to_bool('true')
+    assert not _XmlParserScanDefinitions._str_to_bool('false')
     with pytest.raises(Exception, match="err- negation is not bool"):
-        assert parser._str_to_bool('error')
+        assert _XmlParserScanDefinitions._str_to_bool('error')
 
 
 def test_use_bat_report_file():

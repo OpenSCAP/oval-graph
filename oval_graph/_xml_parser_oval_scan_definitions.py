@@ -30,7 +30,9 @@ class _XmlParserScanDefinitions:
             graph['node'].append(self._build_node(tree, "Definition"))
         return graph
 
-    def _str_to_bool(self, s):
+    # rework this
+    @staticmethod
+    def _str_to_bool(s):
         if s == 'true':
             return True
         elif s == 'false':

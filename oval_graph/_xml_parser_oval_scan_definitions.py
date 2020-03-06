@@ -9,9 +9,10 @@ class _XmlParserScanDefinitions:
         self.test_info_parser = _XmlParserTestInfo(report_data)
 
     def get_scan(self):
-        scan = dict(definitions=[])
+        scan = dict(definitions={})
         for definition in self.definitions:
-            scan['definitions'].append(self._build_graph(definition))
+            graph = self._build_graph(definition)
+            scan['definitions'][graph['id']] = graph
         self.comments_parser.insert_comments(scan)
         return self._fill_extend_definition(scan)
 
@@ -73,19 +74,20 @@ class _XmlParserScanDefinitions:
 
     def _fill_extend_definition(self, scan):
         out = dict(definitions=[])
-        for definition in scan['definitions']:
+        definitions = scan['definitions']
+        for definition in definitions:
             nodes = []
-            for value in definition['node']:
-                nodes.append(self._operator_as_child(value, scan))
+            for value in definitions[definition]['node']:
+                nodes.append(self._fill_extend_definition_help(value, scan))
             out['definitions'].append(
                 dict(
-                    id=definition['id'],
-                    comment=definition['comment'],
+                    id=definitions[definition]['id'],
+                    comment=definitions[definition]['comment'],
                     node=nodes,
                 ))
         return out
 
-    def _operator_as_child(self, value, scan):
+    def _fill_extend_definition_help(self, value, scan):
         out = dict(
             operator=value['operator'],
             negate=value['negate'],
@@ -96,7 +98,7 @@ class _XmlParserScanDefinitions:
         )
         for child in value['node']:
             if 'operator' in child:
-                out['node'].append(self._operator_as_child(child, scan))
+                out['node'].append(self._fill_extend_definition_help(child, scan))
             elif 'extend_definition' in child:
                 out['node'].append(
                     self._find_definition_by_id(
@@ -110,10 +112,9 @@ class _XmlParserScanDefinitions:
                 out['node'].append(child)
         return out
 
-    def _find_definition_by_id(self, scan, id, negate_status, comment, tag):
-        for definition in scan['definitions']:
-            if definition['id'] == id:
-                definition['node'][0]['negate'] = negate_status
-                definition['node'][0]['comment'] = comment
-                definition['node'][0]['tag'] = tag
-                return self._operator_as_child(definition['node'][0], scan)
+    def _find_definition_by_id(self, scan, id_, negate_status, comment, tag):
+        if id_ in scan['definitions']:
+            scan['definitions'][id_]['node'][0]['negate'] = negate_status
+            scan['definitions'][id_]['node'][0]['comment'] = comment
+            scan['definitions'][id_]['node'][0]['tag'] = tag
+            return self._fill_extend_definition_help(scan['definitions'][id_]['node'][0], scan)

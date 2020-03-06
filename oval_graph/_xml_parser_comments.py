@@ -35,7 +35,7 @@ class _XmlParserComments:
         return comments
 
     def _prepare_definition_comments(self):
-        definitions = []
+        definitions = {}
         for definition in self.oval_definitions:
             comment_definition = dict(
                 id=definition.get('id'), comment=None, node=[])
@@ -47,7 +47,7 @@ class _XmlParserComments:
             criteria = definition.find('.//oval-definitions:criteria', ns)
             comment_definition['node'].append(
                 self._create_dict_form_criteria(criteria, description.text))
-            definitions.append(comment_definition)
+            definitions[comment_definition['id']] = comment_definition
         return definitions
 
     def _recursive_help_fill_comments(self, comments, nodes):
@@ -67,6 +67,5 @@ class _XmlParserComments:
     def insert_comments(self, data):
         comment_definitions = self._prepare_definition_comments()
         for data_definition in data['definitions']:
-            for comment_definition in comment_definitions:
-                if comment_definition['id'] == data_definition['id']:
-                    self._fill_comment(comment_definition, data_definition)
+            if data_definition in comment_definitions:
+                self._fill_comment(comment_definitions[data_definition], data['definitions'][data_definition])

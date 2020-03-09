@@ -30,8 +30,13 @@ class _BuilderOvalGraph:
             children[0].node_id = dict_of_definition['id']
             return children[0]
         else:
+            node_id = None
+            if 'definition_id' in dict_of_definition:
+                node_id = dict_of_definition['definition_id']
+            else:
+                node_id = str(uuid.uuid4())
             return OvalNode(
-                node_id=str(uuid.uuid4()),
+                node_id=node_id,
                 node_type='operator',
                 value=dict_of_definition['operator'],
                 negation=dict_of_definition['negate'],
@@ -42,6 +47,7 @@ class _BuilderOvalGraph:
 
     def get_oval_graph_from_dict_of_rule(self, rule):
         dict_of_definition = rule['definition']
+        dict_of_definition['node']['definition_id'] = rule['definition_id']
         return OvalNode(
             node_id=rule['rule_id'],
             node_type='operator',
@@ -49,5 +55,7 @@ class _BuilderOvalGraph:
             negation=False,
             comment=dict_of_definition['comment'],
             tag="Rule",
-            children=[self._definition_dict_to_node(dict_of_definition)],
+            children=[
+                self._definition_dict_to_node(
+                    dict_of_definition['node'])],
         )

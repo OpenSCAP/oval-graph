@@ -22,21 +22,12 @@ start_time_all_rules = time.time()
 
 
 xml_parser_all_rules = XmlParser(src)
-try:
-    for rule in xml_parser_all_rules.used_rules:
-        oval_tree = xml_parser_all_rules.get_oval_tree(rule['id_rule'])
-    print(
-        "%d rules --- %s seconds ---" %
-        (len(
-            xml_parser_all_rules.used_rules),
-            time.time() -
-            start_time_all_rules))
-except AttributeError:
-    for rule in xml_parser_all_rules.get_used_rules():
-        oval_tree = xml_parser_all_rules.get_oval_tree(rule['id_rule'])
-    print(
-        "%d rules --- %s seconds ---" %
-        (len(
-            xml_parser_all_rules.get_used_rules()),
-            time.time() -
-            start_time_all_rules))
+
+for rule in xml_parser_all_rules.used_rules:
+    oval_tree = xml_parser_all_rules.get_oval_tree(rule)
+print(
+    "%d rules --- %s seconds ---" %
+    (len(
+        xml_parser_all_rules.used_rules),
+        time.time() -
+        start_time_all_rules))

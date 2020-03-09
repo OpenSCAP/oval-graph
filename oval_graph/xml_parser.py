@@ -35,7 +35,7 @@ class XmlParser:
         try:
             self.used_rules = self._get_used_rules()
             self.report_data = self._get_report_data(
-                self.used_rules[0]['href'])
+                list(self.used_rules.values())[0]['href'])
             self.notselected_rules = self._get_notselected_rules()
             self.definitions = self._get_definitions()
             self.oval_definitions = self._get_oval_definitions()
@@ -62,19 +62,18 @@ class XmlParser:
     def _get_used_rules(self):
         rulesResults = self.root.findall(
             './/xccdf:TestResult/xccdf:rule-result', ns)
-        rules = []
+        rules = {}
         for ruleResult in rulesResults:
             result = ruleResult.find('.//xccdf:result', ns)
             if result.text != "notselected":
                 check_content_ref = ruleResult.find(
                     './/xccdf:check/xccdf:check-content-ref', ns)
                 if check_content_ref is not None:
-                    rules.append(dict(
-                        id_rule=ruleResult.get('idref'),
+                    rules[ruleResult.get('idref')] = dict(
                         id_def=check_content_ref.attrib.get('name'),
                         href=check_content_ref.attrib.get('href'),
                         result=result.text,
-                    ))
+                    )
         return rules
 
     def _get_report_data(self, href):
@@ -92,7 +91,7 @@ class XmlParser:
         for ruleResult in rulesResults:
             result = ruleResult.find('.//xccdf:result', ns)
             if result.text == "notselected":
-                rules.append(dict(id_rule=ruleResult.get('idref')))
+                rules.append(ruleResult.get('idref'))
         return rules
 
     def _get_definitions(self):
@@ -109,20 +108,16 @@ class XmlParser:
             'oval-definitions:definitions', ns)
 
     def _get_definition_of_rule(self, rule_id):
-        for definition in self.scan_definitions['definitions']:
-            if self.get_def_id_by_rule_id(rule_id) == definition['id']:
-                return dict(rule_id=rule_id, definition=definition)
-
-    def get_def_id_by_rule_id(self, rule_id):
-        for rule in self.notselected_rules:
-            if rule['id_rule'] == rule_id:
-                raise ValueError(
-                    'err- rule "{}" was not selected, so there are no results.'
-                    .format(rule_id))
-        for rule in self.used_rules:
-            if rule['id_rule'] == rule_id:
-                return rule['id_def']
-        raise ValueError('err- 404 rule not found!')
+        if rule_id in self.used_rules:
+            return dict(rule_id=rule_id,
+                        definition_id=self.used_rules[rule_id]['id_def'],
+                        definition=self.scan_definitions[self.used_rules[rule_id]['id_def']])
+        elif rule_id in self.notselected_rules:
+            raise ValueError(
+                'err- rule "{}" was not selected, so there are no results.'
+                .format(rule_id))
+        else:
+            raise ValueError('err- 404 rule not found!')
 
     def get_oval_tree(self, rule_id=None):
         return self.oval_graph_builder.get_oval_graph_from_dict_of_rule(

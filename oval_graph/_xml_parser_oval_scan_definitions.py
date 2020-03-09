@@ -9,21 +9,14 @@ class _XmlParserScanDefinitions:
         self.test_info_parser = _XmlParserTestInfo(report_data)
 
     def get_scan(self):
-        scan = dict(definitions={})
+        dict_of_definitions = {}
         for definition in self.definitions:
-            graph = self._build_graph(definition)
-            scan['definitions'][graph['id']] = graph
-        self.comments_parser.insert_comments(scan)
-        return self._fill_extend_definition(scan)
-
-    def _build_graph(self, tree_data):
-        graph = dict(
-            id=tree_data.get('definition_id'),
-            node=[],
-        )
-        for tree in tree_data:
-            graph['node'].append(self._build_node(tree, "Definition"))
-        return graph
+            id_definition = definition.get('definition_id')
+            dict_of_definitions[id_definition] = dict(
+                commnet=None, node=self._build_node(
+                    definition[0], "Definition", id_definition))
+        self.comments_parser.insert_comments(dict_of_definitions)
+        return self._fill_extend_definition(dict_of_definitions)
 
     def _get_negate_status(self, node):
         str_to_bool = {
@@ -35,8 +28,9 @@ class _XmlParserScanDefinitions:
             negate_status = str_to_bool[node.get('negate')]
         return negate_status
 
-    def _build_node(self, tree, tag):
+    def _build_node(self, tree, tag, id_definition=None):
         node = dict(
+            id=id_definition,
             operator=tree.get('operator'),
             negate=self._get_negate_status(tree),
             result=tree.get('result'),
@@ -72,22 +66,17 @@ class _XmlParserScanDefinitions:
                         ))
         return node
 
-    def _fill_extend_definition(self, scan):
-        out = dict(definitions=[])
-        definitions = scan['definitions']
-        for definition in definitions:
-            nodes = []
-            for value in definitions[definition]['node']:
-                nodes.append(self._fill_extend_definition_help(value, scan))
-            out['definitions'].append(
-                dict(
-                    id=definitions[definition]['id'],
-                    comment=definitions[definition]['comment'],
-                    node=nodes,
-                ))
+    def _fill_extend_definition(self, dict_of_definitions):
+        out = {}
+        for id_definition, definition in dict_of_definitions.items():
+            out[id_definition] = dict(
+                comment=definition['comment'],
+                node=self._fill_extend_definition_help(
+                    definition['node'],
+                    dict_of_definitions))
         return out
 
-    def _fill_extend_definition_help(self, value, scan):
+    def _fill_extend_definition_help(self, value, dict_of_definitions):
         out = dict(
             operator=value['operator'],
             negate=value['negate'],
@@ -98,11 +87,13 @@ class _XmlParserScanDefinitions:
         )
         for child in value['node']:
             if 'operator' in child:
-                out['node'].append(self._fill_extend_definition_help(child, scan))
+                out['node'].append(
+                    self._fill_extend_definition_help(
+                        child, dict_of_definitions))
             elif 'extend_definition' in child:
                 out['node'].append(
                     self._find_definition_by_id(
-                        scan,
+                        dict_of_definitions,
                         child['extend_definition'],
                         child['negate'],
                         child['comment'],
@@ -112,9 +103,16 @@ class _XmlParserScanDefinitions:
                 out['node'].append(child)
         return out
 
-    def _find_definition_by_id(self, scan, id_, negate_status, comment, tag):
-        if id_ in scan['definitions']:
-            scan['definitions'][id_]['node'][0]['negate'] = negate_status
-            scan['definitions'][id_]['node'][0]['comment'] = comment
-            scan['definitions'][id_]['node'][0]['tag'] = tag
-            return self._fill_extend_definition_help(scan['definitions'][id_]['node'][0], scan)
+    def _find_definition_by_id(
+            self,
+            dict_of_definitions,
+            id_,
+            negate_status,
+            comment,
+            tag):
+        if id_ in dict_of_definitions:
+            dict_of_definitions[id_]['node']['negate'] = negate_status
+            dict_of_definitions[id_]['node']['comment'] = comment
+            dict_of_definitions[id_]['node']['tag'] = tag
+            return self._fill_extend_definition_help(
+                dict_of_definitions[id_]['node'], dict_of_definitions)

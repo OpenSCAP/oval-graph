@@ -85,7 +85,7 @@ def test_get_def_id_by_rule_id():
     parser = XmlParser(tests.any_test_help.get_src(src))
 
     with pytest.raises(Exception, match="err- 404 rule not found!"):
-        assert parser.get_def_id_by_rule_id('hello')
+        assert parser._get_definition_of_rule('hello')
 
 
 def test_get_def_id_by_notselected_rule_id():
@@ -95,18 +95,7 @@ def test_get_def_id_by_notselected_rule_id():
     rule_id = 'xccdf_org.ssgproject.content_rule_ntpd_specify_remote_server'
 
     with pytest.raises(Exception, match="not selected"):
-        assert parser.get_def_id_by_rule_id(rule_id)
-
-
-def test_str_to_bool():
-    src = 'test_data/ssg-fedora-ds-arf.xml'
-    parser = tests.any_test_help.get_parser(src)
-    from oval_graph._xml_parser_oval_scan_definitions import _XmlParserScanDefinitions
-
-    assert _XmlParserScanDefinitions._str_to_bool('true')
-    assert not _XmlParserScanDefinitions._str_to_bool('false')
-    with pytest.raises(Exception, match="err- negation is not bool"):
-        assert _XmlParserScanDefinitions._str_to_bool('error')
+        assert parser._get_definition_of_rule(rule_id)
 
 
 def test_use_bat_report_file():
@@ -117,4 +106,3 @@ def test_use_bat_report_file():
 
     with pytest.raises(Exception, match=r"arf\b|ARF\b"):
         assert tests.any_test_help.get_parser(src)
-

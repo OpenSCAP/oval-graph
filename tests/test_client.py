@@ -83,12 +83,12 @@ def test_get_wanted_not_selected_rules():
     client = get_client(src, regex)
 
     out = [
-        {'id_rule': 'xccdf_org.ssgproject.content_rule_package_nis_removed'},
-        {'id_rule': 'xccdf_org.ssgproject.content_rule_package_ntpdate_removed'},
-        {'id_rule': 'xccdf_org.ssgproject.content_rule_package_telnetd_removed'},
-        {'id_rule': 'xccdf_org.ssgproject.content_rule_package_gdm_removed'},
-        {'id_rule': 'xccdf_org.ssgproject.content_rule_package_setroubleshoot_removed'},
-        {'id_rule': 'xccdf_org.ssgproject.content_rule_package_mcstrans_removed'}]
+        'xccdf_org.ssgproject.content_rule_package_nis_removed',
+        'xccdf_org.ssgproject.content_rule_package_ntpdate_removed',
+        'xccdf_org.ssgproject.content_rule_package_telnetd_removed',
+        'xccdf_org.ssgproject.content_rule_package_gdm_removed',
+        'xccdf_org.ssgproject.content_rule_package_setroubleshoot_removed',
+        'xccdf_org.ssgproject.content_rule_package_mcstrans_removed']
 
     assert out == client._get_wanted_not_selected_rules()
 
@@ -99,14 +99,9 @@ def test_get_wanted_rules():
     client = get_client(src, regex)
 
     out = [
-        {'href': '#oval0',
-         'id_def': 'oval:ssg-package_abrt_removed:def:1',
-         'id_rule': 'xccdf_org.ssgproject.content_rule_package_abrt_removed',
-         'result': 'fail'},
-        {'href': '#oval0',
-         'id_def': 'oval:ssg-package_sendmail_removed:def:1',
-         'id_rule': 'xccdf_org.ssgproject.content_rule_package_sendmail_removed',
-         'result': 'pass'}]
+        'xccdf_org.ssgproject.content_rule_package_abrt_removed',
+        'xccdf_org.ssgproject.content_rule_package_sendmail_removed',
+    ]
 
     assert out == client._get_wanted_rules()
 

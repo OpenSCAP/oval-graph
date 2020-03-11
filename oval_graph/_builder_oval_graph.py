@@ -2,18 +2,16 @@ import uuid
 
 from .oval_node import OvalNode
 
-# rework this (use static metodes)
-
 
 class _BuilderOvalGraph:
-    def __init__(self):
-        pass
 
-    def _definition_dict_to_node(self, dict_of_definition):
+    @staticmethod
+    def _definition_dict_to_node(dict_of_definition):
         children = []
         for child in dict_of_definition['node']:
-            if 'operator' in child and 'id':
-                children.append(self._definition_dict_to_node(child))
+            if 'operator' in child:
+                children.append(
+                    _BuilderOvalGraph._definition_dict_to_node(child))
             else:
                 children.append(
                     OvalNode(
@@ -26,26 +24,24 @@ class _BuilderOvalGraph:
                         test_result_details=child['test_result_details'],
                     ))
 
-        if 'id' in dict_of_definition:
-            children[0].node_id = dict_of_definition['id']
-            return children[0]
-        else:
-            node_id = None
-            if 'definition_id' in dict_of_definition:
-                node_id = dict_of_definition['definition_id']
-            else:
-                node_id = str(uuid.uuid4())
-            return OvalNode(
-                node_id=node_id,
-                node_type='operator',
-                value=dict_of_definition['operator'],
-                negation=dict_of_definition['negate'],
-                comment=dict_of_definition['comment'],
-                tag=dict_of_definition['tag'],
-                children=children,
-            )
+        return OvalNode(
+            node_id=_BuilderOvalGraph._get_id_defintion(dict_of_definition),
+            node_type='operator',
+            value=dict_of_definition['operator'],
+            negation=dict_of_definition['negate'],
+            comment=dict_of_definition['comment'],
+            tag=dict_of_definition['tag'],
+            children=children,
+        )
 
-    def get_oval_graph_from_dict_of_rule(self, rule):
+    @staticmethod
+    def _get_id_defintion(dict_of_definition):
+        if 'definition_id' in dict_of_definition:
+            return dict_of_definition['definition_id']
+        return str(uuid.uuid4())
+
+    @staticmethod
+    def get_oval_graph_from_dict_of_rule(rule):
         dict_of_definition = rule['definition']
         dict_of_definition['node']['definition_id'] = rule['definition_id']
         return OvalNode(
@@ -56,6 +52,6 @@ class _BuilderOvalGraph:
             comment=dict_of_definition['comment'],
             tag="Rule",
             children=[
-                self._definition_dict_to_node(
+                _BuilderOvalGraph._definition_dict_to_node(
                     dict_of_definition['node'])],
         )

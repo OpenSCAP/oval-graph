@@ -21,8 +21,6 @@ class XmlParser:
         self.src = src
         self.tree = ET.parse(self.src)
         self.root = self.tree.getroot()
-        self.oval_graph_builder = _BuilderOvalGraph()
-
         if not self.validate(
                 'schemas/arf/1.1/asset-reporting-format_1.1.0.xsd'):
             CRED = '\033[91m'
@@ -120,5 +118,5 @@ class XmlParser:
             raise ValueError('err- 404 rule not found!')
 
     def get_oval_tree(self, rule_id=None):
-        return self.oval_graph_builder.get_oval_graph_from_dict_of_rule(
+        return _BuilderOvalGraph.get_oval_graph_from_dict_of_rule(
             self._get_definition_of_rule(rule_id))

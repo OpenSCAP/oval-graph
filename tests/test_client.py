@@ -77,7 +77,7 @@ def test_get_questions():
     assert out[1] == rule2
 
 
-def test_get_wanted_not_selected_rules():
+def test_get_wanted_not_selected_rules_from_array_of_IDs():
     src = 'test_data/ssg-fedora-ds-arf.xml'
     regex = r'_package_\w+_removed'
     client = get_client(src, regex)
@@ -90,10 +90,11 @@ def test_get_wanted_not_selected_rules():
         'xccdf_org.ssgproject.content_rule_package_setroubleshoot_removed',
         'xccdf_org.ssgproject.content_rule_package_mcstrans_removed']
 
-    assert out == client._get_wanted_not_selected_rules()
+    assert out == client._get_wanted_rules_from_array_of_IDs(
+        client.xml_parser.notselected_rules)
 
 
-def test_get_wanted_rules():
+def test_get_wanted_rules_from_array_of_IDs():
     src = 'test_data/ssg-fedora-ds-arf.xml'
     regex = r'_package_\w+_removed'
     client = get_client(src, regex)
@@ -103,7 +104,8 @@ def test_get_wanted_rules():
         'xccdf_org.ssgproject.content_rule_package_sendmail_removed',
     ]
 
-    assert out == client._get_wanted_rules()
+    assert out == client._get_wanted_rules_from_array_of_IDs(
+        client.xml_parser.used_rules.keys())
 
 
 def test_search_not_selected_rule():

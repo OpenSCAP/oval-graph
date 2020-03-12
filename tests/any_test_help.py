@@ -149,6 +149,8 @@ def compare_results_html(result):
         for row_in_pattern in referenc_pattern:
             if row == row_in_pattern:
                 matched_rows.append(row)
+            if len(matched_rows) == len(referenc_pattern):
+                break
     assert matched_rows == referenc_pattern
 
 

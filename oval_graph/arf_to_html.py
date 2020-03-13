@@ -9,7 +9,7 @@ class ArfToHtml(Client):
     def __init__(self, args):
         super().__init__(args)
         self.off_webbrowser = self.arg.off_web_browser
-        self.show_fail_rules = self.arg.show_fail_rules
+        self.show_failed_rules = self.arg.show_failed_rules
         self.show_not_selected_rules = self.arg.show_not_selected_rules
 
     def _get_message(self):
@@ -46,10 +46,10 @@ class ArfToHtml(Client):
             default=False,
             help="It does not start the web browser.")
         self.parser.add_argument(
-            '--show-fail-rules',
+            '--show-failed-rules',
             action="store_true",
             default=False,
-            help="Show only FAIL rules")
+            help="Show only FAILED rules")
         self.parser.add_argument(
             '--show-not-selected-rules',
             action="store_true",

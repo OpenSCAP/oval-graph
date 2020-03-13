@@ -180,7 +180,7 @@ def get_questions_not_selected(capsys, client):
             in captured.out)
 
 
-def get_questions_not_selected_and_show_fail_rules(capsys, client):
+def get_questions_not_selected_and_show_failed_rules(capsys, client):
     out = client.get_questions()[0].choices
     outResult = ['xccdf_org.ssgproject.content_rule_package_abrt_removed']
     assert out == outResult
@@ -195,7 +195,7 @@ def get_questions_not_selected_and_show_fail_rules(capsys, client):
         'xccdf_org.ssgproject.content_rule_package_mcstrans_removed(Not selected)\n')
 
 
-def get_questions_with_option_show_fail_rules(client):
+def get_questions_with_option_show_failed_rules(client):
     out = client.get_questions()[0].choices
     rule1 = 'xccdf_org.ssgproject.content_rule_package_abrt_removed'
     assert out[0] == rule1
@@ -203,7 +203,7 @@ def get_questions_with_option_show_fail_rules(client):
         assert out[2] is None
 
 
-def if_not_installed_inquirer_with_option_show_fail_rules(capsys, client):
+def if_not_installed_inquirer_with_option_show_failed_rules(capsys, client):
     with mock.patch.dict(sys.modules, {'inquirer': None}):
         out = client.run_gui_and_return_answers()
         assert out is None
@@ -236,7 +236,7 @@ def if_not_installed_inquirer_with_option_show_not_selected_rules(
             " want use and put it in command\n")
 
 
-def if_not_installed_inquirer_with_option_show_not_selected_rules_and_show_fail_rules(
+def if_not_installed_inquirer_with_option_show_not_selected_rules_and_show_failed_rules(
         capsys,
         client):
     with mock.patch.dict(sys.modules, {'inquirer': None}):

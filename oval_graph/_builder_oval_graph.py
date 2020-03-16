@@ -40,7 +40,7 @@ class _BuilderOvalGraph:
                 children=children,
             )
 
-    def get_oval_graph_from_definition_dict_of_rule(self, rule):
+    def get_oval_graph_from_dict_of_rule(self, rule):
         dict_of_definition = rule['definition']
         return OvalNode(
             node_id=rule['rule_id'],

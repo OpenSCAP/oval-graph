@@ -125,5 +125,5 @@ class XmlParser:
         raise ValueError('err- 404 rule not found!')
 
     def get_oval_tree(self, rule_id=None):
-        return self.oval_graph_builder.get_oval_graph_from_definition_dict_of_rule(
+        return self.oval_graph_builder.get_oval_graph_from_dict_of_rule(
             self._get_definition_of_rule(rule_id))

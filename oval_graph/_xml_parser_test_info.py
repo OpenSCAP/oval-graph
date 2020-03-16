@@ -70,28 +70,28 @@ class _XmlParserTestInfo:
     def _get_item_ref(self, item):
         return item.get('item_ref') if item.get('item_ref') else None
 
-    def _get_unicate_key(self, key):
+    def _get_unique_key(self, key):
         return key + '@' + str(uuid.uuid4())
 
-    def _get_unicate_id_in_dict(self, object_, dict_):
+    def _get_unique_id_in_dict(self, object_, dict_):
         if self._get_key_for_element(object_) in dict_:
-            return self._get_unicate_key(self._get_key_for_element(object_))
+            return self._get_unique_key(self._get_key_for_element(object_))
         else:
             return self._get_key_for_element(object_)
 
     def _get_collected_objects_info(self, collected_object, object_):
         out = {}
         if len(collected_object) == 0:
-            out[self._get_unicate_id_in_dict(object_, out)
+            out[self._get_unique_id_in_dict(object_, out)
                 ] = self._get_object_items(object_)
         else:
             item_refs = self._find_item_ref(collected_object)
             if item_refs:
                 for item_id in item_refs:
-                    out[self._get_unicate_id_in_dict(
+                    out[self._get_unique_id_in_dict(
                         object_, out)] = self._get_item(item_id)
             else:
-                out[self._get_unicate_id_in_dict(
+                out[self._get_unique_id_in_dict(
                     object_, out)] = self._get_object_items(object_)
         return out
 
@@ -106,7 +106,7 @@ class _XmlParserTestInfo:
                 self._get_collected_objects_info(collected_object, object_))
         else:
             result[object_.attrib.get('id')] = "does not exist"
-            result[self._get_unicate_id_in_dict(
+            result[self._get_unique_id_in_dict(
                 object_, result)] = self._get_object_items(object_)
         return result
 
@@ -114,9 +114,9 @@ class _XmlParserTestInfo:
         out = {}
         for element in object_.iterchildren():
             if element.text and element.text.strip():
-                out[self._get_unicate_id_in_dict(element, out)] = element.text
+                out[self._get_unique_id_in_dict(element, out)] = element.text
             else:
-                out[self._get_unicate_id_in_dict(element, out)] = "no value"
+                out[self._get_unique_id_in_dict(element, out)] = "no value"
         return out
 
     def _get_item(self, item_ref):
@@ -124,7 +124,7 @@ class _XmlParserTestInfo:
         out = {}
         for element in item.iterchildren():
             if element.text and element.text.strip():
-                out[self._get_unicate_id_in_dict(element, out)] = element.text
+                out[self._get_unique_id_in_dict(element, out)] = element.text
         return out
 
     def _find_item_by_id(self, items, id):

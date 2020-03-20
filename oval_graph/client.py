@@ -22,7 +22,7 @@ class Client():
         self.out = self.arg.output
         self.all_rules = self.arg.all
         self.isatty = sys.stdout.isatty()
-        self.show_fail_rules = False
+        self.show_failed_rules = False
         self.show_not_selected_rules = False
         self.xml_parser = XmlParser(
             self.source_filename)
@@ -54,7 +54,7 @@ class Client():
 
     def get_list_of_matched_rules(self):
         rules = self.search_rules_id()
-        if self.show_fail_rules:
+        if self.show_failed_rules:
             rules = self._get_only_fail_rule(rules)
         return rules
 
@@ -82,7 +82,7 @@ class Client():
 
     def get_choices(self):
         rules = self.search_rules_id()
-        if self.show_fail_rules:
+        if self.show_failed_rules:
             rules = self._get_only_fail_rule(rules)
         choices = []
         for rule in rules:

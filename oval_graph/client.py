@@ -39,8 +39,7 @@ class Client():
     def run_gui_and_return_answers(self):
         if self.isatty:
             if self.all_rules:
-                return {'rules': [
-                    rule['id_rule'] for rule in self.search_rules_id()]}
+                return {'rules': self.search_rules_id()}
             else:
                 try:
                     import inquirer
@@ -49,8 +48,7 @@ class Client():
                     print(self.get_selection_rules())
                     return None
         else:
-            return {'rules': [
-                rule['id_rule'] for rule in self.search_rules_id()]}
+            return {'rules': self.search_rules_id()}
 
     def get_list_of_matched_rules(self):
         rules = self.search_rules_id()
@@ -61,7 +59,7 @@ class Client():
     def get_list_of_lines(self):
         lines = ['== The Rule IDs ==']
         for rule in self.get_list_of_matched_rules():
-            lines.append("'" + rule['id_rule'] + r'\b' + "'")
+            lines.append("'" + rule + r'\b' + "'")
         if self.show_not_selected_rules:
             for line in self.get_lines_of_wanted_not_selected_rules():
                 lines.append(line)
@@ -77,16 +75,14 @@ class Client():
         out = []
         out.append('== The not selected rule IDs ==')
         for rule in self._get_wanted_not_selected_rules():
-            out.append(rule['id_rule'] + '(Not selected)')
+            out.append(rule + '(Not selected)')
         return out
 
     def get_choices(self):
         rules = self.search_rules_id()
         if self.show_failed_rules:
             rules = self._get_only_fail_rule(rules)
-        choices = []
-        for rule in rules:
-            choices.append(rule['id_rule'])
+        choices = rules
         if self.show_not_selected_rules:
             print("\n".join(self.get_lines_of_wanted_not_selected_rules()))
         return choices
@@ -106,17 +102,20 @@ class Client():
         return questions
 
     def _get_only_fail_rule(self, rules):
-        return list(filter(lambda rule: rule['result'] == 'fail', rules))
+        return list(
+            filter(
+                lambda rule: self.xml_parser.used_rules[rule]['result'] == 'fail',
+                rules))
 
     def _get_wanted_rules(self):
         return [
-            x for x in self.xml_parser.used_rules if re.search(
-                self.rule_name, x['id_rule'])]
+            x for x in self.xml_parser.used_rules.keys() if re.search(
+                self.rule_name, x)]
 
     def _get_wanted_not_selected_rules(self):
         return [
             x for x in self.xml_parser.notselected_rules if re.search(
-                self.rule_name, x['id_rule'])]
+                self.rule_name, x)]
 
     def search_rules_id(self):
         rules = self._get_wanted_rules()
@@ -129,7 +128,7 @@ class Client():
                  " wasn't a part of the executed profile"
                  " and therefore it wasn't evaluated "
                  "during the scan.")
-                .format(notselected_rules[0]['id_rule']))
+                .format(notselected_rules))
         elif not notselected_rules and not rules:
             raise ValueError('err- 404 rule not found!')
         else:

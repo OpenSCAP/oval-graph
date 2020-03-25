@@ -41,7 +41,7 @@ def main(client):
         if answers is not None:
             results_src = client.prepare_data(answers)
     else:
-        results_src = client.prepare_data({'rules': [rules[0]['id_rule']]})
+        results_src = client.prepare_data({'rules': [rules[0]]})
     print_where_is_saved_result(results_src)
 
 

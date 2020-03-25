@@ -60,21 +60,21 @@ class JsonToHtml(Client):
 
     def get_rules_id(self):
         out = []
-        for id in self.load_rule_names():
-            out.append(dict(id_rule=id))
+        for id_ in self.load_rule_names():
+            out.append(id_)
         return out
 
     def get_choices(self):
         rules = self.search_rules_id()
         choices = []
         for rule in rules:
-            choices.append(rule['id_rule'])
+            choices.append(rule)
         return choices
 
     def _get_wanted_rules(self):
         return [
             x for x in self.get_rules_id() if re.search(
-                self.rule_name, x['id_rule'])]
+                self.rule_name, x)]
 
     def _get_wanted_not_selected_rules(self):
         return []

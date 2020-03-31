@@ -12,6 +12,26 @@ This tool generates a tree graph from ARF xml report from OpenSCAP scan.
 
 ## Installation
 
+### Enterprise Linux
+
+**Before installing, enable Extra Packages for Enterprise Linux (EPEL). Learn how to enable EPEL in [EPEL documentation](https://fedoraproject.org/wiki/EPEL).**
+
+#### RHEL/CentOS 7
+
+```bash
+sudo dnf install oval-graph python36-lxml
+# Install inquirer, if you want have nice cli features. (optional)
+sudo pip3 install inquirer
+```
+
+#### RHEL/CentOS 8
+
+```bash
+sudo dnf install oval-graph
+# Install inquirer, if you want have nice cli features. (optional)
+sudo pip3 install inquirer
+```
+
 ### Fedora 30 and later
 
 ```bash

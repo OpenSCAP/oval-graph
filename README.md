@@ -80,6 +80,6 @@ This commands consumes the rule name or regular expression of rule name and the 
 arf-to-graph scan-data/ssg-fedora-ds-arf.xml xccdf_org.ssgproject.content_rule_audit_rules_unsuccessful_file_modification_creat
 ```
 
-This command generates a graph and saves file named  `graph-of-<rule_id>-<date>.html` (The date the graph was created.) in the working directory. Then open the web browser. _Default web browser is Firefox. If Firefox not installed it opens default web browser in OS._
+This command generates a graph and saves file named  `graph-of-<rule_id>-<date>.html` (The date the graph was created.) in the working directory. Then, it opens the generated file in your web browser. _Default web browser is Firefox. If Firefox is not installed, the default web browser in OS is used._
 
 ![demo-screenshot](./docs/demo-screenshot.png "demo-screenshot")

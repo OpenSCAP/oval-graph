@@ -43,13 +43,15 @@ class JsonToHtml(Client):
             try:
                 return json.load(f)
             except Exception as error:
-                raise ValueError("err- Used file is not json or valid.")
+                raise ValueError(
+                    'Used file "{}" is not valid json.'.format(
+                        self.source_filename))
 
     def load_json_to_oval_tree(self, rule):
         try:
             return restore_dict_to_tree(self.json_data_file[rule])
         except Exception as error:
-            raise ValueError("err- Data is not valid for oval tree.")
+            raise ValueError('Data is not valid for OVAL tree.')
 
     def create_dict_of_oval_node(self, oval_node):
         converter = Converter(oval_node)

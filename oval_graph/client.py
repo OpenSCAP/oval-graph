@@ -122,7 +122,7 @@ class Client():
         notselected_rules = self._get_wanted_not_selected_rules()
         if len(notselected_rules) and not rules:
             raise ValueError(
-                ('err- rule(s) "{}" was not selected, '
+                ('Rule(s) "{}" was not selected, '
                  "so there are no results. The rule is"
                  ' "notselected" because it'
                  " wasn't a part of the executed profile"
@@ -130,7 +130,7 @@ class Client():
                  "during the scan.")
                 .format(notselected_rules))
         elif not notselected_rules and not rules:
-            raise ValueError('err- 404 rule not found!')
+            raise ValueError('404 rule "{}" not found!'.format(self.rule_name))
         else:
             return rules
 

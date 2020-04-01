@@ -57,7 +57,7 @@ class OvalNode():
             self.negation = self._validate_negation(
                 kwargs.get('negation', False))
         except KeyError:
-            raise Exception("err - Missing required argument!")
+            raise Exception("Missing required argument!")
 
         self.comment = kwargs.get('comment', None)
         self.tag = kwargs.get('tag', None)
@@ -71,13 +71,13 @@ class OvalNode():
 
     def _validate_negation(self, input_negation):
         if not isinstance(input_negation, bool):
-            raise TypeError("err - Bad value of negation argument!")
+            raise TypeError("Wrong value of negation argument!")
         return input_negation
 
     def _validate_type(self, input_node_type):
         node_type = input_node_type.lower()
         if node_type not in ("value", "operator"):
-            raise TypeError("err - Bad value of node_type argument!")
+            raise TypeError("Wrong value of node_type argument!")
         return node_type
 
     def _validate_value(self, input_value):
@@ -94,18 +94,18 @@ class OvalNode():
 
         if self.node_type == "value" and value not in allowed_values:
             raise TypeError(
-                "err - Bad value of value argument for value type!")
+                "Wrong value of argument value for value node!")
 
         if self.node_type == "operator" and value not in allowed_operators:
             raise TypeError(
-                "err - Bad value of value argument for operator type!")
+                "Wrong value of argument value for operator node!")
 
         return value
 
     def _check_missing_children_for_operator(self, children):
         if children is None and self.node_type == "operator":
             raise ValueError(
-                "err- Operator node must has child!")
+                "The operator node must have a child!")
 
     def __repr__(self):
         return self.value
@@ -117,7 +117,7 @@ class OvalNode():
         else:
             self.children = None
             raise ValueError(
-                "err- Value node don't has any child!")
+                "The value node cannot contain any child!")
 
     def _get_result_counts(self):
         result = {

@@ -4,24 +4,25 @@ from oval_graph.oval_node import OvalNode
 
 import tests.any_test_help
 
-missing_error_pattern = "err - Missing required argument!"
+missing_error_pattern = "Missing required argument!"
 
 bad_value_error_pattern = (
-    r'err - Bad value of (negation|node_type|value) argument(!| for (value|operator) type!)')
+    r'Wrong value of (negation|node_type|argument) (argument|value)(!| for (value|operator) node!)'
+    )
 
 
 def test_bad_tree():
-    with pytest.raises(Exception, match="don't has any child"):
+    with pytest.raises(Exception, match="cannot contain any child"):
         assert bad_tree()
 
 
 def test_bad_tree_only_and_no_child():
-    with pytest.raises(Exception, match="has child!"):
+    with pytest.raises(Exception, match="must have a child"):
         assert tree_only_and()
 
 
 def test_bad_tree_only_or_no_child():
-    with pytest.raises(Exception, match="has child!"):
+    with pytest.raises(Exception, match="must have a child"):
         assert tree_only_or()
 
 

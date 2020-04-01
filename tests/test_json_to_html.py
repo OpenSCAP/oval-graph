@@ -35,7 +35,7 @@ def try_expection_for_prepare_graph(src, rule, err):
 def test_prepare_graph_with_not_valid_file():
     src = 'test_data/ssg-fedora-ds-arf-passing-scan.xml'
     rule = 'xccdf_org.ssgproject.content_rule_package_abrt_removed'
-    try_expection_for_prepare_graph(src, rule, 'json or valid')
+    try_expection_for_prepare_graph(src, rule, 'is not valid json')
 
 
 def test_prepare_graph_with_not_exist_rule():
@@ -47,7 +47,7 @@ def test_prepare_graph_with_not_exist_rule():
 def test_prepare_graph_with_bat_data():
     src = 'test_data/bad_result_data_json.json'
     rule = 'xccdf_org.ssgproject.content_rule_package_abrt_removed'
-    try_expection_for_prepare_graph(src, rule, 'valid for oval tree')
+    try_expection_for_prepare_graph(src, rule, 'valid for OVAL tree')
 
 
 @pytest.mark.usefixtures("remove_generated_reports_in_root")

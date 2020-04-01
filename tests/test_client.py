@@ -43,11 +43,11 @@ def test_search_rules_id_on_web_browser():
     assert len(client.search_rules_id()) == 184
 
 
-def test_find_does_not_exist_rule():
+def test_search_non_existent_rule():
     rule = 'random_rule_which_doest_exist'
     src = 'test_data/ssg-fedora-ds-arf.xml'
     client = get_client(src, rule)
-    with pytest.raises(Exception, match="err- 404 rule not found!"):
+    with pytest.raises(Exception, match='404 rule "{}" not found!'.format(rule)):
         assert client.search_rules_id()
 
 
@@ -104,13 +104,6 @@ def test_get_wanted_rules():
     ]
 
     assert out == client._get_wanted_rules()
-
-
-def test_search_non_existent_rule():
-    src = 'test_data/ssg-fedora-ds-arf.xml'
-    non_existent_rule = 'non-existent_rule'
-    with pytest.raises(Exception, match="err- 404 rule not found!"):
-        assert get_client(src, non_existent_rule).search_rules_id()
 
 
 def test_search_not_selected_rule():

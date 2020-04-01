@@ -4,6 +4,9 @@ from .arf_to_html import ArfToHtml
 from .arf_to_json import ArfToJson
 from .json_to_html import JsonToHtml
 
+CRED = '\033[91m'
+CEND = '\033[0m'
+
 
 def print_where_is_saved_result(results_src):
     if results_src:
@@ -13,24 +16,33 @@ def print_where_is_saved_result(results_src):
 
 
 def arf_to_graph(args=None):
-    if args is not None:
-        main(ArfToHtml(args))
-    else:
-        main(ArfToHtml(sys.argv[1:]))
+    try:
+        if args is not None:
+            main(ArfToHtml(args))
+        else:
+            main(ArfToHtml(sys.argv[1:]))
+    except Exception as error:
+        print((CRED + 'Error: {}' + CEND).format(error))
 
 
 def arf_to_json(args=None):
-    if args is not None:
-        main(ArfToJson(args))
-    else:
-        main(ArfToJson(sys.argv[1:]))
+    try:
+        if args is not None:
+            main(ArfToJson(args))
+        else:
+            main(ArfToJson(sys.argv[1:]))
+    except Exception as error:
+        print((CRED + 'Error: {}' + CEND).format(error))
 
 
 def json_to_graph(args=None):
-    if args is not None:
-        main(JsonToHtml(args))
-    else:
-        main(JsonToHtml(sys.argv[1:]))
+    try:
+        if args is not None:
+            main(JsonToHtml(args))
+        else:
+            main(JsonToHtml(sys.argv[1:]))
+    except Exception as error:
+        print((CRED + 'Error: {}' + CEND).format(error))
 
 
 def main(client):

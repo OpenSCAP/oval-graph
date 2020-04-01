@@ -80,21 +80,16 @@ class JsonToHtml(Client):
         return []
 
     def prepare_data(self, rules):
-        try:
-            out = []
-            for rule in rules["rules"]:
-                self.oval_tree = self.load_json_to_oval_tree(rule)
-                oval_tree_dict = self.create_dict_of_oval_node(self.oval_tree)
-                src = self.get_save_src(rule.replace('graph-of-', '') + "-")
-                self.save_html_report(oval_tree_dict, src)
-                self.open_web_browser(src)
-                print('Rule "{}" done!'.format(rule))
-                out.append(src)
-            return out
-        except Exception as error:
-            raise ValueError(
-                'Rule: "{}" Error: "{}"'.format(
-                    self.source_filename, error))
+        out = []
+        for rule in rules["rules"]:
+            self.oval_tree = self.load_json_to_oval_tree(rule)
+            oval_tree_dict = self.create_dict_of_oval_node(self.oval_tree)
+            src = self.get_save_src(rule.replace('graph-of-', '') + "-")
+            self.save_html_report(oval_tree_dict, src)
+            self.open_web_browser(src)
+            print('Rule "{}" done!'.format(rule))
+            out.append(src)
+        return out
 
     def prepare_parser(self):
         super().prepare_parser()

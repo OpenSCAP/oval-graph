@@ -16,6 +16,26 @@ This tool generates a tree graph from ARF xml report from OpenSCAP scan.
 
 ## Installation
 
+### Enterprise Linux
+
+**Before installing, enable Extra Packages for Enterprise Linux (EPEL). Learn how to enable EPEL in [EPEL documentation](https://fedoraproject.org/wiki/EPEL).**
+
+#### RHEL/CentOS 7
+
+```bash
+sudo dnf install oval-graph python36-lxml
+# Install inquirer, if you want have nice cli features. (optional)
+sudo pip3 install inquirer
+```
+
+#### RHEL/CentOS 8
+
+```bash
+sudo dnf install oval-graph
+# Install inquirer, if you want have nice cli features. (optional)
+sudo pip3 install inquirer
+```
+
 ### Fedora 30 and later
 
 ```bash
@@ -80,13 +100,13 @@ This command serves to fast visualization of rule.
 arf-to-graph scan-data/ssg-fedora-ds-arf.xml 'xccdf_org.ssgproject.content_rule_audit_rules_unsuccessful_\w+on_creat'
 ```
 
-This command generates a graph and saves file named  `graph-of-<rule_id>-<date>.html` (The date the graph was created.) in the working directory. Then open the web browser. _Default web browser is Firefox. If Firefox not installed it opens default web browser in OS._
+This command generates a graph and saves file named  `graph-of-<rule_id>-<date>.html` (The date the graph was created.) in the working directory. Then, it opens the generated file in your web browser. _Default web browser is Firefox. If Firefox is not installed, the default web browser in OS is used._
 
 ```bash
 arf-to-graph -o ~/graphs scan-data/ssg-fedora-ds-arf.xml 'xccdf_org.ssgproject.content_rule_audit_rules_unsuccessful_\w+on_creat'
 ```
 
-This command generates a graph and saves file named `graph-of-<rule_id>-<date>.html` (The date the graph was created.) in `~/graphs` because `-o` was used. Then open web browser. _Default web browser is Firefox. If Firefox not installed it opens default web browser in OS._ 
+This command generates a graph and saves file named `graph-of-<rule_id>-<date>.html` (The date the graph was created.) in `~/graphs` because `-o` was used. Then, it opens the generated file in your web browser. _Default web browser is Firefox. If Firefox is not installed, the default web browser in OS is used._
 **Resulting output**
 
 ![demo-screenshot](./demo-screenshot.png "demo-screenshot")
@@ -119,13 +139,13 @@ This command serves to restore graph form json of rules.
 json-to-graph ~/rules.json xccdf_org.ssgproject.content_rule_audit_rules_unsuccessful_file_modification_creat
 ```
 
-This command restores the graph and saves file named `graph-of-<rule_id>-<date>.html` (The date the graph was created.) in working directory. Then open the web browser. _Default web browser is Firefox. If Firefox not installed it opens default web browser in OS._
+This command restores the graph and saves file named `graph-of-<rule_id>-<date>.html` (The date the graph was created.) in working directory. Then, it opens the generated file in your web browser. _Default web browser is Firefox. If Firefox is not installed, the default web browser in OS is used._
 
 ```bash
 json-to-graph -o ~/graphs ~/rules.json xccdf_org.ssgproject.content_rule_audit_rules_unsuccessful_file_modification_creat
 ```
 
-This command restore graph and saves all necessary files to a directory named `graph-of-<rule_id>-<date>.html` (The date the graph was created.) in `~/graphs` because `-o` was used. Then open web browser. _Default web browser is Firefox. If Firefox not installed it opens default web browser in OS._
+This command restore graph and saves all necessary files to a directory named `graph-of-<rule_id>-<date>.html` (The date the graph was created.) in `~/graphs` because `-o` was used. Then, it opens the generated file in your web browser. _Default web browser is Firefox. If Firefox is not installed, the default web browser in OS is used._
 > **The resulting output is the same as the previous image.**  
 
 #### Option to hide pass tests in graph

@@ -2,37 +2,43 @@ ns = {
     'oval-definitions': 'http://oval.mitre.org/XMLSchema/oval-definitions-5',
 }
 
-# rework this (use static metodes)
-
 
 class _XmlParserComments:
     def __init__(self, oval_definitions):
         self.oval_definitions = oval_definitions
 
-    def _create_dict_form_criteria(self, criteria, description):
+    def _create_dict_form_criteria(self, criteria, description=None):
         comments = dict(
-            operator='AND' if criteria.get('operator') is None else criteria.get('operator'),
-            comment=description if criteria.get('comment') is None else criteria.get('comment'),
+            operator=self._get_operator(criteria),
+            comment=self._get_comment(criteria, description),
             node=[],
         )
         for criterion in criteria:
             if criterion.get('operator'):
                 comments['node'].append(
-                    self._create_dict_form_criteria(criterion, None))
+                    self._create_dict_form_criteria(criterion))
             else:
-                if criterion.get('definition_ref'):
-                    comments['node'].append(
-                        dict(
-                            extend_definition=criterion.get('definition_ref'),
-                            comment=criterion.get('comment'),
-                        ))
-                else:
-                    comments['node'].append(
-                        dict(
-                            value_id=criterion.get('test_ref'),
-                            comment=criterion.get('comment'),
-                        ))
+                comments['node'].append(self._get_dict_with_comment(criterion))
+
         return comments
+
+    def _get_dict_with_comment(self, criterion):
+        out = dict(
+            comment=self._get_comment(criterion),
+        )
+        if criterion.get('definition_ref'):
+            out['extend_definition'] = criterion.get('definition_ref')
+        else:
+            out['value_id'] = criterion.get('test_ref')
+        return out
+
+    def _get_operator(self, criterion):
+        operator = criterion.get('operator')
+        return 'AND' if operator is None else operator
+
+    def _get_comment(self, criterion, description=None):
+        comment = criterion.get('comment')
+        return description if comment is None else comment
 
     def _prepare_definition_comments(self):
         definitions = {}

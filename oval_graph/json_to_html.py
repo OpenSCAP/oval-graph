@@ -6,10 +6,11 @@ import shutil
 from datetime import datetime
 import sys
 import re
+
 from .client import Client
 from .oval_node import restore_dict_to_tree
 from .converter import Converter
-
+from .exceptions import NotChecked
 
 class JsonToHtml(Client):
     def __init__(self, args):
@@ -48,8 +49,11 @@ class JsonToHtml(Client):
                         self.source_filename))
 
     def load_json_to_oval_tree(self, rule):
+        dict_of_tree = self.json_data_file[rule]
+        if isinstance(dict_of_tree, str):
+            raise NotChecked(dict_of_tree)
         try:
-            return restore_dict_to_tree(self.json_data_file[rule])
+            return restore_dict_to_tree(dict_of_tree)
         except Exception as error:
             raise ValueError('Data is not valid for OVAL tree.')
 
@@ -84,13 +88,16 @@ class JsonToHtml(Client):
     def prepare_data(self, rules):
         out = []
         for rule in rules["rules"]:
-            self.oval_tree = self.load_json_to_oval_tree(rule)
-            oval_tree_dict = self.create_dict_of_oval_node(self.oval_tree)
-            src = self.get_save_src(rule.replace('graph-of-', '') + "-")
-            self.save_html_report(oval_tree_dict, src)
-            self.open_web_browser(src)
-            print('Rule "{}" done!'.format(rule))
-            out.append(src)
+            try:
+                self.oval_tree = self.load_json_to_oval_tree(rule)
+                oval_tree_dict = self.create_dict_of_oval_node(
+                    self.oval_tree)
+                src = self.get_save_src(
+                    rule.replace('graph-of-', '') + "-")
+                self.save_html_and_open_html(
+                    oval_tree_dict, src, rule, out)
+            except NotChecked as error:
+                self.print_red_text(error)
         return out
 
     def prepare_parser(self):

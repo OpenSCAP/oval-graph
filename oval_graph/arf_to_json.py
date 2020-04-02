@@ -9,7 +9,7 @@ import uuid
 
 from .converter import Converter
 from .client import Client
-
+from .exceptions import NotChecked
 
 class ArfToJson(Client):
     def __init__(self, args):
@@ -46,8 +46,12 @@ class ArfToJson(Client):
         out_oval_tree_dict = dict()
         for rule in rules['rules']:
             date = str(datetime.now().strftime("-%d_%m_%Y-%H_%M_%S"))
-            out_oval_tree_dict['graph-of-' + rule +
-                               date] = self.create_dict_of_rule(rule)
+            try:
+                out_oval_tree_dict['graph-of-' + rule +
+                                   date] = self.create_dict_of_rule(rule)
+            except NotChecked as error:
+                out_oval_tree_dict['graph-of-' + rule +
+                                   date] = str(error)
         if self.out is not None:
             self.save_dict_as_json(out_oval_tree_dict, self.out)
             out.append(self.out)

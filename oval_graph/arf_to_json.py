@@ -41,23 +41,20 @@ class ArfToJson(Client):
             json.dump(dict_, f)
 
     def prepare_data(self, rules):
-        try:
-            out = []
-            rule = None
-            out_oval_tree_dict = dict()
-            for rule in rules['rules']:
-                date = str(datetime.now().strftime("-%d_%m_%Y-%H_%M_%S"))
-                out_oval_tree_dict['graph-of-' + rule +
-                                   date] = self.create_dict_of_rule(rule)
-            if self.out is not None:
-                self.save_dict_as_json(out_oval_tree_dict, self.out)
-                out.append(self.out)
-            else:
-                print(
-                    str(json.dumps(out_oval_tree_dict, sort_keys=False, indent=4)))
-            return out
-        except Exception as error:
-            raise ValueError('Rule: "{}" Error: "{}"'.format(rule, error))
+        out = []
+        rule = None
+        out_oval_tree_dict = dict()
+        for rule in rules['rules']:
+            date = str(datetime.now().strftime("-%d_%m_%Y-%H_%M_%S"))
+            out_oval_tree_dict['graph-of-' + rule +
+                               date] = self.create_dict_of_rule(rule)
+        if self.out is not None:
+            self.save_dict_as_json(out_oval_tree_dict, self.out)
+            out.append(self.out)
+        else:
+            print(
+                str(json.dumps(out_oval_tree_dict, sort_keys=False, indent=4)))
+        return out
 
     def prepare_parser(self):
         super().prepare_parser()

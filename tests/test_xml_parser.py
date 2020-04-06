@@ -84,7 +84,7 @@ def test_get_def_id_by_rule_id():
     src = 'test_data/ssg-fedora-ds-arf.xml'
     parser = XmlParser(tests.any_test_help.get_src(src))
 
-    with pytest.raises(Exception, match="err- 404 rule not found!"):
+    with pytest.raises(Exception, match='404 rule "hello" not found!'):
         assert parser._get_definition_of_rule('hello')
 
 

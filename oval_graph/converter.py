@@ -36,7 +36,8 @@ class Converter():
             if not self.result:
                 self.result = self.tree.value
         else:
-            raise ValueError('err - this is not tree created from OvalNodes')
+            raise ValueError(
+                'This converter can process only trees created from OvalNodes.')
 
     def _get_node_icon(self):
         values = self._get_node_style()

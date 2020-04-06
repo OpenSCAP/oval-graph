@@ -225,7 +225,8 @@ def test_if_not_installed_inquirer_with_option_show_failed_rules(capsys):
     with mock.patch.dict(sys.modules, {'inquirer': None}):
         src = 'test_data/ssg-fedora-ds-arf.xml'
         regex = r'_package_\w+_removed'
-        client = get_client_arf_to_json_with_option_show_failed_rules(src, regex)
+        client = get_client_arf_to_json_with_option_show_failed_rules(
+            src, regex)
         client.isatty = True
         tests.any_test_help.if_not_installed_inquirer_with_option_show_failed_rules(
             capsys, client)

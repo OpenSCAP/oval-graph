@@ -40,7 +40,9 @@ class XmlParser:
             self.scan_definitions = _XmlParserScanDefinitions(
                 self.definitions, self.oval_definitions, self.report_data).get_scan()
         except BaseException:
-            raise ValueError("err- This is not arf report file.")
+            raise ValueError(
+                'This file "{}" is not arf report file or there are no results'.format(
+                    self.src))
 
     def get_src(self, src):
         _dir = os.path.dirname(os.path.realpath(__file__))
@@ -112,10 +114,10 @@ class XmlParser:
                         definition=self.scan_definitions[self.used_rules[rule_id]['id_def']])
         elif rule_id in self.notselected_rules:
             raise ValueError(
-                'err- rule "{}" was not selected, so there are no results.'
+                'Rule "{}" was not selected, so there are no results.'
                 .format(rule_id))
         else:
-            raise ValueError('err- 404 rule not found!')
+            raise ValueError('404 rule "{}" not found!'.format(rule_id))
 
     def get_oval_tree(self, rule_id=None):
         return _BuilderOvalGraph.get_oval_graph_from_dict_of_rule(

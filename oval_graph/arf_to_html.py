@@ -25,18 +25,15 @@ class ArfToHtml(Client):
         return converter.to_JsTree_dict(self.hide_passing_tests)
 
     def prepare_data(self, rules):
-        try:
-            out = []
-            for rule in rules['rules']:
-                oval_tree_dict = self.create_dict_of_rule(rule)
-                src = self.get_save_src(rule)
-                self.save_html_report(oval_tree_dict, src)
-                self.open_web_browser(src)
-                print('Rule "{}" done!'.format(rule))
-                out.append(src)
-            return out
-        except Exception as error:
-            raise ValueError('Rule: "{}" Error: "{}"'.format(rule, error))
+        out = []
+        for rule in rules['rules']:
+            oval_tree_dict = self.create_dict_of_rule(rule)
+            src = self.get_save_src(rule)
+            self.save_html_report(oval_tree_dict, src)
+            self.open_web_browser(src)
+            print('Rule "{}" done!'.format(rule))
+            out.append(src)
+        return out
 
     def prepare_parser(self):
         super().prepare_parser()

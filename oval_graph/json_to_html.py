@@ -43,13 +43,15 @@ class JsonToHtml(Client):
             try:
                 return json.load(f)
             except Exception as error:
-                raise ValueError("err- Used file is not json or valid.")
+                raise ValueError(
+                    'Used file "{}" is not valid json.'.format(
+                        self.source_filename))
 
     def load_json_to_oval_tree(self, rule):
         try:
             return restore_dict_to_tree(self.json_data_file[rule])
         except Exception as error:
-            raise ValueError("err- Data is not valid for oval tree.")
+            raise ValueError('Data is not valid for OVAL tree.')
 
     def create_dict_of_oval_node(self, oval_node):
         converter = Converter(oval_node)
@@ -80,21 +82,16 @@ class JsonToHtml(Client):
         return []
 
     def prepare_data(self, rules):
-        try:
-            out = []
-            for rule in rules["rules"]:
-                self.oval_tree = self.load_json_to_oval_tree(rule)
-                oval_tree_dict = self.create_dict_of_oval_node(self.oval_tree)
-                src = self.get_save_src(rule.replace('graph-of-', '') + "-")
-                self.save_html_report(oval_tree_dict, src)
-                self.open_web_browser(src)
-                print('Rule "{}" done!'.format(rule))
-                out.append(src)
-            return out
-        except Exception as error:
-            raise ValueError(
-                'Rule: "{}" Error: "{}"'.format(
-                    self.source_filename, error))
+        out = []
+        for rule in rules["rules"]:
+            self.oval_tree = self.load_json_to_oval_tree(rule)
+            oval_tree_dict = self.create_dict_of_oval_node(self.oval_tree)
+            src = self.get_save_src(rule.replace('graph-of-', '') + "-")
+            self.save_html_report(oval_tree_dict, src)
+            self.open_web_browser(src)
+            print('Rule "{}" done!'.format(rule))
+            out.append(src)
+        return out
 
     def prepare_parser(self):
         super().prepare_parser()

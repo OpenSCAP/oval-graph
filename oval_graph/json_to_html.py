@@ -73,13 +73,10 @@ class JsonToHtml(Client):
             choices.append(rule)
         return choices
 
-    def _get_wanted_rules(self):
-        return [
-            x for x in self.get_rules_id() if re.search(
-                self.rule_name, x)]
-
-    def _get_wanted_not_selected_rules(self):
-        return []
+    def search_rules_id(self):
+        rules = self._get_wanted_rules_from_array_of_IDs(self.get_rules_id())
+        notselected_rules = []
+        return self._check_rules_id(rules, notselected_rules)
 
     def prepare_data(self, rules):
         out = []

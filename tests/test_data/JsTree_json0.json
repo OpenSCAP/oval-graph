@@ -132,7 +132,7 @@
                                                 "oval:ssg-object_accounts_passwords_pam_faillock_when_lines_skipped_system-auth:obj:1": "does not exist",
                                                 "textfilecontent54_object": {
                                                     "filepath": "/etc/pam.d/system-auth",
-                                                    "pattern": "no value",
+                                                    "pattern": "Referenced variable has no values (oval:ssg-var_accounts_passwords_pam_faillock_preauth_default_lines_regex_system-auth:var:1)<br>",
                                                     "instance": "1"
                                                 }
                                             }
@@ -186,7 +186,7 @@
                                                 "oval:ssg-object_accounts_passwords_pam_faillock_when_lines_skipped_password-auth:obj:1": "does not exist",
                                                 "textfilecontent54_object": {
                                                     "filepath": "/etc/pam.d/password-auth",
-                                                    "pattern": "no value",
+                                                    "pattern": "Referenced variable has no values (oval:ssg-var_accounts_passwords_pam_faillock_preauth_default_lines_regex_password-auth:var:1)<br>",
                                                     "instance": "1"
                                                 }
                                             }

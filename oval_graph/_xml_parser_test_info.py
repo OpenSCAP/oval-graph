@@ -83,7 +83,7 @@ class _XmlParserTestInfo:
         out = {}
         if len(collected_object) == 0:
             out[self._get_unique_id_in_dict(object_, out)
-                ] = self._get_object_items(object_)
+                ] = self._get_object_items(object_, collected_object)
         else:
             item_refs = self._find_item_ref(collected_object)
             if item_refs:
@@ -92,7 +92,7 @@ class _XmlParserTestInfo:
                         object_, out)] = self._get_item(item_id)
             else:
                 out[self._get_unique_id_in_dict(
-                    object_, out)] = self._get_object_items(object_)
+                    object_, out)] = self._get_object_items(object_, collected_object)
         return out
 
     def _xml_element_to_dict(self, object_, collected_object):
@@ -107,17 +107,44 @@ class _XmlParserTestInfo:
         else:
             result[object_.attrib.get('id')] = "does not exist"
             result[self._get_unique_id_in_dict(
-                object_, result)] = self._get_object_items(object_)
+                object_, result)] = self._get_object_items(object_, collected_object)
         return result
 
-    def _get_object_items(self, object_):
+    def _get_object_items(self, object_, collected_object):
         out = {}
         for element in object_.iterchildren():
             if element.text and element.text.strip():
                 out[self._get_unique_id_in_dict(element, out)] = element.text
             else:
-                out[self._get_unique_id_in_dict(element, out)] = "no value"
+                out[self._get_unique_id_in_dict(element, out)] = self._get_ref_var(
+                    element, collected_object)
         return out
+
+    def _get_ref_var(self, element, collected_object):
+        variable_value = ''
+        if self._collected_object_is_not_none_and_contain_var_ref(
+                element, collected_object):
+            var_id = element.attrib.get('var_ref')
+            for item in collected_object:
+                if var_id == item.attrib.get('variable_id'):
+                    variable_value += item.text
+                elif self._get_key_for_element(item) == 'message':
+                    variable_value += self._fix_message(item, var_id) + '<br>'
+        else:
+            variable_value = 'no value'
+        return variable_value
+
+    def _fix_message(self, item, var_id):
+        if len(
+                item.text) == 99 and var_id[:99 - item.text.find('(')] in var_id:
+            return item.text[:item.text.find('(') + 1] + var_id + ')'
+        return item.text
+
+    def _collected_object_is_not_none_and_contain_var_ref(
+            self, element, collected_object):
+        if collected_object is not None and 'var_ref' in element.attrib:
+            return len(collected_object)
+        return False
 
     def _get_item(self, item_ref):
         item = self._find_item_by_id(self.system_data, item_ref)

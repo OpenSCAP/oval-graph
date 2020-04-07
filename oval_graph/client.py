@@ -158,20 +158,16 @@ class Client():
             os.getcwd(),
             'graph-of-' + rule + date + '.html')
 
-    def _get_head(self):
-        with open(os.path.join(self.parts, 'head.html'), "r") as data_file:
-            head = data_file.readlines()
-        return head
-
-    def _get_footer(self):
-        with open(os.path.join(self.parts, 'footer.html'), "r") as data_file:
-            footer = data_file.readlines()
-        return footer
+    def _get_part(self, part):
+        with open(os.path.join(self.parts, part), "r") as data_file:
+            return data_file.readlines()
 
     def _merge_report_parts(self, data):
-        head = self._get_head()
-        footer = self._get_footer()
-        return [*head, data, *footer]
+        head = self._get_part('head.html')
+        body = self._get_part('body.html')
+        script = self._get_part('script.js')
+        footer = ['</script>', '</body>', '</html>']
+        return [*head, data, *body, *script, *footer]
 
     def save_html_report(self, dict_, src):
         data = "var data_of_tree =" + str(

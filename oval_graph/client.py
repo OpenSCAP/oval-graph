@@ -79,7 +79,8 @@ class Client():
     def get_lines_of_wanted_not_selected_rules(self):
         out = []
         out.append('== The not selected rule IDs ==')
-        for rule in self._get_wanted_not_selected_rules():
+        for rule in self._get_wanted_rules_from_array_of_IDs(
+                self.xml_parser.notselected_rules):
             out.append(rule + '(Not selected)')
         return out
 
@@ -112,19 +113,19 @@ class Client():
                 lambda rule: self.xml_parser.used_rules[rule]['result'] == 'fail',
                 rules))
 
-    def _get_wanted_rules(self):
+    def _get_wanted_rules_from_array_of_IDs(self, rules):
         return [
-            x for x in self.xml_parser.used_rules.keys() if re.search(
-                self.rule_name, x)]
-
-    def _get_wanted_not_selected_rules(self):
-        return [
-            x for x in self.xml_parser.notselected_rules if re.search(
+            x for x in rules if re.search(
                 self.rule_name, x)]
 
     def search_rules_id(self):
-        rules = self._get_wanted_rules()
-        notselected_rules = self._get_wanted_not_selected_rules()
+        rules = self._get_wanted_rules_from_array_of_IDs(
+            self.xml_parser.used_rules.keys())
+        notselected_rules = self._get_wanted_rules_from_array_of_IDs(
+            self.xml_parser.notselected_rules)
+        return self._check_rules_id(rules, notselected_rules)
+
+    def _check_rules_id(self, rules, notselected_rules):
         if len(notselected_rules) and not rules:
             raise ValueError(
                 ('Rule(s) "{}" was not selected, '
@@ -168,20 +169,16 @@ class Client():
             os.getcwd(),
             'graph-of-' + rule + date + '.html')
 
-    def _get_head(self):
-        with open(os.path.join(self.parts, 'head.html'), "r") as data_file:
-            head = data_file.readlines()
-        return head
-
-    def _get_footer(self):
-        with open(os.path.join(self.parts, 'footer.html'), "r") as data_file:
-            footer = data_file.readlines()
-        return footer
+    def _get_part(self, part):
+        with open(os.path.join(self.parts, part), "r") as data_file:
+            return data_file.readlines()
 
     def _merge_report_parts(self, data):
-        head = self._get_head()
-        footer = self._get_footer()
-        return [*head, data, *footer]
+        head = self._get_part('head.html')
+        body = self._get_part('body.html')
+        script = self._get_part('script.js')
+        footer = ['</script>', '</body>', '</html>']
+        return [*head, data, *body, *script, *footer]
 
     def save_html_report(self, dict_, src):
         data = "var data_of_tree =" + str(

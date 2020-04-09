@@ -28,12 +28,28 @@ class _XmlParserScanDefinitions:
             negate_status = str_to_bool[node.get('negate')]
         return negate_status
 
+    def _get_result(self, negate_status, tree):
+        """
+            This  method  removes  the  negation of
+            the result. Because negation is already
+            included in the result in ARF file.
+        """
+        result = tree.get('result')
+        reverse_negate_value = {
+            'true': 'false',
+            'false': 'true',
+        }
+        if negate_status and result in ('true', 'false'):
+            result = reverse_negate_value[result]
+        return result
+
     def _build_node(self, tree, tag, id_definition=None):
+        negate_status = self._get_negate_status(tree)
         node = dict(
             id=id_definition,
             operator=tree.get('operator'),
-            negate=self._get_negate_status(tree),
-            result=tree.get('result'),
+            negate=negate_status,
+            result=self._get_result(negate_status, tree),
             comment=None,
             tag=tag,
             node=[],
@@ -43,7 +59,7 @@ class _XmlParserScanDefinitions:
                 node['node'].append(self._build_node(child, "Criteria"))
             else:
                 negate_status = self._get_negate_status(child)
-                result_of_node = child.get('result')
+                result_of_node = self._get_result(negate_status, child)
                 if child.get('definition_ref') is not None:
                     node['node'].append(
                         dict(

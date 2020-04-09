@@ -1,5 +1,5 @@
 {
-    "text": "<strong><span class=\"text-danger\">NOT</strong></span> <strong><span class=\"text-success\">AND</span></strong> <span class=\"label label-success\"></span> <span class=\"label label-success\">false</span> <i></i>",
+    "text": "<strong><span class=\"text-danger\">NOT</strong></span> <strong><span class=\"text-success\">AND</span></strong> <span class=\"label label-success\"></span> <span class=\"label label-success\">true</span> <i></i>",
     "icon": "glyphicon glyphicon-remove text-danger",
     "state": {
         "opened": true

@@ -5,6 +5,7 @@ from lxml import etree as ET
 
 from ._xml_parser_oval_scan_definitions import _XmlParserScanDefinitions
 from ._builder_oval_graph import _BuilderOvalGraph
+from .exceptions import NotChecked
 
 ns = {
     'XMLSchema': 'http://oval.mitre.org/XMLSchema/oval-results-5',
@@ -68,12 +69,16 @@ class XmlParser:
             if result.text != "notselected":
                 check_content_ref = ruleResult.find(
                     './/xccdf:check/xccdf:check-content-ref', ns)
+                message = ruleResult.find(
+                    './/xccdf:message', ns)
+                rule_dict = {}
                 if check_content_ref is not None:
-                    rules[ruleResult.get('idref')] = dict(
-                        id_def=check_content_ref.attrib.get('name'),
-                        href=check_content_ref.attrib.get('href'),
-                        result=result.text,
-                    )
+                    rule_dict['id_def'] = check_content_ref.attrib.get('name')
+                    rule_dict['href'] = check_content_ref.attrib.get('href')
+                    rule_dict['result'] = result.text
+                    if message is not None:
+                        rule_dict['message'] = message.text
+                    rules[ruleResult.get('idref')] = rule_dict
         return rules
 
     def _get_report_data(self, href):
@@ -109,9 +114,16 @@ class XmlParser:
 
     def _get_definition_of_rule(self, rule_id):
         if rule_id in self.used_rules:
+            rule_info = self.used_rules[rule_id]
+            if rule_info['id_def'] is None:
+                raise NotChecked(
+                    '"{}" is {}: {}'.format(
+                        rule_id,
+                        rule_info['result'],
+                        rule_info['message']))
             return dict(rule_id=rule_id,
-                        definition_id=self.used_rules[rule_id]['id_def'],
-                        definition=self.scan_definitions[self.used_rules[rule_id]['id_def']])
+                        definition_id=rule_info['id_def'],
+                        definition=self.scan_definitions[rule_info['id_def']])
         elif rule_id in self.notselected_rules:
             raise ValueError(
                 'Rule "{}" was not selected, so there are no results.'
@@ -119,6 +131,6 @@ class XmlParser:
         else:
             raise ValueError('404 rule "{}" not found!'.format(rule_id))
 
-    def get_oval_tree(self, rule_id=None):
+    def get_oval_tree(self, rule_id):
         return _BuilderOvalGraph.get_oval_graph_from_dict_of_rule(
             self._get_definition_of_rule(rule_id))

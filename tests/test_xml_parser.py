@@ -106,3 +106,13 @@ def test_use_bat_report_file():
 
     with pytest.raises(Exception, match=r"arf\b|ARF\b"):
         assert tests.any_test_help.get_parser(src)
+
+
+def test_get_def_id_by_notchecked_rule_id():
+    src = 'test_data/arf-scan-with-notchecked-rule.xml'
+
+    parser = tests.any_test_help.get_parser(src)
+    rule_id = 'xccdf_org.ssgproject.content_rule_security_patches_up_to_date'
+
+    with pytest.raises(Exception, match="notchecked"):
+        assert parser._get_definition_of_rule(rule_id)

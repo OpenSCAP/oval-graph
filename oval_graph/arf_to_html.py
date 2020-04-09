@@ -3,7 +3,7 @@ from datetime import datetime
 
 from .client import Client
 from .converter import Converter
-
+from .exceptions import NotChecked
 
 class ArfToHtml(Client):
     def __init__(self, args):
@@ -27,12 +27,13 @@ class ArfToHtml(Client):
     def prepare_data(self, rules):
         out = []
         for rule in rules['rules']:
-            oval_tree_dict = self.create_dict_of_rule(rule)
-            src = self.get_save_src(rule)
-            self.save_html_report(oval_tree_dict, src)
-            self.open_web_browser(src)
-            print('Rule "{}" done!'.format(rule))
-            out.append(src)
+            try:
+                oval_tree_dict = self.create_dict_of_rule(rule)
+                src = self.get_save_src(rule)
+                self.save_html_and_open_html(
+                    oval_tree_dict, src, rule, out)
+            except NotChecked as error:
+                self.print_red_text(error)
         return out
 
     def prepare_parser(self):

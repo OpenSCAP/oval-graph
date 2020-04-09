@@ -36,6 +36,11 @@ class Client():
         }
         return MESSAGES
 
+    def print_red_text(self, text):
+        CRED = '\033[91m'
+        CEND = '\033[0m'
+        print(CRED + str(text) + CEND)
+
     def run_gui_and_return_answers(self):
         if self.isatty:
             if self.all_rules:
@@ -133,6 +138,12 @@ class Client():
             raise ValueError('404 rule "{}" not found!'.format(self.rule_name))
         else:
             return rules
+
+    def save_html_and_open_html(self, oval_tree_dict, src, rule, out):
+        self.save_html_report(oval_tree_dict, src)
+        print('Rule "{}" done!'.format(rule))
+        out.append(src)
+        self.open_web_browser(src)
 
     def open_web_browser(self, src):
         if not self.off_webbrowser:

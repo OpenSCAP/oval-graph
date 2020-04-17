@@ -4,7 +4,7 @@
 Summary:            Tool for visualization of SCAP rule evaluation results
 Name:               %{name}
 Version:            1.1.0
-Release:            1%{?dist}
+Release:            2%{?dist}
 # The entire source code is ASL 2.0 except schemas/ which is Public Domain
 License:            ASL 2.0 and Public Domain
 
@@ -14,6 +14,7 @@ Source0:            https://files.pythonhosted.org/packages/source/o/%{name}/%{m
 BuildArch:          noarch
 
 BuildRequires:      python3-devel
+Requires:           python3-lxml
 
 %description
 Oval_graph is a tool that displays the results of evaluating SCAP rules.
@@ -43,6 +44,9 @@ Use `arf-to-json` to generate a rule result in json. Using the
 %{_bindir}/json-to-graph
 
 %changelog
+* Fri Apr 17 2020 Jan Rodak <jrodak@redhat.com> - 1.1.0-2
+- Fixes the required dependency
+
 * Wed Apr 15 2020 Jan Rodak <jrodak@redhat.com> - 1.1.0-1
 - release 1.1.0
 

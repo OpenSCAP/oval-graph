@@ -12,29 +12,40 @@ current_version_command: ["python3", "setup.py", "--version"]
 jobs:
 - job: sync_from_downstream
   trigger: commit
+
 - job: propose_downstream
   trigger: release
   metadata:
-    dist-git-branch: master
+    dist-git-branch: fedora-all
+
 - job: propose_downstream
   trigger: release
   metadata:
-    dist-git-branch: f31
+    dist-git-branch: epel7
+
 - job: propose_downstream
   trigger: release
   metadata:
-    dist-git-branch: f30
+    dist-git-branch: epel8
+
+- job: propose_downstream
+  trigger: release
+  metadata:
+    dist-git-branch: epel8-playground
+
 - job: copr_build
   trigger: pull_request
   metadata:
     targets:
-    - fedora-30-x86_64
-    - fedora-31-x86_64
-    - fedora-rawhide-x86_64
+    - fedora-all
+    - epel-7-x86_64
+    - epel-8-x86_64
+
 - job: tests
   trigger: pull_request
   metadata:
     targets:
-    - fedora-30-x86_64
-    - fedora-31-x86_64
-    - fedora-rawhide-x86_64
+    - fedora-all
+# Disabled EPEL 7 install test because for install is used dnf on CentOS 7 
+#    - epel-7-x86_64
+    - epel-8-x86_64

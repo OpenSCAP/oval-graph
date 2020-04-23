@@ -1,0 +1,13 @@
+# Source files
+# ============
+*.py     text diff=python
+
+#
+# Exclude files from exporting
+#
+
+.gitattributes  export-ignore
+.gitignore      export-ignore
+*.html          export-ignore
+*.xml           export-ignore
+*.json          export-ignore

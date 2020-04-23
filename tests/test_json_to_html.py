@@ -33,7 +33,7 @@ def try_expection_for_prepare_graph(src, rule, err):
 
 
 def test_prepare_graph_with_not_valid_file():
-    src = 'test_data/ssg-fedora-ds-arf-passing-scan.xml'
+    src = 'test_data/ssg-fedora-ds-arf.xml'
     rule = 'xccdf_org.ssgproject.content_rule_package_abrt_removed'
     try_expection_for_prepare_graph(src, rule, 'is not valid json')
 

@@ -3,6 +3,8 @@ import json
 import sys
 import mock
 import pytest
+import uuid
+import tempfile
 
 from oval_graph.oval_node import restore_dict_to_tree, OvalNode
 from oval_graph.converter import Converter
@@ -36,6 +38,10 @@ def any_test_parsing_and_evaluate_scan_rule(src, rule_id, result):
     parser = XmlParser(get_src(src))
     oval_tree = parser.get_oval_tree(rule_id)
     any_test_treeEvaluation(oval_tree, result)
+
+
+def get_random_dir_in_tmp():
+    return os.path.join(tempfile.gettempdir(), str(uuid.uuid4()))
 
 
 def any_get_test_data_json(src):

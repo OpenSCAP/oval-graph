@@ -5,6 +5,7 @@ import mock
 import pytest
 import uuid
 import tempfile
+import re
 
 from oval_graph.oval_node import restore_dict_to_tree, OvalNode
 from oval_graph.converter import Converter
@@ -164,9 +165,12 @@ def compare_results_json(result):
     result = any_get_test_data_json(result)
     referenc_result = any_get_test_data_json(
         'test_data/referenc_result_data_json.json')
-    print(json.dumps(result))
-    assert result[list(result.keys())[
-        0]] == referenc_result["xccdf_org.ssgproject.content_rule_package_abrt_removed"]
+    rule_name = "xccdf_org.ssgproject.content_rule_package_abrt_removed"
+    result_rule_name = [
+        x for x in result.keys() if re.search(
+            rule_name, x)]
+    assert (result[result_rule_name[0]]
+            == referenc_result[rule_name])
 
 
 def get_questions_not_selected(capsys, client):

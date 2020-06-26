@@ -13,7 +13,7 @@ Source0:            https://files.pythonhosted.org/packages/source/o/%{name}/%{m
 
 BuildArch:          noarch
 
-BuildRequires:      python3-devel
+BuildRequires:      python3-devel, python3-setuptools
 Requires:           python3-lxml
 
 %description

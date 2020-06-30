@@ -3,13 +3,13 @@ from oval_graph.oval_node import OvalNode
 
 
 def test_create_node_dict_for_JsTree_0():
-    src = 'test_JsTree_data/JsTree_data_0.json'
+    src = 'test_data/test_JsTree_data/JsTree_data_0.json'
     tree = tests.any_test_help.get_simple_tree()
     tests.any_test_help.any_test_create_node_dict_for_JsTree(tree, src)
 
 
 def test_create_node_dict_for_JsTree_1():
-    src = 'test_JsTree_data/JsTree_data_1.json'
+    src = 'test_data/test_JsTree_data/JsTree_data_1.json'
 
     tree = OvalNode(
         node_id=1,
@@ -28,7 +28,7 @@ def test_create_node_dict_for_JsTree_1():
 
 
 def test_create_node_dict_for_JsTree_2():
-    src = 'test_JsTree_data/JsTree_data_2.json'
+    src = 'test_data/test_JsTree_data/JsTree_data_2.json'
 
     tree = OvalNode(
         node_id=1,
@@ -47,7 +47,7 @@ def test_create_node_dict_for_JsTree_2():
 
 
 def test_create_node_dict_for_JsTree_3():
-    src = 'test_JsTree_data/JsTree_data_3.json'
+    src = 'test_data/test_JsTree_data/JsTree_data_3.json'
 
     tree = OvalNode(
         node_id=1,
@@ -58,7 +58,7 @@ def test_create_node_dict_for_JsTree_3():
 
 
 def test_create_node_dict_for_JsTree_4():
-    src = 'test_JsTree_data/JsTree_data_4.json'
+    src = 'test_data/test_JsTree_data/JsTree_data_4.json'
 
     tree = OvalNode(
         node_id=1,
@@ -70,7 +70,7 @@ def test_create_node_dict_for_JsTree_4():
 
 
 def test_create_node_dict_for_JsTree_5():
-    src = 'test_JsTree_data/JsTree_data_5.json'
+    src = 'test_data/test_JsTree_data/JsTree_data_5.json'
 
     tree = OvalNode(
         node_id=1,
@@ -82,7 +82,7 @@ def test_create_node_dict_for_JsTree_5():
 
 
 def test_create_node_with_negation_dict_for_JsTree():
-    src = 'test_JsTree_data/JsTree_data_negated_0.json'
+    src = 'test_data/test_JsTree_data/JsTree_data_negated_0.json'
 
     tree = OvalNode(
         node_id=1,
@@ -102,7 +102,7 @@ def test_create_node_with_negation_dict_for_JsTree():
 
 
 def test_create_node_with_negation_dict_for_JsTree1():
-    src = 'test_JsTree_data/JsTree_data_negated_1.json'
+    src = 'test_data/test_JsTree_data/JsTree_data_negated_1.json'
 
     tree = OvalNode(
         node_id=1,
@@ -122,7 +122,7 @@ def test_create_node_with_negation_dict_for_JsTree1():
 
 
 def test_create_node_with_negation_dict_for_JsTree2():
-    src = 'test_JsTree_data/JsTree_data_negated_2.json'
+    src = 'test_data/test_JsTree_data/JsTree_data_negated_2.json'
 
     tree = OvalNode(
         node_id=1,
@@ -143,7 +143,7 @@ def test_create_node_with_negation_dict_for_JsTree2():
 
 
 def test_create_node_with_negation_dict_for_JsTree3():
-    src = 'test_JsTree_data/JsTree_data_negated_3.json'
+    src = 'test_data/test_JsTree_data/JsTree_data_negated_3.json'
 
     tree = OvalNode(
         node_id=1,

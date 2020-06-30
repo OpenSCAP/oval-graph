@@ -18,8 +18,8 @@ def test_parsing_full_scan_XML_and_evaluate():
 
 
 def test_parsing_and_evaluate_scan_with_extend_def():
-    src = 'test_data/ssg-fedora-ds-arf-scan-with-extend-definitions.xml'
-    rule_id = 'xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_disable_ipv6'
+    src = 'test_data/ssg-fedora-ds-arf.xml'
+    rule_id = 'xccdf_org.ssgproject.content_rule_sshd_disable_gssapi_auth'
     result = 'false'
 
     tests.any_test_help.any_test_parsing_and_evaluate_scan_rule(
@@ -27,7 +27,7 @@ def test_parsing_and_evaluate_scan_with_extend_def():
 
 
 def test_parsing_and_evaluate_scan_with_pasing_rule():
-    src = 'test_data/ssg-fedora-ds-arf-passing-scan.xml'
+    src = 'test_data/ssg-fedora-ds-arf.xml'
     rule_id = 'xccdf_org.ssgproject.content_rule_service_debug-shell_disabled'
     result = 'true'
 
@@ -36,7 +36,7 @@ def test_parsing_and_evaluate_scan_with_pasing_rule():
 
 
 def test_parsing_and_evaluate_scan_with_fail_rule():
-    src = 'test_data/ssg-fedora-ds-arf-scan-fail.xml'
+    src = 'test_data/ssg-fedora-ds-arf.xml'
     rule_id = 'xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec'
     result = 'false'
 
@@ -44,19 +44,10 @@ def test_parsing_and_evaluate_scan_with_fail_rule():
         src, rule_id, result)
 
 
-def test_parsing_and_evaluate_scan_with_rule_with_XOR():
-    src = 'test_data/ssg-fedora-ds-arf-scan-with-xor.xml'
-    rule_id = 'xccdf_org.ssgproject.content_rule_mount_option_nosuid_removable_partitions'
-    result = 'true'
-
-    tests.any_test_help.any_test_parsing_and_evaluate_scan_rule(
-        src, rule_id, result)
-
-
-def test_parsing_and_evaluate_scan_with_11_rules():
-    src = 'test_data/ssg-fedora-ds-arf-scan-with-11-rules.xml'
-    rule_id = 'xccdf_org.ssgproject.content_rule_mount_option_tmp_nosuid'
-    result = 'true'
+def test_parsing_and_evaluate_scan_with_rule_with_NOT_OR():
+    src = 'test_data/ssg-fedora-ds-arf.xml'
+    rule_id = 'xccdf_org.ssgproject.content_rule_audit_rules_unsuccessful_file_modification_creat'
+    result = 'false'
 
     tests.any_test_help.any_test_parsing_and_evaluate_scan_rule(
         src, rule_id, result)
@@ -72,8 +63,8 @@ def test_parsing_and_evaluate_scan_0():
 
 
 def test_parsing_and_evaluate_scan_1():
-    src = 'test_data/ssg-fedora-ds-arf-scan-with-negated-extend-definitions.xml'
-    rule_id = 'xccdf_org.ssgproject.content_rule_install_PAE_kernel_on_x86-32'
+    src = 'test_data/ssg-fedora-ds-arf.xml'
+    rule_id = 'xccdf_org.ssgproject.content_rule_require_singleuser_auth'
     result = 'true'
 
     tests.any_test_help.any_test_parsing_and_evaluate_scan_rule(

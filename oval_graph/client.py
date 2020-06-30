@@ -21,6 +21,7 @@ class Client():
         self.rule_name = self.arg.rule_id
         self.out = self.arg.output
         self.all_rules = self.arg.all
+        self.all_in_one = None
         self.isatty = sys.stdout.isatty()
         self.show_failed_rules = False
         self.show_not_selected_rules = False
@@ -148,7 +149,22 @@ class Client():
 
     def save_html_and_open_html(self, oval_tree_dict, src, rule, out):
         self.save_html_report(oval_tree_dict, src)
-        print('Rule "{}" done!'.format(rule))
+        self.print_output_message_and_open_web_browser(src, rule, out)
+
+    def save_html_with_all_rules_in_one(
+            self, dict_oval_trees, src, rules, out):
+        self.save_html_report(dict_oval_trees, src)
+        self.print_output_message_and_open_web_browser(
+            src, self._format_rules_output(rules), out)
+
+    def _format_rules_output(self, rules):
+        out = ''
+        for rule in rules['rules']:
+            out += rule + '\n'
+        return out
+
+    def print_output_message_and_open_web_browser(self, src, rule, out):
+        print('Rule(s) "{}" done!'.format(rule))
         out.append(src)
         self.open_web_browser(src)
 

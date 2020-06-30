@@ -5,12 +5,14 @@ from .client import Client
 from .converter import Converter
 from .exceptions import NotChecked
 
+
 class ArfToHtml(Client):
     def __init__(self, args):
         super().__init__(args)
         self.off_webbrowser = self.arg.off_web_browser
         self.show_failed_rules = self.arg.show_failed_rules
         self.show_not_selected_rules = self.arg.show_not_selected_rules
+        self.all_in_one = self.arg.all_in_one
 
     def _get_message(self):
         MESSAGES = {
@@ -38,6 +40,11 @@ class ArfToHtml(Client):
 
     def prepare_parser(self):
         super().prepare_parser()
+        self.parser.add_argument(
+            '--all-in-one',
+            action="store_true",
+            default=False,
+            help="Processes all rules into one file.")
         self.parser.add_argument(
             '--off-web-browser',
             action="store_true",

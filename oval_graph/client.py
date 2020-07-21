@@ -22,6 +22,7 @@ class Client():
         self.out = self.arg.output
         self.all_rules = self.arg.all
         self.all_in_one = None
+        self.off_webbrowser = None
         self.isatty = sys.stdout.isatty()
         self.show_failed_rules = False
         self.show_not_selected_rules = False

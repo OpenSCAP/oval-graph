@@ -44,7 +44,7 @@ class Client():
     def run_gui_and_return_answers(self):
         if self.isatty:
             if self.all_rules:
-                return {'rules': self.search_rules_id()}
+                return self._get_rules()
             else:
                 try:
                     import inquirer
@@ -52,6 +52,12 @@ class Client():
                 except ImportError:
                     print(self.get_selection_rules())
                     return None
+        else:
+            return self._get_rules()
+
+    def _get_rules(self):
+        if self.show_failed_rules:
+            return {'rules': self._get_only_fail_rule(self.search_rules_id())}
         else:
             return {'rules': self.search_rules_id()}
 

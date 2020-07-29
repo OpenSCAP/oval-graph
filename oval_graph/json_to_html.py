@@ -24,7 +24,7 @@ class JsonToHtml(Client):
         self.out = self.arg.output
         self.all_rules = self.arg.all
         self.isatty = sys.stdout.isatty()
-        self.show_fail_rules = False
+        self.show_failed_rules = False
         self.show_not_selected_rules = False
         self.oval_tree = None
         self.off_webbrowser = self.arg.off_web_browser

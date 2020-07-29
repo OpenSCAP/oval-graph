@@ -96,9 +96,7 @@ def test_command_parameter_all_and_show_failed_rules():
         ])
     with open(src, "r") as f:
         rules = json.load(f)
-    # Right value is 1. Value 2 is caused by problem with parameter
-    # --show-failed-rules (issue #116)
-    assert len(rules.keys()) == 2
+    assert len(rules.keys()) == 1
 
 
 def test_command_with_parameter_out():

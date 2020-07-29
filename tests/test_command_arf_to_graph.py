@@ -89,6 +89,4 @@ def test_command_parameter_all_and_show_failed_rules():
                            'tests/test_data/ssg-fedora-ds-arf.xml',
                            r'_package_\w+_removed'
                            ])
-    # Right value is 1. Value 2 is caused by problem with parameter
-    # --show-failed-rules (issue #116)
-    assert len(os.listdir(src)) == 2
+    assert len(os.listdir(src)) == 1

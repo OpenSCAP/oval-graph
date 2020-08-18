@@ -47,5 +47,5 @@ jobs:
     targets:
     - fedora-all
 # Disabled EPEL 7 install test because for install is used dnf on CentOS 7 
-#    - epel-7-x86_64
+    - epel-7-x86_64
     - epel-8-x86_64

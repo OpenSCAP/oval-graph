@@ -44,7 +44,7 @@ class ArfToHtml(Client):
         for rule in rules['rules']:
             try:
                 oval_tree_dict = self.create_dict_of_rule(rule)
-                src = self.get_save_src(rule)
+                src = self.get_save_src(rule + date)
                 self.save_html_and_open_html(
                     oval_tree_dict, src, rule, out)
             except NotChecked as error:

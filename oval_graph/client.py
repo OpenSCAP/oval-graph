@@ -182,15 +182,14 @@ class Client():
         return str(FIXTURE_DIR)
 
     def get_save_src(self, rule):
-        date = str(datetime.now().strftime("-%d_%m_%Y-%H_%M_%S"))
         if self.out is not None:
             os.makedirs(self.out, exist_ok=True)
             return os.path.join(
                 self.out,
-                'graph-of-' + rule + date + '.html')
+                'graph-of-' + rule + '.html')
         return os.path.join(
             os.getcwd(),
-            'graph-of-' + rule + date + '.html')
+            'graph-of-' + rule + '.html')
 
     def _get_part(self, part):
         with open(os.path.join(self.parts, part), "r") as data_file:

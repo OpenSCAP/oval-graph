@@ -9,6 +9,7 @@ from datetime import datetime
 import sys
 
 from .xml_parser import XmlParser
+from .exceptions import NotChecked
 
 
 class Client():
@@ -180,6 +181,28 @@ class Client():
         _dir = os.path.dirname(os.path.realpath(__file__))
         FIXTURE_DIR = os.path.join(_dir, src)
         return str(FIXTURE_DIR)
+
+    def _prepare_all_in_one_data(self, rules, dict_oval_trees, out, date=None):
+        for rule in rules['rules']:
+            try:
+                self._put_to_dict_oval_trees(dict_oval_trees, rule, date)
+            except NotChecked as error:
+                self.print_red_text(error)
+        src = self.get_save_src('rules')
+        self.save_html_with_all_rules_in_one(
+            dict_oval_trees, src, rules, out)
+        return out
+
+    def _prepare_data_by_one(self, rules, dict_oval_trees, out, date=None):
+        for rule in rules['rules']:
+            try:
+                oval_tree_dict = self.create_dict_of_rule(rule)
+                src = self._get_src_for_one_graph(rule, date)
+                self.save_html_and_open_html(
+                    oval_tree_dict, src, rule, out)
+            except NotChecked as error:
+                self.print_red_text(error)
+        return out
 
     def get_save_src(self, rule):
         if self.out is not None:

@@ -91,38 +91,20 @@ class JsonToHtml(Client):
         self.oval_tree = self.load_json_to_oval_tree(rule)
         return self.create_dict_of_oval_node(self.oval_tree)
 
-    def _prepare_all_in_one_data(self, rules, dict_oval_trees, out):
-        for rule in rules['rules']:
-            try:
-                dict_oval_trees[
-                    rule] = self.create_dict_of_rule(rule)
-            except NotChecked as error:
-                self.print_red_text(error)
-        src = self.get_save_src('rules')
-        self.save_html_with_all_rules_in_one(
-            dict_oval_trees, src, rules, out)
-        return out
+    def _put_to_dict_oval_trees(self, dict_oval_trees, rule, date=None):
+        dict_oval_trees[rule] = self.create_dict_of_rule(rule)
 
-    def _prepare_data_by_one(self, rules, dict_oval_trees, out):
-        for rule in rules["rules"]:
-            try:
-                dict_oval_trees = self.create_dict_of_rule(rule)
-                src = self.get_save_src(
-                    rule.replace('graph-of-', '') + "-")
-                self.save_html_and_open_html(
-                    dict_oval_trees, src, rule, out)
-            except NotChecked as error:
-                self.print_red_text(error)
-        return out
+    def _get_src_for_one_graph(self, rule, date=None):
+        return self.get_save_src(rule.replace('graph-of-', '') + "-")
 
     def prepare_data(self, rules):
         out = []
-        dict_oval_trees = dict()
+        oval_tree_dict = dict()
         if self.all_in_one:
             out = self._prepare_all_in_one_data(
-                rules, dict_oval_trees, out)
+                rules, oval_tree_dict, out)
         else:
-            out = self._prepare_data_by_one(rules, dict_oval_trees, out)
+            out = self._prepare_data_by_one(rules, oval_tree_dict, out)
         return out
 
     def prepare_parser(self):

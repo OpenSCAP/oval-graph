@@ -3,7 +3,6 @@ from datetime import datetime
 
 from .client import Client
 from .converter import Converter
-from .exceptions import NotChecked
 
 
 class ArfToHtml(Client):
@@ -28,28 +27,12 @@ class ArfToHtml(Client):
         converter = Converter(self.xml_parser.get_oval_tree(rule_id))
         return converter.to_JsTree_dict(self.hide_passing_tests)
 
-    def _prepare_all_in_one_data(self, rules, dict_oval_trees, out, date):
-        for rule in rules['rules']:
-            try:
-                dict_oval_trees[
-                    'graph-of-' + rule + date] = self.create_dict_of_rule(rule)
-            except NotChecked as error:
-                self.print_red_text(error)
-        src = self.get_save_src('rules')
-        self.save_html_with_all_rules_in_one(
-            dict_oval_trees, src, rules, out)
-        return out
+    def _put_to_dict_oval_trees(self, dict_oval_trees, rule, date=None):
+        dict_oval_trees['graph-of-' + rule +
+                        date] = self.create_dict_of_rule(rule)
 
-    def _prepare_data_by_one(self, rules, dict_oval_trees, out, date):
-        for rule in rules['rules']:
-            try:
-                oval_tree_dict = self.create_dict_of_rule(rule)
-                src = self.get_save_src(rule + date)
-                self.save_html_and_open_html(
-                    oval_tree_dict, src, rule, out)
-            except NotChecked as error:
-                self.print_red_text(error)
-        return out
+    def _get_src_for_one_graph(self, rule, date=None):
+        return self.get_save_src(rule + date)
 
     def prepare_data(self, rules):
         out = []

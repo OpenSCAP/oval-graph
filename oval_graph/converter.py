@@ -1,3 +1,7 @@
+"""
+    This file contains a class for converting OVAL tree to JSON used in HTML
+"""
+
 import re
 
 from .oval_node import OvalNode

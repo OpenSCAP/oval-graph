@@ -1,3 +1,7 @@
+"""
+    This file contains entry points for commands
+"""
+
 import sys
 import traceback
 

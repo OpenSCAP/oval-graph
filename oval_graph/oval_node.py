@@ -1,13 +1,8 @@
 import oval_graph.evaluate
 
-'''
-    This module contains methods and classes for
-    constructing and controlling an oval tree.
-'''
-
 
 class OvalNode():
-    '''
+    """
     The OvalNode object is one node of oval_graph.
 
     Attributes:
@@ -21,7 +16,7 @@ class OvalNode():
         OVAL definition or XCCDF rule
         test_result_details (dict|None): information about test
         children ([OvalNode]): children of node
-    '''
+    """
 
     def __init__(self, **kwargs):
         """

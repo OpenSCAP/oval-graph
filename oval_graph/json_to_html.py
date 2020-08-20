@@ -92,20 +92,11 @@ class JsonToHtml(Client):
         return self.create_dict_of_oval_node(self.oval_tree)
 
     def _put_to_dict_oval_trees(self, dict_oval_trees, rule, date=None):
-        dict_oval_trees[rule] = self.create_dict_of_rule(rule)
+        dict_oval_trees[rule.replace(
+            'graph-of-', '')] = self.create_dict_of_rule(rule)
 
     def _get_src_for_one_graph(self, rule, date=None):
-        return self.get_save_src(rule.replace('graph-of-', '') + "-")
-
-    def prepare_data(self, rules):
-        out = []
-        oval_tree_dict = dict()
-        if self.all_in_one:
-            out = self._prepare_all_in_one_data(
-                rules, oval_tree_dict, out)
-        else:
-            out = self._prepare_data_by_one(rules, oval_tree_dict, out)
-        return out
+        return self.get_save_src(rule.replace('graph-of-', ''))
 
     def prepare_parser(self):
         super().prepare_parser()

@@ -151,14 +151,17 @@ def compare_results_html(result):
     result_ = any_get_tested_file(result)
     referenc_pattern = any_get_tested_file(
         'test_data/referenc_pattern_html_report.txt')
-    matched_rows = []
+    start_pattern = False
+    count_row = 0
     for row in result_:
-        for row_in_pattern in referenc_pattern:
-            if row == row_in_pattern:
-                matched_rows.append(row)
-            if len(matched_rows) == len(referenc_pattern):
-                break
-    assert matched_rows == referenc_pattern
+        if row == '<script>var data_of_tree = {\n':
+            start_pattern = True
+        if start_pattern and "xccdforgssgprojectcontentrulepackageabrtremoved" in row:
+            row = re.sub(r'[0-9]+', '', row)
+        count_row += (1 if start_pattern and row in referenc_pattern else 0)
+        if row == '};</script><div>\n':
+            break
+    assert count_row == len(referenc_pattern)
 
 
 def compare_results_json(result):

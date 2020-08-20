@@ -21,6 +21,8 @@ class Client():
         self.rule_name = self.arg.rule_id
         self.out = self.arg.output
         self.all_rules = self.arg.all
+        self.all_in_one = None
+        self.off_webbrowser = None
         self.isatty = sys.stdout.isatty()
         self.show_failed_rules = False
         self.show_not_selected_rules = False
@@ -148,7 +150,22 @@ class Client():
 
     def save_html_and_open_html(self, oval_tree_dict, src, rule, out):
         self.save_html_report(oval_tree_dict, src)
-        print('Rule "{}" done!'.format(rule))
+        self.print_output_message_and_open_web_browser(src, rule, out)
+
+    def save_html_with_all_rules_in_one(
+            self, dict_oval_trees, src, rules, out):
+        self.save_html_report(dict_oval_trees, src, self.all_in_one)
+        self.print_output_message_and_open_web_browser(
+            src, self._format_rules_output(rules), out)
+
+    def _format_rules_output(self, rules):
+        out = ''
+        for rule in rules['rules']:
+            out += rule + '\n'
+        return out
+
+    def print_output_message_and_open_web_browser(self, src, rule, out):
+        print('Rule(s) "{}" done!'.format(rule))
         out.append(src)
         self.open_web_browser(src)
 
@@ -180,15 +197,44 @@ class Client():
             return data_file.readlines()
 
     def _merge_report_parts(self, data):
-        head = self._get_part('head.html')
-        body = self._get_part('body.html')
+        head = self._get_part('head.txt')
+        css = self._get_part('css.txt')
+        boot_strap_style = self._get_part('bootstrapStyle.txt')
+        jsTree_style = self._get_part('jsTreeStyle.txt')
+        jQuery_script = self._get_part('jQueryScript.txt')
+        boot_strap_script = self._get_part('bootstrapScript.txt')
+        jsTree_script = self._get_part('jsTreeScript.txt')
+        body_start = ['</head>', '<body>', data]
+        body = self._get_part('body.txt')
         script = self._get_part('script.js')
-        footer = ['</script>', '</body>', '</html>']
-        return [*head, data, *body, *script, *footer]
+        footer = ['<script>', *script, '</script>', '</body>', '</html>']
+        return [
+            *head,
+            *css,
+            *boot_strap_style,
+            *jsTree_style,
+            *jQuery_script,
+            *boot_strap_script,
+            *jsTree_script,
+            *body_start,
+            *body,
+            *footer]
 
-    def save_html_report(self, dict_, src):
-        data = "var data_of_tree =" + str(
-            json.dumps(dict_, sort_keys=False, indent=4) + ";")
+    def save_html_report(self, dict_, src, status_all_in_one=False):
+        data = ("\n<script>var all_in_one = " +
+                str(status_all_in_one).lower() +
+                ";</script>" +
+                "\n<script>var data_of_tree =" +
+                str(json.dumps(dict_, sort_keys=False, indent=4)) +
+                ";</script>\n")
+        if status_all_in_one:
+            for rule in dict_:
+                data += ('<h1>' +
+                         rule.split('-')[2] +
+                         '</h1>' +
+                         '<div id="' +
+                         re.sub(r'[\_\-\.]', "", rule) +
+                         '"></div>')
         with open(src, "w+") as data_file:
             data_file.writelines(self._merge_report_parts(data))
 

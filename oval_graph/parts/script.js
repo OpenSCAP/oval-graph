@@ -113,6 +113,20 @@ function open_modal(data) {
     data.objects.forEach(show_object);
 }
 
+function show_graph(id, data) {
+    $(id)
+        .on('activate_node.jstree', function (e, data) {
+            if (data.node.original.info) {
+                open_modal(data.node.original.info);
+            }
+        })
+        .jstree({
+            'core': {
+                'data': [data]
+            }
+        });
+}
+
 $('#modal').click(function (e) {
     if (!$(e.target).closest('.modal-content').length) {
         $("#modal").hide();
@@ -125,14 +139,11 @@ $("#close").click(function () {
 
 var data = JSON.parse(JSON.stringify(data_of_tree));
 
-$('#data')
-    .on('activate_node.jstree', function (e, data) {
-        if (data.node.original.info) {
-            open_modal(data.node.original.info);
-        }
-    })
-    .jstree({
-        'core': {
-            'data': [data]
-        }
+if (all_in_one) {
+    jQuery.each(data, function (rule, data) {
+        rule_id = "#" + rule.replace(/[\_\-\.]/g, "");
+        show_graph(rule_id, data);
     });
+} else {
+    show_graph('#data', data);
+}

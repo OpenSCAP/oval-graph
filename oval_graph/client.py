@@ -7,12 +7,10 @@ import json
 import shutil
 from datetime import datetime
 import sys
-from lxml import etree
-from lxml.builder import ElementMaker, E
-import lxml.html
 
 from .xml_parser import XmlParser
 from .exceptions import NotChecked
+from ._builder_html_graph import BuilderHtmlGraph
 
 
 class Client():
@@ -63,16 +61,14 @@ class Client():
             return self._get_rules()
 
     def _get_rules(self):
-        if self.show_failed_rules:
-            return {'rules': self._get_only_fail_rule(self.search_rules_id())}
-        else:
-            return {'rules': self.search_rules_id()}
+        return {
+            'rules': self._get_only_fail_rule(
+                self.search_rules_id())} if self.show_failed_rules else {
+            'rules': self.search_rules_id()}
 
     def get_list_of_matched_rules(self):
-        rules = self.search_rules_id()
-        if self.show_failed_rules:
-            rules = self._get_only_fail_rule(rules)
-        return rules
+        return self._get_only_fail_rule(
+            self.search_rules_id()) if self.show_failed_rules else self.search_rules_id()
 
     def get_list_of_lines(self):
         lines = ['== The Rule IDs ==']
@@ -98,13 +94,9 @@ class Client():
         return out
 
     def get_choices(self):
-        rules = self.search_rules_id()
-        if self.show_failed_rules:
-            rules = self._get_only_fail_rule(rules)
-        choices = rules
         if self.show_not_selected_rules:
             print("\n".join(self.get_lines_of_wanted_not_selected_rules()))
-        return choices
+        return self.get_list_of_matched_rules()
 
     def get_questions(self):
         choices = self.get_choices()
@@ -132,11 +124,11 @@ class Client():
                 self.rule_name, x)]
 
     def search_rules_id(self):
-        rules = self._get_wanted_rules_from_array_of_IDs(
-            self.xml_parser.used_rules.keys())
-        notselected_rules = self._get_wanted_rules_from_array_of_IDs(
-            self.xml_parser.notselected_rules)
-        return self._check_rules_id(rules, notselected_rules)
+        return self._check_rules_id(
+            self._get_wanted_rules_from_array_of_IDs(
+                self.xml_parser.used_rules.keys()),
+            self._get_wanted_rules_from_array_of_IDs(
+                self.xml_parser.notselected_rules))
 
     def _check_rules_id(self, rules, notselected_rules):
         if len(notselected_rules) and not rules:
@@ -153,59 +145,6 @@ class Client():
         else:
             return rules
 
-    def save_html_and_open_html(
-            self, dict_oval_trees, src, rules, out):
-        self.save_html_report(dict_oval_trees, src)
-        self.print_output_message_and_open_web_browser(
-            src, self._format_rules_output(rules), out)
-
-    def _format_rules_output(self, rules):
-        out = ''
-        for rule in rules['rules']:
-            out += rule + '\n'
-        return out
-
-    def print_output_message_and_open_web_browser(self, src, rule, out):
-        print('Rule(s) "{}" done!'.format(rule))
-        out.append(src)
-        self.open_web_browser(src)
-
-    def open_web_browser(self, src):
-        if not self.off_webbrowser:
-            try:
-                webbrowser.get('firefox').open_new_tab(src)
-            except BaseException:
-                webbrowser.open_new_tab(src)
-
-    def get_src(self, src):
-        _dir = os.path.dirname(os.path.realpath(__file__))
-        FIXTURE_DIR = os.path.join(_dir, src)
-        return str(FIXTURE_DIR)
-
-    def _prepare_data(self, rules, dict_oval_trees, out, date):
-        for rule in rules['rules']:
-            try:
-                self._put_to_dict_oval_trees(dict_oval_trees, rule)
-                if not self.all_in_one:
-                    src = self._get_src_for_one_graph(rule, date)
-                    self.save_html_and_open_html(
-                        dict_oval_trees, src, dict(rules=[rule]), out)
-                    dict_oval_trees = {}
-            except NotChecked as error:
-                self.print_red_text(error)
-        if self.all_in_one:
-            src = self.get_save_src('rules' + date)
-            self.save_html_and_open_html(
-                dict_oval_trees, src, rules, out)
-        return out
-
-    def prepare_data(self, rules):
-        out = []
-        oval_tree_dict = dict()
-        date = str(datetime.now().strftime("-%d_%m_%Y-%H_%M_%S"))
-        out = self._prepare_data(rules, oval_tree_dict, out, date)
-        return out
-
     def get_save_src(self, rule):
         if self.out is not None:
             os.makedirs(self.out, exist_ok=True)
@@ -216,87 +155,41 @@ class Client():
             os.getcwd(),
             self.START_OF_FILE_NAME + rule + '.html')
 
-    def _get_part(self, part):
-        out = ''
-        with open(os.path.join(self.parts, part), "r") as data_file:
-            for line in data_file.readlines():
-                out += line
-            return out
+    def get_src(self, src):
+        _dir = os.path.dirname(os.path.realpath(__file__))
+        return str(os.path.join(_dir, src))
 
-    def _get_html_head(self):
-        return E.head(
-            E.title("OVAL TREE"),
-            E.style(self._get_part('css.txt')),
-            E.style(self._get_part('bootstrapStyle.txt')),
-            E.style(self._get_part('jsTreeStyle.txt')),
-            E.script(self._get_part('jQueryScript.txt')),
-            E.script(self._get_part('bootstrapScript.txt')),
-            E.script(self._get_part('jsTreeScript.txt')),
-        )
+    def _build_and_save_html(self, dict_oval_trees, src, rules, out):
+        builder = BuilderHtmlGraph(self.parts, self.off_webbrowser)
+        builder.save_html_and_open_html(dict_oval_trees, src, rules, out)
 
-    def _get_html_body(self, dict_of_rules):
-        return E.body(
-            E.script(self._get_script_graph_data(dict_of_rules)),
-            self._get_titles_and_places_for_graph(dict_of_rules),
-            E.div({'id': 'data'}),
-            E.div({'id': 'modal', 'class': 'modal'},
-                  E.div({'class': 'modal-content'},
-                        E.span({'id': 'close', 'class': 'close'}, '×'),
-                        E.div({'id': 'content'}),
-                        )
-                  ),
-            E.script(self._get_part('script.js')),
-        )
+    def _prepare_data(self, rules, dict_oval_trees, out, date):
+        for rule in rules['rules']:
+            try:
+                self._put_to_dict_oval_trees(dict_oval_trees, rule)
+                if not self.all_in_one:
+                    self._build_and_save_html(
+                        dict_oval_trees, self._get_src_for_one_graph(
+                            rule, date), dict(
+                            rules=[rule]), out)
+                    dict_oval_trees = {}
+            except NotChecked as error:
+                self.print_red_text(error)
+        if self.all_in_one:
+            self._build_and_save_html(
+                dict_oval_trees, self.get_save_src(
+                    'rules' + date), rules, out)
+        return out
 
-    def _get_html(self, dict_of_rules):
-        M = ElementMaker(namespace=None,
-                         nsmap={None: "http://www.w3.org/1999/xhtml"})
-        html = M.html(
-            self._get_html_head(),
-            self._get_html_body(dict_of_rules))
-        result = etree.tostring(
-            html,
-            xml_declaration=True,
-            doctype=('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"'
-                     ' "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">'),
-            encoding='utf-8',
-            standalone=False,
-            with_tail=False,
-            method='html',
-            pretty_print=True)
-        return result.decode('UTF-8')
-
-    def _get_script_graph_data(self, dict_of_rules):
-        return (
-            "var data_of_tree = " + str(
-                json.dumps(
-                    {
-                        re.sub(
-                            r'[\_\-\.]',
-                            '',
-                            k): v for k,
-                        v in dict_of_rules.items()},
-                    sort_keys=False,
-                    indent=4)) + ";")
-
-    def _get_titles_and_places_for_graph(self, dict_of_rules):
-        out = ''
-        for rule in dict_of_rules.keys():
-            out += ('<h1>' +
-                    rule +
-                    '</h1><div id="' +
-                    re.sub(r'[\_\-\.]', '', rule) +
-                    '"></div>')
-        return lxml.html.fromstring(out)
-
-    def save_html_report(self, dict_of_rules, src):
-        with open(src, "w+") as data_file:
-            data_file.writelines(self._get_html(dict_of_rules))
+    def prepare_data(self, rules):
+        out = []
+        oval_tree_dict = dict()
+        date = str(datetime.now().strftime("-%d_%m_%Y-%H_%M_%S"))
+        return self._prepare_data(rules, oval_tree_dict, out, date)
 
     def parse_arguments(self, args):
         self.prepare_parser()
-        args = self.parser.parse_args(args)
-        return args
+        return self.parser.parse_args(args)
 
     def prepare_parser(self):
         self.parser = argparse.ArgumentParser(

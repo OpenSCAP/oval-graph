@@ -12,6 +12,7 @@ from .oval_node import restore_dict_to_tree
 from .converter import Converter
 from .exceptions import NotChecked
 
+
 class JsonToHtml(Client):
     def __init__(self, args):
         self.parser = None
@@ -22,7 +23,11 @@ class JsonToHtml(Client):
         self.source_filename = self.arg.source_filename
         self.rule_name = self.arg.rule_id
         self.out = self.arg.output
-        self.all_rules = self.arg.all
+        self.all_in_one = self.arg.all_in_one
+        if self.all_in_one:
+            self.all_rules = True
+        else:
+            self.all_rules = self.arg.all
         self.isatty = sys.stdout.isatty()
         self.show_failed_rules = False
         self.show_not_selected_rules = False
@@ -82,23 +87,33 @@ class JsonToHtml(Client):
         notselected_rules = []
         return self._check_rules_id(rules, notselected_rules)
 
+    def create_dict_of_rule(self, rule):
+        self.oval_tree = self.load_json_to_oval_tree(rule)
+        return self.create_dict_of_oval_node(self.oval_tree)
+
+    def _put_to_dict_oval_trees(self, dict_oval_trees, rule, date=None):
+        dict_oval_trees[rule] = self.create_dict_of_rule(rule)
+
+    def _get_src_for_one_graph(self, rule, date=None):
+        return self.get_save_src(rule.replace('graph-of-', '') + "-")
+
     def prepare_data(self, rules):
         out = []
-        for rule in rules["rules"]:
-            try:
-                self.oval_tree = self.load_json_to_oval_tree(rule)
-                oval_tree_dict = self.create_dict_of_oval_node(
-                    self.oval_tree)
-                src = self.get_save_src(
-                    rule.replace('graph-of-', '') + "-")
-                self.save_html_and_open_html(
-                    oval_tree_dict, src, rule, out)
-            except NotChecked as error:
-                self.print_red_text(error)
+        oval_tree_dict = dict()
+        if self.all_in_one:
+            out = self._prepare_all_in_one_data(
+                rules, oval_tree_dict, out)
+        else:
+            out = self._prepare_data_by_one(rules, oval_tree_dict, out)
         return out
 
     def prepare_parser(self):
         super().prepare_parser()
+        self.parser.add_argument(
+            '--all-in-one',
+            action="store_true",
+            default=False,
+            help="Processes all rules into one file.")
         self.parser.add_argument(
             '--off-web-browser',
             action="store_true",

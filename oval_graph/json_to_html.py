@@ -24,10 +24,7 @@ class JsonToHtml(Client):
         self.rule_name = self.arg.rule_id
         self.out = self.arg.output
         self.all_in_one = self.arg.all_in_one
-        if self.all_in_one:
-            self.all_rules = True
-        else:
-            self.all_rules = self.arg.all
+        self.all_rules = True if self.all_in_one else self.arg.all
         self.isatty = sys.stdout.isatty()
         self.show_failed_rules = False
         self.show_not_selected_rules = False
@@ -70,21 +67,9 @@ class JsonToHtml(Client):
     def load_rule_names(self):
         return self.json_data_file.keys()
 
-    def get_rules_id(self):
-        out = []
-        for id_ in self.load_rule_names():
-            out.append(id_)
-        return out
-
-    def get_choices(self):
-        rules = self.search_rules_id()
-        choices = []
-        for rule in rules:
-            choices.append(rule)
-        return choices
-
     def search_rules_id(self):
-        rules = self._get_wanted_rules_from_array_of_IDs(self.get_rules_id())
+        rules = self._get_wanted_rules_from_array_of_IDs(
+            self.load_rule_names())
         notselected_rules = []
         return self._check_rules_id(rules, notselected_rules)
 

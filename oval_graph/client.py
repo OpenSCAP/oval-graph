@@ -7,6 +7,9 @@ import json
 import shutil
 from datetime import datetime
 import sys
+from lxml import etree
+from lxml.builder import ElementMaker, E
+import lxml.html
 
 from .xml_parser import XmlParser
 from .exceptions import NotChecked
@@ -213,54 +216,81 @@ class Client():
             'graph-of-' + rule + '.html')
 
     def _get_part(self, part):
+        out = ''
         with open(os.path.join(self.parts, part), "r") as data_file:
-            return data_file.readlines()
+            for line in data_file.readlines():
+                out += line
+            return out
 
-    def _merge_report_parts(self, data):
-        head = self._get_part('head.txt')
-        css = self._get_part('css.txt')
-        boot_strap_style = self._get_part('bootstrapStyle.txt')
-        jsTree_style = self._get_part('jsTreeStyle.txt')
-        jQuery_script = self._get_part('jQueryScript.txt')
-        boot_strap_script = self._get_part('bootstrapScript.txt')
-        jsTree_script = self._get_part('jsTreeScript.txt')
-        body_start = ['</head>', '<body>', data]
-        body = self._get_part('body.txt')
-        script = self._get_part('script.js')
-        footer = ['<script>', *script, '</script>', '</body>', '</html>']
-        return [
-            *head,
-            *css,
-            *boot_strap_style,
-            *jsTree_style,
-            *jQuery_script,
-            *boot_strap_script,
-            *jsTree_script,
-            *body_start,
-            *body,
-            *footer]
+    def _get_html_head(self):
+        return E.head(
+            E.title("OVAL TREE"),
+            E.style(self._get_part('css.txt')),
+            E.style(self._get_part('bootstrapStyle.txt')),
+            E.style(self._get_part('jsTreeStyle.txt')),
+            E.script(self._get_part('jQueryScript.txt')),
+            E.script(self._get_part('bootstrapScript.txt')),
+            E.script(self._get_part('jsTreeScript.txt')),
+        )
 
-    def save_html_report(self, dict_, src):
-        data = (
-            "\n<script>var data_of_tree = " + str(
+    def _get_html_body(self, dict_of_rules):
+        return E.body(
+            E.script(self._get_script_graph_data(dict_of_rules)),
+            self._get_titles_and_places_for_graph(dict_of_rules),
+            E.div({'id': 'data'}),
+            E.div({'id': 'modal', 'class': 'modal'},
+                  E.div({'class': 'modal-content'},
+                        E.span({'id': 'close', 'class': 'close'}, '×'),
+                        E.div({'id': 'content'}),
+                        )
+                  ),
+            E.script(self._get_part('script.js')),
+        )
+
+    def _get_html(self, dict_of_rules):
+        M = ElementMaker(namespace=None,
+                         nsmap={None: "http://www.w3.org/1999/xhtml"})
+        html = M.html(
+            self._get_html_head(),
+            self._get_html_body(dict_of_rules))
+        result = etree.tostring(
+            html,
+            xml_declaration=True,
+            doctype=('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"'
+                     ' "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">'),
+            encoding='utf-8',
+            standalone=False,
+            with_tail=False,
+            method='html',
+            pretty_print=True)
+        return result.decode('UTF-8')
+
+    def _get_script_graph_data(self, dict_of_rules):
+        return (
+            "var data_of_tree = " + str(
                 json.dumps(
                     {
                         re.sub(
                             r'[\_\-\.]',
                             '',
                             k): v for k,
-                        v in dict_.items()},
+                        v in dict_of_rules.items()},
                     sort_keys=False,
-                    indent=4)) + ";</script>\n")
-        for rule in dict_:
-            data += ('<h1>' +
-                     rule +
-                     '</h1>' +
-                     '<div id="' +
-                     re.sub(r'[\_\-\.]', '', rule) +
-                     '"></div>')
+                    indent=4)) + ";")
+
+    def _get_titles_and_places_for_graph(self, dict_of_rules):
+        out = ''
+        for rule in dict_of_rules.keys():
+            out += ('<h1>' +
+                    rule +
+                    '</h1><div id="' +
+                    re.sub(r'[\_\-\.]', '', rule) +
+                    '"></div>')
+        return lxml.html.fromstring(out)
+
+    def save_html_report(self, dict_of_rules, src):
         with open(src, "w+") as data_file:
-            data_file.writelines(self._merge_report_parts(data))
+            data_file.writelines(self._get_html(dict_of_rules))
 
     def parse_arguments(self, args):
         self.prepare_parser()

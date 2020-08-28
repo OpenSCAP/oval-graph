@@ -139,11 +139,7 @@ $("#close").click(function () {
 
 var data = JSON.parse(JSON.stringify(data_of_tree));
 
-if (all_in_one) {
-    jQuery.each(data, function (rule, data) {
-        rule_id = "#" + rule.replace(/[\_\-\.]/g, "");
-        show_graph(rule_id, data);
-    });
-} else {
-    show_graph('#data', data);
-}
+jQuery.each(data, function (rule, data) {
+    rule_id = "#" + rule.replace(/[\_\-\.]/g, "");
+    show_graph(rule_id, data);
+});

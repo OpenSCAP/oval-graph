@@ -33,6 +33,7 @@ class Client():
         self.xml_parser = XmlParser(
             self.source_filename)
         self.parts = self.get_src('parts')
+        self.START_OF_FILE_NAME = 'graph-of-'
 
     def _get_message(self):
         MESSAGES = {
@@ -210,10 +211,10 @@ class Client():
             os.makedirs(self.out, exist_ok=True)
             return os.path.join(
                 self.out,
-                'graph-of-' + rule + '.html')
+                self.START_OF_FILE_NAME + rule + '.html')
         return os.path.join(
             os.getcwd(),
-            'graph-of-' + rule + '.html')
+            self.START_OF_FILE_NAME + rule + '.html')
 
     def _get_part(self, part):
         out = ''

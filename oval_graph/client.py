@@ -32,6 +32,7 @@ class Client():
             self.source_filename)
         self.parts = self.get_src('parts')
         self.START_OF_FILE_NAME = 'graph-of-'
+        self.date = str(datetime.now().strftime("-%d_%m_%Y-%H_%M_%S"))
 
     def _get_message(self):
         MESSAGES = {
@@ -163,14 +164,14 @@ class Client():
         builder = BuilderHtmlGraph(self.parts, self.off_webbrowser)
         builder.save_html_and_open_html(dict_oval_trees, src, rules, out)
 
-    def _prepare_data(self, rules, dict_oval_trees, out, date):
+    def _prepare_data(self, rules, dict_oval_trees, out):
         for rule in rules['rules']:
             try:
                 self._put_to_dict_oval_trees(dict_oval_trees, rule)
                 if not self.all_in_one:
                     self._build_and_save_html(
                         dict_oval_trees, self._get_src_for_one_graph(
-                            rule, date), dict(
+                            rule), dict(
                             rules=[rule]), out)
                     dict_oval_trees = {}
             except NotChecked as error:
@@ -178,14 +179,13 @@ class Client():
         if self.all_in_one:
             self._build_and_save_html(
                 dict_oval_trees, self.get_save_src(
-                    'rules' + date), rules, out)
+                    'rules' + self.date), rules, out)
         return out
 
     def prepare_data(self, rules):
         out = []
         oval_tree_dict = dict()
-        date = str(datetime.now().strftime("-%d_%m_%Y-%H_%M_%S"))
-        return self._prepare_data(rules, oval_tree_dict, out, date)
+        return self._prepare_data(rules, oval_tree_dict, out)
 
     def parse_arguments(self, args):
         self.prepare_parser()

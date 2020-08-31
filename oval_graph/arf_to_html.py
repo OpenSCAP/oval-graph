@@ -1,6 +1,3 @@
-from datetime import datetime
-
-
 from .client import Client
 from .converter import Converter
 
@@ -30,8 +27,8 @@ class ArfToHtml(Client):
     def _put_to_dict_oval_trees(self, dict_oval_trees, rule):
         dict_oval_trees[rule] = self.create_dict_of_rule(rule)
 
-    def _get_src_for_one_graph(self, rule, date=None):
-        return self.get_save_src(rule + date)
+    def _get_src_for_one_graph(self, rule):
+        return self.get_save_src(rule + self.date)
 
     def prepare_parser(self):
         super().prepare_parser()

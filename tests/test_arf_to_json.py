@@ -17,10 +17,10 @@ def get_client_arf_to_json(src, rule):
         [tests.any_test_help.get_src(src), rule])
 
 
-def get_client_arf_to_json_with_define_dest(src, rule):
+def get_client_arf_to_json_with_define_dest(src, rule, out_src=None):
+    out_src = str(uuid.uuid4()) + ".json" if out_src is None else out_src
     return ArfToJson(["--output",
-                      tests.any_test_help.get_src(os.path.join(tempfile.gettempdir(),
-                                                               str(uuid.uuid4()) + ".json")),
+                      tests.any_test_help.get_src(os.path.join(tempfile.gettempdir(), out_src)),
                       tests.any_test_help.get_src(src),
                       rule])
 
@@ -164,7 +164,8 @@ def test_creation_json_with_two_more_rule():
     rules = {'rules': [rule]}
     result_src = client.prepare_data(rules)
     time.sleep(1)  # wait for change time in saved rule name
-    result_src_second_rule = client.prepare_data(rules)
+    client1 = get_client_arf_to_json_with_define_dest(src, rule, result_src[0])
+    result_src_second_rule = client1.prepare_data(rules)
     assert result_src == result_src_second_rule
     data = None
     with open(result_src[-1], 'r') as f:

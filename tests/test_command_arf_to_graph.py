@@ -8,14 +8,31 @@ import tests.any_test_help
 
 @pytest.mark.usefixtures("remove_generated_reports_in_root")
 def test_command_arf_to_graph():
+    subprocess.check_call(['python3',
+                           '-m',
+                           'oval_graph.command_line',
+                           'arf-to-graph',
+                           '--display',
+                           'tests/test_data/ssg-fedora-ds-arf.xml',
+                           'xccdf_org.ssgproject.content_rule_package_abrt_removed'
+                           ])
+    file_src = tests.any_test_help.find_files(
+        "graph-of-xccdf_org.ssgproject.content_rule_package_abrt_removed", './')
+    tests.any_test_help.compare_results_html(file_src[0])
+
+
+@pytest.mark.usefixtures("remove_generated_reports_in_root")
+def test_command_arf_to_graph_with_verbose():
     out = subprocess.check_output(['python3',
                                    '-m',
                                    'oval_graph.command_line',
                                    'arf-to-graph',
-                                   '--off-web-browser',
+                                   '--display',
+                                   '--verbose',
                                    'tests/test_data/ssg-fedora-ds-arf.xml',
                                    'xccdf_org.ssgproject.content_rule_package_abrt_removed'
-                                   ])
+                                   ],
+                                  stderr=subprocess.STDOUT)
     tests.any_test_help.compare_results_html(
         out.decode('utf-8').split('\n')[-2])
 
@@ -26,7 +43,6 @@ def test_command_arf_to_graph_with_out_parameter():
                            '-m',
                            'oval_graph.command_line',
                            'arf-to-graph',
-                           '--off-web-browser',
                            '-o',
                            src,
                            'tests/test_data/ssg-fedora-ds-arf.xml',
@@ -45,7 +61,6 @@ def test_inquirer_choice_rule():
                          'arf-to-graph',
                          '-o',
                          src,
-                         '--off-web-browser',
                          'tests/test_data/ssg-fedora-ds-arf.xml',
                          r'_package_\w+_removed'
                          ])
@@ -65,7 +80,6 @@ def test_command_parameter_all():
                            '-m',
                            'oval_graph.command_line',
                            'arf-to-graph',
-                           '--off-web-browser',
                            '--all',
                            '-o',
                            src,
@@ -81,7 +95,6 @@ def test_command_parameter_all_and_show_failed_rules():
                            '-m',
                            'oval_graph.command_line',
                            'arf-to-graph',
-                           '--off-web-browser',
                            '--all',
                            '--show-failed-rules',
                            '-o',

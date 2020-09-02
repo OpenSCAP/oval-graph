@@ -10,15 +10,13 @@ import tests.any_test_help
 
 
 def get_client_arf_to_html(src, rule):
-    return ArfToHtml(
-        ["--off-web-browser", tests.any_test_help.get_src(src), rule])
+    return ArfToHtml(["--display", tests.any_test_help.get_src(src), rule])
 
 
 def get_client_arf_to_html_with_define_dest(src, rule):
     return ArfToHtml(
         ["--output", tests.any_test_help.get_src(
             os.path.join(tempfile.gettempdir(), str(uuid.uuid4()))),
-         "--off-web-browser",
          tests.any_test_help.get_src(src),
          rule])
 

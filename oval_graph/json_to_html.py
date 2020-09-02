@@ -34,6 +34,7 @@ class JsonToHtml(Client):
         self.parts = self.get_src('parts')
         self.START_OF_FILE_NAME = 'graph-of-'
         self.date = datetime.now().strftime("-%d_%m_%Y-%H_%M_%S")
+        self.verbose = self.arg.verbose
 
     def _get_message(self):
         MESSAGES = {

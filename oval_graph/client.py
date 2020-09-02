@@ -33,6 +33,7 @@ class Client():
         self.parts = self.get_src('parts')
         self.START_OF_FILE_NAME = 'graph-of-'
         self.date = str(datetime.now().strftime("-%d_%m_%Y-%H_%M_%S"))
+        self.verbose = self.arg.verbose
 
     def _get_message(self):
         MESSAGES = {
@@ -161,7 +162,8 @@ class Client():
         return str(os.path.join(_dir, src))
 
     def _build_and_save_html(self, dict_oval_trees, src, rules, out):
-        builder = BuilderHtmlGraph(self.parts, self.off_webbrowser)
+        builder = BuilderHtmlGraph(
+            self.parts, self.off_webbrowser, self.verbose)
         builder.save_html_and_open_html(dict_oval_trees, src, rules, out)
 
     def _prepare_data(self, rules, dict_oval_trees, out):
@@ -206,6 +208,11 @@ class Client():
             help=(
                 "Do not display passing tests for better orientation in"
                 " graphs that contain a large amount of nodes.(Not implemented)"))
+        self.parser.add_argument(
+            '--verbose',
+            action="store_true",
+            default=False,
+            help="Displays details about the results of the running command.")
         self.parser.add_argument(
             '-o',
             '--output',

@@ -10,9 +10,9 @@ CEND = '\033[0m'
 
 def print_where_is_saved_result(results_src):
     if results_src:
-        print("Results are saved:")
+        print("Results are saved:", file=sys.stderr)
         for src in results_src:
-            print(src)
+            print(src, file=sys.stderr)
 
 
 def arf_to_graph(args=None):
@@ -54,7 +54,8 @@ def main(client):
             results_src = client.prepare_data(answers)
     else:
         results_src = client.prepare_data({'rules': [rules[0]]})
-    print_where_is_saved_result(results_src)
+    if client.verbose:
+        print_where_is_saved_result(results_src)
 
 
 if __name__ == '__main__':

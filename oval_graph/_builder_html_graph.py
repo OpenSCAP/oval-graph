@@ -9,9 +9,9 @@ import lxml.html
 
 
 class BuilderHtmlGraph():
-    def __init__(self, parts, off_webbrowser, verbose):
+    def __init__(self, parts, display_html, verbose):
         self.parts = parts
-        self.off_webbrowser = off_webbrowser
+        self.display_html = display_html
         self.verbose = verbose
 
     def save_html_and_open_html(self, dict_oval_trees, src, rules, out):
@@ -101,7 +101,7 @@ class BuilderHtmlGraph():
         self.open_web_browser(src)
 
     def open_web_browser(self, src):
-        if not self.off_webbrowser:
+        if self.display_html:
             try:
                 webbrowser.get('firefox').open_new_tab(src)
             except BaseException:

@@ -24,7 +24,7 @@ class Client():
         self.out = self.arg.output
         self.all_rules = self.arg.all
         self.all_in_one = None
-        self.off_webbrowser = None
+        self.display_html = None
         self.isatty = sys.stdout.isatty()
         self.show_failed_rules = False
         self.show_not_selected_rules = False
@@ -163,7 +163,7 @@ class Client():
 
     def _build_and_save_html(self, dict_oval_trees, src, rules, out):
         builder = BuilderHtmlGraph(
-            self.parts, self.off_webbrowser, self.verbose)
+            self.parts, self.display_html, self.verbose)
         builder.save_html_and_open_html(dict_oval_trees, src, rules, out)
 
     def _prepare_data(self, rules, dict_oval_trees, out):

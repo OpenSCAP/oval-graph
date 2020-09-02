@@ -18,7 +18,6 @@ class JsonToHtml(Client):
         self.parser = None
         self.MESSAGES = self._get_message()
         self.arg = self.parse_arguments(args)
-        self.off_webbrowser = self.arg.off_web_browser
         self.hide_passing_tests = self.arg.hide_passing_tests
         self.source_filename = self.arg.source_filename
         self.rule_name = self.arg.rule_id
@@ -29,7 +28,7 @@ class JsonToHtml(Client):
         self.show_failed_rules = False
         self.show_not_selected_rules = False
         self.oval_tree = None
-        self.off_webbrowser = self.arg.off_web_browser
+        self.display_html = True if self.out is None else self.arg.display
         self.json_data_file = self.get_json_data_file()
         self.parts = self.get_src('parts')
         self.START_OF_FILE_NAME = 'graph-of-'
@@ -94,7 +93,7 @@ class JsonToHtml(Client):
             default=False,
             help="Processes all rules into one file.")
         self.parser.add_argument(
-            '--off-web-browser',
+            '--display',
             action="store_true",
             default=False,
-            help="It does not start the web browser.")
+            help="Enables opening a web browser with a graph, when is used --output.")

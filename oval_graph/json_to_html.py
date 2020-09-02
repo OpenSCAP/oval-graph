@@ -2,8 +2,8 @@ import webbrowser
 import json
 import os
 import argparse
-import shutil
 from datetime import datetime
+import shutil
 import sys
 import re
 
@@ -24,10 +24,7 @@ class JsonToHtml(Client):
         self.rule_name = self.arg.rule_id
         self.out = self.arg.output
         self.all_in_one = self.arg.all_in_one
-        if self.all_in_one:
-            self.all_rules = True
-        else:
-            self.all_rules = self.arg.all
+        self.all_rules = True if self.all_in_one else self.arg.all
         self.isatty = sys.stdout.isatty()
         self.show_failed_rules = False
         self.show_not_selected_rules = False
@@ -36,6 +33,7 @@ class JsonToHtml(Client):
         self.json_data_file = self.get_json_data_file()
         self.parts = self.get_src('parts')
         self.START_OF_FILE_NAME = 'graph-of-'
+        self.date = datetime.now().strftime("-%d_%m_%Y-%H_%M_%S")
 
     def _get_message(self):
         MESSAGES = {
@@ -70,21 +68,9 @@ class JsonToHtml(Client):
     def load_rule_names(self):
         return self.json_data_file.keys()
 
-    def get_rules_id(self):
-        out = []
-        for id_ in self.load_rule_names():
-            out.append(id_)
-        return out
-
-    def get_choices(self):
-        rules = self.search_rules_id()
-        choices = []
-        for rule in rules:
-            choices.append(rule)
-        return choices
-
     def search_rules_id(self):
-        rules = self._get_wanted_rules_from_array_of_IDs(self.get_rules_id())
+        rules = self._get_wanted_rules_from_array_of_IDs(
+            self.load_rule_names())
         notselected_rules = []
         return self._check_rules_id(rules, notselected_rules)
 
@@ -92,11 +78,11 @@ class JsonToHtml(Client):
         self.oval_tree = self.load_json_to_oval_tree(rule)
         return self.create_dict_of_oval_node(self.oval_tree)
 
-    def _put_to_dict_oval_trees(self, dict_oval_trees, rule, date=None):
+    def _put_to_dict_oval_trees(self, dict_oval_trees, rule):
         dict_oval_trees[rule.replace(
             self.START_OF_FILE_NAME, '')] = self.create_dict_of_rule(rule)
 
-    def _get_src_for_one_graph(self, rule, date=None):
+    def _get_src_for_one_graph(self, rule):
         return self.get_save_src(rule.replace(self.START_OF_FILE_NAME, ''))
 
     def prepare_parser(self):

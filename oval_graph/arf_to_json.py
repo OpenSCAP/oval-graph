@@ -3,13 +3,13 @@ import json
 import os
 import shutil
 import pprint
-from datetime import datetime
 import sys
 import uuid
 
 from .converter import Converter
 from .client import Client
 from .exceptions import NotChecked
+
 
 class ArfToJson(Client):
     def __init__(self, args):
@@ -45,13 +45,12 @@ class ArfToJson(Client):
         rule = None
         out_oval_tree_dict = dict()
         for rule in rules['rules']:
-            date = str(datetime.now().strftime("-%d_%m_%Y-%H_%M_%S"))
             try:
                 out_oval_tree_dict[self.START_OF_FILE_NAME + rule +
-                                   date] = self.create_dict_of_rule(rule)
+                                   self.date] = self.create_dict_of_rule(rule)
             except NotChecked as error:
                 out_oval_tree_dict[self.START_OF_FILE_NAME + rule +
-                                   date] = str(error)
+                                   self.date] = str(error)
         if self.out is not None:
             self.save_dict_as_json(out_oval_tree_dict, self.out)
             out.append(self.out)

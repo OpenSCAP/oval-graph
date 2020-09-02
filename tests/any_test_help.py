@@ -149,7 +149,7 @@ def get_src(src):
 
 def compare_results_html(result):
     result_ = any_get_tested_file(result)
-    referenc_pattern = any_get_tested_file(
+    reference_pattern = any_get_tested_file(
         'test_data/referenc_pattern_html_report.txt')
     start_pattern = False
     count_row = 0
@@ -158,22 +158,22 @@ def compare_results_html(result):
             start_pattern = True
         if start_pattern and "xccdforgssgprojectcontentrulepackageabrtremoved" in row:
             row = re.sub(r'[0-9]+', '', row)
-        count_row += (1 if start_pattern and row in referenc_pattern else 0)
+        count_row += (1 if start_pattern and row in reference_pattern else 0)
         if row == '};</script><div>\n':
             break
-    assert count_row == len(referenc_pattern)
+    assert count_row == len(reference_pattern)
 
 
 def compare_results_json(result):
     result = any_get_test_data_json(result)
-    referenc_result = any_get_test_data_json(
+    reference_result = any_get_test_data_json(
         'test_data/referenc_result_data_json.json')
     rule_name = "xccdf_org.ssgproject.content_rule_package_abrt_removed"
     result_rule_name = [
         x for x in result.keys() if re.search(
             rule_name, x)]
     assert (result[result_rule_name[0]]
-            == referenc_result[rule_name])
+            == reference_result[rule_name])
 
 
 def get_questions_not_selected(capsys, client):

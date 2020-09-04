@@ -1,41 +1,89 @@
-set -e 
+#!/bin/sh
+# Build script of python package
+
+set -e
 name="oval-graph"
 module="oval_graph"
 
-if [ "$1" != "" ]; then
-    new_version=$1
-    if [[ $new_version =~ ^[0-9]{1,}.[0-9]{1,}.[0-9]{1,}$ ]]; then
-        old_version=$(python3 setup.py --version)
-        git checkout master
-        git pull upstream master
-        if git status --porcelain=v1 | grep -q '^\(.M\|M.\)'; then
-            echo "Not commited changes!"
-        else
-            # update version in file
-            sed -i "s/$old_version/$new_version/g" ${module}/__init__.py
-            version=$(python3 setup.py --version)
-            rpmdev-bumpspec oval-graph.spec --comment="release ${version}" -n "${version}" --userstring="Jan Rodak <jrodak@redhat.com>"
-            if [ "$version" == "$new_version" ]; then
-                # Commit version
-                git add ${module}/__init__.py
-                git add oval-graph.spec   
-                git commit -m "${version}"
-                git tag "${version}"
-                git push --follow-tags
-                git push upstream master
-                # Prepare build tools
-                python3 -m pip install --user --upgrade setuptools wheel twine
-                # test before build
-                python3 -m pytest
-                # Build  
-                rm -rf dist
-                python3 setup.py sdist bdist_wheel
-                twine upload dist/*
-            fi
-        fi
-    else
-        echo "Bad version format!"
-    fi
-    else 
-        echo "Missing version parameter!"
+unit_test() {
+    python3 -m pytest
+}
+
+commit_version() {
+    version=$1
+    module=$2
+    git add ${module}/__init__.py
+    git add oval-graph.spec
+    git commit -m "${version}"
+}
+
+install_build_requirements() {
+    python3 -m pip install --user --upgrade setuptools wheel twine
+}
+
+build_backage() {
+    rm -rf dist
+    python3 setup.py sdist bdist_wheel
+}
+
+update_version_package() {
+    module=$1
+    old_version=$2
+    new_version=$3
+    sed -i "s/$old_version/$new_version/g" ${module}/__init__.py
+}
+
+update_version_rpm() {
+    version=$1
+    name=$2
+    rpmdev-bumpspec "${name}".spec --comment="release ${version}" -n "${version}" --userstring="Jan Rodak <jrodak@redhat.com>"
+}
+
+load_upstream() {
+    git checkout master
+    git pull upstream master
+}
+
+if [ "$1" = "" ]; then
+    echo "Missing version parameter!"
+    exit 1
 fi
+    
+new_version=$1
+
+if ! echo "$new_version" | grep -q -E '^[0-9]{1,}.[0-9]{1,}.[0-9]{1,}$'; then
+    echo "Bad version format!"
+    exit 1
+fi
+
+if git status --porcelain=v1 | grep -q '^\(.M\|M.\)'; then
+    echo "Not commited changes!"
+    exit 1
+fi
+
+load_upstream
+
+# Update version in file
+old_version=$(python3 setup.py --version)
+update_version_package "$module" "$old_version" "$new_version" 
+version=$(python3 setup.py --version)
+update_version_rpm "$version" "$name"
+
+# Prepare build tools
+install_build_requirements
+
+# Test before build
+unit_test
+
+# Build
+build_backage
+
+# Upload to PyPi
+twine upload dist/*
+
+# Commit version
+commit_version "$version" "$module"
+
+# Tag version and upload to git repo
+./tag_version.sh "${version}"
+

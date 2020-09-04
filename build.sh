@@ -25,9 +25,11 @@ if [ "$1" != "" ]; then
                 git push upstream master
                 # Prepare build tools
                 python3 -m pip install --user --upgrade setuptools wheel twine
+                # test before build
+                python3 -m pytest
                 # Build  
                 rm -rf dist
-                python3 setup.py pytest sdist bdist_wheel
+                python3 setup.py sdist bdist_wheel
                 twine upload dist/*
             fi
         fi

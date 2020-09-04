@@ -23,6 +23,8 @@ if [ "$1" != "" ]; then
                 git tag "${version}"
                 git push --follow-tags
                 git push upstream master
+                # Prepare build tools
+                python3 -m pip install --user --upgrade setuptools wheel twine
                 # Build  
                 rm -rf dist
                 python3 setup.py pytest sdist bdist_wheel

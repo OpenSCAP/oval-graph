@@ -201,6 +201,7 @@ class Client():
         self.parser = argparse.ArgumentParser(
             description=self.MESSAGES.get('description'))
         self.parser.add_argument(
+            '-a',
             '--all',
             action="store_true",
             default=False,
@@ -213,6 +214,7 @@ class Client():
                 "Do not display passing tests for better orientation in"
                 " graphs that contain a large amount of nodes.(Not implemented)"))
         self.parser.add_argument(
+            '-v',
             '--verbose',
             action="store_true",
             default=False,

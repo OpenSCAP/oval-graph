@@ -88,11 +88,13 @@ class JsonToHtml(Client):
     def prepare_parser(self):
         super().prepare_parser()
         self.parser.add_argument(
+            '-i',
             '--all-in-one',
             action="store_true",
             default=False,
             help="Processes all rules into one file.")
         self.parser.add_argument(
+            '-d',
             '--display',
             action="store_true",
             default=False,

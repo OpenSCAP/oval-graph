@@ -124,9 +124,4 @@ def test_if_not_installed_inquirer(capsys):
         out = client.run_gui_and_return_answers()
         assert out is None
         captured = capsys.readouterr()
-        assert captured.out == (
-            '== The Rule IDs ==\n'
-            "'xccdf_org.ssgproject.content_rule_package_abrt_removed\\b'\n"
-            "'xccdf_org.ssgproject.content_rule_package_sendmail_removed\\b'\n"
-            "You haven't got installed inquirer lib. Please copy id rule with you"
-            " want use and put it in command\n")
+        assert len(re.findall(regex, captured.out)) == 2

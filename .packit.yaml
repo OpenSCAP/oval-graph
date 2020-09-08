@@ -41,11 +41,12 @@ jobs:
     - epel-7-x86_64
     - epel-8-x86_64
 
-- job: tests
-  trigger: pull_request
-  metadata:
-    targets:
-    - fedora-all
-# Disabled EPEL 7 install test because for install is used dnf on CentOS 7 
+# PackIt tests are disabled, because there is a problem with cloning of repository (git clone end with error code 128)
+#- job: tests
+#  trigger: pull_request
+#  metadata:
+#    targets:
+#    - fedora-all
+# EPEL 7 test is disabled, because for install is used dnf on CentOS 7 
 #    - epel-7-x86_64
-    - epel-8-x86_64
+#    - epel-8-x86_64

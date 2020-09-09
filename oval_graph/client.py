@@ -35,6 +35,7 @@ class Client():
         self.START_OF_FILE_NAME = 'graph-of-'
         self.date = str(datetime.now().strftime("-%d_%m_%Y-%H_%M_%S"))
         self.verbose = self.arg.verbose
+        self.html_builder = None
 
     def _get_message(self):
         MESSAGES = {
@@ -166,9 +167,7 @@ class Client():
         return str(os.path.join(_dir, src))
 
     def _build_and_save_html(self, dict_oval_trees, src, rules, out_src):
-        builder = BuilderHtmlGraph(
-            self.parts, self.verbose)
-        builder.save_html(dict_oval_trees, src, rules)
+        self.html_builder.save_html(dict_oval_trees, src, rules)
         out_src.append(src)
 
     def open_html(self, out):

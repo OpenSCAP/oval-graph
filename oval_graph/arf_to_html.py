@@ -1,5 +1,6 @@
 from .client import Client
 from .converter import Converter
+from ._builder_html_graph import BuilderHtmlGraph
 
 
 class ArfToHtml(Client):
@@ -11,6 +12,8 @@ class ArfToHtml(Client):
         self.all_in_one = self.arg.all_in_one
         if self.all_in_one:
             self.all_rules = True
+        self.html_builder = BuilderHtmlGraph(self.parts, self.verbose)
+
 
     def _get_message(self):
         MESSAGES = {

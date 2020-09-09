@@ -11,6 +11,7 @@ from .client import Client
 from .oval_node import restore_dict_to_tree
 from .converter import Converter
 from .exceptions import NotChecked
+from ._builder_html_graph import BuilderHtmlGraph
 
 
 class JsonToHtml(Client):
@@ -34,6 +35,7 @@ class JsonToHtml(Client):
         self.START_OF_FILE_NAME = 'graph-of-'
         self.date = datetime.now().strftime("-%d_%m_%Y-%H_%M_%S")
         self.verbose = self.arg.verbose
+        self.html_builder = BuilderHtmlGraph(self.parts, self.verbose)
 
     def _get_message(self):
         MESSAGES = {

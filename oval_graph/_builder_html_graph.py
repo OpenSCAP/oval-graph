@@ -9,11 +9,14 @@ from io import BytesIO
 
 
 class BuilderHtmlGraph():
-    def __init__(self, parts, verbose):
+
+    def __init__(self, parts, verbose, all_in_one):
         self.parts = parts
         self.verbose = verbose
+        self.all_in_one = all_in_one
         self.html_head = self._get_html_head()
         self.script = self._get_part('script.js')
+        self.search_bar = self._get_search_bar()
 
     def save_html(self, dict_oval_trees, src, rules):
         self.save_html_report(dict_oval_trees, src)
@@ -52,11 +55,24 @@ class BuilderHtmlGraph():
             E.script(self._get_part('jsTreeScript.txt')),
         )
 
+    def _get_search_bar(self):
+        if self.all_in_one:
+            return E.div({'class': 'search'},
+                         E.div({'class': 'form-group has-feedback has-search'},
+                               E.span(
+                                   {'class': 'glyphicon glyphicon-search form-control-feedback'}),
+                               E.input({'class': 'form-control',
+                                        'type': 'text',
+                                        'placeholder': 'Search rule'})))
+        return E.div()
+
     def _get_html_body(self, dict_of_rules):
         return E.body(
             E.script(self._get_script_graph_data(dict_of_rules)),
-            self._get_titles_and_places_for_graph(dict_of_rules),
-            E.div({'id': 'data'}),
+            E.div(
+                self.search_bar,
+                self._get_titles_and_places_for_graph(dict_of_rules),
+            ),
             E.div({'id': 'modal', 'class': 'modal'},
                   E.div({'class': 'modal-content'},
                         E.span({'id': 'close', 'class': 'close'}, '×'),

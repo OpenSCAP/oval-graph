@@ -2,6 +2,27 @@ html { margin:0; padding:0; font-size:62.5%; }
 body { max-width:800px; min-width:300px; margin:0 auto; padding:20px 10px; font-size:14px; font-size:1.4em; }
 h1 { font-size:1.8em; }
 
+/* Styles for wrapping the search box */
+
+.search {
+    position: absolute;
+    width: 25%;
+    right: 10px;
+}
+
+/* Bootstrap 3 text input with search icon */
+
+.has-search .form-control-feedback {
+    right: initial;
+    left: 0;
+    color: #ccc;
+}
+
+.has-search .form-control {
+    padding-right: 12px;
+    padding-left: 34px;
+}
+
 /* The Modal (background) */
 .modal {
     display: none; /* Hidden by default */

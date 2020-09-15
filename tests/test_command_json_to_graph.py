@@ -2,6 +2,7 @@ import subprocess
 import os
 import json
 import pytest
+import tempfile
 from readchar import key
 
 import tests.any_test_help
@@ -28,7 +29,7 @@ def test_command_json_to_graph():
                            'xccdf_org.ssgproject.content_rule_package_abrt_removed'
                            ])
     file_src = tests.any_test_help.find_files(
-        "graph-of-xccdf_org.ssgproject.content_rule_package_abrt_removed", './')
+        "graph-of-xccdf_org.ssgproject.content_rule_package_abrt_removed", tempfile.gettempdir())
     tests.any_test_help.compare_results_html(file_src[0])
 
 

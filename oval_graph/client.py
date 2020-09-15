@@ -154,7 +154,7 @@ class Client():
                 self.out,
                 self.START_OF_FILE_NAME + rule + '.html')
         return os.path.join(
-            os.getcwd(),
+            tempfile.gettempdir(),
             self.START_OF_FILE_NAME + rule + '.html')
 
     def get_src(self, src):

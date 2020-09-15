@@ -61,7 +61,9 @@ class BuilderHtmlGraph():
                          E.div({'class': 'form-group has-feedback has-search'},
                                E.span(
                                    {'class': 'glyphicon glyphicon-search form-control-feedback'}),
-                               E.input({'class': 'form-control',
+                               E.input({'id': 'Search',
+                                        'onkeyup': 'search()',
+                                        'class': 'form-control',
                                         'type': 'text',
                                         'placeholder': 'Search rule'})))
         return E.div()
@@ -94,13 +96,14 @@ class BuilderHtmlGraph():
                 ";")
 
     def _get_titles_and_places_for_graph(self, dict_of_rules):
-        out = ''
+        out = '<section id="content"><div id="graphs">'
         for rule in dict_of_rules.keys():
-            out += ('<h1>' +
+            out += ('<div class="target"><h1>' +
                     rule +
                     '</h1><div id="' +
                     re.sub(r'[\_\-\.]', '', rule) +
-                    '"></div>')
+                    '"></div></div>')
+        out += '</div>'
         return lxml.html.fromstring(out)
 
     def _get_part(self, part):

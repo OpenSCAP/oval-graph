@@ -2,18 +2,19 @@ import os
 import webbrowser
 import json
 import re
+import sys
 from lxml import etree
 from lxml.builder import ElementMaker, E
 import lxml.html
 
 
 class BuilderHtmlGraph():
-    def __init__(self, parts, off_webbrowser):
+    def __init__(self, parts, display_html, verbose):
         self.parts = parts
-        self.off_webbrowser = off_webbrowser
+        self.display_html = display_html
+        self.verbose = verbose
 
-    def save_html_and_open_html(
-            self, dict_oval_trees, src, rules, out):
+    def save_html_and_open_html(self, dict_oval_trees, src, rules, out):
         self.save_html_report(dict_oval_trees, src)
         self.print_output_message_and_open_web_browser(
             src, self._format_rules_output(rules), out)
@@ -94,12 +95,13 @@ class BuilderHtmlGraph():
         return out
 
     def print_output_message_and_open_web_browser(self, src, rule, out):
-        print('Rule(s) "{}" done!'.format(rule))
+        if self.verbose:
+            print('Rule(s) "{}" done!'.format(rule), file=sys.stderr)
         out.append(src)
         self.open_web_browser(src)
 
     def open_web_browser(self, src):
-        if not self.off_webbrowser:
+        if self.display_html:
             try:
                 webbrowser.get('firefox').open_new_tab(src)
             except BaseException:

@@ -2,7 +2,6 @@ import webbrowser
 import json
 import os
 import shutil
-import pprint
 import sys
 import uuid
 

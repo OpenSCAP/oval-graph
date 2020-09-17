@@ -5,7 +5,7 @@ from .converter import Converter
 class ArfToHtml(Client):
     def __init__(self, args):
         super().__init__(args)
-        self.off_webbrowser = self.arg.off_web_browser
+        self.display_html = True if self.out is None else self.arg.display
         self.show_failed_rules = self.arg.show_failed_rules
         self.show_not_selected_rules = self.arg.show_not_selected_rules
         self.all_in_one = self.arg.all_in_one
@@ -38,10 +38,10 @@ class ArfToHtml(Client):
             default=False,
             help="Processes all rules into one file.")
         self.parser.add_argument(
-            '--off-web-browser',
+            '--display',
             action="store_true",
             default=False,
-            help="It does not start the web browser.")
+            help="Enables opening a web browser with a graph, when is used --output.")
         self.parser.add_argument(
             '--show-failed-rules',
             action="store_true",

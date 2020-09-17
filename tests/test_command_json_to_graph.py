@@ -2,6 +2,7 @@ import subprocess
 import os
 import json
 import pytest
+import tempfile
 from readchar import key
 
 import tests.any_test_help
@@ -19,14 +20,41 @@ def test_command_json_to_graph():
                                    ])
     with open(src, "w+") as f:
         f.writelines(out.decode('utf-8'))
+    subprocess.check_call(['python3',
+                           '-m',
+                           'oval_graph.command_line',
+                           'json-to-graph',
+                           '--display',
+                           src,
+                           'xccdf_org.ssgproject.content_rule_package_abrt_removed'
+                           ])
+    file_src = tests.any_test_help.find_files(
+        "graph-of-xccdf_org.ssgproject.content_rule_package_abrt_removed", tempfile.gettempdir())
+    tests.any_test_help.compare_results_html(file_src[0])
+
+
+@pytest.mark.usefixtures("remove_generated_reports_in_root")
+def test_command_json_to_graph_with_verbose():
+    src = tests.any_test_help.get_random_dir_in_tmp() + '.json'
+    out = subprocess.check_output(['python3',
+                                   '-m',
+                                   'oval_graph.command_line',
+                                   'arf-to-json',
+                                   'tests/test_data/ssg-fedora-ds-arf.xml',
+                                   'xccdf_org.ssgproject.content_rule_package_abrt_removed'
+                                   ])
+    with open(src, "w+") as f:
+        f.writelines(out.decode('utf-8'))
     out = subprocess.check_output(['python3',
                                    '-m',
                                    'oval_graph.command_line',
                                    'json-to-graph',
-                                   '--off-web-browser',
+                                   '--display',
+                                   '--verbose',
                                    src,
                                    'xccdf_org.ssgproject.content_rule_package_abrt_removed'
-                                   ])
+                                   ],
+                                  stderr=subprocess.STDOUT)
     tests.any_test_help.compare_results_html(
         out.decode('utf-8').split('\n')[-2])
 
@@ -47,7 +75,6 @@ def test_command_json_to_graph_is_tty():
                                    '-m',
                                    'oval_graph.command_line',
                                    'json-to-graph',
-                                   '--off-web-browser',
                                    '--out',
                                    out_dir,
                                    src,
@@ -87,7 +114,6 @@ def test_inquirer_choice_rule():
                          'json-to-graph',
                          '-o',
                          out_dir,
-                         '--off-web-browser',
                          src,
                          '.'
                          ])
@@ -123,7 +149,6 @@ def test_command_parameter_all():
                            'json-to-graph',
                            src,
                            '.',
-                           '--off-web-browser',
                            '--all',
                            '-o',
                            out_dir

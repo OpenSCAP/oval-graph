@@ -270,3 +270,12 @@ def if_not_installed_inquirer_with_option_show_not_selected_rules_and_show_faile
             'xccdf_org.ssgproject.content_rule_package_mcstrans_removed(Not selected)\n'
             "You haven't got installed inquirer lib. Please copy id rule with you"
             " want use and put it in command\n")
+
+
+def find_files(file_name, search_path):
+    result = []
+    for root, dir_, files in os.walk(search_path):
+        for filename in files:
+            if file_name in filename:
+                result.append(os.path.abspath(os.path.join(root, filename)))
+    return result

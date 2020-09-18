@@ -73,15 +73,19 @@ class Client():
             self.search_rules_id()) if self.show_failed_rules else self.search_rules_id()
 
     def get_list_of_lines(self):
-        lines = ['== The Rule IDs ==']
+        lines = ['== The Rule ID regular expressions ==']
         for rule in self.get_list_of_matched_rules():
-            lines.append("'" + rule + r'\b' + "'")
+            lines.append("^" + rule + "$")
         if self.show_not_selected_rules:
             for line in self.get_lines_of_wanted_not_selected_rules():
                 lines.append(line)
         lines.append(
-            "You haven't got installed inquirer lib. "
-            "Please copy id rule with you want use and put it in command")
+            "Interactive rule selection is not available,"
+            " because inquirer is not installed."
+            " Copy id of the rule you want to visualize and"
+            " paste it into a command with regular"
+            " expression characters(^$).\n"
+            "Alternatively, use the --all or --all-in-one arguments.")
         return lines
 
     def get_selection_rules(self):

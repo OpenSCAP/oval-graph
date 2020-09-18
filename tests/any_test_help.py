@@ -176,6 +176,10 @@ def compare_results_json(result):
             == reference_result[rule_name])
 
 
+def _find_all_in_string(regex, count, string):
+    assert len(re.findall(regex, string)) == count
+
+
 def get_questions_not_selected(capsys, client):
     out = client.get_questions()[0].choices
     outResult = [
@@ -185,14 +189,8 @@ def get_questions_not_selected(capsys, client):
     captured = capsys.readouterr()
 # Problem with CI when si called function test_arf_to_hml.test_get_question_not_selected
 # other calls work with ==.
-    assert (('== The not selected rule IDs ==\n'
-             'xccdf_org.ssgproject.content_rule_package_nis_removed(Not selected)\n'
-             'xccdf_org.ssgproject.content_rule_package_ntpdate_removed(Not selected)\n'
-             'xccdf_org.ssgproject.content_rule_package_telnetd_removed(Not selected)\n'
-             'xccdf_org.ssgproject.content_rule_package_gdm_removed(Not selected)\n'
-             'xccdf_org.ssgproject.content_rule_package_setroubleshoot_removed(Not selected)\n'
-             'xccdf_org.ssgproject.content_rule_package_mcstrans_removed(Not selected)\n')
-            in captured.out)
+    regex = r'rule_package_\w+_removed\(Not selected\)'
+    _find_all_in_string(regex, 6, captured.out)
 
 
 def get_questions_not_selected_and_show_failed_rules(capsys, client):
@@ -200,14 +198,8 @@ def get_questions_not_selected_and_show_failed_rules(capsys, client):
     outResult = ['xccdf_org.ssgproject.content_rule_package_abrt_removed']
     assert out == outResult
     captured = capsys.readouterr()
-    assert captured.out == (
-        '== The not selected rule IDs ==\n'
-        'xccdf_org.ssgproject.content_rule_package_nis_removed(Not selected)\n'
-        'xccdf_org.ssgproject.content_rule_package_ntpdate_removed(Not selected)\n'
-        'xccdf_org.ssgproject.content_rule_package_telnetd_removed(Not selected)\n'
-        'xccdf_org.ssgproject.content_rule_package_gdm_removed(Not selected)\n'
-        'xccdf_org.ssgproject.content_rule_package_setroubleshoot_removed(Not selected)\n'
-        'xccdf_org.ssgproject.content_rule_package_mcstrans_removed(Not selected)\n')
+    regex = r'rule_package_\w+_removed\(Not selected\)'
+    _find_all_in_string(regex, 6, captured.out)
 
 
 def get_questions_with_option_show_failed_rules(client):
@@ -223,54 +215,29 @@ def if_not_installed_inquirer_with_option_show_failed_rules(capsys, client):
         out = client.run_gui_and_return_answers()
         assert out is None
         captured = capsys.readouterr()
-        assert captured.out == (
-            '== The Rule IDs ==\n'
-            "'xccdf_org.ssgproject.content_rule_package_abrt_removed\\b'\n"
-            "You haven't got installed inquirer lib. Please copy id rule with you"
-            " want use and put it in command\n")
+        assert "inquirer" in captured.out
+        regex = r'rule_package_\w+_removed\$'
+        _find_all_in_string(regex, 1, captured.out)
 
 
 def if_not_installed_inquirer_with_option_show_not_selected_rules(
-        capsys, client):
+        capsys, client, count_of_selected_rule=2):
     with mock.patch.dict(sys.modules, {'inquirer': None}):
         out = client.run_gui_and_return_answers()
         assert out is None
         captured = capsys.readouterr()
-        assert captured.out == (
-            '== The Rule IDs ==\n'
-            "'xccdf_org.ssgproject.content_rule_package_abrt_removed\\b'\n"
-            "'xccdf_org.ssgproject.content_rule_package_sendmail_removed\\b'\n"
-            '== The not selected rule IDs ==\n'
-            'xccdf_org.ssgproject.content_rule_package_nis_removed(Not selected)\n'
-            'xccdf_org.ssgproject.content_rule_package_ntpdate_removed(Not selected)\n'
-            'xccdf_org.ssgproject.content_rule_package_telnetd_removed(Not selected)\n'
-            'xccdf_org.ssgproject.content_rule_package_gdm_removed(Not selected)\n'
-            'xccdf_org.ssgproject.content_rule_package_setroubleshoot_removed(Not selected)\n'
-            'xccdf_org.ssgproject.content_rule_package_mcstrans_removed(Not selected)\n'
-            "You haven't got installed inquirer lib. Please copy id rule with you"
-            " want use and put it in command\n")
+        assert "inquirer" in captured.out
+        regex = r'rule_package_\w+_removed\$'
+        _find_all_in_string(regex, count_of_selected_rule, captured.out)
+        regex = r'rule_package_\w+_removed\(Not selected\)'
+        _find_all_in_string(regex, 6, captured.out)
 
 
 def if_not_installed_inquirer_with_option_show_not_selected_rules_and_show_failed_rules(
         capsys,
         client):
-    with mock.patch.dict(sys.modules, {'inquirer': None}):
-        out = client.run_gui_and_return_answers()
-        assert out is None
-        captured = capsys.readouterr()
-        assert captured.out == (
-            '== The Rule IDs ==\n'
-            "'xccdf_org.ssgproject.content_rule_package_abrt_removed\\b'\n"
-            '== The not selected rule IDs ==\n'
-            'xccdf_org.ssgproject.content_rule_package_nis_removed(Not selected)\n'
-            'xccdf_org.ssgproject.content_rule_package_ntpdate_removed(Not selected)\n'
-            'xccdf_org.ssgproject.content_rule_package_telnetd_removed(Not selected)\n'
-            'xccdf_org.ssgproject.content_rule_package_gdm_removed(Not selected)\n'
-            'xccdf_org.ssgproject.content_rule_package_setroubleshoot_removed(Not selected)\n'
-            'xccdf_org.ssgproject.content_rule_package_mcstrans_removed(Not selected)\n'
-            "You haven't got installed inquirer lib. Please copy id rule with you"
-            " want use and put it in command\n")
-
+    if_not_installed_inquirer_with_option_show_not_selected_rules(
+        capsys, client, 1)
 
 def find_files(file_name, search_path):
     result = []

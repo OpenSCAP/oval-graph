@@ -212,7 +212,7 @@ class Client():
             default=False,
             help=(
                 "Do not display passing tests for better orientation in"
-                " graphs that contain a large amount of nodes.(Not implemented)"))
+                " graphs that contain a large amount of nodes."))
         self.parser.add_argument(
             '-v',
             '--verbose',

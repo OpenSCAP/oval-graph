@@ -39,7 +39,6 @@ class Client():
     def _get_message(self):
         MESSAGES = {
             'description': '',
-            '--output': '',
             'source_filename': '',
         }
         return MESSAGES
@@ -256,7 +255,7 @@ class Client():
             '--output',
             action="store",
             default=None,
-            help=self.MESSAGES.get('--output'))
+            help='The file where to save output.')
         self.parser.add_argument(
             "source_filename",
             help=self.MESSAGES.get('source_filename'))

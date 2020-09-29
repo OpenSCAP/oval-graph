@@ -19,7 +19,6 @@ class ArfToJson(Client):
     def _get_message(self):
         MESSAGES = {
             'description': 'Client for generating JSON of SCAP rule evaluation results',
-            '--output': 'The file where to save output.',
             'source_filename': 'ARF scan file',
         }
         return MESSAGES

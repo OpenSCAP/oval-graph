@@ -15,7 +15,6 @@ class ArfToHtml(Client):
     def _get_message(self):
         MESSAGES = {
             'description': 'Client for visualization of SCAP rule evaluation results',
-            '--output': 'The directory where to save output directory with files.',
             'source_filename': 'ARF scan file',
         }
         return MESSAGES

@@ -38,7 +38,6 @@ class JsonToHtml(Client):
     def _get_message(self):
         MESSAGES = {
             'description': 'Client for visualization of JSON created by command arf-to-json',
-            '--output': 'The directory where to save output directory with files.',
             'source_filename': 'JSON file',
         }
         return MESSAGES

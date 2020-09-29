@@ -198,6 +198,32 @@ class Client():
         self.prepare_parser()
         return self.parser.parse_args(args)
 
+    def prepare_args_when_output_is_html(self):
+        self.parser.add_argument(
+            '-i',
+            '--all-in-one',
+            action="store_true",
+            default=False,
+            help="Processes all rules into one file.")
+        self.parser.add_argument(
+            '-d',
+            '--display',
+            action="store_true",
+            default=False,
+            help="Enables opening a web browser with a graph, when is used --output.")
+
+    def prepare_args_when_user_can_list_in_rules(self):
+        self.parser.add_argument(
+            '--show-failed-rules',
+            action="store_true",
+            default=False,
+            help="Show only FAILED rules")
+        self.parser.add_argument(
+            '--show-not-selected-rules',
+            action="store_true",
+            default=False,
+            help="Show notselected rules. These rules will not be visualized.")
+
     def prepare_parser(self):
         self.parser = argparse.ArgumentParser(
             prog='oval-graph',

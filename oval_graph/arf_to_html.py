@@ -32,25 +32,5 @@ class ArfToHtml(Client):
 
     def prepare_parser(self):
         super().prepare_parser()
-        self.parser.add_argument(
-            '-i',
-            '--all-in-one',
-            action="store_true",
-            default=False,
-            help="Processes all rules into one file.")
-        self.parser.add_argument(
-            '-d',
-            '--display',
-            action="store_true",
-            default=False,
-            help="Enables opening a web browser with a graph, when is used --output.")
-        self.parser.add_argument(
-            '--show-failed-rules',
-            action="store_true",
-            default=False,
-            help="Show only FAILED rules")
-        self.parser.add_argument(
-            '--show-not-selected-rules',
-            action="store_true",
-            default=False,
-            help="Show notselected rules. These rules will not be visualized.")
+        self.prepare_args_when_output_is_html()
+        self.prepare_args_when_user_can_list_in_rules()

@@ -11,6 +11,7 @@ import sys
 from .xml_parser import XmlParser
 from .exceptions import NotChecked
 from ._builder_html_graph import BuilderHtmlGraph
+from .__init__ import __version__
 
 
 class Client():
@@ -199,7 +200,12 @@ class Client():
 
     def prepare_parser(self):
         self.parser = argparse.ArgumentParser(
+            prog='oval-graph',
             description=self.MESSAGES.get('description'))
+        self.parser.add_argument(
+            '--version',
+            action='version',
+            version='%(prog)s ' + __version__)
         self.parser.add_argument(
             '-a',
             '--all',

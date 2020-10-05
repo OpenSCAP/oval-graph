@@ -23,5 +23,6 @@ class ArfToHtml(ClientArfInput, ClientHtmlOutput):
 
     def prepare_parser(self, parser):
         super().prepare_parser(parser)
-        self.prepare_args_when_output_is_html(parser)
-        self.prepare_args_when_user_can_list_in_rules(parser)
+        self.arg_all_in_one(parser)
+        self.arg_display(parser)
+        self.args_for_editing_list_of_rules(parser)

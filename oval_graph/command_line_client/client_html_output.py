@@ -93,13 +93,16 @@ class ClientHtmlOutput(Client):
             web_browser.kill()
 
     @staticmethod
-    def prepare_args_when_output_is_html(parser):
+    def arg_all_in_one(parser):
         parser.add_argument(
             '-i',
             '--all-in-one',
             action="store_true",
             default=False,
             help="Processes all rules into one file.")
+
+    @staticmethod
+    def arg_display(parser):
         parser.add_argument(
             '-d',
             '--display',

@@ -53,4 +53,4 @@ class ArfToJson(ClientArfInput):
 
     def prepare_parser(self, parser):
         super().prepare_parser(parser)
-        self.prepare_args_when_user_can_list_in_rules(parser)
+        self.args_for_editing_list_of_rules(parser)

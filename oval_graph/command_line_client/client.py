@@ -11,11 +11,15 @@ class Client():
         self.arg = self.parse_arguments(args)
 
         self.source_filename = self.arg.source_filename
-        self.rule_name = self.arg.rule_id
+        self.rule_name = None
+        if hasattr(self.arg, 'rule_id'):
+            self.rule_name = self.arg.rule_id
 
         self.isatty = sys.stdout.isatty()
 
-        self.all_rules = self.arg.all
+        self.all_rules = None
+        if hasattr(self.arg, 'all'):
+            self.all_rules = self.arg.all
         self.show_failed_rules = False
         self.show_not_selected_rules = False
 
@@ -143,7 +147,7 @@ class Client():
         return parser.parse_args(args)
 
     @staticmethod
-    def prepare_args_when_user_can_list_in_rules(parser):
+    def args_for_editing_list_of_rules(parser):
         parser.add_argument(
             '--show-failed-rules',
             action="store_true",
@@ -155,11 +159,8 @@ class Client():
             default=False,
             help="Show notselected rules. These rules will not be visualized.")
 
-    def prepare_parser(self, parser):
-        parser.add_argument(
-            '--version',
-            action='version',
-            version='%(prog)s ' + __version__)
+    @staticmethod
+    def args_all_and_hide_passing_test(parser):
         parser.add_argument(
             '-a',
             '--all',
@@ -173,6 +174,27 @@ class Client():
             help=(
                 "Do not display passing tests for better orientation in"
                 " graphs that contain a large amount of nodes."))
+
+    def arg_source_file(self, parser):
+        parser.add_argument(
+            "source_filename",
+            help=self._get_message().get('source_filename'))
+
+    @staticmethod
+    def arg_rule_id(parser):
+        parser.add_argument(
+            "rule_id", help=(
+                "Rule ID to be visualized. A part from the full rule ID"
+                " a part of the ID or a regular expression can be used."
+                " If brackets are used in the regular expression "
+                "the regular expression must be quoted."))
+
+    @staticmethod
+    def args_basic_functions(parser):
+        parser.add_argument(
+            '--version',
+            action='version',
+            version='%(prog)s ' + __version__)
         parser.add_argument(
             '-v',
             '--verbose',
@@ -185,12 +207,9 @@ class Client():
             action="store",
             default=None,
             help='The file where to save output.')
-        parser.add_argument(
-            "source_filename",
-            help=self._get_message().get('source_filename'))
-        parser.add_argument(
-            "rule_id", help=(
-                "Rule ID to be visualized. A part from the full rule ID"
-                " a part of the ID or a regular expression can be used."
-                " If brackets are used in the regular expression "
-                "the regular expression must be quoted."))
+
+    def prepare_parser(self, parser):
+        self.args_basic_functions(parser)
+        self.args_all_and_hide_passing_test(parser)
+        self.arg_source_file(parser)
+        self.arg_rule_id(parser)

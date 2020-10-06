@@ -1,6 +1,6 @@
-# Welcome to the OVAL-visualization-as-graph guide
+# Welcome to the oval-graph guide
 
-This tool generates a tree graph from ARF xml report from OpenSCAP scan.
+This tool generates an [OVAL](https://oval.cisecurity.org/) result in the form of a tree graph from an ARF xml report from an OpenSCAP scan.
 
 ## Prerequisites
 

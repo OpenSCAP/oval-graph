@@ -38,7 +38,6 @@ class JsonToHtml(Client):
     def _get_message(self):
         MESSAGES = {
             'description': 'Client for visualization of JSON created by command arf-to-json',
-            '--output': 'The directory where to save output directory with files.',
             'source_filename': 'JSON file',
         }
         return MESSAGES
@@ -87,15 +86,4 @@ class JsonToHtml(Client):
 
     def prepare_parser(self):
         super().prepare_parser()
-        self.parser.add_argument(
-            '-i',
-            '--all-in-one',
-            action="store_true",
-            default=False,
-            help="Processes all rules into one file.")
-        self.parser.add_argument(
-            '-d',
-            '--display',
-            action="store_true",
-            default=False,
-            help="Enables opening a web browser with a graph, when is used --output.")
+        self.prepare_args_when_output_is_html()

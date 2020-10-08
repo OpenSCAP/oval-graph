@@ -2,6 +2,7 @@ import sys
 import traceback
 
 from .command_line_client.arf_to_html import ArfToHtml
+from .command_line_client.arf_to_html_report import ArfToHtmlReport
 from .command_line_client.arf_to_json import ArfToJson
 from .command_line_client.json_to_html import JsonToHtml
 
@@ -19,6 +20,14 @@ def print_where_is_saved_result(results_src):
 def print_detail_traceback_if_verbose(args):
     if any(arg in args for arg in ("-v", "--verbose")):
         traceback.print_exc()
+
+
+def arf_to_report(args=None):
+    try:
+        main(ArfToHtmlReport(args))
+    except Exception as error:
+        print_detail_traceback_if_verbose(args)
+        print((CRED + 'Error: {}' + CEND).format(error))
 
 
 def arf_to_graph(args=None):
@@ -75,6 +84,10 @@ if __name__ == '__main__':
     parser_json_to_graph = subparsers.add_parser(
         'json-to-graph', help='Executes the json-to-graph command.')
     parser_json_to_graph.set_defaults(command=json_to_graph)
+
+    parser_arf_to_report = subparsers.add_parser(
+        'arf-to-report', help='Executes the arf-to-report command.')
+    parser_arf_to_report.set_defaults(command=arf_to_report)
 
     args, command_args = parser.parse_known_args()
     args.command(command_args)

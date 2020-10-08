@@ -42,6 +42,7 @@ Use `arf-to-json` to generate a rule result in json. Using the
 %{_bindir}/arf-to-graph
 %{_bindir}/arf-to-json
 %{_bindir}/json-to-graph
+%{_bindir}/arf-to-report
 
 %changelog
 * Tue Feb 23 2021 Jan Rodak <jrodak@redhat.com> - 1.2.5-1

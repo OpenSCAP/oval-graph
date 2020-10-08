@@ -7,24 +7,27 @@ from .._builder_html_graph import BuilderHtmlGraph
 from ..exceptions import NotChecked
 from .client import Client
 
-START_OF_FILE_NAME = 'graph-of-'
-
 
 class ClientHtmlOutput(Client):
     def __init__(self, args):
         super().__init__(args)
         self.out = self.arg.output
         self.part = self.get_src('../parts')
-        self.all_in_one = self.arg.all_in_one
-        self.all_rules = True if self.all_in_one else self.arg.all
+        if hasattr(self.arg, 'all_in_one'):
+            self.all_in_one = self.arg.all_in_one
+            self.all_rules = True if self.all_in_one else self.arg.all
+            self.html_builder = BuilderHtmlGraph(self.part, self.arg.verbose, self.all_in_one)
         self.display_html = True if self.out is None else self.arg.display
-        self.html_builder = BuilderHtmlGraph(self.part, self.arg.verbose, self.all_in_one)
         self.web_browsers = []
 
     @staticmethod
     def get_src(src):
         _dir = os.path.dirname(os.path.realpath(__file__))
         return str(os.path.join(_dir, src))
+
+    @staticmethod
+    def get_start_of_file_name():
+        return 'graph-of-'
 
     def prepare_data(self, rules):
         out_src = []
@@ -73,10 +76,10 @@ class ClientHtmlOutput(Client):
             os.makedirs(self.out, exist_ok=True)
             return os.path.join(
                 self.out,
-                START_OF_FILE_NAME + rule + '.html')
+                self.get_start_of_file_name() + rule + '.html')
         return os.path.join(
             tempfile.gettempdir(),
-            START_OF_FILE_NAME + rule + '.html')
+            self.get_start_of_file_name() + rule + '.html')
 
     def open_results_in_web_browser(self, paths_to_results):
         if self.display_html:

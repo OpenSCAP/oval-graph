@@ -5,8 +5,9 @@ from .client import Client
 class ClientArfInput(Client):
     def __init__(self, args):
         super().__init__(args)
-        self.show_failed_rules = self.arg.show_failed_rules
-        self.show_not_selected_rules = self.arg.show_not_selected_rules
+        if hasattr(self.arg, 'show_failed_rules') and hasattr(self.arg, 'show_not_selected_rules'):
+            self.show_failed_rules = self.arg.show_failed_rules
+            self.show_not_selected_rules = self.arg.show_not_selected_rules
         self.arf_xml_parser = XmlParser(self.source_filename)
 
     def _get_rows_of_unselected_rules(self):

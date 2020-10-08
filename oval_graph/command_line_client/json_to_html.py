@@ -3,8 +3,6 @@ from ..oval_node import restore_dict_to_tree
 from .client_html_output import ClientHtmlOutput
 from .client_json_input import ClientJsonInput
 
-START_OF_FILE_NAME = 'graph-of-'
-
 
 class JsonToHtml(ClientHtmlOutput, ClientJsonInput):
     def __init__(self, args):
@@ -48,10 +46,10 @@ class JsonToHtml(ClientHtmlOutput, ClientJsonInput):
 
     def _put_to_dict_oval_trees(self, dict_oval_trees, rule):
         dict_oval_trees[rule.replace(
-            START_OF_FILE_NAME, '')] = self.create_dict_of_rule(rule)
+            self.get_start_of_file_name(), '')] = self.create_dict_of_rule(rule)
 
     def _get_src_for_one_graph(self, rule):
-        return self.get_save_src(rule.replace(START_OF_FILE_NAME, ''))
+        return self.get_save_src(rule.replace(self.get_start_of_file_name(), ''))
 
     def prepare_parser(self, parser):
         super().prepare_parser(parser)

@@ -1,5 +1,4 @@
 import os
-import webbrowser
 import json
 import re
 import sys
@@ -9,15 +8,13 @@ import lxml.html
 
 
 class BuilderHtmlGraph():
-    def __init__(self, parts, display_html, verbose):
+    def __init__(self, parts, verbose):
         self.parts = parts
-        self.display_html = display_html
         self.verbose = verbose
 
-    def save_html_and_open_html(self, dict_oval_trees, src, rules, out):
+    def save_html(self, dict_oval_trees, src, rules):
         self.save_html_report(dict_oval_trees, src)
-        self.print_output_message_and_open_web_browser(
-            src, self._format_rules_output(rules), out)
+        self.print_output_message(src, self._format_rules_output(rules))
 
     def save_html_report(self, dict_of_rules, src):
         with open(src, "w+") as data_file:
@@ -94,18 +91,9 @@ class BuilderHtmlGraph():
                 out += line
         return out
 
-    def print_output_message_and_open_web_browser(self, src, rule, out):
+    def print_output_message(self, src, rule):
         if self.verbose:
             print('Rule(s) "{}" done!'.format(rule), file=sys.stderr)
-        out.append(src)
-        self.open_web_browser(src)
-
-    def open_web_browser(self, src):
-        if self.display_html:
-            try:
-                webbrowser.get('firefox').open_new_tab(src)
-            except BaseException:
-                webbrowser.open_new_tab(src)
 
     def _format_rules_output(self, rules):
         out = ''

@@ -1,12 +1,10 @@
-# OVAL visualization as graph
-
-Understanding result in the blink of an eye
+# oval-graph
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/OpenSCAP/OVAL-visualization-as-graph/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/OpenSCAP/OVAL-visualization-as-graph/?branch=master) [![Code Coverage](https://scrutinizer-ci.com/g/OpenSCAP/OVAL-visualization-as-graph/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/OpenSCAP/OVAL-visualization-as-graph/?branch=master) [![Build Status](https://scrutinizer-ci.com/g/OpenSCAP/OVAL-visualization-as-graph/badges/build.png?b=master)](https://scrutinizer-ci.com/g/OpenSCAP/OVAL-visualization-as-graph/build-status/master) [![Code Intelligence Status](https://scrutinizer-ci.com/g/OpenSCAP/OVAL-visualization-as-graph/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence)
 
-## Visualization of SCAP rule evaluation results
+_Understanding result in the blink of an eye_
 
-This tool generates a tree graph from ARF xml report from OpenSCAP scan.
+This tool generates an [OVAL](https://oval.cisecurity.org/) result in the form of a tree graph from an ARF xml report from an OpenSCAP scan.
 
 ## Installation
 

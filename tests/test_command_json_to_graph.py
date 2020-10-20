@@ -29,7 +29,8 @@ def test_command_json_to_graph():
                            'xccdf_org.ssgproject.content_rule_package_abrt_removed'
                            ])
     file_src = tests.any_test_help.find_files(
-        "graph-of-xccdf_org.ssgproject.content_rule_package_abrt_removed", tempfile.gettempdir())
+        "graph-of-xccdf_org.ssgproject.content_rule_package_abrt_removed",
+        tempfile.gettempdir())
     tests.any_test_help.compare_results_html(file_src[0])
 
 
@@ -154,3 +155,32 @@ def test_command_parameter_all():
                            out_dir
                            ])
     assert len(os.listdir(out_dir)) == 184
+
+
+def test_bad_command_json_to_graph_with_verbose():
+    out = subprocess.check_output(['python3',
+                                   '-m',
+                                   'oval_graph.command_line',
+                                   'json-to-graph',
+                                   '-v',
+                                   'tests/test_data/ssg-fedora-ds-arf.xml',
+                                   '.'
+                                   ],
+                                  stderr=subprocess.STDOUT)
+    out_string = out.decode('utf-8')
+    assert out_string.find("Traceback") > -1
+    assert out_string.find("Error:") > -1
+
+
+def test_bad_command_json_to_graph():
+    out = subprocess.check_output(['python3',
+                                   '-m',
+                                   'oval_graph.command_line',
+                                   'json-to-graph',
+                                   'tests/test_data/ssg-fedora-ds-arf.xml',
+                                   '.'
+                                   ],
+                                  stderr=subprocess.STDOUT)
+    out_string = out.decode('utf-8')
+    assert out_string.find("Traceback") == -1
+    assert out_string.find("Error:") > -1

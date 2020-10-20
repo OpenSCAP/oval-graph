@@ -1,4 +1,5 @@
 import sys
+import traceback
 
 from .arf_to_html import ArfToHtml
 from .arf_to_json import ArfToJson
@@ -15,6 +16,14 @@ def print_where_is_saved_result(results_src):
             print(src, file=sys.stderr)
 
 
+def print_detail_traceback_if_verbose(args):
+    if args is None:
+        args = sys.argv[1:]
+
+    if any(arg in args for arg in ("-v", "--verbose")):
+        traceback.print_exc()
+
+
 def arf_to_graph(args=None):
     try:
         if args is not None:
@@ -22,6 +31,7 @@ def arf_to_graph(args=None):
         else:
             main(ArfToHtml(sys.argv[1:]))
     except Exception as error:
+        print_detail_traceback_if_verbose(args)
         print((CRED + 'Error: {}' + CEND).format(error))
 
 
@@ -32,6 +42,7 @@ def arf_to_json(args=None):
         else:
             main(ArfToJson(sys.argv[1:]))
     except Exception as error:
+        print_detail_traceback_if_verbose(args)
         print((CRED + 'Error: {}' + CEND).format(error))
 
 
@@ -42,6 +53,7 @@ def json_to_graph(args=None):
         else:
             main(JsonToHtml(sys.argv[1:]))
     except Exception as error:
+        print_detail_traceback_if_verbose(args)
         print((CRED + 'Error: {}' + CEND).format(error))
 
 

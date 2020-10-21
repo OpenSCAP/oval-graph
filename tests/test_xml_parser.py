@@ -90,10 +90,7 @@ def test_get_def_id_by_notselected_rule_id():
 
 
 def test_use_bat_report_file():
-    src = (
-        'test_data/xccdf_org.ssgproject.'
-        'content_rule_sssd_ssh_known_hosts_timeout-comment.'
-        'fail.sh-xccdf_org.ssgproject.content_profile_ospp-results-initial.xml')
+    src = 'test_data/xccdf_org.ssgproject.content_profile_ospp-results-initial.xml'
 
     with pytest.raises(Exception, match=r"arf\b|ARF\b"):
         assert tests.any_test_help.get_parser(src)

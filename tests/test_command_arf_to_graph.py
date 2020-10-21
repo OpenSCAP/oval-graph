@@ -115,7 +115,7 @@ def test_bad_command_arf_to_graph_with_verbose():
             'oval_graph.command_line',
             'arf-to-graph',
             '-v',
-            'tests/test_data/xccdf_org.ssgproject.content_rule_sssd_ssh_known_hosts_timeout-comment.fail.sh-xccdf_org.ssgproject.content_profile_ospp-results-initial.xml',
+            'tests/test_data/xccdf_org.ssgproject.content_profile_ospp-results-initial.xml',
             '.'],
         stderr=subprocess.STDOUT)
     out_string = out.decode('utf-8')
@@ -131,7 +131,7 @@ def test_bad_command_arf_to_graph():
             '-m',
             'oval_graph.command_line',
             'arf-to-graph',
-            'tests/test_data/xccdf_org.ssgproject.content_rule_sssd_ssh_known_hosts_timeout-comment.fail.sh-xccdf_org.ssgproject.content_profile_ospp-results-initial.xml',
+            'tests/test_data/xccdf_org.ssgproject.content_profile_ospp-results-initial.xml',
             '.'],
         stderr=subprocess.STDOUT)
     out_string = out.decode('utf-8')

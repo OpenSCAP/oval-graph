@@ -165,12 +165,24 @@ class Client():
         _dir = os.path.dirname(os.path.realpath(__file__))
         return str(os.path.join(_dir, src))
 
-    def _build_and_save_html(self, dict_oval_trees, src, rules, out):
+    def _build_and_save_html(self, dict_oval_trees, src, rules, out_src):
         builder = BuilderHtmlGraph(
-            self.parts, self.display_html, self.verbose)
-        builder.save_html_and_open_html(dict_oval_trees, src, rules, out)
+            self.parts, self.verbose)
+        builder.save_html(dict_oval_trees, src, rules)
+        out_src.append(src)
 
-    def _prepare_data(self, rules, dict_oval_trees, out):
+    def open_html(self, out):
+        for src in out:
+            self.open_web_browser(src)
+
+    def open_web_browser(self, src):
+        if self.display_html:
+            try:
+                webbrowser.get('firefox').open_new_tab(src)
+            except BaseException:
+                webbrowser.open_new_tab(src)
+
+    def _prepare_data(self, rules, dict_oval_trees, out_src):
         for rule in rules['rules']:
             try:
                 self._put_to_dict_oval_trees(dict_oval_trees, rule)
@@ -178,20 +190,21 @@ class Client():
                     self._build_and_save_html(
                         dict_oval_trees, self._get_src_for_one_graph(
                             rule), dict(
-                            rules=[rule]), out)
+                            rules=[rule]), out_src)
                     dict_oval_trees = {}
             except NotChecked as error:
                 self.print_red_text(error)
         if self.all_in_one:
             self._build_and_save_html(
                 dict_oval_trees, self.get_save_src(
-                    'rules' + self.date), rules, out)
-        return out
+                    'rules' + self.date), rules, out_src)
 
     def prepare_data(self, rules):
-        out = []
+        out_src = []
         oval_tree_dict = dict()
-        return self._prepare_data(rules, oval_tree_dict, out)
+        self._prepare_data(rules, oval_tree_dict, out_src)
+        self.open_html(out_src)
+        return out_src
 
     def parse_arguments(self, args):
         self.prepare_parser()

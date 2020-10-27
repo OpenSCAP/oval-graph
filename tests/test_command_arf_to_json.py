@@ -123,3 +123,36 @@ def test_command_with_parameter_out():
     with open(src, "r") as f:
         rules = json.load(f)
     assert len(rules.keys()) == 4
+
+
+def test_bad_command_arf_to_json_with_verbose():
+    out = subprocess.check_output(
+        [
+            'python3',
+            '-m',
+            'oval_graph.command_line',
+            'arf-to-json',
+            '-v',
+            'tests/test_data/xccdf_org.ssgproject.content_profile_ospp-results-initial.xml',
+            '.'],
+        stderr=subprocess.STDOUT)
+    out_string = out.decode('utf-8')
+    assert out_string.find("Traceback") > -1
+    assert out_string.find("Warning:") > -1
+    assert out_string.find("Error:") > -1
+
+
+def test_bad_command_arf_to_json():
+    out = subprocess.check_output(
+        [
+            'python3',
+            '-m',
+            'oval_graph.command_line',
+            'arf-to-graph',
+            'tests/test_data/xccdf_org.ssgproject.content_profile_ospp-results-initial.xml',
+            '.'],
+        stderr=subprocess.STDOUT)
+    out_string = out.decode('utf-8')
+    assert out.decode('utf-8').find("Traceback") == -1
+    assert out.decode('utf-8').find("Warning:") > -1
+    assert out.decode('utf-8').find("Error:") > -1

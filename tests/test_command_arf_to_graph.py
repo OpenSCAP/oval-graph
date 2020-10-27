@@ -18,7 +18,8 @@ def test_command_arf_to_graph():
                            'xccdf_org.ssgproject.content_rule_package_abrt_removed'
                            ])
     file_src = tests.any_test_help.find_files(
-        "graph-of-xccdf_org.ssgproject.content_rule_package_abrt_removed", tempfile.gettempdir())
+        "graph-of-xccdf_org.ssgproject.content_rule_package_abrt_removed",
+        tempfile.gettempdir())
     tests.any_test_help.compare_results_html(file_src[0])
 
 
@@ -104,3 +105,36 @@ def test_command_parameter_all_and_show_failed_rules():
                            r'_package_\w+_removed'
                            ])
     assert len(os.listdir(src)) == 1
+
+
+def test_bad_command_arf_to_graph_with_verbose():
+    out = subprocess.check_output(
+        [
+            'python3',
+            '-m',
+            'oval_graph.command_line',
+            'arf-to-graph',
+            '-v',
+            'tests/test_data/xccdf_org.ssgproject.content_profile_ospp-results-initial.xml',
+            '.'],
+        stderr=subprocess.STDOUT)
+    out_string = out.decode('utf-8')
+    assert out_string.find("Traceback") > -1
+    assert out_string.find("Warning:") > -1
+    assert out_string.find("Error:") > -1
+
+
+def test_bad_command_arf_to_graph():
+    out = subprocess.check_output(
+        [
+            'python3',
+            '-m',
+            'oval_graph.command_line',
+            'arf-to-graph',
+            'tests/test_data/xccdf_org.ssgproject.content_profile_ospp-results-initial.xml',
+            '.'],
+        stderr=subprocess.STDOUT)
+    out_string = out.decode('utf-8')
+    assert out_string.find("Traceback") == -1
+    assert out_string.find("Warning:") > -1
+    assert out_string.find("Error:") > -1

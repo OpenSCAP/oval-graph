@@ -3,14 +3,11 @@ import argparse
 import tempfile
 import os
 import webbrowser
-import json
-import shutil
 from datetime import datetime
 import sys
 
 from .xml_parser import XmlParser
 from .exceptions import NotChecked
-from ._builder_html_graph import BuilderHtmlGraph
 from .__init__ import __version__
 
 
@@ -23,19 +20,28 @@ class Client():
         self.source_filename = self.arg.source_filename
         self.rule_name = self.arg.rule_id
         self.out = self.arg.output
-        self.all_rules = self.arg.all
-        self.all_in_one = None
-        self.display_html = None
-        self.isatty = sys.stdout.isatty()
-        self.show_failed_rules = False
-        self.show_not_selected_rules = False
-        self.xml_parser = XmlParser(
-            self.source_filename)
+        self.verbose = self.arg.verbose
+
         self.parts = self.get_src('parts')
         self.START_OF_FILE_NAME = 'graph-of-'
         self.date = str(datetime.now().strftime("-%d_%m_%Y-%H_%M_%S"))
-        self.verbose = self.arg.verbose
+        self.isatty = sys.stdout.isatty()
+
+        self.all_rules = self.arg.all
+        self.all_in_one = None
+        self.display_html = None
+
+        self.show_failed_rules = False
+        self.show_not_selected_rules = False
+
+        self.xml_parser = None
+
         self.html_builder = None
+
+        self._set_attributes()
+
+    def _set_attributes(self):
+        self.xml_parser = self.xml_parser = XmlParser(self.source_filename)
 
     def _get_message(self):
         MESSAGES = {

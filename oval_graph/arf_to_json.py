@@ -1,20 +1,16 @@
-import webbrowser
 import json
 import os
-import shutil
-import sys
-import uuid
 
-from .converter import Converter
 from .client import Client
 from .exceptions import NotChecked
+from .xml_parser import XmlParser
 
 
 class ArfToJson(Client):
-    def __init__(self, args):
-        super().__init__(args)
+    def _set_attributes(self):
         self.show_failed_rules = self.arg.show_failed_rules
         self.show_not_selected_rules = self.arg.show_not_selected_rules
+        self.xml_parser = XmlParser(self.source_filename)
 
     def _get_message(self):
         MESSAGES = {

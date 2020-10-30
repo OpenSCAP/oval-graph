@@ -24,13 +24,13 @@ def test_command_json_to_graph():
                            '-m',
                            'oval_graph.command_line',
                            'json-to-graph',
-                           '--display',
+                           '-o', '.',
                            src,
                            'xccdf_org.ssgproject.content_rule_package_abrt_removed'
-                           ])
+                           ], cwd='./')
     file_src = tests.any_test_help.find_files(
         "graph-of-xccdf_org.ssgproject.content_rule_package_abrt_removed",
-        tempfile.gettempdir())
+        '../')
     tests.any_test_help.compare_results_html(file_src[0])
 
 
@@ -50,14 +50,15 @@ def test_command_json_to_graph_with_verbose():
                                    '-m',
                                    'oval_graph.command_line',
                                    'json-to-graph',
-                                   '--display',
+                                   '-o', '.',
                                    '--verbose',
                                    src,
                                    'xccdf_org.ssgproject.content_rule_package_abrt_removed'
                                    ],
+                                  cwd='./',
                                   stderr=subprocess.STDOUT)
-    tests.any_test_help.compare_results_html(
-        out.decode('utf-8').split('\n')[-2])
+    src = out.decode('utf-8').split('\n')[-2]
+    tests.any_test_help.compare_results_html('.' + src)
 
 
 def test_command_json_to_graph_is_tty():

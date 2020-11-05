@@ -1,16 +1,18 @@
 from .client import Client
 from .converter import Converter
+from ._builder_html_graph import BuilderHtmlGraph
+from .xml_parser import XmlParser
 
 
 class ArfToHtml(Client):
-    def __init__(self, args):
-        super().__init__(args)
+    def _set_attributes(self):
+        self.all_in_one = self.arg.all_in_one
+        self.all_rules = True if self.all_in_one else self.arg.all
         self.display_html = True if self.out is None else self.arg.display
         self.show_failed_rules = self.arg.show_failed_rules
         self.show_not_selected_rules = self.arg.show_not_selected_rules
-        self.all_in_one = self.arg.all_in_one
-        if self.all_in_one:
-            self.all_rules = True
+        self.html_builder = BuilderHtmlGraph(self.parts, self.verbose)
+        self.xml_parser = XmlParser(self.source_filename)
 
     def _get_message(self):
         MESSAGES = {

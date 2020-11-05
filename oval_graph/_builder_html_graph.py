@@ -2,29 +2,32 @@ import os
 import json
 import re
 import sys
+import lxml.html
 from lxml import etree
 from lxml.builder import ElementMaker, E
-import lxml.html
+from io import BytesIO
 
 
 class BuilderHtmlGraph():
     def __init__(self, parts, verbose):
         self.parts = parts
         self.verbose = verbose
+        self.html_head = self._get_html_head()
+        self.script = self._get_part('script.js')
 
     def save_html(self, dict_oval_trees, src, rules):
         self.save_html_report(dict_oval_trees, src)
         self.print_output_message(src, self._format_rules_output(rules))
 
     def save_html_report(self, dict_of_rules, src):
-        with open(src, "w+") as data_file:
+        with open(src, "wb+") as data_file:
             data_file.writelines(self._get_html(dict_of_rules))
 
     def _get_html(self, dict_of_rules):
         maker = ElementMaker(namespace=None,
                              nsmap={None: "http://www.w3.org/1999/xhtml"})
         html = maker.html(
-            self._get_html_head(),
+            self.html_head,
             self._get_html_body(dict_of_rules))
         result = etree.tostring(
             html,
@@ -36,7 +39,7 @@ class BuilderHtmlGraph():
             with_tail=False,
             method='html',
             pretty_print=True)
-        return result.decode('UTF-8')
+        return BytesIO(result)
 
     def _get_html_head(self):
         return E.head(
@@ -60,7 +63,7 @@ class BuilderHtmlGraph():
                         E.div({'id': 'content'}),
                         )
                   ),
-            E.script(self._get_part('script.js')),
+            E.script(self.script),
         )
 
     def _get_script_graph_data(self, dict_of_rules):

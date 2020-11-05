@@ -2,7 +2,7 @@ from oval_graph.xml_parser import XmlParser
 import time
 
 rule = 'xccdf_org.ssgproject.content_rule_enable_fips_mode'
-src = 'tests/test_data/results-2019-08-27_03-15-00-x86_64@kvm.xml'
+src = 'tests/test_data/ssg-fedora-ds-arf.xml'
 
 print("Benchmark xml to oval_tree")
 print("Start process rule: ", rule)

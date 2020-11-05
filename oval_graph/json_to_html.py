@@ -1,39 +1,23 @@
-import webbrowser
 import json
-import os
-import argparse
-from datetime import datetime
-import shutil
-import sys
-import re
 
 from .client import Client
 from .oval_node import restore_dict_to_tree
 from .converter import Converter
 from .exceptions import NotChecked
+from ._builder_html_graph import BuilderHtmlGraph
 
 
 class JsonToHtml(Client):
     def __init__(self, args):
-        self.parser = None
-        self.MESSAGES = self._get_message()
-        self.arg = self.parse_arguments(args)
-        self.hide_passing_tests = self.arg.hide_passing_tests
-        self.source_filename = self.arg.source_filename
-        self.rule_name = self.arg.rule_id
-        self.out = self.arg.output
+        super().__init__(args)
+        self.json_data_file = self.get_json_data_file()
+        self.oval_tree = None
+
+    def _set_attributes(self):
         self.all_in_one = self.arg.all_in_one
         self.all_rules = True if self.all_in_one else self.arg.all
-        self.isatty = sys.stdout.isatty()
-        self.show_failed_rules = False
-        self.show_not_selected_rules = False
-        self.oval_tree = None
         self.display_html = True if self.out is None else self.arg.display
-        self.json_data_file = self.get_json_data_file()
-        self.parts = self.get_src('parts')
-        self.START_OF_FILE_NAME = 'graph-of-'
-        self.date = datetime.now().strftime("-%d_%m_%Y-%H_%M_%S")
-        self.verbose = self.arg.verbose
+        self.html_builder = BuilderHtmlGraph(self.parts, self.verbose)
 
     def _get_message(self):
         MESSAGES = {

@@ -69,14 +69,13 @@ def test_prepare_json(capsys):
     rule = 'xccdf_org.ssgproject.content_rule_package_abrt_removed'
     client = get_client_arf_to_json(src, rule)
     rules = {'rules': [rule]}
-    date = str(datetime.now().strftime("-%d_%m_%Y-%H_%M_%S"))
     results_src = client.prepare_data(rules)
     assert not results_src
     captured = capsys.readouterr()
     assert captured.out == (
         '{\n'
         '    "graph-of-xccdf_org.ssgproject.content_rule_package_abrt_removed' +
-        date +
+        client.date +
         '": {\n'
         '        "node_id": "xccdf_org.ssgproject.content_rule_package_abrt_removed",\n'
         '        "type": "operator",\n'

@@ -5,7 +5,7 @@ import uuid
 import mock
 import sys
 
-from oval_graph.arf_to_html import ArfToHtml
+from oval_graph.command_line_client.arf_to_html import ArfToHtml
 import tests.any_test_help
 
 

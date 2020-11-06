@@ -7,7 +7,7 @@ import tempfile
 
 import pytest
 
-from oval_graph.client import Client
+from oval_graph.command_line_client.client import Client
 import tests.any_test_help
 
 

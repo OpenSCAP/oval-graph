@@ -8,7 +8,7 @@ import sys
 from datetime import datetime
 import time
 
-from oval_graph.arf_to_json import ArfToJson
+from oval_graph.command_line_client.arf_to_json import ArfToJson
 import tests.any_test_help
 
 
@@ -74,7 +74,7 @@ def test_prepare_json(capsys):
     captured = capsys.readouterr()
     assert captured.out == (
         '{\n'
-        '    "graph-of-xccdf_org.ssgproject.content_rule_package_abrt_removed' +
+        '    "xccdf_org.ssgproject.content_rule_package_abrt_removed' +
         client.date +
         '": {\n'
         '        "node_id": "xccdf_org.ssgproject.content_rule_package_abrt_removed",\n'

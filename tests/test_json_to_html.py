@@ -3,7 +3,7 @@ import tempfile
 import os
 import uuid
 
-from oval_graph.json_to_html import JsonToHtml
+from oval_graph.command_line_client.json_to_html import JsonToHtml
 import tests.any_test_help
 
 

@@ -17,41 +17,29 @@ def print_where_is_saved_result(results_src):
 
 
 def print_detail_traceback_if_verbose(args):
-    if args is None:
-        args = sys.argv[1:]
-
     if any(arg in args for arg in ("-v", "--verbose")):
         traceback.print_exc()
 
 
-def arf_to_graph(args=None):
+def arf_to_graph(args):
     try:
-        if args is not None:
-            main(ArfToHtml(args))
-        else:
-            main(ArfToHtml(sys.argv[1:]))
+        main(ArfToHtml(args))
     except Exception as error:
         print_detail_traceback_if_verbose(args)
         print((CRED + 'Error: {}' + CEND).format(error))
 
 
-def arf_to_json(args=None):
+def arf_to_json(args):
     try:
-        if args is not None:
-            main(ArfToJson(args))
-        else:
-            main(ArfToJson(sys.argv[1:]))
+        main(ArfToJson(args))
     except Exception as error:
         print_detail_traceback_if_verbose(args)
         print((CRED + 'Error: {}' + CEND).format(error))
 
 
-def json_to_graph(args=None):
+def json_to_graph(args):
     try:
-        if args is not None:
-            main(JsonToHtml(args))
-        else:
-            main(JsonToHtml(sys.argv[1:]))
+        main(JsonToHtml(args))
     except Exception as error:
         print_detail_traceback_if_verbose(args)
         print((CRED + 'Error: {}' + CEND).format(error))
@@ -71,11 +59,22 @@ def main(client):
 
 
 if __name__ == '__main__':
-    if sys.argv[1] == "arf-to-graph":
-        arf_to_graph(sys.argv[2:])
-    elif sys.argv[1] == "arf-to-json":
-        arf_to_json(sys.argv[2:])
-    elif sys.argv[1] == "json-to-graph":
-        json_to_graph(sys.argv[2:])
-    else:
-        print("err- Bad command!")
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    subparsers = parser.add_subparsers()
+
+    parser_arf_to_graph = subparsers.add_parser(
+        'arf-to-graph', help='Executes the arf-to-graph command.')
+    parser_arf_to_graph.set_defaults(command=arf_to_graph)
+
+    parser_arf_to_json = subparsers.add_parser(
+        'arf-to-json', help='Executes the arf-to-json command.')
+    parser_arf_to_json.set_defaults(command=arf_to_json)
+
+    parser_json_to_graph = subparsers.add_parser(
+        'json-to-graph', help='Executes the json-to-graph command.')
+    parser_json_to_graph.set_defaults(command=json_to_graph)
+
+    args, command_args = parser.parse_known_args()
+    args.command(command_args)

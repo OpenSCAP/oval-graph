@@ -48,6 +48,15 @@ def test_prepare_graph_with_bat_data():
     try_expection_for_prepare_graph(src, rule, 'valid for OVAL tree')
 
 
+def test_search_non_existent_rule():
+    src = 'test_data/referenc_result_data_json.json'
+    rule = 'non-existent_rule'
+    err = '404'
+    client = get_client_json_to_html(src, rule)
+    with pytest.raises(Exception, match=err):
+        assert client.search_rules_id()
+
+
 @pytest.mark.usefixtures("remove_generated_reports_in_root")
 def test_prepare_tree():
     src = 'test_data/referenc_result_data_json.json'
@@ -84,7 +93,7 @@ def test_get_questions():
     assert out[1] == rule2
 
 
-def test_get_wanted_rules_from_array_of_IDs():
+def test_get_wanted_rules_from_array_of_ids():
     src = 'test_data/referenc_result_data_json.json'
     regex = r'_package_\w+_removed'
     client = get_client_json_to_html(src, regex)

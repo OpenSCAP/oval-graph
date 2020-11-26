@@ -143,3 +143,16 @@ jQuery.each(data, function (rule, data) {
     rule_id = "#" + rule.replace(/[\_\-\.]/g, "");
     show_graph(rule_id, data);
 });
+
+function search() {
+    var input = document.getElementById("Search");
+    var filter = input.value.toLowerCase();
+    var nodes = document.getElementsByClassName('target');
+    Array.from(document.getElementsByClassName('target')).forEach(function (node) {
+        if (node.children.item(0).innerText.toLowerCase().includes(filter)) {
+            node.style.display = "block";
+        } else {
+            node.style.display = "none";
+        }
+    });
+}

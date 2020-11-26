@@ -11,7 +11,7 @@ class ArfToHtml(Client):
         self.display_html = True if self.out is None else self.arg.display
         self.show_failed_rules = self.arg.show_failed_rules
         self.show_not_selected_rules = self.arg.show_not_selected_rules
-        self.html_builder = BuilderHtmlGraph(self.parts, self.verbose)
+        self.html_builder = BuilderHtmlGraph(self.parts, self.verbose, self.all_in_one)
         self.xml_parser = XmlParser(self.source_filename)
 
     def _get_message(self):

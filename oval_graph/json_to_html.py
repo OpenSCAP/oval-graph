@@ -17,7 +17,7 @@ class JsonToHtml(Client):
         self.all_in_one = self.arg.all_in_one
         self.all_rules = True if self.all_in_one else self.arg.all
         self.display_html = True if self.out is None else self.arg.display
-        self.html_builder = BuilderHtmlGraph(self.parts, self.verbose)
+        self.html_builder = BuilderHtmlGraph(self.parts, self.verbose, self.all_in_one)
 
     def _get_message(self):
         MESSAGES = {

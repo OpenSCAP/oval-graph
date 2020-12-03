@@ -3,6 +3,7 @@ import argparse
 import tempfile
 import os
 import webbrowser
+import subprocess
 from datetime import datetime
 import sys
 
@@ -39,6 +40,8 @@ class Client():
         self.html_builder = None
 
         self._set_attributes()
+
+        self.web_browsers = []
 
     def _set_attributes(self):
         self.xml_parser = self.xml_parser = XmlParser(self.source_filename)
@@ -176,16 +179,19 @@ class Client():
         self.html_builder.save_html(dict_oval_trees, src, rules)
         out_src.append(src)
 
-    def open_html(self, out):
-        for src in out:
-            self.open_web_browser(src)
-
-    def open_web_browser(self, src):
+    def open_results_in_web_browser(self, paths_to_results):
         if self.display_html:
             try:
-                webbrowser.get('firefox').open_new_tab(src)
+                self.web_browsers.append(subprocess.Popen(
+                    ["firefox", *paths_to_results]))
             except BaseException:
-                webbrowser.open_new_tab(src)
+                default_web_browser_name = webbrowser.get().name
+                self.web_browsers.append(subprocess.Popen(
+                    [default_web_browser_name, *paths_to_results]))
+
+    def kill_web_browsers(self):
+        for web_browser in self.web_browsers:
+            web_browser.kill()
 
     def _prepare_data(self, rules, dict_oval_trees, out_src):
         for rule in rules['rules']:
@@ -208,7 +214,7 @@ class Client():
         out_src = []
         oval_tree_dict = dict()
         self._prepare_data(rules, oval_tree_dict, out_src)
-        self.open_html(out_src)
+        self.open_results_in_web_browser(out_src)
         return out_src
 
     def parse_arguments(self, args):

@@ -52,6 +52,7 @@ def test_prepare_tree():
     client = get_client_json_to_html(src, rule)
     results_src = client.prepare_data({'rules': client.search_rules_id()})
     tests.any_test_help.compare_results_html(results_src[0])
+    client.kill_web_browsers()
 
 
 def test_prepare_tree_and_save_in_defined_destination():

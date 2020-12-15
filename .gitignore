@@ -24,3 +24,5 @@ coverage.xml
 
 output.png
 stats
+
+.tox/

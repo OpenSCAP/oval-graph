@@ -2,6 +2,7 @@ import subprocess
 import os
 import pytest
 import tempfile
+import pexpect
 from readchar import key
 
 import tests.any_test_help
@@ -57,7 +58,6 @@ def test_command_arf_to_graph_with_out_parameter():
 
 
 def test_inquirer_choice_rule():
-    pexpect = pytest.importorskip("pexpect")
     src = tests.any_test_help.get_random_dir_in_tmp()
     sut = pexpect.spawn('python3',
                         ['-m',

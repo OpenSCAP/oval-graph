@@ -3,6 +3,7 @@ import os
 import time
 import json
 import pytest
+import pexpect
 from readchar import key
 
 import tests.any_test_help
@@ -43,7 +44,6 @@ def test_command_arf_to_json_is_tty():
 
 
 def test_inquirer_choice_rule():
-    pexpect = pytest.importorskip("pexpect")
     src = tests.any_test_help.get_random_dir_in_tmp() + '.json'
     sut = pexpect.spawn('python3',
                         ['-m',
@@ -62,7 +62,7 @@ def test_inquirer_choice_rule():
     sut.wait()
     out = sut.readlines()
     with open(src, "w+") as f:
-        f.writelines(row.decode("utf-8") for row in out[25:])
+        f.writelines(row.decode("utf-8") for row in out[24:])
     tests.any_test_help.compare_results_json(src)
 
 

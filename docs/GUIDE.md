@@ -187,3 +187,63 @@ python3 -m oval_graph.command_line arf-to-json -h
 python3 -m oval_graph.command_line json-to-graph -h
 
 ```
+
+## Execute the test suite
+
+There are many test options for syntax, code, code coverage.
+
+### Before testing install requirements
+
+```bash
+pip3 install -r test_suite_requirements.txt
+```
+
+### Test all that stuff together with tox
+
+Run tests:
+
+```bash
+tox
+```
+
+>If requirements changes ```tox -r``` (recreates virtual environment) can help.
+
+```bash
+# Show coverage report
+firefox htmlcov/index.html
+```
+
+You can run test for more python environments with command like this one:
+
+```bash
+tox -e py36,py37,py38,py39
+```
+
+### Test code and code coverage with pytest
+
+Run tests:
+
+```bash
+python3 -m pytest
+```
+
+Run tests coverage:
+
+```bash
+python3 -m pytest --cov oval_graph --cov-report html --cov-branch
+
+# Show coverage report
+firefox htmlcov/index.html
+```
+
+### Test syntax
+
+Run syntax tests:
+
+```bash
+flake8 ./oval_graph ./tests setup.py
+
+#OR
+
+pylint ./oval_graph ./tests setup.py
+```

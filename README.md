@@ -23,3 +23,7 @@ arf-to-graph scan-data/ssg-fedora-ds-arf.xml xccdf_org.ssgproject.content_rule_a
 This command generates a graph and saves file named  `graph-of-<rule_id>-<date>.html` (The date the graph was created.) in the working directory. Then, it opens the generated file in your web browser. _Default web browser is Firefox. If Firefox is not installed, the default web browser in OS is used._
 
 ![demo-screenshot](https://raw.githubusercontent.com/OpenSCAP/oval-graph/master/docs/demo-screenshot.png "demo-screenshot")
+
+## Execute the test suite
+
+**[Learn how to execute the test suite in the Guide.](https://github.com/OpenSCAP/oval-graph/blob/master/docs/GUIDE.md#execute_the_test_suite)**

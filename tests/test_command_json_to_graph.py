@@ -3,6 +3,7 @@ import os
 import json
 import pytest
 import tempfile
+import pexpect
 from readchar import key
 
 import tests.any_test_help
@@ -87,7 +88,6 @@ def test_command_json_to_graph_is_tty():
 
 
 def test_inquirer_choice_rule():
-    pexpect = pytest.importorskip("pexpect")
     src = tests.any_test_help.get_random_dir_in_tmp() + '.json'
     sut = pexpect.spawn('python3',
                         ['-m',
@@ -106,7 +106,7 @@ def test_inquirer_choice_rule():
     out = sut.readlines()
 
     with open(src, "w+") as f:
-        f.writelines(row.decode("utf-8") for row in out[21:])
+        f.writelines(row.decode("utf-8") for row in out[20:])
     tests.any_test_help.compare_results_json(src)
 
     out_dir = tests.any_test_help.get_random_dir_in_tmp()

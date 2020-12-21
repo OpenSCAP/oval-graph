@@ -58,7 +58,7 @@ class _XmlParserComments:
     def _recursive_help_fill_comments(self, tree_of_comments, tree):
         for node, node_of_comment in zip(tree, tree_of_comments):
             node['comment'] = node_of_comment['comment']
-            if 'operator' in node:
+            if 'operator' in node and node_of_comment.get('node'):
                 self._recursive_help_fill_comments(
                     node_of_comment['node'], node['node'])
 

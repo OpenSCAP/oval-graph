@@ -1,6 +1,7 @@
-import pytest
 import os
 from glob import glob
+
+import pytest
 
 
 @pytest.fixture()

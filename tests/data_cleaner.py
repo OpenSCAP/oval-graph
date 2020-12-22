@@ -1,6 +1,6 @@
 import fileinput
-import re
 import os
+import re
 from glob import glob
 from shutil import rmtree
 

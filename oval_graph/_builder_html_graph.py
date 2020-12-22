@@ -1,11 +1,12 @@
-import os
 import json
+import os
 import re
 import sys
+from io import BytesIO
+
 import lxml.html
 from lxml import etree
-from lxml.builder import ElementMaker, E
-from io import BytesIO
+from lxml.builder import E, ElementMaker
 
 
 class BuilderHtmlGraph():

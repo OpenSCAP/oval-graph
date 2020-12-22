@@ -1,10 +1,4 @@
-'''
-    Modules form my lib and for create ID
-'''
-import uuid
-
 import oval_graph.evaluate
-
 
 '''
     This module contains methods and classes for

@@ -52,7 +52,7 @@ class JsonToHtml(Client):
         return self.json_data_file.keys()
 
     def search_rules_id(self):
-        rules = self._get_wanted_rules_from_array_of_IDs(
+        rules = self._get_wanted_rules(
             self.load_rule_names())
         notselected_rules = []
         return self._check_rules_id(rules, notselected_rules)
@@ -68,6 +68,6 @@ class JsonToHtml(Client):
     def _get_src_for_one_graph(self, rule):
         return self.get_save_src(rule.replace(self.START_OF_FILE_NAME, ''))
 
-    def prepare_parser(self):
-        super().prepare_parser()
-        self.prepare_args_when_output_is_html()
+    def prepare_parser(self, parser):
+        super().prepare_parser(parser)
+        self.prepare_args_when_output_is_html(parser)

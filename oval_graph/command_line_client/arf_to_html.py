@@ -31,7 +31,7 @@ class ArfToHtml(Client):
     def _get_src_for_one_graph(self, rule):
         return self.get_save_src(rule + self.date)
 
-    def prepare_parser(self):
-        super().prepare_parser()
-        self.prepare_args_when_output_is_html()
-        self.prepare_args_when_user_can_list_in_rules()
+    def prepare_parser(self, parser):
+        super().prepare_parser(parser)
+        self.prepare_args_when_output_is_html(parser)
+        self.prepare_args_when_user_can_list_in_rules(parser)

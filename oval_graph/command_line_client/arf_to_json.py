@@ -53,6 +53,6 @@ class ArfToJson(Client):
                 str(json.dumps(out_oval_tree_dict, sort_keys=False, indent=4)))
         return out
 
-    def prepare_parser(self):
-        super().prepare_parser()
-        self.prepare_args_when_user_can_list_in_rules()
+    def prepare_parser(self, parser):
+        super().prepare_parser(parser)
+        self.prepare_args_when_user_can_list_in_rules(parser)

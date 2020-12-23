@@ -1,12 +1,13 @@
-import pytest
-import tempfile
 import os
-import uuid
-import mock
 import sys
+import tempfile
+import uuid
 
-from oval_graph.command_line_client.arf_to_html import ArfToHtml
+import mock
+import pytest
+
 import tests.any_test_help
+from oval_graph.command_line_client.arf_to_html import ArfToHtml
 
 
 def get_client_arf_to_html(src, rule):
@@ -137,3 +138,61 @@ def test_if_not_installed_inquirer_with_option_show_not_selected_rules_and_show_
         (tests.any_test_help.
          if_not_installed_inquirer_with_option_show_not_selected_rules_and_show_failed_rules(
              capsys, client))
+
+
+def test_search_rules_id():
+    src = 'test_data/ssg-fedora-ds-arf.xml'
+    part_of_id_rule = 'xccdf_org.ssgproject.'
+    client = get_client_arf_to_html(src, part_of_id_rule)
+    assert len(client.search_rules_id()) == 184
+
+
+def test_get_questions():
+    src = 'test_data/ssg-fedora-ds-arf.xml'
+    regex = r'_package_\w+_removed'
+    client = get_client_arf_to_html(src, regex)
+    out = client.get_questions()[0].choices
+    rule1 = 'xccdf_org.ssgproject.content_rule_package_abrt_removed'
+    rule2 = 'xccdf_org.ssgproject.content_rule_package_sendmail_removed'
+    assert out[0] == rule1
+    assert out[1] == rule2
+
+
+def test_get_wanted_not_selected_rules_from_array_of_IDs():
+    src = 'test_data/ssg-fedora-ds-arf.xml'
+    regex = r'_package_\w+_removed'
+    client = get_client_arf_to_html(src, regex)
+
+    out = [
+        'xccdf_org.ssgproject.content_rule_package_nis_removed',
+        'xccdf_org.ssgproject.content_rule_package_ntpdate_removed',
+        'xccdf_org.ssgproject.content_rule_package_telnetd_removed',
+        'xccdf_org.ssgproject.content_rule_package_gdm_removed',
+        'xccdf_org.ssgproject.content_rule_package_setroubleshoot_removed',
+        'xccdf_org.ssgproject.content_rule_package_mcstrans_removed']
+
+    assert out == client._get_wanted_rules(
+        client.arf_xml_parser.notselected_rules)
+
+
+def test_get_wanted_rules_from_array_of_IDs():
+    src = 'test_data/ssg-fedora-ds-arf.xml'
+    regex = r'_package_\w+_removed'
+    client = get_client_arf_to_html(src, regex)
+
+    out = [
+        'xccdf_org.ssgproject.content_rule_package_abrt_removed',
+        'xccdf_org.ssgproject.content_rule_package_sendmail_removed',
+    ]
+
+    assert out == client._get_wanted_rules(
+        client.arf_xml_parser.used_rules.keys())
+
+
+def test_arf_to_html_if_not_installed_inquirer(capsys):
+    with mock.patch.dict(sys.modules, {'inquirer': None}):
+        src = 'test_data/ssg-fedora-ds-arf.xml'
+        regex = r'_package_\w+_removed'
+        client = get_client_arf_to_html(src, regex)
+        tests.any_test_help.any_client_if_not_installed_inquirer(
+            client, capsys, regex)

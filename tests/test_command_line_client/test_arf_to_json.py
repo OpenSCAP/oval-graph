@@ -1,15 +1,16 @@
-import pytest
-import tempfile
-import os
-import uuid
 import json
-import mock
+import os
+import re
 import sys
-from datetime import datetime
+import tempfile
 import time
+import uuid
 
-from oval_graph.command_line_client.arf_to_json import ArfToJson
+import mock
+import pytest
+
 import tests.any_test_help
+from oval_graph.command_line_client.arf_to_json import ArfToJson
 
 
 def get_client_arf_to_json(src, rule):
@@ -19,10 +20,15 @@ def get_client_arf_to_json(src, rule):
 
 def get_client_arf_to_json_with_define_dest(src, rule, out_src=None):
     out_src = str(uuid.uuid4()) + ".json" if out_src is None else out_src
-    return ArfToJson(["--output",
-                      tests.any_test_help.get_src(os.path.join(tempfile.gettempdir(), out_src)),
-                      tests.any_test_help.get_src(src),
-                      rule])
+    return ArfToJson(
+        [
+            "--output",
+            tests.any_test_help.get_src(
+                os.path.join(
+                    tempfile.gettempdir(),
+                    out_src)),
+            tests.any_test_help.get_src(src),
+            rule])
 
 
 def get_client_arf_to_json_with_option_show_failed_rules(src, rule):
@@ -65,6 +71,30 @@ def test_prepare_graph_with_not_selected_rule():
 
 
 def test_prepare_json(capsys):
+    date_regex_part_one = (
+        r'(?:(?:31(\_)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\_)'
+        r'(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})'
+    )
+    date_regex_part_two = (
+        r'(?:29(\_)(?:0?2)\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|'
+        r'[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))'
+    )
+    date_regex_part_three = (
+        r'(?:0?[1-9]|1\d|2[0-8])(\_)(?:(?:0?[1-9])|'
+        r'(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})'
+    )
+    time_regex = (
+        r'(?:[0-1]\d|2[0-3])'
+        r'(?:\_([0-5]?\d))?'
+        r'(?:\_([0-5]?\d))?'
+    )
+    regex_rule_date = (
+        '(?:-' + date_regex_part_one + '-|' +
+        '-' + date_regex_part_two + '-|' +
+        '-' + date_regex_part_three + '-)' +
+        time_regex
+    )
+
     src = 'test_data/ssg-fedora-ds-arf.xml'
     rule = 'xccdf_org.ssgproject.content_rule_package_abrt_removed'
     client = get_client_arf_to_json(src, rule)
@@ -72,11 +102,11 @@ def test_prepare_json(capsys):
     results_src = client.prepare_data(rules)
     assert not results_src
     captured = capsys.readouterr()
-    assert captured.out == (
+    out = re.sub(regex_rule_date, "-REPLACE_DATE", captured.out)
+    print(regex_rule_date)
+    assert out == (
         '{\n'
-        '    "xccdf_org.ssgproject.content_rule_package_abrt_removed' +
-        client.date +
-        '": {\n'
+        '    "xccdf_org.ssgproject.content_rule_package_abrt_removed-REPLACE_DATE": {\n'
         '        "node_id": "xccdf_org.ssgproject.content_rule_package_abrt_removed",\n'
         '        "type": "operator",\n'
         '        "value": "and",\n'
@@ -255,3 +285,62 @@ def test_if_not_installed_inquirer_with_option_show_not_selected_rules_and_show_
         (tests.any_test_help.
          if_not_installed_inquirer_with_option_show_not_selected_rules_and_show_failed_rules(
              capsys, client))
+
+
+def test_search_rules_id():
+    src = 'test_data/ssg-fedora-ds-arf.xml'
+    part_of_id_rule = 'xccdf_org.ssgproject.'
+    client = get_client_arf_to_json(src, part_of_id_rule)
+    assert len(client.search_rules_id()) == 184
+
+
+def test_get_questions():
+    src = 'test_data/ssg-fedora-ds-arf.xml'
+    regex = r'_package_\w+_removed'
+    client = get_client_arf_to_json(src, regex)
+    out = client.get_questions()[0].choices
+    rule1 = 'xccdf_org.ssgproject.content_rule_package_abrt_removed'
+    rule2 = 'xccdf_org.ssgproject.content_rule_package_sendmail_removed'
+    assert out[0] == rule1
+    assert out[1] == rule2
+
+
+def test_get_wanted_not_selected_rules_from_array_of_IDs():
+    src = 'test_data/ssg-fedora-ds-arf.xml'
+    regex = r'_package_\w+_removed'
+    client = get_client_arf_to_json(src, regex)
+
+    out = [
+        'xccdf_org.ssgproject.content_rule_package_nis_removed',
+        'xccdf_org.ssgproject.content_rule_package_ntpdate_removed',
+        'xccdf_org.ssgproject.content_rule_package_telnetd_removed',
+        'xccdf_org.ssgproject.content_rule_package_gdm_removed',
+        'xccdf_org.ssgproject.content_rule_package_setroubleshoot_removed',
+        'xccdf_org.ssgproject.content_rule_package_mcstrans_removed']
+
+    assert out == client._get_wanted_rules(
+        client.arf_xml_parser.notselected_rules)
+
+
+def test_get_wanted_rules_from_array_of_IDs():
+    src = 'test_data/ssg-fedora-ds-arf.xml'
+    regex = r'_package_\w+_removed'
+    client = get_client_arf_to_json(src, regex)
+
+    out = [
+        'xccdf_org.ssgproject.content_rule_package_abrt_removed',
+        'xccdf_org.ssgproject.content_rule_package_sendmail_removed',
+    ]
+
+    assert out == client._get_wanted_rules(
+        client.arf_xml_parser.used_rules.keys())
+
+
+def test_arf_to_json_if_not_installed_inquirer(capsys):
+    with mock.patch.dict(sys.modules, {'inquirer': None}):
+        src = 'test_data/ssg-fedora-ds-arf.xml'
+        regex = r'_package_\w+_removed'
+        client = get_client_arf_to_json(src, regex)
+        client.isatty = True
+        tests.any_test_help.any_client_if_not_installed_inquirer(
+            client, capsys, regex)

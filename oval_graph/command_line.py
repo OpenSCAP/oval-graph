@@ -1,9 +1,9 @@
 import sys
 import traceback
 
-from .arf_to_html import ArfToHtml
-from .arf_to_json import ArfToJson
-from .json_to_html import JsonToHtml
+from .command_line_client.arf_to_html import ArfToHtml
+from .command_line_client.arf_to_json import ArfToJson
+from .command_line_client.json_to_html import JsonToHtml
 
 CRED = '\033[91m'
 CEND = '\033[0m'

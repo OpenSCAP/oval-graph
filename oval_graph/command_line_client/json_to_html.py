@@ -1,61 +1,47 @@
-import json
+from ..converter import Converter
+from ..oval_node import restore_dict_to_tree
+from .client_html_output import ClientHtmlOutput
+from .client_json_input import ClientJsonInput
 
-from .client import Client
-from .oval_node import restore_dict_to_tree
-from .converter import Converter
-from .exceptions import NotChecked
-from ._builder_html_graph import BuilderHtmlGraph
+START_OF_FILE_NAME = 'graph-of-'
 
 
-class JsonToHtml(Client):
+class JsonToHtml(ClientHtmlOutput, ClientJsonInput):
     def __init__(self, args):
         super().__init__(args)
-        self.json_data_file = self.get_json_data_file()
+        self.verbose = self.arg.verbose
+        self.hide_passing_tests = self.arg.hide_passing_tests
         self.oval_tree = None
 
-    def _set_attributes(self):
-        self.all_in_one = self.arg.all_in_one
-        self.all_rules = True if self.all_in_one else self.arg.all
-        self.display_html = True if self.out is None else self.arg.display
-        self.html_builder = BuilderHtmlGraph(self.parts, self.verbose, self.all_in_one)
+    def get_only_fail_rule(self, rules):
+        """
+        Function processes array of matched IDs of rules in selected file.
+        Function retunes array of failed matched IDs of rules in selected file.
+        """
+        raise NotImplementedError
+
+    def _get_rows_of_unselected_rules(self):
+        """
+        Function retunes array of rows where is not selected IDs of rules in selected file.
+        """
+        raise NotImplementedError
 
     def _get_message(self):
-        MESSAGES = {
+        return {
             'description': 'Client for visualization of JSON created by command arf-to-json',
             'source_filename': 'JSON file',
         }
-        return MESSAGES
-
-    def get_json_data_file(self):
-        with open(self.source_filename, 'r') as f:
-            try:
-                return json.load(f)
-            except Exception as error:
-                raise ValueError(
-                    'Used file "{}" is not valid json.'.format(
-                        self.source_filename))
 
     def load_json_to_oval_tree(self, rule):
         dict_of_tree = self.json_data_file[rule]
-        if isinstance(dict_of_tree, str):
-            raise NotChecked(dict_of_tree)
         try:
             return restore_dict_to_tree(dict_of_tree)
-        except Exception as error:
+        except Exception:
             raise ValueError('Data is not valid for OVAL tree.')
 
     def create_dict_of_oval_node(self, oval_node):
         converter = Converter(oval_node)
         return converter.to_JsTree_dict(self.hide_passing_tests)
-
-    def load_rule_names(self):
-        return self.json_data_file.keys()
-
-    def search_rules_id(self):
-        rules = self._get_wanted_rules(
-            self.load_rule_names())
-        notselected_rules = []
-        return self._check_rules_id(rules, notselected_rules)
 
     def create_dict_of_rule(self, rule):
         self.oval_tree = self.load_json_to_oval_tree(rule)
@@ -63,10 +49,10 @@ class JsonToHtml(Client):
 
     def _put_to_dict_oval_trees(self, dict_oval_trees, rule):
         dict_oval_trees[rule.replace(
-            self.START_OF_FILE_NAME, '')] = self.create_dict_of_rule(rule)
+            START_OF_FILE_NAME, '')] = self.create_dict_of_rule(rule)
 
     def _get_src_for_one_graph(self, rule):
-        return self.get_save_src(rule.replace(self.START_OF_FILE_NAME, ''))
+        return self.get_save_src(rule.replace(START_OF_FILE_NAME, ''))
 
     def prepare_parser(self, parser):
         super().prepare_parser(parser)

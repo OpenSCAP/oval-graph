@@ -8,11 +8,11 @@ This tool generates an [OVAL](https://oval.cisecurity.org/) result in the form o
 
 ## Installation
 
-**[Learn how to install tool in the Guide.](https://github.com/OpenSCAP/oval-graph/blob/master/docs/GUIDE.md#Installation)**
+**[Learn how to install tool in the Guide.](https://github.com/OpenSCAP/oval-graph/blob/master/docs/GUIDE.md#installation)**
 
 ## Example usage
 
-> More usage examples are in user [Guide](https://github.com/OpenSCAP/oval-graph/blob/master/docs/GUIDE.md#Usage-Examples)
+> More usage examples are in user [Guide](https://github.com/OpenSCAP/oval-graph/blob/master/docs/GUIDE.md#usage-examples)
 
 This commands consumes the rule name or regular expression of rule name and the ARF file, which is one of possible standardized format for results of SCAP-compliant scanners. You can read about generating ARF report files using OpenSCAP in the OpenSCAP User [Manual](https://github.com/OpenSCAP/openscap/blob/maint-1.3/docs/manual/manual.adoc). Or you can use test arf files from repository `/tests/test_data`.  
 
@@ -26,4 +26,4 @@ This command generates a graph and saves file named  `graph-of-<rule_id>-<date>.
 
 ## Execute the test suite
 
-**[Learn how to execute the test suite in the Guide.](https://github.com/OpenSCAP/oval-graph/blob/master/docs/GUIDE.md#execute_the_test_suite)**
+**[Learn how to execute the test suite in the Guide.](https://github.com/OpenSCAP/oval-graph/blob/master/docs/GUIDE.md#execute-the-test-suite)**

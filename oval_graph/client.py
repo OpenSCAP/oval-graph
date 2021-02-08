@@ -219,6 +219,8 @@ class Client():
 
     def parse_arguments(self, args):
         self.prepare_parser()
+        if args is None:
+            return self.parser.parse_args()
         return self.parser.parse_args(args)
 
     def prepare_args_when_output_is_html(self):

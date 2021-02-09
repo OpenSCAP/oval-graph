@@ -21,7 +21,7 @@ def print_detail_traceback_if_verbose(args):
         traceback.print_exc()
 
 
-def arf_to_graph(args):
+def arf_to_graph(args=None):
     try:
         main(ArfToHtml(args))
     except Exception as error:
@@ -29,7 +29,7 @@ def arf_to_graph(args):
         print((CRED + 'Error: {}' + CEND).format(error))
 
 
-def arf_to_json(args):
+def arf_to_json(args=None):
     try:
         main(ArfToJson(args))
     except Exception as error:
@@ -37,7 +37,7 @@ def arf_to_json(args):
         print((CRED + 'Error: {}' + CEND).format(error))
 
 
-def json_to_graph(args):
+def json_to_graph(args=None):
     try:
         main(JsonToHtml(args))
     except Exception as error:

@@ -27,16 +27,14 @@ class BuilderHtmlGraph():
             data_file.writelines(self._get_html(dict_of_rules))
 
     def _get_html(self, dict_of_rules):
-        maker = ElementMaker(namespace=None,
-                             nsmap={None: "http://www.w3.org/1999/xhtml"})
+        maker = ElementMaker()
         html = maker.html(
             self.html_head,
             self._get_html_body(dict_of_rules))
         result = etree.tostring(
             html,
             xml_declaration=True,
-            doctype=('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"'
-                     ' "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">'),
+            doctype=('<!DOCTYPE html>'),
             encoding='utf-8',
             standalone=False,
             with_tail=False,
@@ -46,6 +44,7 @@ class BuilderHtmlGraph():
 
     def _get_html_head(self):
         return E.head(
+            E.meta(charset="utf-8"),
             E.title("OVAL TREE"),
             E.style(self._get_part('css.txt')),
             E.style(self._get_part('bootstrapStyle.txt')),

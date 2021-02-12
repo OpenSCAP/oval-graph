@@ -95,7 +95,7 @@ class BuilderHtmlGraph():
                 ";")
 
     def _get_titles_and_places_for_graph(self, dict_of_rules):
-        out = '<section id="content"><div id="graphs">'
+        out = '<section id="selection-content"><div id="graphs">'
         for rule in dict_of_rules.keys():
             out += ('<div class="target"><h1>' +
                     rule +

@@ -54,7 +54,7 @@ def main(client):
             results_src = client.prepare_data(answers)
     else:
         results_src = client.prepare_data({'rules': [rules[0]]})
-    if client.verbose:
+    if client.arg.verbose:
         print_where_is_saved_result(results_src)
 
 

@@ -9,7 +9,6 @@ class ArfToJson(ClientArfInput):
     def __init__(self, args):
         super().__init__(args)
         self.out = self.arg.output
-        self.verbose = self.arg.verbose
 
     def _get_message(self):
         return {

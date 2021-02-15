@@ -7,7 +7,6 @@ class ArfToHtml(ClientArfInput, ClientHtmlOutput):
     def __init__(self, args):
         super().__init__(args)
         self.hide_passing_tests = self.arg.hide_passing_tests
-        self.verbose = self.arg.verbose
 
     def _get_message(self):
         return {

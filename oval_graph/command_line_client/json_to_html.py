@@ -9,7 +9,6 @@ START_OF_FILE_NAME = 'graph-of-'
 class JsonToHtml(ClientHtmlOutput, ClientJsonInput):
     def __init__(self, args):
         super().__init__(args)
-        self.verbose = self.arg.verbose
         self.hide_passing_tests = self.arg.hide_passing_tests
         self.oval_tree = None
 

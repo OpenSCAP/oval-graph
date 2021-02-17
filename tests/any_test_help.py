@@ -239,6 +239,7 @@ def if_not_installed_inquirer_with_option_show_not_selected_rules_and_show_faile
     if_not_installed_inquirer_with_option_show_not_selected_rules(
         capsys, client, 1)
 
+
 def find_files(file_name, search_path):
     result = []
     for root, dir_, files in os.walk(search_path):
@@ -246,3 +247,12 @@ def find_files(file_name, search_path):
             if file_name in filename:
                 result.append(os.path.abspath(os.path.join(root, filename)))
     return result
+
+
+def any_client_if_not_installed_inquirer(client, capsys, regex):
+    client.isatty = True
+
+    out = client.run_gui_and_return_answers()
+    assert out is None
+    captured = capsys.readouterr()
+    assert len(re.findall(regex, captured.out)) == 2

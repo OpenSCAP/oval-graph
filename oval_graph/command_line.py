@@ -1,9 +1,9 @@
 import sys
 import traceback
 
-from .arf_to_html import ArfToHtml
-from .arf_to_json import ArfToJson
-from .json_to_html import JsonToHtml
+from .command_line_client.arf_to_html import ArfToHtml
+from .command_line_client.arf_to_json import ArfToJson
+from .command_line_client.json_to_html import JsonToHtml
 
 CRED = '\033[91m'
 CEND = '\033[0m'
@@ -54,7 +54,7 @@ def main(client):
             results_src = client.prepare_data(answers)
     else:
         results_src = client.prepare_data({'rules': [rules[0]]})
-    if client.verbose:
+    if client.arg.verbose:
         print_where_is_saved_result(results_src)
 
 

@@ -170,7 +170,7 @@ This option is available in ```arf-to-graph``` and ```json-to-graph```. This par
 
 ## Run from source
 
-**Warning: [Required dependencies](#minimal-requirements) must be installed.**
+**Warning: [Required dependencies](#required-dependencies) must be installed.**
 
 ```bash
 #get sources

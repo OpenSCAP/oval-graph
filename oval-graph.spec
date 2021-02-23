@@ -3,7 +3,7 @@
 
 Summary:            Tool for visualization of SCAP rule evaluation results
 Name:               %{name}
-Version:            1.2.4
+Version:            1.2.5
 Release:            1%{?dist}
 # The entire source code is ASL 2.0 except schemas/ which is Public Domain
 License:            ASL 2.0 and Public Domain
@@ -44,6 +44,9 @@ Use `arf-to-json` to generate a rule result in json. Using the
 %{_bindir}/json-to-graph
 
 %changelog
+* Tue Feb 23 2021 Jan Rodak <jrodak@redhat.com> - 1.2.5-1
+- release 1.2.5
+
 * Thu Dec 10 2020 Jan Rodak <jrodak@redhat.com> - 1.2.4-1
 - release 1.2.4
 

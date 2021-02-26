@@ -148,9 +148,24 @@ bad_args_tests() {
 
 basic_test() {
     test run-arf-to-graph "arf-to-graph -o ${tmp_dir_src} ${test_file_src} fips"
-    clean "${tmp_json_file_src}"
     test run-arf-to-json "arf-to-json -o ${tmp_json_file_src} ${test_file_src} fips"
     test run-json-to-graph "json-to-graph -o ${tmp_dir_src} ${tmp_json_file_src} fips"
+}
+
+regex_and_all_test() {
+    test run-arf-to-graph_regex "arf-to-graph -o ${tmp_dir_src} ${test_file_src} -a _package_\w+_removed"
+    test run-arf-to-json_regex "arf-to-json -o ${tmp_json_file_src} ${test_file_src} -a _package_\w+_removed"
+    test run-json-to-graph_regex "json-to-graph -o ${tmp_dir_src} ${tmp_json_file_src} -a _package_\w+_removed"
+}
+
+regex_and_all_in_one_test() {
+    test run-arf-to-graph_regex "arf-to-graph -o ${tmp_dir_src} ${test_file_src} -i _package_\w+_removed"
+    test run-json-to-graph_regex "json-to-graph -o ${tmp_dir_src} ${tmp_json_file_src} -i _package_\w+_removed"
+}
+
+hide_all_passing_tests_test() {
+    test run-arf-to-graph "arf-to-graph -o ${tmp_dir_src} ${test_file_src} --hide-passing-tests fips"
+    test run-json-to-graph "json-to-graph -o ${tmp_dir_src} ${tmp_json_file_src} --hide-passing-tests -i fips"
 }
 
 if [ $oval_graph_install = true ]; then
@@ -158,9 +173,13 @@ if [ $oval_graph_install = true ]; then
 fi
 
 test_if_is_instaled_oval_graph
+clean "${tmp_json_file_src}"
 help_tests
 bad_args_tests
 basic_test
+regex_and_all_test
+regex_and_all_in_one_test
+hide_all_passing_tests_test
 
 if [ $clean = true ]; then
     clean "${tmp_dir_src}"

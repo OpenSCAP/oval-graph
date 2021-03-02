@@ -21,9 +21,9 @@ def oval_operator_and(result):
                 noteval
     """
     out_result = None
-    if eq_zero(result, 'false_cnt')\
-            and greater_zero(result, 'true_cnt')\
-            and error_unknown_noteval_eq_zero(result):
+    eval_eq_zero = eq_zero(result, 'false_cnt')
+    eval_greater_zero = greater_zero(result, 'true_cnt')
+    if eval_eq_zero and eval_greater_zero and error_unknown_noteval_eq_zero(result):
         out_result = 'true'
     elif greater_zero(result, 'false_cnt'):
         out_result = 'false'
@@ -53,8 +53,7 @@ def oval_operator_one(result):
     out_result = None
     if one_is_true(result):
         out_result = 'true'
-    # Operator ONE has two cases of false
-    elif one_is_false(result) or one_is_false1(result):
+    elif one_is_false(result):
         out_result = 'false'
     elif one_is_error(result):
         out_result = 'error'
@@ -62,8 +61,6 @@ def oval_operator_one(result):
         out_result = 'unknown'
     elif one_is_noteval(result):
         out_result = 'noteval'
-    else:
-        out_result = None
     return out_result
 
 
@@ -85,11 +82,11 @@ def oval_operator_or(result):
                 noteval
     """
     out_result = None
+    eval_eq_zero = eq_zero(result, 'true_cnt')
+    eval_greater_zero = greater_zero(result, 'false_cnt')
     if greater_zero(result, 'true_cnt'):
         out_result = 'true'
-    elif eq_zero(result, 'true_cnt')\
-            and greater_zero(result, 'false_cnt')\
-            and error_unknown_noteval_eq_zero(result):
+    elif eval_eq_zero and eval_greater_zero and error_unknown_noteval_eq_zero(result):
         out_result = 'false'
     else:
         out_result = error_unknown_noteval_for_operators_and_or(result, 'or')
@@ -113,23 +110,18 @@ def oval_operator_xor(result):
                 noteval
     """
     out_result = None
-    if (result['true_cnt'] % 2) == 1\
-            and eq_zero_unknown_noteval_notappl(result):
+    eval_error_cnt = eq_zero(result, 'error_cnt')
+    eval_unknown_cnt = eq_zero(result, 'unknown_cnt')
+    if (result['true_cnt'] % 2) == 1 and eq_zero_unknown_noteval_notappl(result):
         out_result = 'true'
-    elif (result['true_cnt'] % 2) == 0\
-            and eq_zero_unknown_noteval_notappl(result):
+    elif (result['true_cnt'] % 2) == 0 and eq_zero_unknown_noteval_notappl(result):
         out_result = 'false'
     elif greater_zero(result, 'error_cnt'):
         out_result = 'error'
-    elif eq_zero(result, 'error_cnt')\
-            and greater_zero(result, 'unknown_cnt'):
+    elif eq_zero(result, 'error_cnt') and greater_zero(result, 'unknown_cnt'):
         out_result = 'unknown'
-    elif eq_zero(result, 'error_cnt')\
-            and eq_zero(result, 'unknown_cnt')\
-            and greater_zero(result, 'noteval_cnt'):
+    elif eval_error_cnt and eval_unknown_cnt and greater_zero(result, 'noteval_cnt'):
         out_result = 'noteval'
-    else:
-        out_result = None
     return out_result
 
 
@@ -149,17 +141,12 @@ def error_unknown_noteval_for_operators_and_or(result, operator):
     """
     out_result = None
     value_for_check = 'false_cnt' if operator == 'and' else 'true_cnt'
-    if eq_zero(result, value_for_check)\
-            and greater_zero(result, 'error_cnt'):
+    if eq_zero(result, value_for_check) and greater_zero(result, 'error_cnt'):
         out_result = 'error'
-    elif eq_zero(result, value_for_check)\
-            and error_unknown_eq_zero(result):
+    elif eq_zero(result, value_for_check) and error_unknown_eq_zero(result):
         out_result = 'unknown'
-    elif eq_zero(result, value_for_check)\
-            and error_unknown_eq_noteval_greater_zero(result):
+    elif eq_zero(result, value_for_check) and error_unknown_eq_noteval_greater_zero(result):
         out_result = 'noteval'
-    else:
-        out_result = None
     return out_result
 
 
@@ -196,10 +183,11 @@ def one_is_noteval(result):
     Returns:
             bool.
     """
-    return (smaller_than_two(result, 'true_cnt')
-            and eq_or_greater_zero_duo(result, 'false_cnt', 'notappl_cnt')
-            and eq_zero_duo(result, 'error_cnt', 'unknown_cnt')
-            and greater_zero(result, 'noteval_cnt'))
+    true_cnt = smaller_than_two(result, 'true_cnt')
+    false_cnt_notappl_cnt = eq_or_greater_zero_duo(result, 'false_cnt', 'notappl_cnt')
+    error_cnt_unknown_cnt = eq_zero_duo(result, 'error_cnt', 'unknown_cnt')
+    noteval_cnt = greater_zero(result, 'noteval_cnt')
+    return true_cnt and false_cnt_notappl_cnt and error_cnt_unknown_cnt and noteval_cnt
 
 
 def one_is_unknown(result):
@@ -211,11 +199,12 @@ def one_is_unknown(result):
     Returns:
             bool.
     """
-    return (smaller_than_two(result, 'true_cnt')
-            and eq_or_greater_zero(result, 'false_cnt')
-            and eq_zero(result, 'error_cnt')
-            and result['unknown_cnt'] >= 1
-            and eq_or_greater_zero_duo(result, 'noteval_cnt', 'notappl_cnt'))
+    true_cnt = smaller_than_two(result, 'true_cnt')
+    false_cnt = eq_or_greater_zero(result, 'false_cnt')
+    error_cnt = eq_zero(result, 'error_cnt')
+    unknown_cnt = result['unknown_cnt'] >= 1
+    noteval_cnt_notappl_cnt = eq_or_greater_zero_duo(result, 'noteval_cnt', 'notappl_cnt')
+    return true_cnt and false_cnt and error_cnt and unknown_cnt and noteval_cnt_notappl_cnt
 
 
 def one_is_error(result):
@@ -227,14 +216,16 @@ def one_is_error(result):
     Returns:
             bool.
     """
-    return (smaller_than_two(result, 'true_cnt')
-            and eq_or_greater_zero(result, 'false_cnt')
-            and greater_zero(result, 'error_cnt')
-            and eq_or_greater_zero_unknown_noteval_notappl(result))
+    true_cnt = smaller_than_two(result, 'true_cnt')
+    false_cnt = eq_or_greater_zero(result, 'false_cnt')
+    error_cnt = greater_zero(result, 'error_cnt')
+    unknown_noteval_notappl = eq_or_greater_zero_unknown_noteval_notappl(result)
+    return true_cnt and false_cnt and error_cnt and unknown_noteval_notappl
 
 
 def one_is_false(result):
     """Evaluates if the result match false for one operator.
+       Operator ONE has two cases of false state.
 
     Args:
             result (dict): Dictionary storing occurrence of given values
@@ -242,24 +233,21 @@ def one_is_false(result):
     Returns:
             bool.
     """
-    return (eq_zero(result, 'true_cnt')
-            and eq_or_greater_zero(result, 'false_cnt')
-            and error_unknown_noteval_eq_zero(result)
-            and result['notappl_cnt'] >= 0)
+    # The first case for false
+    true_cnt = eq_zero(result, 'true_cnt')
+    false_cnt = eq_or_greater_zero(result, 'false_cnt')
+    unknown_noteval_cnt = error_unknown_noteval_eq_zero(result)
+    notappl_cnt = result['notappl_cnt'] >= 0
 
+    first_case = true_cnt and false_cnt and unknown_noteval_cnt and notappl_cnt
 
-def one_is_false1(result):
-    """Evaluates  if the result match false for one operator.
+    # The second case for false
+    true_cnt = result['true_cnt'] >= 2
+    false_error_cnt = eq_or_greater_zero_duo(result, 'false_cnt', 'error_cnt')
+    unknown_noteval_notappl = eq_or_greater_zero_unknown_noteval_notappl(result)
+    second_case = true_cnt and false_error_cnt and unknown_noteval_notappl
 
-    Args:
-            result (dict): Dictionary storing occurrence of given values
-
-    Returns:
-            bool.
-    """
-    return (result['true_cnt'] >= 2
-            and eq_or_greater_zero_duo(result, 'false_cnt', 'error_cnt')
-            and eq_or_greater_zero_unknown_noteval_notappl(result))
+    return first_case or second_case
 
 
 def one_is_true(result):
@@ -271,38 +259,42 @@ def one_is_true(result):
     Returns:
             bool.
     """
-    return (result['true_cnt'] == 1
-            and eq_or_greater_zero_duo(result, 'false_cnt', 'notappl_cnt')
-            and error_unknown_noteval_eq_zero(result))
+    true_cnt = result['true_cnt'] == 1
+    false_notappl_cnt = eq_or_greater_zero_duo(result, 'false_cnt', 'notappl_cnt')
+    unknown_noteval_cnt = error_unknown_noteval_eq_zero(result)
+    return true_cnt and false_notappl_cnt and unknown_noteval_cnt
 
 
 def eq_or_greater_zero_unknown_noteval_notappl(result):
-    return (eq_or_greater_zero(result, 'unknown_cnt')
-            and eq_or_greater_zero(result, 'noteval_cnt')
-            and eq_or_greater_zero(result, 'notappl_cnt'))
+    unknown_cnt = eq_or_greater_zero(result, 'unknown_cnt')
+    noteval_cnt = eq_or_greater_zero(result, 'noteval_cnt')
+    notappl_cnt = eq_or_greater_zero(result, 'notappl_cnt')
+    return unknown_cnt and notappl_cnt and noteval_cnt
 
 
 def eq_zero_unknown_noteval_notappl(result):
-    return (eq_zero(result, 'error_cnt')
-            and eq_zero(result, 'unknown_cnt')
-            and eq_zero(result, 'noteval_cnt'))
+    error_cnt = eq_zero(result, 'error_cnt')
+    unknown_cnt = eq_zero(result, 'unknown_cnt')
+    noteval_cnt = eq_zero(result, 'noteval_cnt')
+    return error_cnt and unknown_cnt and noteval_cnt
 
 
 def error_unknown_noteval_eq_zero(result):
-    return (eq_zero(result, 'error_cnt')
-            and eq_zero(result, 'unknown_cnt')
-            and eq_zero(result, 'noteval_cnt'))
+    error_cnt = eq_zero(result, 'error_cnt')
+    unknown_cnt = eq_zero(result, 'unknown_cnt')
+    noteval_cnt = eq_zero(result, 'noteval_cnt')
+    return error_cnt and unknown_cnt and noteval_cnt
 
 
 def error_unknown_eq_noteval_greater_zero(result):
-    return (eq_zero(result, 'error_cnt')
-            and eq_zero(result, 'unknown_cnt')
-            and greater_zero(result, 'noteval_cnt'))
+    error_cnt = eq_zero(result, 'error_cnt')
+    unknown_cnt = eq_zero(result, 'unknown_cnt')
+    noteval_cnt = greater_zero(result, 'noteval_cnt')
+    return error_cnt and unknown_cnt and noteval_cnt
 
 
 def error_unknown_eq_zero(result):
-    return (eq_zero(result, 'error_cnt')
-            and greater_zero(result, 'unknown_cnt'))
+    return eq_zero(result, 'error_cnt') and greater_zero(result, 'unknown_cnt')
 
 
 def is_notapp_result(result):
@@ -315,7 +307,8 @@ def is_notapp_result(result):
     Returns:
             bool.
      """
-    return (result['notappl_cnt'] > 0
-            and eq_zero(result, 'false_cnt')
-            and error_unknown_noteval_eq_zero(result)
-            and eq_zero(result, 'true_cnt'))
+    notappl_cnt = result['notappl_cnt'] > 0
+    false_cnt = eq_zero(result, 'false_cnt')
+    unknown_noteval_cnt = error_unknown_noteval_eq_zero(result)
+    true_cnt = eq_zero(result, 'true_cnt')
+    return notappl_cnt and false_cnt and unknown_noteval_cnt and true_cnt

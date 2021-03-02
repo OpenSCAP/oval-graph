@@ -1,5 +1,5 @@
-from ..converter import Converter
-from ..oval_node import restore_dict_to_tree
+from ..oval_tree.converter import Converter
+from ..oval_tree.oval_node import restore_dict_to_tree
 from .client_html_output import ClientHtmlOutput
 from .client_json_input import ClientJsonInput
 

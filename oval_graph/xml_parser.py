@@ -7,7 +7,7 @@ import sys
 
 from lxml import etree as ET
 
-from ._builder_oval_tree import _BuilderOvalTree
+from .oval_tree._builder_oval_tree import _BuilderOvalTree
 from ._xml_parser_oval_scan_definitions import _XmlParserScanDefinitions
 from .exceptions import NotChecked
 

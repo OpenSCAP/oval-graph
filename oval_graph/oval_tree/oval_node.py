@@ -1,5 +1,4 @@
-import oval_graph.evaluate
-
+from . import evaluate
 
 ALLOWED_VALUES = ("true", "false", "error", "unknown", "noteval", "notappl")
 ALLOWED_OPERATORS = ("or", "and", "one", "xor")
@@ -132,17 +131,17 @@ class OvalNode():
     def evaluate_tree(self):
         result = self._get_result_counts()
         out_result = None
-        if oval_graph.evaluate.is_notapp_result(result):
+        if evaluate.is_notapp_result(result):
             out_result = "notappl"
         else:
             if self.value == "or":
-                out_result = oval_graph.evaluate.oval_operator_or(result)
+                out_result = evaluate.oval_operator_or(result)
             elif self.value == "and":
-                out_result = oval_graph.evaluate.oval_operator_and(result)
+                out_result = evaluate.oval_operator_and(result)
             elif self.value == "one":
-                out_result = oval_graph.evaluate.oval_operator_one(result)
+                out_result = evaluate.oval_operator_one(result)
             elif self.value == "xor":
-                out_result = oval_graph.evaluate.oval_operator_xor(result)
+                out_result = evaluate.oval_operator_xor(result)
 
         if out_result == 'true' and self.negation:
             out_result = 'false'

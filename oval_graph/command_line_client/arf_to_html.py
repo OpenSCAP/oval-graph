@@ -1,4 +1,4 @@
-from ..converter import Converter
+from ..oval_tree.converter import Converter
 from .client_arf_input import ClientArfInput
 from .client_html_output import ClientHtmlOutput
 

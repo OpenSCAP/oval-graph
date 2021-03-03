@@ -2,6 +2,7 @@ import json
 import os
 
 from ..exceptions import NotChecked
+from ..oval_tree.converter import Converter
 from .client_arf_input import ClientArfInput
 
 
@@ -17,7 +18,9 @@ class ArfToJson(ClientArfInput):
         }
 
     def create_dict_of_rule(self, rule_id):
-        return self.arf_xml_parser.get_oval_tree(rule_id).save_tree_to_dict()
+        oval_tree = self.arf_xml_parser.get_oval_tree(rule_id)
+        converter = Converter(oval_tree)
+        return converter.to_dict()
 
     @staticmethod
     def file_is_empty(path):

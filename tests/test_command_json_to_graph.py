@@ -1,9 +1,9 @@
-import subprocess
-import os
 import json
-import pytest
-import tempfile
+import os
+import subprocess
+
 import pexpect
+import pytest
 from readchar import key
 
 import tests.any_test_help

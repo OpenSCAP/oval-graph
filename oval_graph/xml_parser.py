@@ -1,10 +1,10 @@
-import sys
 import os
+import sys
 
 from lxml import etree as ET
 
-from ._xml_parser_oval_scan_definitions import _XmlParserScanDefinitions
 from ._builder_oval_graph import _BuilderOvalGraph
+from ._xml_parser_oval_scan_definitions import _XmlParserScanDefinitions
 from .exceptions import NotChecked
 
 ns = {

@@ -1,5 +1,4 @@
 import re
-import uuid
 
 from .oval_node import OvalNode
 

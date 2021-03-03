@@ -1,8 +1,7 @@
 import pytest
 
-from oval_graph.oval_node import OvalNode
-
 import tests.any_test_help
+from oval_graph.oval_node import OvalNode
 
 missing_error_pattern = "Missing required argument!"
 

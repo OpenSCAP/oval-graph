@@ -1,14 +1,15 @@
-import os
 import json
+import os
+import re
 import sys
+import tempfile
+import uuid
+
 import mock
 import pytest
-import uuid
-import tempfile
-import re
 
-from oval_graph.oval_node import restore_dict_to_tree, OvalNode
 from oval_graph.converter import Converter
+from oval_graph.oval_node import OvalNode, restore_dict_to_tree
 from oval_graph.xml_parser import XmlParser
 
 

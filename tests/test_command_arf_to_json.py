@@ -1,8 +1,7 @@
-import subprocess
-import os
-import time
 import json
-import pytest
+import subprocess
+import time
+
 import pexpect
 from readchar import key
 

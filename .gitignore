@@ -6,23 +6,21 @@ __pycache__/
 htmlcov/
 .coverage
 
-oval_graph/tree_html_interpreter/data.js
-
-notes.txt
-
 playground*
 
 scan-data/
 
-/*.egg-info
-/.egg
-/build
-/dist
+*.egg-info
+.egg
+build/
+dist/
 coverage.xml
 
-/graph-of-*
+graph-of-*
 
 output.png
 stats
 
 .tox/
+
+tmp_data/

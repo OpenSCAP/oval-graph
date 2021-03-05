@@ -1,5 +1,5 @@
 import tests.any_test_help
-from oval_graph.oval_node import OvalNode
+from oval_graph.oval_tree.oval_node import OvalNode
 
 
 def test_create_node_dict_for_JsTree_0():

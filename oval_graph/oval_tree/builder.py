@@ -3,15 +3,14 @@ import uuid
 from .oval_node import OvalNode
 
 
-class _BuilderOvalTree:
-
+class Builder:
     @staticmethod
     def _definition_dict_to_node(dict_of_definition):
         children = []
         for child in dict_of_definition['node']:
             if 'operator' in child:
                 children.append(
-                    _BuilderOvalTree._definition_dict_to_node(child))
+                    Builder._definition_dict_to_node(child))
             else:
                 children.append(
                     OvalNode(
@@ -25,7 +24,7 @@ class _BuilderOvalTree:
                     ))
 
         return OvalNode(
-            node_id=_BuilderOvalTree._get_id_defintion(dict_of_definition),
+            node_id=Builder._get_id_defintion(dict_of_definition),
             node_type='operator',
             value=dict_of_definition['operator'],
             negation=dict_of_definition['negate'],
@@ -41,7 +40,7 @@ class _BuilderOvalTree:
         return str(uuid.uuid4())
 
     @staticmethod
-    def get_oval_tree_from_dict_of_rule(rule):
+    def dict_of_rule_to_oval_tree(rule):
         dict_of_definition = rule['definition']
         dict_of_definition['node']['definition_id'] = rule['definition_id']
         return OvalNode(
@@ -50,8 +49,31 @@ class _BuilderOvalTree:
             value='and',
             negation=False,
             comment=dict_of_definition['comment'],
-            tag="Rule",
+            tag='Rule',
             children=[
-                _BuilderOvalTree._definition_dict_to_node(
+                Builder._definition_dict_to_node(
                     dict_of_definition['node'])],
+        )
+
+    @staticmethod
+    def dict_to_oval_tree(dict_of_tree):
+        if dict_of_tree['child'] is None:
+            return OvalNode(
+                node_id=dict_of_tree['node_id'],
+                node_type=dict_of_tree['type'],
+                value=dict_of_tree['value'],
+                negation=dict_of_tree['negation'],
+                comment=dict_of_tree['comment'],
+                tag=dict_of_tree['tag'],
+                test_result_details=dict_of_tree['test_result_details']
+            )
+        return OvalNode(
+            node_id=dict_of_tree['node_id'],
+            node_type=dict_of_tree['type'],
+            value=dict_of_tree['value'],
+            negation=dict_of_tree['negation'],
+            comment=dict_of_tree['comment'],
+            tag=dict_of_tree['tag'],
+            test_result_details=dict_of_tree['test_result_details'],
+            children=[Builder.dict_to_oval_tree(i) for i in dict_of_tree['child']]
         )

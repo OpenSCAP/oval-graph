@@ -1,5 +1,5 @@
+from ..oval_tree.builder import Builder
 from ..oval_tree.converter import Converter
-from ..oval_tree.oval_node import restore_dict_to_tree
 from .client_html_output import ClientHtmlOutput
 from .client_json_input import ClientJsonInput
 
@@ -34,7 +34,7 @@ class JsonToHtml(ClientHtmlOutput, ClientJsonInput):
     def load_json_to_oval_tree(self, rule):
         dict_of_tree = self.json_data_file[rule]
         try:
-            return restore_dict_to_tree(dict_of_tree)
+            return Builder.dict_to_oval_tree(dict_of_tree)
         except Exception:
             raise ValueError('Data is not valid for OVAL tree.')
 

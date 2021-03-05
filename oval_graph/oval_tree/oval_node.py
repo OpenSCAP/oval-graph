@@ -150,29 +150,6 @@ class OvalNode():
 
         return out_result
 
-    def save_tree_to_dict(self):
-        if not self.children:
-            return {
-                'node_id': self.node_id,
-                'type': self.node_type,
-                'value': self.value,
-                'negation': self.negation,
-                'comment': self.comment,
-                'tag': self.tag,
-                'test_result_details': self.test_result_details,
-                'child': None
-            }
-        return {
-            'node_id': self.node_id,
-            'type': self.node_type,
-            'value': self.value,
-            'negation': self.negation,
-            'comment': self.comment,
-            'tag': self.tag,
-            'test_result_details': self.test_result_details,
-            'child': [child.save_tree_to_dict() for child in self.children]
-        }
-
     def find_node_with_id(self, node_id):
         if self.node_id == node_id:
             return self
@@ -198,24 +175,3 @@ class OvalNode():
             node.value = value
             return True
         return False
-
-
-def restore_dict_to_tree(dict_of_tree):
-    if dict_of_tree["child"] is None:
-        return OvalNode(
-            node_id=dict_of_tree["node_id"],
-            node_type=dict_of_tree["type"],
-            value=dict_of_tree["value"],
-            negation=dict_of_tree["negation"],
-            comment=dict_of_tree["comment"],
-            tag=dict_of_tree["tag"],
-            test_result_details=dict_of_tree["test_result_details"])
-    return OvalNode(
-        node_id=dict_of_tree["node_id"],
-        node_type=dict_of_tree["type"],
-        value=dict_of_tree["value"],
-        negation=dict_of_tree["negation"],
-        comment=dict_of_tree["comment"],
-        tag=dict_of_tree["tag"],
-        test_result_details=dict_of_tree["test_result_details"],
-        children=[restore_dict_to_tree(i) for i in dict_of_tree["child"]])

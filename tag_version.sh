@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # Script for tag version of python package and push to git repo
 
 set -e

@@ -4,7 +4,7 @@ synced_files:
   - oval-graph.spec
 upstream_package_name: oval_graph
 downstream_package_name: oval-graph
-upstream_project_url: https://github.com/OpenSCAP/OVAL-visualization-as-graph
+upstream_project_url: https://github.com/OpenSCAP/oval-graph
 
 actions:
   create-archive:

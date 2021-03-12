@@ -9,7 +9,7 @@ from lxml import etree
 from lxml.builder import E, ElementMaker
 
 
-class BuilderHtmlGraph():
+class Graph():
 
     def __init__(self, parts, verbose, all_in_one):
         self.parts = parts

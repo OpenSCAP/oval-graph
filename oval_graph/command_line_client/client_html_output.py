@@ -4,7 +4,7 @@ import tempfile
 import webbrowser
 
 from ..exceptions import NotChecked
-from ..html_builder._builder_html_graph import BuilderHtmlGraph
+from ..html_builder.graph import Graph
 from .client import Client
 
 START_OF_FILE_NAME = 'graph-of-'
@@ -18,7 +18,7 @@ class ClientHtmlOutput(Client):
         self.all_in_one = self.arg.all_in_one
         self.all_rules = True if self.all_in_one else self.arg.all
         self.display_html = True if self.out is None else self.arg.display
-        self.html_builder = BuilderHtmlGraph(self.part, self.arg.verbose, self.all_in_one)
+        self.html_builder = Graph(self.part, self.arg.verbose, self.all_in_one)
         self.web_browsers = []
 
     @staticmethod

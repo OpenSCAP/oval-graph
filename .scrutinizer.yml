@@ -1,0 +1,39 @@
+checks:
+    python:
+        code_rating: true
+        duplicate_code: true
+        typecheck_maybe_no_member: true
+        classes_valid_slots: true
+        basic_missing_reversed_argument: true
+
+build:
+    dependencies:
+        before:
+            - pip3 install -r test_suite_requirements.txt
+    environment:
+        apt_packages:
+          - libncurses5-dev
+          - libncursesw5-dev
+        python: 3.7.3
+    nodes:
+        analysis:
+            project_setup:
+                override:
+                    - 'true'
+            tests:
+                override:
+                    - py-scrutinizer-run
+                    - pylint-run
+                    - 
+                        command: python3 -m pytest --cov oval_graph --cov-report xml tests
+                        environment: { PYTHONPATH:  }
+                        coverage:
+                            file: '.coverage'
+                            format: 'py-cc'
+        tests: true
+
+filter:
+    excluded_paths:
+        - '*/tests/*'
+    dependency_paths:
+        - 'lib/*'

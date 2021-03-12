@@ -3,8 +3,8 @@ import subprocess
 import tempfile
 import webbrowser
 
-from .._builder_html_graph import BuilderHtmlGraph
 from ..exceptions import NotChecked
+from ..html_builder._builder_html_graph import BuilderHtmlGraph
 from .client import Client
 
 START_OF_FILE_NAME = 'graph-of-'

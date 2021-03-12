@@ -19,13 +19,11 @@ class Graph():
         self.script = self._get_part('script.js')
         self.search_bar = self._get_search_bar()
 
-    def save_html(self, dict_oval_trees, src, rules):
-        self.save_html_report(dict_oval_trees, src)
-        self.print_output_message(src, self._format_rules_output(rules))
-
-    def save_html_report(self, dict_of_rules, src):
+    def save_html(self, dict_oval_trees, src):
         with open(src, "wb+") as data_file:
-            data_file.writelines(self._get_html(dict_of_rules))
+            data_file.writelines(self._get_html(dict_oval_trees))
+        if self.verbose:
+            self.print_output_message(src, list(dict_oval_trees.keys()))
 
     def _get_html(self, dict_of_rules):
         maker = ElementMaker()
@@ -113,12 +111,11 @@ class Graph():
                 out += line
         return out
 
-    def print_output_message(self, src, rule):
-        if self.verbose:
-            print('Rule(s) "{}" done!'.format(rule), file=sys.stderr)
-
-    def _format_rules_output(self, rules):
-        out = ''
-        for rule in rules['rules']:
-            out += rule + '\n'
-        return out
+    @staticmethod
+    def print_output_message(src, rules):
+        if len(rules) > 1:
+            rule_names = "\n" + "\n".join(rules)
+            print('Rules "{}" done!'.format(rule_names), file=sys.stderr)
+        else:
+            print('Rule "{}" done!'.format(rules.pop()), file=sys.stderr)
+        print('Result is saved:"{}"'.format(src), file=sys.stderr)

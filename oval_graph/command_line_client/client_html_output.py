@@ -27,11 +27,10 @@ class ClientHtmlOutput(Client):
         return str(os.path.join(_dir, src))
 
     def prepare_data(self, rules):
-        out_src = []
         oval_tree_dict = dict()
-        self._prepare_data(rules, oval_tree_dict, out_src)
-        self.open_results_in_web_browser(out_src)
-        return out_src
+        paths_to_generated_rules = self._prepare_data(rules, oval_tree_dict)
+        self.open_results_in_web_browser(paths_to_generated_rules)
+        return paths_to_generated_rules
 
     def _put_to_dict_oval_trees(self, dict_oval_trees, rule):
         """
@@ -40,30 +39,25 @@ class ClientHtmlOutput(Client):
         """
         raise NotImplementedError
 
-    def _prepare_data(self, rules, dict_oval_trees, out_src):
+    def _prepare_data(self, rules, dict_oval_trees):
+        paths_to_generated_rules = []
         for rule in rules['rules']:
             try:
                 self._put_to_dict_oval_trees(dict_oval_trees, rule)
                 if not self.all_in_one:
-                    self._build_and_save_html(
-                        dict_oval_trees,
-                        self._get_src_for_one_graph(rule),
-                        dict(rules=[rule]),
-                        out_src
-                    )
+                    src = self._get_src_for_one_graph(rule)
+                    self.html_builder.save_html(dict_oval_trees, src)
+                    paths_to_generated_rules.append(src)
                     dict_oval_trees = {}
             except NotChecked as error:
                 start_red_color = '\033[91m'
                 end_red_color = '\033[0m'
                 print(start_red_color + str(error) + end_red_color)
         if self.all_in_one:
-            self._build_and_save_html(
-                dict_oval_trees, self.get_save_src(
-                    'rules' + self._get_date()), rules, out_src)
-
-    def _build_and_save_html(self, dict_oval_trees, src, rules, out_src):
-        self.html_builder.save_html(dict_oval_trees, src, rules)
-        out_src.append(src)
+            src = self.get_save_src('rules' + self._get_date())
+            self.html_builder.save_html(dict_oval_trees, src)
+            paths_to_generated_rules.append(src)
+        return paths_to_generated_rules
 
     def _get_src_for_one_graph(self, rule):
         return self.get_save_src(rule + self._get_date())

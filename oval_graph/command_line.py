@@ -2,7 +2,6 @@
     This file contains entry points for commands
 """
 
-import sys
 import traceback
 
 from .command_line_client.arf_to_html import ArfToHtml
@@ -11,13 +10,6 @@ from .command_line_client.json_to_html import JsonToHtml
 
 CRED = '\033[91m'
 CEND = '\033[0m'
-
-
-def print_where_is_saved_result(results_src):
-    if results_src:
-        print("Results are saved:", file=sys.stderr)
-        for src in results_src:
-            print(src, file=sys.stderr)
 
 
 def print_detail_traceback_if_verbose(args):
@@ -50,16 +42,13 @@ def json_to_graph(args=None):
 
 
 def main(client):
-    results_src = []
     rules = client.search_rules_id()
     if len(rules) > 1:
         answers = client.run_gui_and_return_answers()
         if answers is not None:
-            results_src = client.prepare_data(answers)
+            client.prepare_data(answers)
     else:
-        results_src = client.prepare_data({'rules': [rules[0]]})
-    if client.arg.verbose:
-        print_where_is_saved_result(results_src)
+        client.prepare_data({'rules': [rules[0]]})
 
 
 if __name__ == '__main__':

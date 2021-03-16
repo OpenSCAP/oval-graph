@@ -1,7 +1,8 @@
 import os
-import subprocess
 import tempfile
+import time
 import webbrowser
+from subprocess import PIPE, Popen, check_call
 
 from ..exceptions import NotChecked
 from ..html_builder.graph import Graph
@@ -75,12 +76,41 @@ class ClientHtmlOutput(Client):
     def open_results_in_web_browser(self, paths_to_results):
         if self.display_html:
             try:
-                self.web_browsers.append(
-                    subprocess.Popen(["firefox", *paths_to_results]))
-            except subprocess.CalledProcessError:
-                default_web_browser_name = webbrowser.get().name
-                self.web_browsers.append(
-                    subprocess.Popen([default_web_browser_name, *paths_to_results]))
+                for path_to_result in paths_to_results:
+                    self._open_web_browser(path_to_result)
+            except OSError as os_error:
+                if os_error.errno != 24:
+                    raise OSError from os_error
+                error_msg = (
+                    'Opening too many reports. Increase '
+                    'the open file limit or try to use '
+                    'the --all-in-one parameter')
+                raise ResourceWarning(error_msg) from os_error
+
+    @staticmethod
+    def _is_firefox_installed():
+        firefox_is_installed = True
+        try:
+            command = ['firefox', '--version']
+            if check_call(command, stdout=PIPE, stderr=PIPE):
+                firefox_is_installed = False
+        except FileNotFoundError:
+            firefox_is_installed = False
+        return firefox_is_installed
+
+    def _open_web_browser(self, path_to_result):
+        is_firefox_installed = self._is_firefox_installed()
+        if is_firefox_installed:
+            command = ["firefox", path_to_result]
+            browser = Popen(command, stdout=PIPE, stderr=PIPE)
+            self.web_browsers.append(browser)
+            time.sleep(0.2)
+        else:
+            default_web_browser_name = webbrowser.get().name
+            command = [default_web_browser_name, path_to_result]
+            browser = Popen(command, stdout=PIPE, stderr=PIPE)
+            self.web_browsers.append(browser)
+            time.sleep(0.2)
 
     def kill_web_browsers(self):
         for web_browser in self.web_browsers:

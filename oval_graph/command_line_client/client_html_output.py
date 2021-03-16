@@ -27,8 +27,7 @@ class ClientHtmlOutput(Client):
         return str(os.path.join(_dir, src))
 
     def prepare_data(self, rules):
-        oval_tree_dict = dict()
-        paths_to_generated_rules = self._prepare_data(rules, oval_tree_dict)
+        paths_to_generated_rules = self._prepare_data(rules)
         self.open_results_in_web_browser(paths_to_generated_rules)
         return paths_to_generated_rules
 
@@ -39,7 +38,8 @@ class ClientHtmlOutput(Client):
         """
         raise NotImplementedError
 
-    def _prepare_data(self, rules, dict_oval_trees):
+    def _prepare_data(self, rules):
+        dict_oval_trees = dict()
         paths_to_generated_rules = []
         for rule in rules['rules']:
             try:

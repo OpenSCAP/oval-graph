@@ -9,7 +9,7 @@ function prepare_file_object(table_object) {
         'oread': null,
         'owrite': null,
         'oexec': null
-    }
+    };
     var new_table_object = {};
     Object.keys(table_object).forEach(key => {
         if (key in permission) {

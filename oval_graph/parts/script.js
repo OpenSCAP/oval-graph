@@ -92,12 +92,10 @@ function create_table(table_object) {
 function show_object(obj) {
     if (Object.values(obj).includes("complete")) {
         $("#content").append("<p>Following items have been found on the system:</p>");
-        create_table(obj);
     } else {
         $("#content").append("<p>No items have been found conforming to the following objects:<br>" +
             "Object <b>" + Object.keys(obj)[0] +
             "</b> of type <b>" + Object.keys(obj)[1] + "</b></p>");
-        create_table(obj);
     }
 }
 
@@ -110,7 +108,10 @@ function open_modal(data) {
         "<span class=\"label label-default\">" + data.id + "</span>" +
         data.result
     );
-    data.objects.forEach(show_object);
+    data.objects.forEach(object => {
+        show_object(object);
+        create_table(object);
+    });
 }
 
 function show_graph(id, data) {

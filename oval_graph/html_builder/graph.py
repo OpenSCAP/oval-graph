@@ -4,9 +4,8 @@ import re
 import sys
 from io import BytesIO
 
-import lxml.html
 from lxml import etree
-from lxml.builder import E, ElementMaker
+from lxml.builder import E
 
 
 class Graph():
@@ -26,8 +25,7 @@ class Graph():
             self.print_output_message(src, list(dict_oval_trees.keys()))
 
     def _get_html(self, dict_of_rules):
-        maker = ElementMaker()
-        html = maker.html(
+        html = E.html(
             self.html_head,
             self._get_html_body(dict_of_rules))
         result = etree.tostring(
@@ -68,7 +66,7 @@ class Graph():
 
     def _get_html_body(self, dict_of_rules):
         return E.body(
-            E.script(self._get_script_graph_data(dict_of_rules)),
+            E.script(self._get_data_of_graphs_in_js(dict_of_rules)),
             E.div(
                 self.search_bar,
                 self._get_titles_and_places_for_graph(dict_of_rules),
@@ -82,33 +80,29 @@ class Graph():
             E.script(self.script),
         )
 
-    def _get_script_graph_data(self, dict_of_rules):
-        json_of_graphs = {
-            re.sub(
-                r'[\_\-\.]',
-                '',
-                k): v for k,
-            v in dict_of_rules.items()}
-        return ("var data_of_tree = " +
-                str(json.dumps(json_of_graphs, sort_keys=False, indent=4)) +
-                ";")
+    @staticmethod
+    def _remove_unfit_chars(string):
+        return re.sub(r'[_\-\.]', '', string)
+
+    def _get_data_of_graphs_in_js(self, dict_of_rules):
+        json_of_graphs = {self._remove_unfit_chars(key): value
+                          for key, value in dict_of_rules.items()}
+        data = str(json.dumps(json_of_graphs))
+        return "var data_of_tree = {};".format(data)
 
     def _get_titles_and_places_for_graph(self, dict_of_rules):
-        out = '<section id="selection-content"><div id="graphs">'
+        rules_html = E.div({'id': 'graphs'})
         for rule in dict_of_rules.keys():
-            out += ('<div class="target"><h1>' +
-                    rule +
-                    '</h1><div id="' +
-                    re.sub(r'[\_\-\.]', '', rule) +
-                    '"></div></div>')
-        out += '</div>'
-        return lxml.html.fromstring(out)
+            rule_id_h1 = E.h1(rule)
+            space_for_graph = E.div({'id': self._remove_unfit_chars(rule)})
+            space_for_whole_rule = E.div({'class': 'target'}, rule_id_h1, space_for_graph)
+            rules_html.append(space_for_whole_rule)
+        return E.selection({'id': 'selection-content'}, rules_html)
 
     def _get_part(self, part):
         out = ''
         with open(os.path.join(self.parts, part), "r") as data_file:
-            for line in data_file.readlines():
-                out += line
+            out = ''.join(data_file.readlines())
         return out
 
     @staticmethod

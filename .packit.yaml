@@ -16,12 +16,12 @@ jobs:
 - job: sync_from_downstream
   trigger: commit
   metadata:
-    dist-git-branch: fedora-rawhide
+    dist_git_branches: fedora-rawhide
 
 - job: propose_downstream
   trigger: release
   metadata:
-    dist-git-branch: fedora-rawhide
+    dist_git_branches: fedora-rawhide
 
 - job: copr_build
   trigger: pull_request

@@ -153,16 +153,25 @@ def compare_results_html(result):
     result_ = any_get_tested_file(result)
     reference_pattern = any_get_tested_file(
         'test_data/referenc_pattern_html_report.txt')
-    start_pattern = False
-    count_row = 0
+    prefix_start = '<script>var data_of_tree = '
+    prefix_end = ';</script><div>\n'
+    data_in_html = ""
+    matched = False
     for row in result_:
-        if row == '<script>var data_of_tree = {\n':
-            start_pattern = True
-        if start_pattern and "xccdforgssgprojectcontentrulepackageabrtremoved" in row:
-            row = re.sub(r'[0-9]+', '', row)
-        count_row += (1 if start_pattern and row in reference_pattern else 0)
-        if row == '};</script><div>\n':
-            break
+        if prefix_start in row and prefix_end in row:
+            matched = True
+            data_in_html = row
+    assert matched
+
+    tmp_json_str = data_in_html.replace(prefix_start, '').replace(prefix_end, '')
+    tmp_json = json.loads(tmp_json_str)
+    data_in_html = prefix_start + json.dumps(tmp_json, indent=4, sort_keys=False) + prefix_end
+
+    count_row = 0
+    rule_name = 'xccdforgssgprojectcontentrulepackageabrtremoved'
+    for row in reference_pattern:
+        if row in data_in_html or rule_name in row:
+            count_row += 1
     assert count_row == len(reference_pattern)
 
 

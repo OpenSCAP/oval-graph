@@ -6,13 +6,13 @@ upstream_package_name: oval_graph
 downstream_package_name: oval-graph
 upstream_project_url: https://github.com/OpenSCAP/OVAL-visualization-as-graph
 
-# the version is different than with basic git describe
-create_tarball_command: ["python3", "setup.py", "sdist", "--dist-dir", "."]
-current_version_command: ["python3", "setup.py", "--version"]
+actions:
+  create-archive:
+    - "python3 setup.py sdist --dist-dir ."
+    - "sh -c 'echo oval_graph-$(python3 setup.py --version).tar.gz'"
+  get-current-version:
+    - "python3 setup.py --version"
 jobs:
-- job: sync_from_downstream
-  trigger: commit
-
 - job: propose_downstream
   trigger: release
   metadata:
@@ -26,12 +26,11 @@ jobs:
     - epel-7-x86_64
     - epel-8-x86_64
 
-# PackIt tests are disabled, because there is a problem with cloning of repository (git clone end with error code 128)
-#- job: tests
-#  trigger: pull_request
-#  metadata:
-#    targets:
-#    - fedora-all
+- job: tests
+  trigger: pull_request
+  metadata:
+    targets:
+    - fedora-all
+    - epel-8-x86_64
 # EPEL 7 test is disabled, because for install is used dnf on CentOS 7 
 #    - epel-7-x86_64
-#    - epel-8-x86_64

@@ -198,18 +198,21 @@ help_tests() {
     test arf-to-graph-help "arf-to-graph -h"
     test arf-to-json-help "arf-to-json -h"
     test json-to-graph-help "json-to-graph -h"
+    test arf-to-report-help "arf-to-report -h"
 }
 
 bad_args_tests() {
     test_rise_error arf-to-graph-bad_arg "arf-to-graph -hello"
     test_rise_error arf-to-json-bad_arg "arf-to-json -hello"
     test_rise_error json-to-graph-bad_arg "json-to-graph -hello"
+    test_rise_error arf-to-report-bad_arg "arf-to-report -hello"
 }
 
 basic_test() {
     test run-arf-to-graph "arf-to-graph -o ${tmp_dir_src} ${test_file_src} fips"
     test run-arf-to-json "arf-to-json -o ${tmp_json_file_src} ${test_file_src} fips"
     test run-json-to-graph "json-to-graph -o ${tmp_dir_src} ${tmp_json_file_src} fips"
+    test run-arf-to-report "arf-to-report -o ${tmp_dir_src} ${test_file_src}"
 }
 
 regex_and_all_test() {

@@ -78,3 +78,6 @@ if __name__ == '__main__':
 
     args, command_args = parser.parse_known_args()
     args.command(command_args)
+
+    import subprocess
+    process = subprocess.Popen('/bin/echo', shell=True)  # nosec

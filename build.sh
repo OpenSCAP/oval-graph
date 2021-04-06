@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # Build script of python package
 
 set -e
@@ -12,7 +12,7 @@ unit_test() {
 commit_version() {
     version=$1
     module=$2
-    git add ${module}/__init__.py
+    git add "${module}/__init__.py"
     git add oval-graph.spec
     git commit -m "${version}"
 }
@@ -30,7 +30,7 @@ update_version_package() {
     module=$1
     old_version=$2
     new_version=$3
-    sed -i "s/$old_version/$new_version/g" ${module}/__init__.py
+    sed -i "s/$old_version/$new_version/g" "${module}/__init__.py"
 }
 
 update_version_rpm() {

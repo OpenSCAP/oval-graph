@@ -4,7 +4,7 @@ synced_files:
   - oval-graph.spec
 upstream_package_name: oval_graph
 downstream_package_name: oval-graph
-upstream_project_url: https://github.com/OpenSCAP/OVAL-visualization-as-graph
+upstream_project_url: https://github.com/OpenSCAP/oval-graph
 
 actions:
   create-archive:
@@ -13,10 +13,15 @@ actions:
   get-current-version:
     - "python3 setup.py --version"
 jobs:
+- job: sync_from_downstream
+  trigger: commit
+  metadata:
+    dist_git_branches: fedora-rawhide
+
 - job: propose_downstream
   trigger: release
   metadata:
-    dist-git-branch: fedora-rawhide
+    dist_git_branches: fedora-rawhide
 
 - job: copr_build
   trigger: pull_request

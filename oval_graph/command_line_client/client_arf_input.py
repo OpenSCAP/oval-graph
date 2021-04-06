@@ -1,4 +1,4 @@
-from ..xml_parser import XmlParser
+from ..arf_xml_parser.xml_parser import XmlParser
 from .client import Client
 
 

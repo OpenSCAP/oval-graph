@@ -1,7 +1,7 @@
 import pytest
 
 import tests.any_test_help
-from oval_graph.xml_parser import XmlParser
+from oval_graph.arf_xml_parser.xml_parser import XmlParser
 
 
 def test_parsing_full_scan_XML_and_evaluate():

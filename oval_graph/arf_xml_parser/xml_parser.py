@@ -8,8 +8,8 @@ import sys
 from lxml import etree as ET
 
 from ._xml_parser_oval_scan_definitions import _XmlParserScanDefinitions
-from .exceptions import NotChecked
-from .oval_tree.builder import Builder
+from ..exceptions import NotChecked
+from ..oval_tree.builder import Builder
 
 ns = {
     'XMLSchema': 'http://oval.mitre.org/XMLSchema/oval-results-5',
@@ -27,7 +27,7 @@ class XmlParser:
         self.tree = ET.parse(self.src)
         self.root = self.tree.getroot()
         if not self.validate(
-                'schemas/arf/1.1/asset-reporting-format_1.1.0.xsd'):
+                '../schemas/arf/1.1/asset-reporting-format_1.1.0.xsd'):
             CRED = '\033[91m'
             CEND = '\033[0m'
             print(

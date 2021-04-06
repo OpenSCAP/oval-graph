@@ -1,6 +1,6 @@
 import time
 
-from oval_graph.xml_parser import XmlParser
+from oval_graph.arf_xml_parser.xml_parser import XmlParser
 
 rule = 'xccdf_org.ssgproject.content_rule_enable_fips_mode'
 src = 'tests/test_data/ssg-fedora-ds-arf.xml'

@@ -9,11 +9,18 @@ class ClientArfInput(Client):
         self.show_not_selected_rules = self.arg.show_not_selected_rules
         self.arf_xml_parser = XmlParser(self.source_filename)
 
+    def _get_not_selected_rules(self):
+        rules = []
+        for rule, result in self.arf_xml_parser.not_tested_rules.items():
+            if result == 'notselected':
+                rules.append(rule)
+        return rules
+
     def _get_rows_of_unselected_rules(self):
         out = []
         out.append('== The not selected rule IDs ==')
         for rule in self._get_wanted_rules(
-                self.arf_xml_parser.notselected_rules):
+                self._get_not_selected_rules()):
             out.append(rule + '(Not selected)')
         return out
 
@@ -28,4 +35,4 @@ class ClientArfInput(Client):
             self._get_wanted_rules(
                 self.arf_xml_parser.used_rules.keys()),
             self._get_wanted_rules(
-                self.arf_xml_parser.notselected_rules))
+                self._get_not_selected_rules()))

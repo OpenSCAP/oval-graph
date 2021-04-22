@@ -4,7 +4,7 @@ import time
 import webbrowser
 from subprocess import PIPE, Popen, check_call
 
-from ..exceptions import NotChecked
+from ..exceptions import NotTestedRule
 from ..html_builder.graph import Graph
 from .client import Client
 
@@ -50,10 +50,11 @@ class ClientHtmlOutput(Client):
                     self.html_builder.save_html(dict_oval_trees, src)
                     paths_to_generated_rules.append(src)
                     dict_oval_trees = {}
-            except NotChecked as error:
+            except NotTestedRule as error:
                 start_red_color = '\033[91m'
                 end_red_color = '\033[0m'
-                print(start_red_color + str(error) + end_red_color)
+                message = '{}{}{}'.format(start_red_color, str(error), end_red_color)
+                raise NotTestedRule(message) from error
         if self.all_in_one:
             src = self.get_save_src('rules' + self._get_date())
             self.html_builder.save_html(dict_oval_trees, src)

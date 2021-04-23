@@ -135,12 +135,10 @@ install_package_from_source() {
 }
 
 report() {
-    if [ "$_arg_verbose" = "on" ]; then
-        if [ $test_result -eq 0 ]; then
-            printf "Result: %-70s \x1b[32mpassed\x1b[0m\n" "$*"
-        else
-            printf "Result: %-70s \x1b[31mfailed\x1b[0m\n\n" "$*"
-        fi
+    if [ $test_result -eq 0 ]; then
+        printf "Result: %-70s \x1b[32mpassed\x1b[0m\n" "$*"
+    else
+        printf "Result: %-70s \x1b[31mfailed\x1b[0m\n\n" "$*"
     fi
 }
 

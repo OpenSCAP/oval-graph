@@ -64,10 +64,14 @@ def test_prepare_graph_with_non_existent_rule():
     try_expection_for_prepare_graph(src, rule, '404')
 
 
-def test_prepare_graph_with_not_selected_rule():
+def test_prepare_graph_with_not_selected_rule(capsys):
     src = 'test_data/ssg-fedora-ds-arf.xml'
     rule = 'xccdf_org.ssgproject.content_rule_package_nis_removed'
-    try_expection_for_prepare_graph(src, rule, 'not selected')
+    client = get_client_arf_to_json(src, rule)
+    rules = {'rules': [rule]}
+    client.prepare_data(rules)
+    captured = capsys.readouterr()
+    assert 'notselected' in captured.out
 
 
 def try_expection_for_search_rule_id(src, rule, err):
@@ -85,7 +89,7 @@ def test_search_non_existent_rule():
 def test_search_rule_id_not_selected_rule():
     src = 'test_data/ssg-fedora-ds-arf.xml'
     rule = 'xccdf_org.ssgproject.content_rule_package_nis_removed'
-    try_expection_for_search_rule_id(src, rule, 'not selected')
+    try_expection_for_search_rule_id(src, rule, 'notselected')
 
 
 def test_prepare_json(capsys):
@@ -337,7 +341,7 @@ def test_get_wanted_not_selected_rules_from_array_of_IDs():
         'xccdf_org.ssgproject.content_rule_package_mcstrans_removed']
 
     assert out == client._get_wanted_rules(
-        client.arf_xml_parser.notselected_rules)
+        client.arf_xml_parser.not_tested_rules)
 
 
 def test_get_wanted_rules_from_array_of_ids():

@@ -2,7 +2,6 @@
     Function for evaluate OVAL operators.
 """
 
-
 def oval_operator_and(result):
     """
         The AND operator produces a true result if every argument is true. If one or more arguments

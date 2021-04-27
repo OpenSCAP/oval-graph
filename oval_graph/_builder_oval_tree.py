@@ -3,7 +3,7 @@ import uuid
 from .oval_node import OvalNode
 
 
-class _BuilderOvalGraph:
+class _BuilderOvalTree:
 
     @staticmethod
     def _definition_dict_to_node(dict_of_definition):
@@ -11,7 +11,7 @@ class _BuilderOvalGraph:
         for child in dict_of_definition['node']:
             if 'operator' in child:
                 children.append(
-                    _BuilderOvalGraph._definition_dict_to_node(child))
+                    _BuilderOvalTree._definition_dict_to_node(child))
             else:
                 children.append(
                     OvalNode(
@@ -25,7 +25,7 @@ class _BuilderOvalGraph:
                     ))
 
         return OvalNode(
-            node_id=_BuilderOvalGraph._get_id_defintion(dict_of_definition),
+            node_id=_BuilderOvalTree._get_id_defintion(dict_of_definition),
             node_type='operator',
             value=dict_of_definition['operator'],
             negation=dict_of_definition['negate'],
@@ -41,7 +41,7 @@ class _BuilderOvalGraph:
         return str(uuid.uuid4())
 
     @staticmethod
-    def get_oval_graph_from_dict_of_rule(rule):
+    def get_oval_tree_from_dict_of_rule(rule):
         dict_of_definition = rule['definition']
         dict_of_definition['node']['definition_id'] = rule['definition_id']
         return OvalNode(
@@ -52,6 +52,6 @@ class _BuilderOvalGraph:
             comment=dict_of_definition['comment'],
             tag="Rule",
             children=[
-                _BuilderOvalGraph._definition_dict_to_node(
+                _BuilderOvalTree._definition_dict_to_node(
                     dict_of_definition['node'])],
         )

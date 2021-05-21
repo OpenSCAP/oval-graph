@@ -135,12 +135,10 @@ install_package_from_source() {
 }
 
 report() {
-    if [ "$_arg_verbose" = "on" ]; then
-        if [ $test_result -eq 0 ]; then
-            printf "Result: %-70s \x1b[32mpassed\x1b[0m\n" "$*"
-        else
-            printf "Result: %-70s \x1b[31mfailed\x1b[0m\n\n" "$*"
-        fi
+    if [ $test_result -eq 0 ]; then
+        printf "Result: %-70s \x1b[32mpassed\x1b[0m\n" "$*"  # ]] <-- needed because of Argbash
+    else
+        printf "Result: %-70s \x1b[31mfailed\x1b[0m\n" "$*"  # ]] <-- needed because of Argbash
     fi
 }
 
@@ -148,16 +146,14 @@ test() {
     test_name="$1"
     command="$2"
     msg=""
-    if [ "$_arg_verbose" = "on" ]; then
-        echo "Start: $test_name"
-        $command
-    else
-        $command &>/dev/null
-    fi
-    if [ $? -eq 0 ]; then
+    echo "Start: $test_name"
+    output=$($command 2>&1)
+    exit_code=$?
+    if [ $exit_code -eq 0 ]; then
         test_result=0
         msg="$test_name"
     else
+        echo "$output"
         test_result=1
         overall_test_result=1
         msg="$test_name: $command"
@@ -169,16 +165,14 @@ test_rise_error() {
     test_name="$1"
     command="$2"
     msg=""
-    if [ "$_arg_verbose" = "on" ]; then
-        echo "Start: $test_name"
-        $command
-    else
-        $command &>/dev/null
-    fi
-    if [ $? -eq 2 ]; then
+    echo "Start: $test_name"
+    output=$($command 2>&1)
+    exit_code=$?
+    if [ $exit_code -eq 2 ]; then
         test_result=0
         msg="$test_name"
     else
+        echo "$output"
         test_result=1
         overall_test_result=1
         msg="$test_name: $command"
@@ -228,6 +222,13 @@ hide_all_passing_tests_test() {
     test run-json-to-graph "json-to-graph -o ${tmp_dir_src} ${tmp_json_file_src} --hide-passing-tests -i fips"
 }
 
+
+# Backup descriptors stdout -> 3, stderr -> 4
+exec 3>&1 4>&2
+
+# Redirect stdout and stderr to file
+exec &>test_commands.log
+
 if [ "$_arg_install_oval_graph" = "on" ]; then
     install_package_from_source
 fi
@@ -244,5 +245,12 @@ hide_all_passing_tests_test
 if [ "$_arg_clean" = "on" ]; then
     clean "${tmp_dir_src}"
 fi
+
+if [[ ("$_arg_verbose" = "on") || ($overall_test_result -eq 1) ]]; then
+    # Restore descriptors
+    exec 1>&3 2>&4
+    cat test_commands.log
+fi
+
 exit "$overall_test_result"
 # ] <-- needed because of Argbash

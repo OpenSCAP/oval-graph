@@ -142,7 +142,7 @@ report() {
     fi
 }
 
-test() {
+test_command() {
     test_name="$1"
     command="$2"
     msg=""
@@ -161,7 +161,7 @@ test() {
     report "${msg}"
 }
 
-test_rise_error() {
+test_command_rise_error() {
     test_name="$1"
     command="$2"
     msg=""
@@ -189,37 +189,37 @@ clean() {
 }
 
 help_tests() {
-    test arf-to-graph-help "arf-to-graph -h"
-    test arf-to-json-help "arf-to-json -h"
-    test json-to-graph-help "json-to-graph -h"
+    test_command arf-to-graph-help "arf-to-graph -h"
+    test_command arf-to-json-help "arf-to-json -h"
+    test_command json-to-graph-help "json-to-graph -h"
 }
 
 bad_args_tests() {
-    test_rise_error arf-to-graph-bad_arg "arf-to-graph -hello"
-    test_rise_error arf-to-json-bad_arg "arf-to-json -hello"
-    test_rise_error json-to-graph-bad_arg "json-to-graph -hello"
+    test_command_rise_error arf-to-graph-bad_arg "arf-to-graph -hello"
+    test_command_rise_error arf-to-json-bad_arg "arf-to-json -hello"
+    test_command_rise_error json-to-graph-bad_arg "json-to-graph -hello"
 }
 
 basic_test() {
-    test run-arf-to-graph "arf-to-graph -o ${tmp_dir_src} ${test_file_src} fips"
-    test run-arf-to-json "arf-to-json -o ${tmp_json_file_src} ${test_file_src} fips"
-    test run-json-to-graph "json-to-graph -o ${tmp_dir_src} ${tmp_json_file_src} fips"
+    test_command run-arf-to-graph "arf-to-graph -o ${tmp_dir_src} ${test_file_src} fips"
+    test_command run-arf-to-json "arf-to-json -o ${tmp_json_file_src} ${test_file_src} fips"
+    test_command run-json-to-graph "json-to-graph -o ${tmp_dir_src} ${tmp_json_file_src} fips"
 }
 
 regex_and_all_test() {
-    test run-arf-to-graph_regex "arf-to-graph -o ${tmp_dir_src} ${test_file_src} -a _package_\w+_removed"
-    test run-arf-to-json_regex "arf-to-json -o ${tmp_json_file_src} ${test_file_src} -a _package_\w+_removed"
-    test run-json-to-graph_regex "json-to-graph -o ${tmp_dir_src} ${tmp_json_file_src} -a _package_\w+_removed"
+    test_command run-arf-to-graph_regex "arf-to-graph -o ${tmp_dir_src} ${test_file_src} -a _package_\w+_removed"
+    test_command run-arf-to-json_regex "arf-to-json -o ${tmp_json_file_src} ${test_file_src} -a _package_\w+_removed"
+    test_command run-json-to-graph_regex "json-to-graph -o ${tmp_dir_src} ${tmp_json_file_src} -a _package_\w+_removed"
 }
 
 regex_and_all_in_one_test() {
-    test run-arf-to-graph_regex "arf-to-graph -o ${tmp_dir_src} ${test_file_src} -i _package_\w+_removed"
-    test run-json-to-graph_regex "json-to-graph -o ${tmp_dir_src} ${tmp_json_file_src} -i _package_\w+_removed"
+    test_command run-arf-to-graph_regex "arf-to-graph -o ${tmp_dir_src} ${test_file_src} -i _package_\w+_removed"
+    test_command run-json-to-graph_regex "json-to-graph -o ${tmp_dir_src} ${tmp_json_file_src} -i _package_\w+_removed"
 }
 
 hide_all_passing_tests_test() {
-    test run-arf-to-graph "arf-to-graph -o ${tmp_dir_src} ${test_file_src} --hide-passing-tests fips"
-    test run-json-to-graph "json-to-graph -o ${tmp_dir_src} ${tmp_json_file_src} --hide-passing-tests -i fips"
+    test_command run-arf-to-graph "arf-to-graph -o ${tmp_dir_src} ${test_file_src} --hide-passing-tests fips"
+    test_command run-json-to-graph "json-to-graph -o ${tmp_dir_src} ${tmp_json_file_src} --hide-passing-tests -i fips"
 }
 
 

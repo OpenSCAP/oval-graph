@@ -32,11 +32,13 @@ class _XmlParserComments:
             out['value_id'] = criterion.get('test_ref')
         return out
 
-    def _get_operator(self, criterion):
+    @staticmethod
+    def _get_operator(criterion):
         operator = criterion.get('operator')
         return 'AND' if operator is None else operator
 
-    def _get_comment(self, criterion, description=None):
+    @staticmethod
+    def _get_comment(criterion, description=None):
         comment = criterion.get('comment')
         return description if comment is None else comment
 

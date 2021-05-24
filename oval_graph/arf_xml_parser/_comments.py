@@ -3,7 +3,7 @@ ns = {
 }
 
 
-class _XmlParserComments:
+class _Comments:
     def __init__(self, oval_definitions):
         self.oval_definitions = oval_definitions
 

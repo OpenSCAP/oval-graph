@@ -1,4 +1,4 @@
-from ..arf_xml_parser.xml_parser import XmlParser
+from ..arf_xml_parser.arf_xml_parser import ARFXMLParser
 from .client import Client
 
 
@@ -7,7 +7,7 @@ class ClientArfInput(Client):
         super().__init__(args)
         self.show_failed_rules = self.arg.show_failed_rules
         self.show_not_selected_rules = self.arg.show_not_selected_rules
-        self.arf_xml_parser = XmlParser(self.source_filename)
+        self.arf_xml_parser = ARFXMLParser(self.source_filename)
 
     def _get_not_selected_rules(self):
         rules = []

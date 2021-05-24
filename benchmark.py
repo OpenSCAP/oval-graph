@@ -1,6 +1,6 @@
 import time
 
-from oval_graph.arf_xml_parser.xml_parser import XmlParser
+from oval_graph.arf_xml_parser.arf_xml_parser import ARFXMLParser
 
 rule = 'xccdf_org.ssgproject.content_rule_enable_fips_mode'
 src = 'tests/test_data/ssg-fedora-ds-arf.xml'
@@ -10,7 +10,7 @@ print("Start process rule: ", rule)
 print("report-xml: ", src)
 start_time = time.time()
 
-xml_parser = XmlParser(src)
+xml_parser = ARFXMLParser(src)
 oval_tree = xml_parser.get_oval_tree(rule)
 
 print("rule {} --- {} seconds ---".format(rule, time.time() - start_time))
@@ -20,7 +20,7 @@ print("report-xml: ", src)
 start_time_all_rules = time.time()
 
 
-xml_parser_all_rules = XmlParser(src)
+xml_parser_all_rules = ARFXMLParser(src)
 
 for rule in xml_parser_all_rules.used_rules:
     oval_tree = xml_parser_all_rules.get_oval_tree(rule)

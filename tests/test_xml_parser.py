@@ -1,7 +1,7 @@
 import pytest
 
 import tests.any_test_help
-from oval_graph.arf_xml_parser.xml_parser import XmlParser
+from oval_graph.arf_xml_parser.arf_xml_parser import ARFXMLParser
 
 
 def test_parsing_full_scan_XML_and_evaluate():
@@ -69,7 +69,7 @@ def test_parsing_and_evaluate_scan_1():
 
 def test_get_def_id_by_rule_id():
     src = 'test_data/ssg-fedora-ds-arf.xml'
-    parser = XmlParser(tests.any_test_help.get_src(src))
+    parser = ARFXMLParser(tests.any_test_help.get_src(src))
 
     with pytest.raises(Exception, match='404 rule "hello" not found!'):
         assert parser._get_definition_of_rule('hello')

@@ -1,15 +1,15 @@
-from ._xml_parser_comments import _XmlParserComments
-from ._xml_parser_test_info import _XmlParserTestInfo
+from ._comments import _Comments
+from ._test_info import _TestInfo
 
 STR_TO_BOOL = {'true': True, 'false': False}
 STR_NEGATE_BOOL = {'true': 'false', 'false': 'true'}
 
 
-class _XmlParserScanDefinitions:
+class _OVALScanDefinitions:
     def __init__(self, definitions, oval_definitions, report_data):
         self.definitions = definitions
-        self.comments_parser = _XmlParserComments(oval_definitions)
-        self.test_info_parser = _XmlParserTestInfo(report_data)
+        self.comments_parser = _Comments(oval_definitions)
+        self.test_info_parser = _TestInfo(report_data)
 
     def get_scan(self):
         dict_of_definitions = {}

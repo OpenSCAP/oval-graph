@@ -8,10 +8,10 @@ import uuid
 import mock
 import pytest
 
+from oval_graph.arf_xml_parser.arf_xml_parser import ARFXMLParser
 from oval_graph.oval_tree.builder import Builder
 from oval_graph.oval_tree.converter import Converter
 from oval_graph.oval_tree.oval_node import OvalNode
-from oval_graph.xml_parser import XmlParser
 
 
 def any_test_treeEvaluation(tree, expect, file_name=None):
@@ -38,7 +38,7 @@ def any_test_treeEvaluation(tree, expect, file_name=None):
 
 
 def any_test_parsing_and_evaluate_scan_rule(src, rule_id, result):
-    parser = XmlParser(get_src(src))
+    parser = ARFXMLParser(get_src(src))
     oval_tree = parser.get_oval_tree(rule_id)
     any_test_treeEvaluation(oval_tree, result)
 
@@ -113,7 +113,7 @@ def any_test_transformation_tree_to_Json_for_JsTree(
         src, test_data_src, rule_id):
     test_data = any_get_test_data_json(test_data_src)
 
-    parser = XmlParser(get_src(src))
+    parser = ARFXMLParser(get_src(src))
     oval_tree = parser.get_oval_tree(rule_id)
 
     assert oval_tree.node_id == rule_id
@@ -140,7 +140,7 @@ def any_test_dict_to_tree(dict_of_tree):
 
 
 def get_parser(src):
-    return XmlParser(get_src(src))
+    return ARFXMLParser(get_src(src))
 
 
 def get_src(src):

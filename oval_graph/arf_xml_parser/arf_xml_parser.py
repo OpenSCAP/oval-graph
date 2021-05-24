@@ -7,9 +7,9 @@ import sys
 
 from lxml import etree as ET
 
-from ._xml_parser_oval_scan_definitions import _XmlParserScanDefinitions
 from ..exceptions import NotTestedRule
 from ..oval_tree.builder import Builder
+from ._oval_scan_definitions import _OVALScanDefinitions
 
 ns = {
     'XMLSchema': 'http://oval.mitre.org/XMLSchema/oval-results-5',
@@ -21,7 +21,7 @@ ns = {
 }
 
 
-class XmlParser:
+class ARFXMLParser:
     def __init__(self, src):
         self.src = src
         self.tree = ET.parse(self.src)
@@ -39,7 +39,7 @@ class XmlParser:
             self.report_data = self._get_report_data(self.report_data_href)
             self.definitions = self._get_definitions()
             self.oval_definitions = self._get_oval_definitions()
-            self.scan_definitions = _XmlParserScanDefinitions(
+            self.scan_definitions = _OVALScanDefinitions(
                 self.definitions, self.oval_definitions, self.report_data).get_scan()
         except BaseException as error:
             raise ValueError(

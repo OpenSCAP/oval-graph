@@ -10,7 +10,7 @@ ns = {
 }
 
 
-class _XmlParserTestInfo:
+class _TestInfo:
     def __init__(self, report_data):
         self.report_data = report_data
         self.oval_definitions = self._get_oval_definitions()

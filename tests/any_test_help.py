@@ -8,8 +8,9 @@ import uuid
 import mock
 import pytest
 
-from oval_graph.converter import Converter
-from oval_graph.oval_node import OvalNode, restore_dict_to_tree
+from oval_graph.oval_tree.builder import Builder
+from oval_graph.oval_tree.converter import Converter
+from oval_graph.oval_tree.oval_node import OvalNode
 from oval_graph.xml_parser import XmlParser
 
 
@@ -30,7 +31,7 @@ def any_test_treeEvaluation(tree, expect, file_name=None):
         data = dict()
         with open(get_src(src), "r") as f:
             data = json.load(f)
-        assert restore_dict_to_tree(
+        assert Builder.dict_to_oval_tree(
             data).evaluate_tree() == expect
     else:
         assert tree.evaluate_tree() == expect
@@ -64,7 +65,7 @@ def any_test_create_node_dict_for_JsTree(tree, json_src):
     data = dict()
     with open(get_src(json_src), "r") as f:
         data = json.load(f)
-    assert Converter(tree).to_JsTree_dict() == data
+    assert Converter(tree).to_js_tree_dict() == data
 
 
 def get_simple_tree():
@@ -105,7 +106,7 @@ def get_simple_tree():
 
 
 def get_dict_of_simple_tree():
-    return get_simple_tree().save_tree_to_dict()
+    return Converter(get_simple_tree()).to_dict()
 
 
 def any_test_transformation_tree_to_Json_for_JsTree(
@@ -116,16 +117,16 @@ def any_test_transformation_tree_to_Json_for_JsTree(
     oval_tree = parser.get_oval_tree(rule_id)
 
     assert oval_tree.node_id == rule_id
-    out_data = Converter(oval_tree).to_JsTree_dict()
+    out_data = Converter(oval_tree).to_js_tree_dict()
     assert out_data == test_data
 
 
 def any_test_tree_to_dict_of_tree(tree, dict_of_tree):
-    assert tree.save_tree_to_dict() == dict_of_tree
+    assert Converter(tree).to_dict() == dict_of_tree
 
 
 def find_any_node(tree, node_id):
-    findTree = tree.find_node_with_ID(node_id)
+    findTree = tree.find_node_with_id(node_id)
     assert findTree.node_id == node_id
 
 
@@ -134,8 +135,8 @@ def any_test_treeEvaluation_with_tree(tree, expect):
 
 
 def any_test_dict_to_tree(dict_of_tree):
-    treedict_of_tree = restore_dict_to_tree(dict_of_tree)
-    assert treedict_of_tree.save_tree_to_dict() == dict_of_tree
+    treedict_of_tree = Builder.dict_to_oval_tree(dict_of_tree)
+    assert Converter(treedict_of_tree).to_dict() == dict_of_tree
 
 
 def get_parser(src):

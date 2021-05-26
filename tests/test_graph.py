@@ -1,9 +1,12 @@
 import pytest
 
 import tests.any_test_help
-from oval_graph.oval_node import OvalNode
+from oval_graph.oval_tree.converter import Converter
+from oval_graph.oval_tree.oval_node import OvalNode
 
-missing_error_pattern = "Missing required argument!"
+missing_error_pattern = (
+    r"__init__\(\) missing 1 required positional argument: \'(?:value|node_id|node_type)\'"
+    )
 
 bad_value_error_pattern = (
     r'Wrong value of (negation|node_type|argument) (argument|value)(!| for (value|operator) node!)'
@@ -323,8 +326,8 @@ def test_add_to_tree():
         node_type='value',
         value="true",
     )
-    tree.add_to_tree(1, tree1)
-    assert tree.save_tree_to_dict() == dict_of_tree
+    tree.add_child_to_node(1, tree1)
+    assert Converter(tree).to_dict() == dict_of_tree
 
 
 def test_ChangeValueTree():
@@ -370,7 +373,7 @@ def test_ChangeValueTree():
         ]
     )
 
-    Tree.change_tree_value(3, "true")
+    Tree.change_value_of_node(3, "true")
     tests.any_test_help.any_test_treeEvaluation_with_tree(Tree, "true")
 
 

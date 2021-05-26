@@ -1,4 +1,4 @@
-from ..converter import Converter
+from ..oval_tree.converter import Converter
 from .client_arf_input import ClientArfInput
 from .client_html_output import ClientHtmlOutput
 
@@ -15,8 +15,9 @@ class ArfToHtml(ClientArfInput, ClientHtmlOutput):
         }
 
     def create_dict_of_rule(self, rule_id):
-        converter = Converter(self.arf_xml_parser.get_oval_tree(rule_id))
-        return converter.to_JsTree_dict(self.hide_passing_tests)
+        oval_tree = self.arf_xml_parser.get_oval_tree(rule_id)
+        converter = Converter(oval_tree)
+        return converter.to_js_tree_dict(self.hide_passing_tests)
 
     def _put_to_dict_oval_trees(self, dict_oval_trees, rule):
         dict_oval_trees[rule] = self.create_dict_of_rule(rule)

@@ -7,9 +7,9 @@ import sys
 
 from lxml import etree as ET
 
-from ._builder_oval_tree import _BuilderOvalTree
 from ._xml_parser_oval_scan_definitions import _XmlParserScanDefinitions
 from .exceptions import NotChecked
+from .oval_tree.builder import Builder
 
 ns = {
     'XMLSchema': 'http://oval.mitre.org/XMLSchema/oval-results-5',
@@ -136,5 +136,5 @@ class XmlParser:
             raise ValueError('404 rule "{}" not found!'.format(rule_id))
 
     def get_oval_tree(self, rule_id):
-        return _BuilderOvalTree.get_oval_tree_from_dict_of_rule(
+        return Builder.dict_of_rule_to_oval_tree(
             self._get_definition_of_rule(rule_id))

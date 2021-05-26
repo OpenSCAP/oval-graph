@@ -1,4 +1,5 @@
 specfile_path: oval-graph.spec
+upstream_tag_template: v{version}
 synced_files:
   # copy a file from root of the upstream repo to dist-git
   - oval-graph.spec

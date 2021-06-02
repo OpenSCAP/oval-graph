@@ -1,6 +1,7 @@
+import pytest
+
 import tests.any_test_help
-from oval_graph.oval_tree import evaluate
-from oval_graph.oval_tree.oval_node import OvalNode
+from oval_graph.oval_tree.oval_result import OvalResult
 
 # AND operator
 
@@ -136,60 +137,51 @@ def test_XORTreeNotappl():
         None, "notappl", 'XORTreeNotappl.json')
 
 
-results_counts = {
-    'true_cnt': -1,
-    'false_cnt': -1,
-    'error_cnt': -1,
-    'unknown_cnt': -1,
-    'noteval_cnt': -1,
-    'notappl_cnt': -1
-}
-
-results_counts1 = {
-    'true_cnt': 3,
-    'false_cnt': 3,
-    'error_cnt': 3,
-    'unknown_cnt': 0,
-    'noteval_cnt': -1,
-    'notappl_cnt': 3
-}
+@pytest.fixture
+def oval_result():
+    results_counts = {
+        "number_of_true": -1,
+        "number_of_false": -1,
+        "number_of_error": -1,
+        "number_of_unknown": -1,
+        "number_of_noteval": -1,
+        "number_of_notappl": -1
+    }
+    return OvalResult(**results_counts)
 
 
-def test_bad_results_counts_for_operator_and():
-    assert evaluate.oval_operator_and(results_counts) is None
+@pytest.fixture
+def oval_result1():
+    results_counts = {
+        "number_of_true": 3,
+        "number_of_false": 3,
+        "number_of_error": 3,
+        "number_of_unknown": 0,
+        "number_of_noteval": -1,
+        "number_of_notappl": 3
+    }
+    return OvalResult(**results_counts)
 
 
-def test_bad_results_counts_for_operator_one():
-    assert evaluate.oval_operator_one(results_counts) is None
+def test_bad_results_counts_for_operator_and(oval_result):
+    assert oval_result.eval_operator_and() is None
 
 
-def test_bad_results_counts_for_operator_or():
-    assert evaluate.oval_operator_or(results_counts) is None
+def test_bad_results_counts_for_operator_one(oval_result):
+    assert oval_result.eval_operator_one() is None
 
 
-def test_bad_results_counts_for_operator_xor():
-    assert evaluate.oval_operator_xor(results_counts) is None
+def test_bad_results_counts_for_operator_or(oval_result):
+    assert oval_result.eval_operator_or() is None
 
 
-def test_false_noteval_greater_zero():
-    assert not evaluate.greater_zero(results_counts, 'noteval_cnt')
+def test_bad_results_counts_for_operator_xor(oval_result):
+    assert oval_result.eval_operator_xor() is None
 
 
-def test_false_smaller_then_two():
-    assert not evaluate.smaller_than_two(
-        results_counts1, 'true_cnt')
+def test_false_eq_or_greater_zero_unknown_noteval_notappl(oval_result1):
+    assert not oval_result1._unknown_noteval_notappl_ge_zero()
 
 
-def test_false_eq_zero_duo():
-    assert not evaluate.eq_zero_duo(
-        results_counts, 'noteval_cnt', 'error_cnt')
-
-
-def test_false_eq_or_greater_zero_unknown_noteval_notappl():
-    assert not evaluate.eq_or_greater_zero_unknown_noteval_notappl(
-        results_counts1)
-
-
-def test_false_error_unknown_eq_noteval_greater_zero():
-    assert not evaluate.error_unknown_eq_noteval_greater_zero(
-        results_counts)
+def test_false_error_unknown_eq_noteval_greater_zero(oval_result):
+    assert not oval_result._error_unknown_eq_zero_and_noteval_ge_one()

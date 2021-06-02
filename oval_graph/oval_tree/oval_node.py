@@ -1,7 +1,17 @@
-from . import evaluate
+from collections import Counter
+
+from .oval_result import OvalResult
 
 ALLOWED_VALUES = ("true", "false", "error", "unknown", "noteval", "notappl")
 ALLOWED_OPERATORS = ("or", "and", "one", "xor")
+EMPTY_RESULT = {
+    "number_of_true": 0,
+    "number_of_false": 0,
+    "number_of_error": 0,
+    "number_of_unknown": 0,
+    "number_of_noteval": 0,
+    "number_of_notappl": 0
+}
 
 
 class OvalNode():
@@ -103,50 +113,43 @@ class OvalNode():
             "The value node cannot contain any child!")
 
     def _get_result_counts(self):
-        result = {
-            'true_cnt': 0,
-            'false_cnt': 0,
-            'error_cnt': 0,
-            'unknown_cnt': 0,
-            'noteval_cnt': 0,
-            'notappl_cnt': 0
-        }
-
+        result = Counter(EMPTY_RESULT)
         for child in self.children:
-            if child.value == 'true' and not child.negation:
-                result['true_cnt'] += 1
-            elif child.value == 'true' and child.negation:
-                result['false_cnt'] += 1
-            elif child.value == 'false' and not child.negation:
-                result['false_cnt'] += 1
-            elif child.value == 'false' and child.negation:
-                result['true_cnt'] += 1
+            if child.value == "true" and not child.negation:
+                result["number_of_true"] += 1
+            elif child.value == "true" and child.negation:
+                result["number_of_false"] += 1
+            elif child.value == "false" and not child.negation:
+                result["number_of_false"] += 1
+            elif child.value == "false" and child.negation:
+                result["number_of_true"] += 1
             else:
                 if child.node_type == "operator":
-                    result[child.evaluate_tree() + "_cnt"] += 1
+                    result["number_of_" + child.evaluate_tree()] += 1
                 else:
-                    result[child.value + "_cnt"] += 1
+                    result["number_of_" + child.value] += 1
         return result
 
     def evaluate_tree(self):
-        result = self._get_result_counts()
+        results_counts = self._get_result_counts()
+        oval_result = OvalResult(**results_counts)
         out_result = None
-        if evaluate.is_notapp_result(result):
+        if oval_result.is_notapp_result():
             out_result = "notappl"
         else:
             if self.value == "or":
-                out_result = evaluate.oval_operator_or(result)
+                out_result = oval_result.eval_operator_or()
             elif self.value == "and":
-                out_result = evaluate.oval_operator_and(result)
+                out_result = oval_result.eval_operator_and()
             elif self.value == "one":
-                out_result = evaluate.oval_operator_one(result)
+                out_result = oval_result.eval_operator_one()
             elif self.value == "xor":
-                out_result = evaluate.oval_operator_xor(result)
+                out_result = oval_result.eval_operator_xor()
 
-        if out_result == 'true' and self.negation:
-            out_result = 'false'
-        elif out_result == 'false' and self.negation:
-            out_result = 'true'
+        if out_result == "true" and self.negation:
+            out_result = "false"
+        elif out_result == "false" and self.negation:
+            out_result = "true"
 
         return out_result
 

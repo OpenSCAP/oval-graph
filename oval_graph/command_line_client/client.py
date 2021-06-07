@@ -65,14 +65,16 @@ class Client():
         return self._get_rules()
 
     def _get_rules(self):
+        rules = self.search_rules_id()
         if self.show_failed_rules:
-            return {'rules': self.get_only_fail_rule(self.search_rules_id())}
-        return {'rules': self.search_rules_id()}
+            return {'rules': self.get_only_fail_rule(rules)}
+        return {'rules': rules}
 
     def _get_list_of_matched_rules(self):
+        rules = self.search_rules_id()
         if self.show_failed_rules:
-            return self.get_only_fail_rule(self.search_rules_id())
-        return self.search_rules_id()
+            return self.get_only_fail_rule(rules)
+        return rules
 
     def _get_list_of_lines(self):
         lines = ['== The Rule ID regular expressions ==']
@@ -116,20 +118,6 @@ class Client():
         return [
             x for x in rules if re.search(
                 self.rule_name, x)]
-
-    def _check_rules_id(self, rules, notselected_rules):
-        if notselected_rules and not rules:
-            raise ValueError(
-                ('Rule(s) "{}" was not selected, '
-                 "so there are no results. The rule is"
-                 ' "notselected" because it'
-                 " wasn't a part of the executed profile"
-                 " and therefore it wasn't evaluated "
-                 "during the scan.")
-                .format(notselected_rules))
-        if not notselected_rules and not rules:
-            raise ValueError('404 rule "{}" not found!'.format(self.rule_name))
-        return rules
 
     # Function for setting arguments
 

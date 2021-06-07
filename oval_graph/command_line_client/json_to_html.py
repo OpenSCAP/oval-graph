@@ -35,8 +35,8 @@ class JsonToHtml(ClientHtmlOutput, ClientJsonInput):
         dict_of_tree = self.json_data_file[rule]
         try:
             return Builder.dict_to_oval_tree(dict_of_tree)
-        except Exception:
-            raise ValueError('Data is not valid for OVAL tree.')
+        except Exception as error:
+            raise ValueError('Data is not valid for OVAL tree.') from error
 
     def create_dict_of_rule(self, rule):
         self.oval_tree = self.load_json_to_oval_tree(rule)

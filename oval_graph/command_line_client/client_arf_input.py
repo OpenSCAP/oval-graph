@@ -22,10 +22,12 @@ class ClientArfInput(Client):
 
     def _get_rows_of_unselected_rules(self):
         out = []
+        not_selected_rules = self._get_wanted_rules(self._get_not_selected_rules())
+        maxlen = len(max(not_selected_rules, key=len))
+        pattern = '{rule:' + str(maxlen) + '} (Not selected)'
         out.append('== The not selected rule IDs ==')
-        for rule in self._get_wanted_rules(
-                self._get_not_selected_rules()):
-            out.append(rule + '(Not selected)')
+        for rule in not_selected_rules:
+            out.append(pattern.format(rule=rule))
         return out
 
     def get_only_fail_rule(self, rules):

@@ -8,6 +8,7 @@ class ClientArfInput(Client):
         super().__init__(args)
         self.show_failed_rules = self.arg.show_failed_rules
         self.show_not_selected_rules = self.arg.show_not_selected_rules
+        self.show_not_tested_rules = self.arg.show_not_tested_rules
         self.arf_xml_parser = None
 
     def load_file(self):
@@ -35,6 +36,15 @@ class ClientArfInput(Client):
             filter(
                 lambda rule: self.arf_xml_parser.used_rules[rule]['result'] == 'fail',
                 rules))
+
+    def _get_rows_not_visualizable_rules(self):
+        out = []
+        out.append('== The not tested rule IDs ==')
+        maxlen = len(max(self.arf_xml_parser.not_tested_rules.keys(), key=len))
+        pattern = '{rule:' + str(maxlen) + '} {result}'
+        for rule, result in self.arf_xml_parser.not_tested_rules.items():
+            out.append(pattern.format(rule=rule, result=result))
+        return out
 
     def get_matched_not_tested_rules(self):
         return self._get_wanted_rules(self.arf_xml_parser.not_tested_rules.keys())

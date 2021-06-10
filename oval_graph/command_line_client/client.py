@@ -18,6 +18,8 @@ class Client():
         self.all_rules = self.arg.all
         self.show_failed_rules = False
         self.show_not_selected_rules = False
+        self.show_not_tested_rules = False
+
         self.verbose = self.arg.verbose
 
     @staticmethod
@@ -58,6 +60,12 @@ class Client():
         """
         raise NotImplementedError
 
+    def _get_rows_not_visualizable_rules(self):
+        """
+        Function retunes array of rows where is not selected IDs of rules in selected file.
+        """
+        raise NotImplementedError
+
     def run_gui_and_return_answers(self):
         if self.isatty:
             if self.all_rules:
@@ -87,8 +95,11 @@ class Client():
         lines = ['== The Rule ID regular expressions ==']
         for rule in self._get_list_of_matched_rules():
             lines.append("^" + rule + "$")
-        if self.show_not_selected_rules:
+        if self.show_not_selected_rules and not self.show_not_tested_rules:
             for line in self._get_rows_of_unselected_rules():
+                lines.append(line)
+        if not self.show_not_selected_rules and self.show_not_tested_rules:
+            for line in self._get_rows_not_visualizable_rules():
                 lines.append(line)
         lines.append(
             "Interactive rule selection is not available,"
@@ -103,8 +114,10 @@ class Client():
         return "\n".join(self._get_list_of_lines())
 
     def _get_choices(self):
-        if self.show_not_selected_rules:
+        if self.show_not_selected_rules and not self.show_not_tested_rules:
             print("\n".join(self._get_rows_of_unselected_rules()))
+        if not self.show_not_selected_rules and self.show_not_tested_rules:
+            print("\n".join(self._get_rows_not_visualizable_rules()))
         return self._get_list_of_matched_rules()
 
     def get_questions(self):
@@ -149,6 +162,11 @@ class Client():
             action="store_true",
             default=False,
             help="Show notselected rules. These rules will not be visualized.")
+        parser.add_argument(
+            '--show-not-tested-rules',
+            action="store_true",
+            default=False,
+            help="Shows rules which weren't tested. These rules will not be visualized.")
 
     def prepare_parser(self, parser):
         parser.add_argument(

@@ -5,6 +5,13 @@ from datetime import datetime
 
 from .. import __version__
 
+IS_INQUIRER_INSTALLED = True
+try:
+    from inquirer.prompt import prompt
+    from inquirer.questions import Checkbox
+except ImportError:
+    IS_INQUIRER_INSTALLED = False
+
 
 class Client():
     def __init__(self, args):
@@ -71,11 +78,12 @@ class Client():
             if self.all_rules:
                 return self._get_rules()
 
-            try:
-                import inquirer
-                return inquirer.prompt(self.get_questions())
-            except ImportError:
-                print(self.get_selection_rules())
+            if IS_INQUIRER_INSTALLED:
+                questions = self.get_questions()
+                answers = prompt(questions)
+                return answers
+
+            print(self.get_selection_rules())
             return None
         return self._get_rules()
 
@@ -121,10 +129,9 @@ class Client():
         return self._get_list_of_matched_rules()
 
     def get_questions(self):
-        from inquirer.questions import Checkbox as checkbox
         choices = self._get_choices()
         questions = [
-            checkbox(
+            Checkbox(
                 'rules',
                 message=(
                     "= The Rules IDs = (move - UP and DOWN arrows,"

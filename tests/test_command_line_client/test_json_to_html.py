@@ -111,7 +111,7 @@ def test_get_wanted_rules_from_array_of_ids():
         client.json_data_file.keys())
 
 
-def test_json_to_html_if_not_installed_inquirer(capsys):
+def disable_test_json_to_html_if_not_installed_inquirer(capsys):
     with mock.patch.dict(sys.modules, {'inquirer': None}):
         src = 'test_data/referenc_result_data_json.json'
         regex = r'_package_\w+_removed'

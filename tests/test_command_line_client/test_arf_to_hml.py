@@ -133,7 +133,7 @@ def test_get_questions_with_option_show_failed_rules():
     tests.any_test_help.get_questions_with_option_show_failed_rules(client)
 
 
-def test_if_not_installed_inquirer_with_option_show_failed_rules(capsys):
+def disable_test_if_not_installed_inquirer_with_option_show_failed_rules(capsys):
     with mock.patch.dict(sys.modules, {'inquirer': None}):
         src = 'test_data/ssg-fedora-ds-arf.xml'
         regex = r'_package_\w+_removed'
@@ -144,7 +144,7 @@ def test_if_not_installed_inquirer_with_option_show_failed_rules(capsys):
             capsys, client)
 
 
-def test_if_not_installed_inquirer_with_option_show_not_selected_rules(capsys):
+def disable_test_if_not_installed_inquirer_with_option_show_not_selected_rules(capsys):
     with mock.patch.dict(sys.modules, {'inquirer': None}):
         src = 'test_data/ssg-fedora-ds-arf.xml'
         regex = r'_package_\w+_removed'
@@ -155,7 +155,7 @@ def test_if_not_installed_inquirer_with_option_show_not_selected_rules(capsys):
             capsys, client)
 
 
-def test_if_not_installed_inquirer_with_option_show_not_selected_rules_and_show_failed_rules(
+def disable_test_if_not_installed_inquirer_with_option_show_not_selected_rules_and_show_failed_rules(
         capsys):
     with mock.patch.dict(sys.modules, {'inquirer': None}):
         src = 'test_data/ssg-fedora-ds-arf.xml'
@@ -217,7 +217,7 @@ def test_get_wanted_rules_from_array_of_ids():
         client.arf_xml_parser.used_rules.keys())
 
 
-def test_arf_to_html_if_not_installed_inquirer(capsys):
+def disable_test_arf_to_html_if_not_installed_inquirer(capsys):
     with mock.patch.dict(sys.modules, {'inquirer': None}):
         src = 'test_data/ssg-fedora-ds-arf.xml'
         regex = r'_package_\w+_removed'

@@ -43,12 +43,15 @@ class JsonToHtml(ClientHtmlOutput, ClientJsonInput):
         converter = Converter(self.oval_tree)
         return converter.to_js_tree_dict(self.hide_passing_tests)
 
+    @staticmethod
+    def _get_rule_id(rule):
+        return rule.replace(START_OF_FILE_NAME, '')
+
     def _put_to_dict_oval_trees(self, dict_oval_trees, rule):
-        dict_oval_trees[rule.replace(
-            START_OF_FILE_NAME, '')] = self.create_dict_of_rule(rule)
+        dict_oval_trees[self._get_rule_id(rule)] = self.create_dict_of_rule(rule)
 
     def _get_src_for_one_graph(self, rule):
-        return self.get_save_src(rule.replace(START_OF_FILE_NAME, ''))
+        return self.get_save_src(self._get_rule_id(rule))
 
     def prepare_parser(self, parser):
         super().prepare_parser(parser)

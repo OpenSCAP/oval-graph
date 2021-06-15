@@ -1,5 +1,6 @@
 import json
 import os
+import re
 import subprocess
 
 import pexpect
@@ -58,7 +59,8 @@ def test_command_json_to_graph_with_verbose():
                                    ],
                                   cwd='./',
                                   stderr=subprocess.STDOUT)
-    src = out.decode('utf-8').split('\n')[-2]
+    src_regex = r"\"(\.\/.*?)\""
+    src = re.search(src_regex, out.decode('utf-8')).group(1)
     tests.any_test_help.compare_results_html('.' + src)
 
 

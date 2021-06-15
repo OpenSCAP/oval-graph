@@ -1,10 +1,11 @@
 import os
-import subprocess
 import tempfile
+import time
 import webbrowser
+from subprocess import PIPE, Popen, check_call
 
-from .._builder_html_graph import BuilderHtmlGraph
 from ..exceptions import NotChecked
+from ..html_builder.graph import Graph
 from .client import Client
 
 START_OF_FILE_NAME = 'graph-of-'
@@ -18,7 +19,7 @@ class ClientHtmlOutput(Client):
         self.all_in_one = self.arg.all_in_one
         self.all_rules = True if self.all_in_one else self.arg.all
         self.display_html = True if self.out is None else self.arg.display
-        self.html_builder = BuilderHtmlGraph(self.part, self.arg.verbose, self.all_in_one)
+        self.html_builder = Graph(self.part, self.arg.verbose, self.all_in_one)
         self.web_browsers = []
 
     @staticmethod
@@ -27,11 +28,9 @@ class ClientHtmlOutput(Client):
         return str(os.path.join(_dir, src))
 
     def prepare_data(self, rules):
-        out_src = []
-        oval_tree_dict = dict()
-        self._prepare_data(rules, oval_tree_dict, out_src)
-        self.open_results_in_web_browser(out_src)
-        return out_src
+        paths_to_generated_rules = self._prepare_data(rules)
+        self.open_results_in_web_browser(paths_to_generated_rules)
+        return paths_to_generated_rules
 
     def _put_to_dict_oval_trees(self, dict_oval_trees, rule):
         """
@@ -40,30 +39,26 @@ class ClientHtmlOutput(Client):
         """
         raise NotImplementedError
 
-    def _prepare_data(self, rules, dict_oval_trees, out_src):
+    def _prepare_data(self, rules):
+        dict_oval_trees = dict()
+        paths_to_generated_rules = []
         for rule in rules['rules']:
             try:
                 self._put_to_dict_oval_trees(dict_oval_trees, rule)
                 if not self.all_in_one:
-                    self._build_and_save_html(
-                        dict_oval_trees,
-                        self._get_src_for_one_graph(rule),
-                        dict(rules=[rule]),
-                        out_src
-                    )
+                    src = self._get_src_for_one_graph(rule)
+                    self.html_builder.save_html(dict_oval_trees, src)
+                    paths_to_generated_rules.append(src)
                     dict_oval_trees = {}
             except NotChecked as error:
                 start_red_color = '\033[91m'
                 end_red_color = '\033[0m'
                 print(start_red_color + str(error) + end_red_color)
         if self.all_in_one:
-            self._build_and_save_html(
-                dict_oval_trees, self.get_save_src(
-                    'rules' + self._get_date()), rules, out_src)
-
-    def _build_and_save_html(self, dict_oval_trees, src, rules, out_src):
-        self.html_builder.save_html(dict_oval_trees, src, rules)
-        out_src.append(src)
+            src = self.get_save_src('rules' + self._get_date())
+            self.html_builder.save_html(dict_oval_trees, src)
+            paths_to_generated_rules.append(src)
+        return paths_to_generated_rules
 
     def _get_src_for_one_graph(self, rule):
         return self.get_save_src(rule + self._get_date())
@@ -81,12 +76,41 @@ class ClientHtmlOutput(Client):
     def open_results_in_web_browser(self, paths_to_results):
         if self.display_html:
             try:
-                self.web_browsers.append(
-                    subprocess.Popen(["firefox", *paths_to_results]))
-            except subprocess.CalledProcessError:
-                default_web_browser_name = webbrowser.get().name
-                self.web_browsers.append(
-                    subprocess.Popen([default_web_browser_name, *paths_to_results]))
+                for path_to_result in paths_to_results:
+                    self._open_web_browser(path_to_result)
+            except OSError as os_error:
+                if os_error.errno != 24:
+                    raise OSError from os_error
+                error_msg = (
+                    'Opening too many reports. Increase '
+                    'the open file limit or try to use '
+                    'the --all-in-one parameter')
+                raise ResourceWarning(error_msg) from os_error
+
+    @staticmethod
+    def _is_firefox_installed():
+        firefox_is_installed = True
+        try:
+            command = ['firefox', '--version']
+            if check_call(command, stdout=PIPE, stderr=PIPE):
+                firefox_is_installed = False
+        except FileNotFoundError:
+            firefox_is_installed = False
+        return firefox_is_installed
+
+    def _open_web_browser(self, path_to_result):
+        is_firefox_installed = self._is_firefox_installed()
+        if is_firefox_installed:
+            command = ["firefox", path_to_result]
+            browser = Popen(command, stdout=PIPE, stderr=PIPE)
+            self.web_browsers.append(browser)
+            time.sleep(0.2)
+        else:
+            default_web_browser_name = webbrowser.get().name
+            command = [default_web_browser_name, path_to_result]
+            browser = Popen(command, stdout=PIPE, stderr=PIPE)
+            self.web_browsers.append(browser)
+            time.sleep(0.2)
 
     def kill_web_browsers(self):
         for web_browser in self.web_browsers:

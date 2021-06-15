@@ -30,8 +30,7 @@ class ArfToJson(ClientArfInput):
         if os.path.isfile(src) and not self.file_is_empty(src):
             with open(src, "r") as file_:
                 data = json.load(file_)
-                for key in data:
-                    dict_[key] = data[key]
+                dict_.update(data)
         with open(src, "w+") as file_:
             json.dump(dict_, file_)
 

@@ -94,3 +94,10 @@ class TestTools():
         assert out[0] == rule1
         with pytest.raises(Exception, match="list index out of range"):
             assert out[2] is None
+
+    @staticmethod
+    def prepare_tree_test(client, rule):
+        rules = {'rules': [rule]}
+        results_src = client.prepare_data(rules)
+        TestTools.compare_results_html(results_src[0])
+        client.kill_web_browsers()

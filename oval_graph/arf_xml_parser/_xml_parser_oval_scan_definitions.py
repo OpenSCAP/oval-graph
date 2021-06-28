@@ -111,27 +111,17 @@ class _XmlParserScanDefinitions:
                         child, dict_of_definitions))
             elif 'extend_definition' in child:
                 out['node'].append(
-                    self._find_definition_by_id(
-                        dict_of_definitions,
-                        child['extend_definition'],
-                        child['negate'],
-                        child['comment'],
-                        child['tag'],
-                    ))
+                    self._find_definition_by_id(dict_of_definitions, child))
             else:
                 out['node'].append(child)
         return out
 
-    def _find_definition_by_id(
-            self,
-            dict_of_definitions,
-            id_,
-            negate_status,
-            comment,
-            tag):
+    def _find_definition_by_id(self, dict_of_definitions, child):
+        id_ = child['extend_definition']
         if id_ in dict_of_definitions:
-            dict_of_definitions[id_]['node']['negate'] = negate_status
-            dict_of_definitions[id_]['node']['comment'] = comment
-            dict_of_definitions[id_]['node']['tag'] = tag
+            dict_of_definitions[id_]['node']['negate'] = child['negate']
+            dict_of_definitions[id_]['node']['comment'] = child['comment']
+            dict_of_definitions[id_]['node']['tag'] = child['tag']
             return self._fill_extend_definition_help(
                 dict_of_definitions[id_]['node'], dict_of_definitions)
+        return None

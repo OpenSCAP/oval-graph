@@ -15,30 +15,30 @@ class _XmlParserTestInfo:
         self.report_data = report_data
         self.oval_definitions = self._get_oval_definitions()
         self.tests = self._get_tests()
-        self.objects = self._get_objects()
-        self.collected_objects = self._get_collected_objects()
-        self.system_data = self._get_system_data()
+        self.objects = self._get_objects_by_id()
+        self.oval_system_characteristics = self._get_oval_system_characteristics()
+        self.collected_objects = self._get_collected_objects_by_id()
+        self.system_data = self._get_system_data_by_id()
         self.tests_info = self._get_tests_info()
 
-    def _get_collected_objects(self):
-        data = self.report_data.find(
-            ('.//XMLSchema:oval_results/XMLSchema:results/'
-             'XMLSchema:system/oval-characteristics:oval_system_characteristics'
-             '/oval-characteristics:collected_objects'), ns)
-        out = {}
-        for item in data:
-            out[item.attrib.get('id')] = item
-        return out
+    def _get_oval_system_characteristics(self):
+        return self.report_data.find(
+            ('.//XMLSchema:oval_results/XMLSchema:results/XMLSchema:system'
+             '/oval-characteristics:oval_system_characteristics'), ns)
 
-    def _get_system_data(self):
-        data = self.report_data.find(
-            ('.//XMLSchema:oval_results/XMLSchema:results/'
-             'XMLSchema:system/oval-characteristics:oval_system_characteristics'
-             '/oval-characteristics:system_data'), ns)
-        out = {}
-        for item in data:
-            out[item.attrib.get('id')] = item
-        return out
+    @staticmethod
+    def _get_data_by_id(data):
+        return {item.attrib.get('id'): item for item in data}
+
+    def _get_collected_objects_by_id(self):
+        data = self.oval_system_characteristics.find(
+            './/oval-characteristics:collected_objects', ns)
+        return self._get_data_by_id(data)
+
+    def _get_system_data_by_id(self):
+        data = self.oval_system_characteristics.find(
+            './/oval-characteristics:system_data', ns)
+        return self._get_data_by_id(data)
 
     def _get_oval_definitions(self):
         data = self.report_data.find(
@@ -50,13 +50,10 @@ class _XmlParserTestInfo:
             ('.//oval-definitions:tests'), ns)
         return data
 
-    def _get_objects(self):
+    def _get_objects_by_id(self):
         data = self.oval_definitions.find(
             ('.//oval-definitions:objects'), ns)
-        out = {}
-        for item in data:
-            out[item.attrib.get('id')] = item
-        return out
+        return self._get_data_by_id(data)
 
     def _get_key_for_element(self, element):
         return element.tag.split('}')[1] if '}' in element.tag else element.tag

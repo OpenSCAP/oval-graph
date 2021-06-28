@@ -62,10 +62,7 @@ class _XmlParserTestInfo:
         return list(
             filter(
                 None, [
-                    self._get_item_ref(item) for item in object_]))
-
-    def _get_item_ref(self, item):
-        return item.get('item_ref') if item.get('item_ref') else None
+                    item.get('item_ref') for item in object_]))
 
     def _get_unique_key(self, key):
         return key + '@' + str(uuid.uuid4())
@@ -144,22 +141,16 @@ class _XmlParserTestInfo:
         return False
 
     def _get_item(self, item_ref):
-        item = self._find_item_by_id(self.system_data, item_ref)
+        item = self.system_data.get(item_ref)
         out = {}
         for element in item.iterchildren():
             if element.text and element.text.strip():
                 out[self._get_unique_id_in_dict(element, out)] = element.text
         return out
 
-    def _find_item_by_id(self, items, id):
-        if id in items.keys():
-            return items[id]
-        return None
-
     def _get_object_info(self, id_object):
-        object_ = self._find_item_by_id(self.objects, id_object)
-        object_collected = self._find_item_by_id(
-            self.collected_objects, id_object)
+        object_ = self.objects.get(id_object)
+        object_collected = self.collected_objects.get(id_object)
         return self._xml_element_to_dict(object_, object_collected)
 
     def _get_tests_info(self):

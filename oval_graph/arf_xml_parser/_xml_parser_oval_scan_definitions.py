@@ -40,6 +40,30 @@ class _XmlParserScanDefinitions:
             result = STR_NEGATE_BOOL[result]
         return result
 
+    def _get_extend_definition_node(self, child):
+        negate_status = self._get_negate_status(child)
+        result_of_node = self._get_result(negate_status, child)
+        return dict(
+            extend_definition=child.get('definition_ref'),
+            result=result_of_node,
+            negate=negate_status,
+            comment=None,
+            tag="Extend definition",
+        )
+
+    def _get_test_node(self, child):
+        negate_status = self._get_negate_status(child)
+        result_of_node = self._get_result(negate_status, child)
+        test_id = child.get('test_ref')
+        return dict(
+            value_id=test_id,
+            value=result_of_node,
+            negate=negate_status,
+            comment=None,
+            tag="Test",
+            test_result_details=self.test_info_parser.get_info_about_test(test_id),
+        )
+
     def _build_node(self, tree, tag, id_definition=None):
         negate_status = self._get_negate_status(tree)
         node = dict(
@@ -55,28 +79,10 @@ class _XmlParserScanDefinitions:
             if child.get('operator') is not None:
                 node['node'].append(self._build_node(child, "Criteria"))
             else:
-                negate_status = self._get_negate_status(child)
-                result_of_node = self._get_result(negate_status, child)
                 if child.get('definition_ref') is not None:
-                    node['node'].append(
-                        dict(
-                            extend_definition=child.get('definition_ref'),
-                            result=result_of_node,
-                            negate=negate_status,
-                            comment=None,
-                            tag="Extend definition",
-                        ))
+                    node['node'].append(self._get_extend_definition_node(child))
                 else:
-                    node['node'].append(
-                        dict(
-                            value_id=child.get('test_ref'),
-                            value=result_of_node,
-                            negate=negate_status,
-                            comment=None,
-                            tag="Test",
-                            test_result_details=self.test_info_parser.get_info_about_test(
-                                child.get('test_ref')),
-                        ))
+                    node['node'].append(self._get_test_node(child))
         return node
 
     def _fill_extend_definition(self, dict_of_definitions):

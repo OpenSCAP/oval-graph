@@ -1,6 +1,9 @@
 from ._xml_parser_comments import _XmlParserComments
 from ._xml_parser_test_info import _XmlParserTestInfo
 
+STR_TO_BOOL = {'true': True, 'false': False}
+STR_NEGATE_BOOL = {'true': 'false', 'false': 'true'}
+
 
 class _XmlParserScanDefinitions:
     def __init__(self, definitions, oval_definitions, report_data):
@@ -19,13 +22,9 @@ class _XmlParserScanDefinitions:
         return self._fill_extend_definition(dict_of_definitions)
 
     def _get_negate_status(self, node):
-        str_to_bool = {
-            'true': True,
-            'false': False,
-        }
         negate_status = False
         if node.get('negate') is not None:
-            negate_status = str_to_bool[node.get('negate')]
+            negate_status = STR_TO_BOOL[node.get('negate')]
         return negate_status
 
     def _get_result(self, negate_status, tree):
@@ -35,12 +34,8 @@ class _XmlParserScanDefinitions:
             included in the result in ARF file.
         """
         result = tree.get('result')
-        reverse_negate_value = {
-            'true': 'false',
-            'false': 'true',
-        }
         if negate_status and result in ('true', 'false'):
-            result = reverse_negate_value[result]
+            result = STR_NEGATE_BOOL[result]
         return result
 
     def _build_node(self, tree, tag, id_definition=None):

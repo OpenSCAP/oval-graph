@@ -21,13 +21,15 @@ class _XmlParserScanDefinitions:
         self.comments_parser.insert_comments(dict_of_definitions)
         return self._fill_extend_definition(dict_of_definitions)
 
-    def _get_negate_status(self, node):
+    @staticmethod
+    def _get_negate_status(node):
         negate_status = False
         if node.get('negate') is not None:
             negate_status = STR_TO_BOOL[node.get('negate')]
         return negate_status
 
-    def _get_result(self, negate_status, tree):
+    @staticmethod
+    def _get_result(negate_status, tree):
         """
             This  method  removes  the  negation of
             the result. Because negation is already

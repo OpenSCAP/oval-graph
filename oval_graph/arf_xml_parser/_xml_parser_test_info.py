@@ -130,11 +130,9 @@ class _XmlParserTestInfo:
             return item.text[:item.text.find('(') + 1] + var_id + ')'
         return item.text
 
-    def _collected_object_is_not_none_and_contain_var_ref(
-            self, element, collected_object):
-        if collected_object is not None and 'var_ref' in element.attrib:
-            return len(collected_object)
-        return False
+    @staticmethod
+    def _collected_object_is_not_none_and_contain_var_ref(element, collected_object):
+        return collected_object is not None and 'var_ref' in element.attrib
 
     def _get_item(self, item_ref):
         item = self.system_data.get(item_ref)

@@ -52,14 +52,17 @@ class _XmlParserTestInfo:
             ('.//oval-definitions:objects'), ns)
         return self._get_data_by_id(data)
 
-    def _get_key_for_element(self, element):
+    @staticmethod
+    def _get_key_for_element(element):
         return element.tag.split('}')[1] if '}' in element.tag else element.tag
 
-    def _find_item_ref(self, object_):
+    @staticmethod
+    def _find_item_ref(object_):
         list_of_item_ref = [item.get('item_ref') for item in object_]
         return list(filter(None, list_of_item_ref))
 
-    def _get_unique_key(self, key):
+    @staticmethod
+    def _get_unique_key(key):
         return key + '@' + str(uuid.uuid4())
 
     def _get_unique_id_in_dict(self, object_, dict_):
@@ -121,9 +124,9 @@ class _XmlParserTestInfo:
             variable_value = 'no value'
         return variable_value
 
-    def _fix_message(self, item, var_id):
-        if len(
-                item.text) == 99 and var_id[:99 - item.text.find('(')] in var_id:
+    @staticmethod
+    def _fix_message(item, var_id):
+        if len(item.text) == 99 and var_id[:99 - item.text.find('(')] in var_id:
             return item.text[:item.text.find('(') + 1] + var_id + ')'
         return item.text
 

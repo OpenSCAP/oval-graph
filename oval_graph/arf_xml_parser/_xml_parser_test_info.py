@@ -41,14 +41,11 @@ class _XmlParserTestInfo:
         return self._get_data_by_id(data)
 
     def _get_oval_definitions(self):
-        data = self.report_data.find(
+        return self.report_data.find(
             ('.//XMLSchema:oval_results/oval-definitions:oval_definitions'), ns)
-        return data
 
     def _get_tests(self):
-        data = self.oval_definitions.find(
-            ('.//oval-definitions:tests'), ns)
-        return data
+        return self.oval_definitions.find('.//oval-definitions:tests', ns)
 
     def _get_objects_by_id(self):
         data = self.oval_definitions.find(
@@ -59,10 +56,8 @@ class _XmlParserTestInfo:
         return element.tag.split('}')[1] if '}' in element.tag else element.tag
 
     def _find_item_ref(self, object_):
-        return list(
-            filter(
-                None, [
-                    item.get('item_ref') for item in object_]))
+        list_of_item_ref = [item.get('item_ref') for item in object_]
+        return list(filter(None, list_of_item_ref))
 
     def _get_unique_key(self, key):
         return key + '@' + str(uuid.uuid4())
@@ -70,8 +65,7 @@ class _XmlParserTestInfo:
     def _get_unique_id_in_dict(self, object_, dict_):
         if self._get_key_for_element(object_) in dict_:
             return self._get_unique_key(self._get_key_for_element(object_))
-        else:
-            return self._get_key_for_element(object_)
+        return self._get_key_for_element(object_)
 
     def _get_collected_objects_info(self, collected_object, object_):
         out = {}
@@ -95,7 +89,6 @@ class _XmlParserTestInfo:
             result[
                 collected_object.attrib.get('id')
             ] = collected_object.attrib.get('flag')
-            out = {}
             result.update(
                 self._get_collected_objects_info(collected_object, object_))
         else:
@@ -169,7 +162,8 @@ class _XmlParserTestInfo:
                 ))
         return out
 
-    def get_info_about_test(self, id):
+    def get_info_about_test(self, id_of_test):
         for test in self.tests_info:
-            if test['id'] == id:
+            if test['id'] == id_of_test:
                 return test
+        return None

@@ -41,10 +41,10 @@ class XmlParser:
             self.oval_definitions = self._get_oval_definitions()
             self.scan_definitions = _XmlParserScanDefinitions(
                 self.definitions, self.oval_definitions, self.report_data).get_scan()
-        except BaseException:
+        except BaseException as error:
             raise ValueError(
                 'This file "{}" is not arf report file or there are no results'.format(
-                    self.src))
+                    self.src)) from error
 
     @staticmethod
     def get_src(src):

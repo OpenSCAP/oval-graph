@@ -8,7 +8,7 @@ import sys
 from lxml import etree as ET
 
 from ._xml_parser_oval_scan_definitions import _XmlParserScanDefinitions
-from ..exceptions import NotChecked
+from ..exceptions import NotTestedRule
 from ..oval_tree.builder import Builder
 
 ns = {
@@ -36,10 +36,9 @@ class XmlParser:
                 CEND,
                 file=sys.stderr)
         try:
-            self.used_rules = self._get_used_rules()
-            self.report_data = self._get_report_data(
-                list(self.used_rules.values())[0]['href'])
-            self.notselected_rules = self._get_notselected_rules()
+            self.used_rules, self.not_tested_rules = self._get_rules_in_profile()
+            self.report_data_href = list(self.used_rules.values())[0]['href']
+            self.report_data = self._get_report_data(self.report_data_href)
             self.definitions = self._get_definitions()
             self.oval_definitions = self._get_oval_definitions()
             self.scan_definitions = _XmlParserScanDefinitions(
@@ -64,26 +63,35 @@ class XmlParser:
 
         return result
 
-    def _get_used_rules(self):
-        rulesResults = self.root.findall(
+    @staticmethod
+    def _get_rule_dict(rule_result, result, id_def, check_content_ref):
+        message = rule_result.find('.//xccdf:message', ns)
+        rule_dict = {}
+        rule_dict['id_def'] = id_def
+        rule_dict['href'] = check_content_ref.attrib.get('href')
+        rule_dict['result'] = result.text
+        if message is not None:
+            rule_dict['message'] = message.text
+        return rule_dict
+
+    def _get_rules_in_profile(self):
+        rules_results = self.root.findall(
             './/xccdf:TestResult/xccdf:rule-result', ns)
         rules = {}
-        for ruleResult in rulesResults:
-            result = ruleResult.find('.//xccdf:result', ns)
-            if result.text != "notselected":
-                check_content_ref = ruleResult.find(
-                    './/xccdf:check/xccdf:check-content-ref', ns)
-                message = ruleResult.find(
-                    './/xccdf:message', ns)
-                rule_dict = {}
-                if check_content_ref is not None:
-                    rule_dict['id_def'] = check_content_ref.attrib.get('name')
-                    rule_dict['href'] = check_content_ref.attrib.get('href')
-                    rule_dict['result'] = result.text
-                    if message is not None:
-                        rule_dict['message'] = message.text
-                    rules[ruleResult.get('idref')] = rule_dict
-        return rules
+        not_tested_rules = {}
+        for rule_result in rules_results:
+            result = rule_result.find('.//xccdf:result', ns)
+            check_content_ref = rule_result.find(
+                './/xccdf:check/xccdf:check-content-ref', ns)
+            if check_content_ref is not None:
+                id_ = rule_result.get('idref')
+                id_def = check_content_ref.attrib.get('name')
+                if id_def is not None:
+                    rules[id_] = self._get_rule_dict(
+                        rule_result, result, id_def, check_content_ref)
+                    continue
+            not_tested_rules[rule_result.get('idref')] = result.text
+        return (rules, not_tested_rules)
 
     def _get_report_data(self, href):
         report_data = None
@@ -92,16 +100,6 @@ class XmlParser:
             if "#" + str(report.get("id")) == href:
                 report_data = report
         return report_data
-
-    def _get_notselected_rules(self):
-        rulesResults = self.root.findall(
-            './/xccdf:TestResult/xccdf:rule-result', ns)
-        rules = []
-        for ruleResult in rulesResults:
-            result = ruleResult.find('.//xccdf:result', ns)
-            if result.text == "notselected":
-                rules.append(ruleResult.get('idref'))
-        return rules
 
     def _get_definitions(self):
         data = self.report_data.find(
@@ -119,21 +117,15 @@ class XmlParser:
     def _get_definition_of_rule(self, rule_id):
         if rule_id in self.used_rules:
             rule_info = self.used_rules[rule_id]
-            if rule_info['id_def'] is None:
-                raise NotChecked(
-                    '"{}" is {}: {}'.format(
-                        rule_id,
-                        rule_info['result'],
-                        rule_info['message']))
             return dict(rule_id=rule_id,
                         definition_id=rule_info['id_def'],
                         definition=self.scan_definitions[rule_info['id_def']])
-        elif rule_id in self.notselected_rules:
-            raise ValueError(
-                'Rule "{}" was not selected, so there are no results.'
-                .format(rule_id))
-        else:
-            raise ValueError('404 rule "{}" not found!'.format(rule_id))
+
+        if rule_id in self.not_tested_rules:
+            raise NotTestedRule(
+                'Rule "{}" is {}, so there are no results.'
+                .format(rule_id, self.not_tested_rules[rule_id]))
+        raise ValueError('404 rule "{}" not found!'.format(rule_id))
 
     def get_oval_tree(self, rule_id):
         return Builder.dict_of_rule_to_oval_tree(

@@ -26,15 +26,13 @@ class XmlParser:
         self.src = src
         self.tree = ET.parse(self.src)
         self.root = self.tree.getroot()
-        if not self.validate(
-                '../schemas/arf/1.1/asset-reporting-format_1.1.0.xsd'):
-            CRED = '\033[91m'
-            CEND = '\033[0m'
-            print(
-                CRED +
-                "Warning: This file is not valid arf report." +
-                CEND,
-                file=sys.stderr)
+        self.arf_schemas_src = '../schemas/arf/1.1/asset-reporting-format_1.1.0.xsd'
+        if not self.validate(self.arf_schemas_src):
+            start_red_color = '\033[91m'
+            end_red_color = '\033[0m'
+            message = "{}Warning: This file is not valid arf report.{}".format(
+                start_red_color, end_red_color)
+            print(message, file=sys.stderr)
         try:
             self.used_rules, self.not_tested_rules = self._get_rules_in_profile()
             self.report_data_href = list(self.used_rules.values())[0]['href']
@@ -57,11 +55,7 @@ class XmlParser:
         xsd_path = self.get_src(xsd_path)
         xmlschema_doc = ET.parse(xsd_path)
         xmlschema = ET.XMLSchema(xmlschema_doc)
-
-        xml_doc = self.tree
-        result = xmlschema.validate(xml_doc)
-
-        return result
+        return xmlschema.validate(self.tree)
 
     @staticmethod
     def _get_rule_dict(rule_result, result, id_def, check_content_ref):

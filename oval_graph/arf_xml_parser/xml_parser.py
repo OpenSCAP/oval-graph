@@ -46,10 +46,10 @@ class XmlParser:
                 'This file "{}" is not arf report file or there are no results'.format(
                     self.src))
 
-    def get_src(self, src):
-        _dir = os.path.dirname(os.path.realpath(__file__))
-        FIXTURE_DIR = os.path.join(_dir, src)
-        return str(FIXTURE_DIR)
+    @staticmethod
+    def get_src(src):
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        return str(os.path.join(dir_path, src))
 
     def validate(self, xsd_path):
         xsd_path = self.get_src(xsd_path)
@@ -96,10 +96,9 @@ class XmlParser:
         return report_data
 
     def _get_definitions(self):
-        data = self.report_data.find(
+        return self.report_data.find(
             ('.//XMLSchema:oval_results/XMLSchema:results/'
              'XMLSchema:system/XMLSchema:definitions'), ns)
-        return data
 
     def _get_oval_definitions(self):
         return self.root.find(

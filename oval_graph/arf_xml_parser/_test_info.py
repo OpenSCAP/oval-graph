@@ -1,13 +1,6 @@
 import uuid
 
-ns = {
-    'XMLSchema': 'http://oval.mitre.org/XMLSchema/oval-results-5',
-    'xccdf': 'http://checklists.nist.gov/xccdf/1.2',
-    'arf': 'http://scap.nist.gov/schema/asset-reporting-format/1.1',
-    'oval-definitions': 'http://oval.mitre.org/XMLSchema/oval-definitions-5',
-    'scap': 'http://scap.nist.gov/schema/scap/source/1.2',
-    'oval-characteristics': 'http://oval.mitre.org/XMLSchema/oval-system-characteristics-5',
-}
+from .global_namespaces import namespaces
 
 
 class _TestInfo:
@@ -24,7 +17,7 @@ class _TestInfo:
     def _get_oval_system_characteristics(self):
         return self.report_data.find(
             ('.//XMLSchema:oval_results/XMLSchema:results/XMLSchema:system'
-             '/oval-characteristics:oval_system_characteristics'), ns)
+             '/oval-characteristics:oval_system_characteristics'), namespaces)
 
     @staticmethod
     def _get_data_by_id(data):
@@ -32,24 +25,24 @@ class _TestInfo:
 
     def _get_collected_objects_by_id(self):
         data = self.oval_system_characteristics.find(
-            './/oval-characteristics:collected_objects', ns)
+            './/oval-characteristics:collected_objects', namespaces)
         return self._get_data_by_id(data)
 
     def _get_system_data_by_id(self):
         data = self.oval_system_characteristics.find(
-            './/oval-characteristics:system_data', ns)
+            './/oval-characteristics:system_data', namespaces)
         return self._get_data_by_id(data)
 
     def _get_oval_definitions(self):
         return self.report_data.find(
-            ('.//XMLSchema:oval_results/oval-definitions:oval_definitions'), ns)
+            ('.//XMLSchema:oval_results/oval-definitions:oval_definitions'), namespaces)
 
     def _get_tests(self):
-        return self.oval_definitions.find('.//oval-definitions:tests', ns)
+        return self.oval_definitions.find('.//oval-definitions:tests', namespaces)
 
     def _get_objects_by_id(self):
         data = self.oval_definitions.find(
-            ('.//oval-definitions:objects'), ns)
+            ('.//oval-definitions:objects'), namespaces)
         return self._get_data_by_id(data)
 
     @staticmethod

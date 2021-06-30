@@ -10,15 +10,7 @@ from lxml import etree as ET
 from ..exceptions import NotTestedRule
 from ..oval_tree.builder import Builder
 from ._oval_scan_definitions import _OVALScanDefinitions
-
-ns = {
-    'XMLSchema': 'http://oval.mitre.org/XMLSchema/oval-results-5',
-    'xccdf': 'http://checklists.nist.gov/xccdf/1.2',
-    'arf': 'http://scap.nist.gov/schema/asset-reporting-format/1.1',
-    'oval-definitions': 'http://oval.mitre.org/XMLSchema/oval-definitions-5',
-    'scap': 'http://scap.nist.gov/schema/scap/source/1.2',
-    'oval-characteristics': 'http://oval.mitre.org/XMLSchema/oval-system-characteristics-5',
-}
+from .global_namespaces import namespaces
 
 
 class ARFXMLParser:
@@ -59,7 +51,7 @@ class ARFXMLParser:
 
     @staticmethod
     def _get_rule_dict(rule_result, result, id_def, check_content_ref):
-        message = rule_result.find('.//xccdf:message', ns)
+        message = rule_result.find('.//xccdf:message', namespaces)
         rule_dict = {}
         rule_dict['id_def'] = id_def
         rule_dict['href'] = check_content_ref.attrib.get('href')
@@ -70,13 +62,13 @@ class ARFXMLParser:
 
     def _get_rules_in_profile(self):
         rules_results = self.root.findall(
-            './/xccdf:TestResult/xccdf:rule-result', ns)
+            './/xccdf:TestResult/xccdf:rule-result', namespaces)
         rules = {}
         not_tested_rules = {}
         for rule_result in rules_results:
-            result = rule_result.find('.//xccdf:result', ns)
+            result = rule_result.find('.//xccdf:result', namespaces)
             check_content_ref = rule_result.find(
-                './/xccdf:check/xccdf:check-content-ref', ns)
+                './/xccdf:check/xccdf:check-content-ref', namespaces)
             if check_content_ref is not None:
                 id_ = rule_result.get('idref')
                 id_def = check_content_ref.attrib.get('name')
@@ -89,7 +81,7 @@ class ARFXMLParser:
 
     def _get_report_data(self, href):
         report_data = None
-        reports = self.root.find('.//arf:reports', ns)
+        reports = self.root.find('.//arf:reports', namespaces)
         for report in reports:
             if "#" + str(report.get("id")) == href:
                 report_data = report
@@ -98,14 +90,14 @@ class ARFXMLParser:
     def _get_definitions(self):
         return self.report_data.find(
             ('.//XMLSchema:oval_results/XMLSchema:results/'
-             'XMLSchema:system/XMLSchema:definitions'), ns)
+             'XMLSchema:system/XMLSchema:definitions'), namespaces)
 
     def _get_oval_definitions(self):
         return self.root.find(
             './/arf:report-requests/arf:report-request/'
             'arf:content/scap:data-stream-collection/'
             'scap:component/oval-definitions:oval_definitions/'
-            'oval-definitions:definitions', ns)
+            'oval-definitions:definitions', namespaces)
 
     def _get_definition_of_rule(self, rule_id):
         if rule_id in self.used_rules:

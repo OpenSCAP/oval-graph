@@ -1,6 +1,4 @@
-ns = {
-    'oval-definitions': 'http://oval.mitre.org/XMLSchema/oval-definitions-5',
-}
+from .global_namespaces import namespaces
 
 
 class _Comments:
@@ -47,11 +45,11 @@ class _Comments:
         for definition in self.oval_definitions:
             comment_definition = dict(comment=None, node=[])
             title = definition.find(
-                './/oval-definitions:metadata/oval-definitions:title', ns)
+                './/oval-definitions:metadata/oval-definitions:title', namespaces)
             description = definition.find(
-                './/oval-definitions:metadata/oval-definitions:description', ns)
+                './/oval-definitions:metadata/oval-definitions:description', namespaces)
             comment_definition['comment'] = title.text
-            criteria = definition.find('.//oval-definitions:criteria', ns)
+            criteria = definition.find('.//oval-definitions:criteria', namespaces)
             comment_definition['node'].append(
                 self._create_dict_form_criteria(criteria, description.text))
             definitions[definition.get('id')] = comment_definition

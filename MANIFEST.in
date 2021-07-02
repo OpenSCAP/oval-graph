@@ -7,3 +7,8 @@ recursive-include oval_graph/parts *
 recursive-include oval_graph/schemas *
 recursive-include tests *.py
 recursive-include tests/test_data *
+
+recursive-include tests_oval_graph *.py
+recursive-include tests_oval_graph/global_test_data *
+recursive-include tests_oval_graph/test_oval_tree/test_data *
+recursive-include tests_oval_graph/test_oval_evaluate/test_data *

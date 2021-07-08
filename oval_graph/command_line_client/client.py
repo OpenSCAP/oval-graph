@@ -52,6 +52,12 @@ class Client():
         """
         raise NotImplementedError
 
+    def load_file(self):
+        """
+        Function retunes parser or data.
+        """
+        raise NotImplementedError
+
     def run_gui_and_return_answers(self):
         if self.isatty:
             if self.all_rules:

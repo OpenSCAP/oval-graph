@@ -6,6 +6,9 @@ from .client import Client
 class ClientJsonInput(Client):
     def __init__(self, args):
         super().__init__(args)
+        self.json_data_file = None
+
+    def load_file(self):
         self.json_data_file = self.get_json_data_file()
 
     def get_only_fail_rule(self, rules):

@@ -37,6 +37,7 @@ def catch_errors(client_class, params):
 
 
 def main(client):
+    client.load_file()
     rules = client.search_rules_id()
     if len(rules) > 1:
         answers = client.run_gui_and_return_answers()

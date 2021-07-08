@@ -8,6 +8,9 @@ class ClientArfInput(Client):
         super().__init__(args)
         self.show_failed_rules = self.arg.show_failed_rules
         self.show_not_selected_rules = self.arg.show_not_selected_rules
+        self.arf_xml_parser = None
+
+    def load_file(self):
         self.arf_xml_parser = ARFXMLParser(self.source_filename)
 
     def _get_not_selected_rules(self):

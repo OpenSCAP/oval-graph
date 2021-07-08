@@ -14,13 +14,15 @@ from oval_graph.command_line_client.arf_to_json import ArfToJson
 
 
 def get_client_arf_to_json(src, rule):
-    return ArfToJson(
+    client = ArfToJson(
         [tests.any_test_help.get_src(src), rule])
+    client.load_file()
+    return client
 
 
 def get_client_arf_to_json_with_define_dest(src, rule, out_src=None):
     out_src = str(uuid.uuid4()) + ".json" if out_src is None else out_src
-    return ArfToJson(
+    client = ArfToJson(
         [
             "--output",
             tests.any_test_help.get_src(
@@ -29,26 +31,34 @@ def get_client_arf_to_json_with_define_dest(src, rule, out_src=None):
                     out_src)),
             tests.any_test_help.get_src(src),
             rule])
+    client.load_file()
+    return client
 
 
 def get_client_arf_to_json_with_option_show_failed_rules(src, rule):
-    return ArfToJson(["--show-failed-rules",
+    client = ArfToJson(["--show-failed-rules",
                       tests.any_test_help.get_src(src), rule])
+    client.load_file()
+    return client
 
 
 def get_client_arf_to_json_with_option_show_not_selected_rules(src, rule):
-    return ArfToJson(["--show-not-selected-rules",
+    client = ArfToJson(["--show-not-selected-rules",
                       tests.any_test_help.get_src(src),
                       rule])
+    client.load_file()
+    return client
 
 
 def get_client_arf_to_json_with_option_show_not_selected_rules_and_show_failed_rules(
         src,
         rule):
-    return ArfToJson(["--show-not-selected-rules",
+    client = ArfToJson(["--show-not-selected-rules",
                       "--show-failed-rules",
                       tests.any_test_help.get_src(src),
                       rule])
+    client.load_file()
+    return client
 
 
 def try_expection_for_prepare_graph(src, rule, err):

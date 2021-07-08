@@ -7,38 +7,32 @@ import traceback
 from .command_line_client.arf_to_html import ArfToHtml
 from .command_line_client.arf_to_json import ArfToJson
 from .command_line_client.json_to_html import JsonToHtml
+from .exceptions import NotTestedRule
 
-CRED = '\033[91m'
-CEND = '\033[0m'
-
-
-def print_detail_traceback_if_verbose(args):
-    if any(arg in args for arg in ("-v", "--verbose")):
-        traceback.print_exc()
+C_RED = '\033[91m'
+C_END = '\033[0m'
+ERRORS = (ValueError, TypeError, ResourceWarning, NotTestedRule)
 
 
-def arf_to_graph(args=None):
+def arf_to_graph(params=None):
+    catch_errors(ArfToHtml, params)
+
+
+def arf_to_json(params=None):
+    catch_errors(ArfToJson, params)
+
+
+def json_to_graph(params=None):
+    catch_errors(JsonToHtml, params)
+
+
+def catch_errors(client_class, params):
     try:
-        main(ArfToHtml(args))
-    except Exception as error:
-        print_detail_traceback_if_verbose(args)
-        print((CRED + 'Error: {}' + CEND).format(error))
-
-
-def arf_to_json(args=None):
-    try:
-        main(ArfToJson(args))
-    except Exception as error:
-        print_detail_traceback_if_verbose(args)
-        print((CRED + 'Error: {}' + CEND).format(error))
-
-
-def json_to_graph(args=None):
-    try:
-        main(JsonToHtml(args))
-    except Exception as error:
-        print_detail_traceback_if_verbose(args)
-        print((CRED + 'Error: {}' + CEND).format(error))
+        main(client_class(params))
+    except ERRORS as error:
+        if any(param in params for param in ("-v", "--verbose")):
+            traceback.print_exc()
+        print('{}Error: {}{}'.format(C_RED, error, C_END))
 
 
 def main(client):
@@ -46,9 +40,8 @@ def main(client):
     if len(rules) > 1:
         answers = client.run_gui_and_return_answers()
         if answers is not None:
-            client.prepare_data(answers)
-    else:
-        client.prepare_data({'rules': [rules[0]]})
+            return client.prepare_data(answers)
+    return client.prepare_data({'rules': [rules[0]]})
 
 
 if __name__ == '__main__':

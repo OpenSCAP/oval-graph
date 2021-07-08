@@ -27,10 +27,11 @@ def json_to_graph(params=None):
 
 
 def catch_errors(client_class, params):
+    client = client_class(params)
     try:
-        main(client_class(params))
+        main(client)
     except ERRORS as error:
-        if any(param in params for param in ("-v", "--verbose")):
+        if client.verbose:
             traceback.print_exc()
         print('{}Error: {}{}'.format(C_RED, error, C_END))
 

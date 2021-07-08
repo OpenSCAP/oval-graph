@@ -18,6 +18,7 @@ class Client():
         self.all_rules = self.arg.all
         self.show_failed_rules = False
         self.show_not_selected_rules = False
+        self.verbose = self.arg.verbose
 
     @staticmethod
     def _get_message():

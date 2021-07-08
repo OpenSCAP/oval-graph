@@ -9,7 +9,6 @@ class ClientArfInput(Client):
         self.show_failed_rules = self.arg.show_failed_rules
         self.show_not_selected_rules = self.arg.show_not_selected_rules
         self.arf_xml_parser = ARFXMLParser(self.source_filename)
-        self.verbose = self.arg.verbose
 
     def _get_not_selected_rules(self):
         rules = []

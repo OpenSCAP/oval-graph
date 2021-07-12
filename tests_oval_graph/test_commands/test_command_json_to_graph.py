@@ -74,6 +74,7 @@ def test_command_json_to_graph_is_tty():
 
 
 def test_inquirer_choice_rule():
+    pytest.importorskip("inquirer")
     path = str(TestTools.get_random_path_in_tmp()) + '.json'
     args = ['-m',
             'oval_graph.command_line',

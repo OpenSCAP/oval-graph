@@ -57,6 +57,7 @@ def test_prepare_tree(args):
 
 
 def test_get_questions():
+    pytest.importorskip("inquirer")
     rule = r'_package_\w+_removed'
     client = get_client_json_to_html(rule)
     out = client.get_questions()[0].choices

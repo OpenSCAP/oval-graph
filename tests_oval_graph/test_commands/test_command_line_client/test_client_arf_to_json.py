@@ -229,18 +229,21 @@ def test_creation_json_two_selected_rules():
 
 @pytest.mark.parametrize("args, result", EXPECTED_RULES_ID_WITH_ARGS)
 def test_get_questions_with_parameters(capsys, args, result):
+    pytest.importorskip("inquirer")
     rule = r'_package_\w+_removed'
     client = get_client_arf_to_json(rule, args)
     TestTools.get_questions_not_selected(capsys, client, result)
 
 
 def test_get_questions_with_option_show_failed_rules():
+    pytest.importorskip("inquirer")
     rule = r'_package_\w+_removed'
     client = get_client_arf_to_json(rule, ["--show-failed-rules"])
     TestTools.get_questions_with_option_show_failed_rules(client)
 
 
 def test_get_questions():
+    pytest.importorskip("inquirer")
     rule = r'_package_\w+_removed'
     client = get_client_arf_to_json(rule)
     out = client.get_questions()[0].choices

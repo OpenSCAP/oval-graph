@@ -2,6 +2,7 @@ include README.md
 include LICENSE
 include tox.ini
 include test_suite_requirements.txt
+include test_suite_requirements_no_inquirer.txt
 include test_commands.sh
 recursive-include oval_graph/parts *
 recursive-include oval_graph/schemas *

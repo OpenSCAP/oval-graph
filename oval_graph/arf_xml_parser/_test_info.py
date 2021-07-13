@@ -48,7 +48,7 @@ class _TestInfo:
         return self._get_data_by_id(data)
 
     @staticmethod
-    def _get_key_for_element(element):
+    def _get_key_of_xml_element(element):
         return element.tag.split('}')[1] if '}' in element.tag else element.tag
 
     @staticmethod
@@ -61,9 +61,9 @@ class _TestInfo:
         return key + '@' + str(uuid.uuid4())
 
     def _get_unique_id_in_dict(self, object_, dict_):
-        if self._get_key_for_element(object_) in dict_:
-            return self._get_unique_key(self._get_key_for_element(object_))
-        return self._get_key_for_element(object_)
+        if self._get_key_of_xml_element(object_) in dict_:
+            return self._get_unique_key(self._get_key_of_xml_element(object_))
+        return self._get_key_of_xml_element(object_)
 
     def _get_collected_objects_info(self, collected_object, object_):
         out = {}
@@ -113,8 +113,8 @@ class _TestInfo:
             for item in collected_object:
                 if var_id == item.attrib.get('variable_id'):
                     variable_value += item.text
-                elif self._get_key_for_element(item) == 'message':
-                    variable_value += self._fix_message(item, var_id) + '<br>'
+                elif self._get_key_of_xml_element(item) == 'message':
+                    variable_value += self._complete_message(item, var_id) + '<br>'
         else:
             variable_value = 'no value'
         return variable_value

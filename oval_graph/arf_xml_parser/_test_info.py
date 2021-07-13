@@ -2,6 +2,8 @@ import uuid
 
 from .global_namespaces import namespaces
 
+MAX_MESSAGE_LEN = 99
+
 
 class _TestInfo:
     def __init__(self, report_data):
@@ -118,9 +120,9 @@ class _TestInfo:
         return variable_value
 
     @staticmethod
-    def _fix_message(item, var_id):
-        if len(item.text) == 99 and var_id[:99 - item.text.find('(')] in var_id:
-            return item.text[:item.text.find('(') + 1] + var_id + ')'
+    def _complete_message(item, var_id):
+        if len(item.text) == MAX_MESSAGE_LEN and var_id[:item.text.find('(')] in var_id:
+            return "{}{})".format(item.text[:item.text.find('(') + 1], var_id)
         return item.text
 
     @staticmethod

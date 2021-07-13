@@ -81,7 +81,9 @@ class _TestInfo:
                     object_, out)] = self._get_object_items(object_, collected_object)
         return out
 
-    def _xml_element_to_dict(self, object_, collected_object):
+    def _get_object_info(self, id_object):
+        object_ = self.objects.get(id_object)
+        collected_object = self.collected_objects.get(id_object)
         result = {}
         if collected_object is not None:
             result[
@@ -136,11 +138,6 @@ class _TestInfo:
             if element.text and element.text.strip():
                 out[self._get_unique_id_in_dict(element, out)] = element.text
         return out
-
-    def _get_object_info(self, id_object):
-        object_ = self.objects.get(id_object)
-        object_collected = self.collected_objects.get(id_object)
-        return self._xml_element_to_dict(object_, object_collected)
 
     def _get_tests_info(self):
         out = []

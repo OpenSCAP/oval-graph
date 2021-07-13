@@ -2,8 +2,8 @@
     This file contains a class for creating OVAL graph from ARF XML source
 """
 
-import os
 import sys
+from pathlib import Path
 
 from lxml import etree as ET
 
@@ -12,14 +12,16 @@ from ..oval_tree.builder import Builder
 from ._oval_scan_definitions import _OVALScanDefinitions
 from .global_namespaces import namespaces
 
+LOCAL_DATA_DIR = Path(__file__).parent.parent / "schemas"
+
 
 class ARFXMLParser:
     def __init__(self, src):
         self.src = src
         self.tree = ET.parse(self.src)
         self.root = self.tree.getroot()
-        self.arf_schemas_src = '../schemas/arf/1.1/asset-reporting-format_1.1.0.xsd'
-        if not self.validate(self.arf_schemas_src):
+        self.arf_schemas_path = 'arf/1.1/asset-reporting-format_1.1.0.xsd'
+        if not self.validate(self.arf_schemas_path):
             start_red_color = '\033[91m'
             end_red_color = '\033[0m'
             message = "{}Warning: This file is not valid arf report.{}".format(
@@ -38,13 +40,8 @@ class ARFXMLParser:
                 'This file "{}" is not arf report file or there are no results'.format(
                     self.src)) from error
 
-    @staticmethod
-    def get_src(src):
-        dir_path = os.path.dirname(os.path.realpath(__file__))
-        return str(os.path.join(dir_path, src))
-
     def validate(self, xsd_path):
-        xsd_path = self.get_src(xsd_path)
+        xsd_path = str(LOCAL_DATA_DIR / xsd_path)
         xmlschema_doc = ET.parse(xsd_path)
         xmlschema = ET.XMLSchema(xmlschema_doc)
         return xmlschema.validate(self.tree)

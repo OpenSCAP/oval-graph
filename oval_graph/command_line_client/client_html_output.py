@@ -15,17 +15,11 @@ class ClientHtmlOutput(Client):
     def __init__(self, args):
         super().__init__(args)
         self.out = self.arg.output
-        self.part = self.get_src('../parts')
         self.all_in_one = self.arg.all_in_one
         self.all_rules = True if self.all_in_one else self.arg.all
         self.display_html = True if self.out is None else self.arg.display
-        self.html_builder = Graph(self.part, self.arg.verbose, self.all_in_one)
+        self.html_builder = Graph(self.arg.verbose, self.all_in_one)
         self.web_browsers = []
-
-    @staticmethod
-    def get_src(src):
-        _dir = os.path.dirname(os.path.realpath(__file__))
-        return str(os.path.join(_dir, src))
 
     def prepare_data(self, rules):
         paths_to_generated_rules = self._prepare_data(rules)

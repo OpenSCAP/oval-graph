@@ -1,13 +1,12 @@
-import os
+from pathlib import Path
 
 import pytest
 
 from oval_graph.arf_xml_parser.arf_xml_parser import ARFXMLParser
 
 
-def get_arf_report_patch(src="../global_test_data/ssg-fedora-ds-arf.xml"):
-    top_patch = os.path.dirname(os.path.realpath(__file__))
-    return os.path.join(top_patch, src)
+def get_arf_report_path(src="global_test_data/ssg-fedora-ds-arf.xml"):
+    return str(Path(__file__).parent.parent / src)
 
 
 @pytest.mark.parametrize("rule_id, result", [
@@ -41,9 +40,9 @@ def get_arf_report_patch(src="../global_test_data/ssg-fedora-ds-arf.xml"):
     ),
 ])
 def test_parsing_and_evaluate_scan_rule(rule_id, result):
-    patch = get_arf_report_patch()
+    path = get_arf_report_path()
 
-    parser = ARFXMLParser(patch)
+    parser = ARFXMLParser(path)
     oval_tree = parser.get_oval_tree(rule_id)
     assert oval_tree.evaluate_tree() == result
 
@@ -55,15 +54,15 @@ def test_parsing_and_evaluate_scan_rule(rule_id, result):
     ("xccdf_org.ssgproject.content_rule_ensure_gpgcheck_local_packages", "notapplicable"),
 ])
 def test_parsing_bad_rule(rule_id, pattern):
-    patch = get_arf_report_patch()
-    parser = ARFXMLParser(patch)
+    path = get_arf_report_path()
+    parser = ARFXMLParser(path)
 
     with pytest.raises(Exception, match=pattern):
         assert parser.get_oval_tree(rule_id)
 
 
 def test_use_bad_report_file():
-    src = '../global_test_data/xccdf_org.ssgproject.content_profile_ospp-results-initial.xml'
-    patch = get_arf_report_patch(src)
+    src = 'global_test_data/xccdf_org.ssgproject.content_profile_ospp-results-initial.xml'
+    path = get_arf_report_path(src)
     with pytest.raises(Exception, match=r"arf\b|ARF\b"):
-        assert ARFXMLParser(patch)
+        assert ARFXMLParser(path)

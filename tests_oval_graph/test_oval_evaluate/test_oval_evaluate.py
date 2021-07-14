@@ -1,5 +1,6 @@
 import json
 import os
+from pathlib import Path
 
 import pytest
 
@@ -26,7 +27,7 @@ RESULT_COUNTS_1 = {
 }
 
 
-def get_patch_to_data_source(data_source):
+def get_path_to_data_source(data_source):
     directory = ''
     if data_source.startswith('AND'):
         directory = 'and'
@@ -39,8 +40,7 @@ def get_patch_to_data_source(data_source):
     else:
         directory = 'NONE'
 
-    top_patch = os.path.dirname(os.path.realpath(__file__))
-    return os.path.join(top_patch, 'test_data', directory, data_source)
+    return Path(__file__).parent / 'test_data' / directory / data_source
 
 
 @pytest.mark.parametrize("data_source, expected_result", [
@@ -74,9 +74,9 @@ def get_patch_to_data_source(data_source):
     ("XORTreeNotappl.json", 'notappl'),
 ])
 def test_evaluation_of_oval_tree(data_source, expected_result):
-    patch = get_patch_to_data_source(data_source)
+    path = get_path_to_data_source(data_source)
     data = dict()
-    with open(patch, "r") as file_:
+    with open(path, "r") as file_:
         data = json.load(file_)
     oval_tree = Builder.dict_to_oval_tree(data)
     assert oval_tree.evaluate_tree() == expected_result

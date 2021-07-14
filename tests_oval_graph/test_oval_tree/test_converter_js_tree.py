@@ -28,22 +28,21 @@ def test_create_node_dict_for_js_tree(tree_getter, json_src):
 
 @pytest.mark.parametrize("src, test_data_src, rule_id", [
     (
-        '../global_test_data/ssg-fedora-ds-arf.xml',
+        'global_test_data/ssg-fedora-ds-arf.xml',
         'test_data/JsTree_json1.json',
         'xccdf_org.ssgproject.content_rule_disable_host_auth',
     ),
     (
-        '../global_test_data/ssg-fedora-ds-arf.xml',
+        'global_test_data/ssg-fedora-ds-arf.xml',
         'test_data/JsTree_json0.json',
         'xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny',
     ),
 ])
 def test_transformation_xml_rule_to_json_for_js_tree(
         src, test_data_src, rule_id):
-    test_data = get_test_data_json(test_data_src)
+    test_data = GetTree.json_of_tree(test_data_src)
 
-    top_patch = os.path.dirname(os.path.realpath(__file__))
-    patch_to_xml = os.path.join(top_patch, src)
+    patch_to_xml = str(Path(__file__).parent.parent / src)
 
     parser = ARFXMLParser(patch_to_xml)
     oval_tree = parser.get_oval_tree(rule_id)

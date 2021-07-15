@@ -1,7 +1,7 @@
 import json
 import os
 
-from ..exceptions import NotChecked
+from ..exceptions import NotTestedRule
 from ..oval_tree.converter import Converter
 from .client_arf_input import ClientArfInput
 
@@ -43,7 +43,7 @@ class ArfToJson(ClientArfInput):
             try:
                 out_oval_tree_dict[
                     rule + self._get_date()] = self.create_dict_of_rule(rule)
-            except NotChecked as error:
+            except NotTestedRule as error:
                 out_oval_tree_dict[
                     rule + self._get_date()] = str(error)
         if self.out is not None:

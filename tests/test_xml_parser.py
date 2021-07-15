@@ -1,7 +1,7 @@
 import pytest
 
 import tests.any_test_help
-from oval_graph.xml_parser import XmlParser
+from oval_graph.arf_xml_parser.arf_xml_parser import ARFXMLParser
 
 
 def test_parsing_full_scan_XML_and_evaluate():
@@ -69,7 +69,7 @@ def test_parsing_and_evaluate_scan_1():
 
 def test_get_def_id_by_rule_id():
     src = 'test_data/ssg-fedora-ds-arf.xml'
-    parser = XmlParser(tests.any_test_help.get_src(src))
+    parser = ARFXMLParser(tests.any_test_help.get_src(src))
 
     with pytest.raises(Exception, match='404 rule "hello" not found!'):
         assert parser._get_definition_of_rule('hello')
@@ -81,7 +81,7 @@ def test_get_def_id_by_notselected_rule_id():
     parser = tests.any_test_help.get_parser(src)
     rule_id = 'xccdf_org.ssgproject.content_rule_ntpd_specify_remote_server'
 
-    with pytest.raises(Exception, match="not selected"):
+    with pytest.raises(Exception, match="notselected"):
         assert parser._get_definition_of_rule(rule_id)
 
 

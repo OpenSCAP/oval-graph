@@ -4,7 +4,7 @@ import time
 import webbrowser
 from subprocess import PIPE, Popen, check_call
 
-from ..exceptions import NotChecked
+from ..exceptions import NotTestedRule
 from ..html_builder.graph import Graph
 from .client import Client
 
@@ -15,17 +15,11 @@ class ClientHtmlOutput(Client):
     def __init__(self, args):
         super().__init__(args)
         self.out = self.arg.output
-        self.part = self.get_src('../parts')
         self.all_in_one = self.arg.all_in_one
         self.all_rules = True if self.all_in_one else self.arg.all
         self.display_html = True if self.out is None else self.arg.display
-        self.html_builder = Graph(self.part, self.arg.verbose, self.all_in_one)
+        self.html_builder = Graph(self.arg.verbose, self.all_in_one)
         self.web_browsers = []
-
-    @staticmethod
-    def get_src(src):
-        _dir = os.path.dirname(os.path.realpath(__file__))
-        return str(os.path.join(_dir, src))
 
     def prepare_data(self, rules):
         paths_to_generated_rules = self._prepare_data(rules)
@@ -50,10 +44,11 @@ class ClientHtmlOutput(Client):
                     self.html_builder.save_html(dict_oval_trees, src)
                     paths_to_generated_rules.append(src)
                     dict_oval_trees = {}
-            except NotChecked as error:
+            except NotTestedRule as error:
                 start_red_color = '\033[91m'
                 end_red_color = '\033[0m'
-                print(start_red_color + str(error) + end_red_color)
+                message = '{}{}{}'.format(start_red_color, str(error), end_red_color)
+                raise NotTestedRule(message) from error
         if self.all_in_one:
             src = self.get_save_src('rules' + self._get_date())
             self.html_builder.save_html(dict_oval_trees, src)

@@ -1,17 +1,18 @@
 import json
-import os
 import re
 import sys
 from io import BytesIO
+from pathlib import Path
 
 from lxml import etree
 from lxml.builder import E
 
+LOCAL_DATA_DIR = Path(__file__).parent.parent / "parts"
+
 
 class Graph():
 
-    def __init__(self, parts, verbose, all_in_one):
-        self.parts = parts
+    def __init__(self, verbose, all_in_one):
         self.verbose = verbose
         self.all_in_one = all_in_one
         self.html_head = self._get_html_head()
@@ -99,9 +100,10 @@ class Graph():
             rules_html.append(space_for_whole_rule)
         return E.selection({'id': 'selection-content'}, rules_html)
 
-    def _get_part(self, part):
+    @staticmethod
+    def _get_part(part):
         out = ''
-        with open(os.path.join(self.parts, part), "r") as data_file:
+        with open(LOCAL_DATA_DIR / part, "r") as data_file:
             out = ''.join(data_file.readlines())
         return out
 

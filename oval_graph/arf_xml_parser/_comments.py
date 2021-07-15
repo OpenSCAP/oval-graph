@@ -1,9 +1,7 @@
-ns = {
-    'oval-definitions': 'http://oval.mitre.org/XMLSchema/oval-definitions-5',
-}
+from .global_namespaces import namespaces
 
 
-class _XmlParserComments:
+class _Comments:
     def __init__(self, oval_definitions):
         self.oval_definitions = oval_definitions
 
@@ -32,11 +30,13 @@ class _XmlParserComments:
             out['value_id'] = criterion.get('test_ref')
         return out
 
-    def _get_operator(self, criterion):
+    @staticmethod
+    def _get_operator(criterion):
         operator = criterion.get('operator')
         return 'AND' if operator is None else operator
 
-    def _get_comment(self, criterion, description=None):
+    @staticmethod
+    def _get_comment(criterion, description=None):
         comment = criterion.get('comment')
         return description if comment is None else comment
 
@@ -45,11 +45,11 @@ class _XmlParserComments:
         for definition in self.oval_definitions:
             comment_definition = dict(comment=None, node=[])
             title = definition.find(
-                './/oval-definitions:metadata/oval-definitions:title', ns)
+                './/oval-definitions:metadata/oval-definitions:title', namespaces)
             description = definition.find(
-                './/oval-definitions:metadata/oval-definitions:description', ns)
+                './/oval-definitions:metadata/oval-definitions:description', namespaces)
             comment_definition['comment'] = title.text
-            criteria = definition.find('.//oval-definitions:criteria', ns)
+            criteria = definition.find('.//oval-definitions:criteria', namespaces)
             comment_definition['node'].append(
                 self._create_dict_form_criteria(criteria, description.text))
             definitions[definition.get('id')] = comment_definition

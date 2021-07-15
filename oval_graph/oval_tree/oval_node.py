@@ -157,11 +157,9 @@ class OvalNode():
         if self.node_id == node_id:
             return self
         for child in self.children:
-            if child.node_id == node_id:
-                return child
-        for child in self.children:
-            if child.children != []:
-                return child.find_node_with_id(node_id)
+            tmp_node = child.find_node_with_id(node_id)
+            if tmp_node is not None:
+                return tmp_node
         return None
 
     def add_child_to_node(self, node_id, new_node):

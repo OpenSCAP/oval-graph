@@ -135,29 +135,25 @@ install_package_from_source() {
 }
 
 report() {
-    if [ "$_arg_verbose" = "on" ]; then
-        if [ $test_result -eq 0 ]; then
-            printf "Result: %-70s \x1b[32mpassed\x1b[0m\n" "$*"
-        else
-            printf "Result: %-70s \x1b[31mfailed\x1b[0m\n\n" "$*"
-        fi
+    if [ $test_result -eq 0 ]; then
+        printf "Result: %-70s \x1b[32mpassed\x1b[0m\n" "$*"  # ]] <-- needed because of Argbash
+    else
+        printf "Result: %-70s \x1b[31mfailed\x1b[0m\n" "$*"  # ]] <-- needed because of Argbash
     fi
 }
 
-test() {
+test_command() {
     test_name="$1"
     command="$2"
     msg=""
-    if [ "$_arg_verbose" = "on" ]; then
-        echo "Start: $test_name"
-        $command
-    else
-        $command &>/dev/null
-    fi
-    if [ $? -eq 0 ]; then
+    echo "Start: $test_name"
+    output=$($command 2>&1)
+    exit_code=$?
+    if [ $exit_code -eq 0 ]; then
         test_result=0
         msg="$test_name"
     else
+        echo "$output"
         test_result=1
         overall_test_result=1
         msg="$test_name: $command"
@@ -165,20 +161,18 @@ test() {
     report "${msg}"
 }
 
-test_rise_error() {
+test_command_rise_error() {
     test_name="$1"
     command="$2"
     msg=""
-    if [ "$_arg_verbose" = "on" ]; then
-        echo "Start: $test_name"
-        $command
-    else
-        $command &>/dev/null
-    fi
-    if [ $? -eq 2 ]; then
+    echo "Start: $test_name"
+    output=$($command 2>&1)
+    exit_code=$?
+    if [ $exit_code -eq 2 ]; then
         test_result=0
         msg="$test_name"
     else
+        echo "$output"
         test_result=1
         overall_test_result=1
         msg="$test_name: $command"
@@ -195,38 +189,45 @@ clean() {
 }
 
 help_tests() {
-    test arf-to-graph-help "arf-to-graph -h"
-    test arf-to-json-help "arf-to-json -h"
-    test json-to-graph-help "json-to-graph -h"
+    test_command arf-to-graph-help "arf-to-graph -h"
+    test_command arf-to-json-help "arf-to-json -h"
+    test_command json-to-graph-help "json-to-graph -h"
 }
 
 bad_args_tests() {
-    test_rise_error arf-to-graph-bad_arg "arf-to-graph -hello"
-    test_rise_error arf-to-json-bad_arg "arf-to-json -hello"
-    test_rise_error json-to-graph-bad_arg "json-to-graph -hello"
+    test_command_rise_error arf-to-graph-bad_arg "arf-to-graph -hello"
+    test_command_rise_error arf-to-json-bad_arg "arf-to-json -hello"
+    test_command_rise_error json-to-graph-bad_arg "json-to-graph -hello"
 }
 
 basic_test() {
-    test run-arf-to-graph "arf-to-graph -o ${tmp_dir_src} ${test_file_src} fips"
-    test run-arf-to-json "arf-to-json -o ${tmp_json_file_src} ${test_file_src} fips"
-    test run-json-to-graph "json-to-graph -o ${tmp_dir_src} ${tmp_json_file_src} fips"
+    test_command run-arf-to-graph "arf-to-graph -o ${tmp_dir_src} ${test_file_src} fips"
+    test_command run-arf-to-json "arf-to-json -o ${tmp_json_file_src} ${test_file_src} fips"
+    test_command run-json-to-graph "json-to-graph -o ${tmp_dir_src} ${tmp_json_file_src} fips"
 }
 
 regex_and_all_test() {
-    test run-arf-to-graph_regex "arf-to-graph -o ${tmp_dir_src} ${test_file_src} -a _package_\w+_removed"
-    test run-arf-to-json_regex "arf-to-json -o ${tmp_json_file_src} ${test_file_src} -a _package_\w+_removed"
-    test run-json-to-graph_regex "json-to-graph -o ${tmp_dir_src} ${tmp_json_file_src} -a _package_\w+_removed"
+    test_command run-arf-to-graph_regex "arf-to-graph -o ${tmp_dir_src} ${test_file_src} -a _package_\w+_removed"
+    test_command run-arf-to-json_regex "arf-to-json -o ${tmp_json_file_src} ${test_file_src} -a _package_\w+_removed"
+    test_command run-json-to-graph_regex "json-to-graph -o ${tmp_dir_src} ${tmp_json_file_src} -a _package_\w+_removed"
 }
 
 regex_and_all_in_one_test() {
-    test run-arf-to-graph_regex "arf-to-graph -o ${tmp_dir_src} ${test_file_src} -i _package_\w+_removed"
-    test run-json-to-graph_regex "json-to-graph -o ${tmp_dir_src} ${tmp_json_file_src} -i _package_\w+_removed"
+    test_command run-arf-to-graph_regex "arf-to-graph -o ${tmp_dir_src} ${test_file_src} -i _package_\w+_removed"
+    test_command run-json-to-graph_regex "json-to-graph -o ${tmp_dir_src} ${tmp_json_file_src} -i _package_\w+_removed"
 }
 
 hide_all_passing_tests_test() {
-    test run-arf-to-graph "arf-to-graph -o ${tmp_dir_src} ${test_file_src} --hide-passing-tests fips"
-    test run-json-to-graph "json-to-graph -o ${tmp_dir_src} ${tmp_json_file_src} --hide-passing-tests -i fips"
+    test_command run-arf-to-graph "arf-to-graph -o ${tmp_dir_src} ${test_file_src} --hide-passing-tests fips"
+    test_command run-json-to-graph "json-to-graph -o ${tmp_dir_src} ${tmp_json_file_src} --hide-passing-tests -i fips"
 }
+
+
+# Backup descriptors stdout -> 3, stderr -> 4
+exec 3>&1 4>&2
+
+# Redirect stdout and stderr to file
+exec &>test_commands.log
 
 if [ "$_arg_install_oval_graph" = "on" ]; then
     install_package_from_source
@@ -244,5 +245,12 @@ hide_all_passing_tests_test
 if [ "$_arg_clean" = "on" ]; then
     clean "${tmp_dir_src}"
 fi
+
+if [[ ("$_arg_verbose" = "on") || ($overall_test_result -eq 1) ]]; then
+    # Restore descriptors
+    exec 1>&3 2>&4
+    cat test_commands.log
+fi
+
 exit "$overall_test_result"
 # ] <-- needed because of Argbash

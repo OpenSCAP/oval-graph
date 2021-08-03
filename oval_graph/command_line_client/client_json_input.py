@@ -14,13 +14,13 @@ class ClientJsonInput(Client):
     def get_only_fail_rule(self, rules):
         """
         Function processes array of matched IDs of rules in selected file.
-        Function retunes array of failed matched IDs of rules in selected file.
+        Function returns array of failed matched IDs of rules in selected file.
         """
         raise NotImplementedError
 
     def _get_rows_of_unselected_rules(self):
         """
-        Function retunes array of rows where is not selected IDs of rules in selected file.
+        Function returns array of rows where is not selected IDs of rules in selected file.
         """
         raise NotImplementedError
 

@@ -14,13 +14,15 @@ from oval_graph.command_line_client.arf_to_json import ArfToJson
 
 
 def get_client_arf_to_json(src, rule):
-    return ArfToJson(
+    client = ArfToJson(
         [tests.any_test_help.get_src(src), rule])
+    client.load_file()
+    return client
 
 
 def get_client_arf_to_json_with_define_dest(src, rule, out_src=None):
     out_src = str(uuid.uuid4()) + ".json" if out_src is None else out_src
-    return ArfToJson(
+    client = ArfToJson(
         [
             "--output",
             tests.any_test_help.get_src(
@@ -29,26 +31,34 @@ def get_client_arf_to_json_with_define_dest(src, rule, out_src=None):
                     out_src)),
             tests.any_test_help.get_src(src),
             rule])
+    client.load_file()
+    return client
 
 
 def get_client_arf_to_json_with_option_show_failed_rules(src, rule):
-    return ArfToJson(["--show-failed-rules",
+    client = ArfToJson(["--show-failed-rules",
                       tests.any_test_help.get_src(src), rule])
+    client.load_file()
+    return client
 
 
 def get_client_arf_to_json_with_option_show_not_selected_rules(src, rule):
-    return ArfToJson(["--show-not-selected-rules",
+    client = ArfToJson(["--show-not-selected-rules",
                       tests.any_test_help.get_src(src),
                       rule])
+    client.load_file()
+    return client
 
 
 def get_client_arf_to_json_with_option_show_not_selected_rules_and_show_failed_rules(
         src,
         rule):
-    return ArfToJson(["--show-not-selected-rules",
+    client = ArfToJson(["--show-not-selected-rules",
                       "--show-failed-rules",
                       tests.any_test_help.get_src(src),
                       rule])
+    client.load_file()
+    return client
 
 
 def try_expection_for_prepare_graph(src, rule, err):
@@ -273,7 +283,7 @@ def test_get_questions_with_option_show_failed_rules():
     tests.any_test_help.get_questions_with_option_show_failed_rules(client)
 
 
-def test_if_not_installed_inquirer_with_option_show_failed_rules(capsys):
+def disable_test_if_not_installed_inquirer_with_option_show_failed_rules(capsys):
     with mock.patch.dict(sys.modules, {'inquirer': None}):
         src = 'test_data/ssg-fedora-ds-arf.xml'
         regex = r'_package_\w+_removed'
@@ -284,7 +294,7 @@ def test_if_not_installed_inquirer_with_option_show_failed_rules(capsys):
             capsys, client)
 
 
-def test_if_not_installed_inquirer_with_option_show_not_selected_rules(
+def disable_test_if_not_installed_inquirer_with_option_show_not_selected_rules(
         capsys):
     with mock.patch.dict(sys.modules, {'inquirer': None}):
         src = 'test_data/ssg-fedora-ds-arf.xml'
@@ -296,7 +306,7 @@ def test_if_not_installed_inquirer_with_option_show_not_selected_rules(
             capsys, client)
 
 
-def test_if_not_installed_inquirer_with_option_show_not_selected_rules_and_show_failed_rules(
+def disable_test_if_not_installed_inquirer_with_option_show_not_selected_rules_and_show_failed_rules(
         capsys):
     with mock.patch.dict(sys.modules, {'inquirer': None}):
         src = 'test_data/ssg-fedora-ds-arf.xml'
@@ -358,7 +368,7 @@ def test_get_wanted_rules_from_array_of_ids():
         client.arf_xml_parser.used_rules.keys())
 
 
-def test_arf_to_json_if_not_installed_inquirer(capsys):
+def disable_test_arf_to_json_if_not_installed_inquirer(capsys):
     with mock.patch.dict(sys.modules, {'inquirer': None}):
         src = 'test_data/ssg-fedora-ds-arf.xml'
         regex = r'_package_\w+_removed'

@@ -5,6 +5,13 @@ from datetime import datetime
 
 from .. import __version__
 
+IS_INQUIRER_INSTALLED = True
+try:
+    from inquirer.prompt import prompt
+    from inquirer.questions import Checkbox
+except ImportError:
+    IS_INQUIRER_INSTALLED = False
+
 
 class Client():
     def __init__(self, args):
@@ -18,6 +25,9 @@ class Client():
         self.all_rules = self.arg.all
         self.show_failed_rules = False
         self.show_not_selected_rules = False
+        self.show_not_tested_rules = False
+
+        self.verbose = self.arg.verbose
 
     @staticmethod
     def _get_message():
@@ -34,20 +44,32 @@ class Client():
 
     def search_rules_id(self):
         """
-        Function retunes array of all matched IDs of rules in selected file.
+        Function returns array of all matched IDs of rules in selected file.
         """
         raise NotImplementedError
 
     def get_only_fail_rule(self, rules):
         """
         Function processes array of matched IDs of rules in selected file.
-        Function retunes array of failed matched IDs of rules in selected file.
+        Function returns array of failed matched IDs of rules in selected file.
         """
         raise NotImplementedError
 
     def _get_rows_of_unselected_rules(self):
         """
-        Function retunes array of rows where is not selected IDs of rules in selected file.
+        Function returns array of rows where is not selected IDs of rules in selected file.
+        """
+        raise NotImplementedError
+
+    def load_file(self):
+        """
+        Function returns parser or data.
+        """
+        raise NotImplementedError
+
+    def _get_rows_not_visualizable_rules(self):
+        """
+        Function returns array of rows where is not selected IDs of rules in selected file.
         """
         raise NotImplementedError
 
@@ -56,30 +78,36 @@ class Client():
             if self.all_rules:
                 return self._get_rules()
 
-            try:
-                import inquirer
-                return inquirer.prompt(self.get_questions())
-            except ImportError:
-                print(self.get_selection_rules())
+            if IS_INQUIRER_INSTALLED:
+                questions = self.get_questions()
+                answers = prompt(questions)
+                return answers
+
+            print(self.get_selection_rules())
             return None
         return self._get_rules()
 
     def _get_rules(self):
+        rules = self.search_rules_id()
         if self.show_failed_rules:
-            return {'rules': self.get_only_fail_rule(self.search_rules_id())}
-        return {'rules': self.search_rules_id()}
+            return {'rules': self.get_only_fail_rule(rules)}
+        return {'rules': rules}
 
     def _get_list_of_matched_rules(self):
+        rules = self.search_rules_id()
         if self.show_failed_rules:
-            return self.get_only_fail_rule(self.search_rules_id())
-        return self.search_rules_id()
+            return self.get_only_fail_rule(rules)
+        return rules
 
     def _get_list_of_lines(self):
         lines = ['== The Rule ID regular expressions ==']
         for rule in self._get_list_of_matched_rules():
             lines.append("^" + rule + "$")
-        if self.show_not_selected_rules:
+        if self.show_not_selected_rules and not self.show_not_tested_rules:
             for line in self._get_rows_of_unselected_rules():
+                lines.append(line)
+        if not self.show_not_selected_rules and self.show_not_tested_rules:
+            for line in self._get_rows_not_visualizable_rules():
                 lines.append(line)
         lines.append(
             "Interactive rule selection is not available,"
@@ -94,15 +122,16 @@ class Client():
         return "\n".join(self._get_list_of_lines())
 
     def _get_choices(self):
-        if self.show_not_selected_rules:
+        if self.show_not_selected_rules and not self.show_not_tested_rules:
             print("\n".join(self._get_rows_of_unselected_rules()))
+        if not self.show_not_selected_rules and self.show_not_tested_rules:
+            print("\n".join(self._get_rows_not_visualizable_rules()))
         return self._get_list_of_matched_rules()
 
     def get_questions(self):
-        from inquirer.questions import Checkbox as checkbox
         choices = self._get_choices()
         questions = [
-            checkbox(
+            Checkbox(
                 'rules',
                 message=(
                     "= The Rules IDs = (move - UP and DOWN arrows,"
@@ -116,20 +145,6 @@ class Client():
         return [
             x for x in rules if re.search(
                 self.rule_name, x)]
-
-    def _check_rules_id(self, rules, notselected_rules):
-        if notselected_rules and not rules:
-            raise ValueError(
-                ('Rule(s) "{}" was not selected, '
-                 "so there are no results. The rule is"
-                 ' "notselected" because it'
-                 " wasn't a part of the executed profile"
-                 " and therefore it wasn't evaluated "
-                 "during the scan.")
-                .format(notselected_rules))
-        if not notselected_rules and not rules:
-            raise ValueError('404 rule "{}" not found!'.format(self.rule_name))
-        return rules
 
     # Function for setting arguments
 
@@ -154,6 +169,11 @@ class Client():
             action="store_true",
             default=False,
             help="Show notselected rules. These rules will not be visualized.")
+        parser.add_argument(
+            '--show-not-tested-rules',
+            action="store_true",
+            default=False,
+            help="Shows rules which weren't tested. These rules will not be visualized.")
 
     def prepare_parser(self, parser):
         parser.add_argument(

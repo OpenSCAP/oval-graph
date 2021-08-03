@@ -58,15 +58,17 @@ class ClientHtmlOutput(Client):
     def _get_src_for_one_graph(self, rule):
         return self.get_save_src(rule + self._get_date())
 
+    @staticmethod
+    def get_file_name(rule):
+        return "{}{}.html".format(START_OF_FILE_NAME, rule)
+
     def get_save_src(self, rule):
         if self.out is not None:
             os.makedirs(self.out, exist_ok=True)
             return os.path.join(
-                self.out,
-                START_OF_FILE_NAME + rule + '.html')
+                self.out, self.get_file_name(rule))
         return os.path.join(
-            tempfile.gettempdir(),
-            START_OF_FILE_NAME + rule + '.html')
+            tempfile.gettempdir(), self.get_file_name(rule))
 
     def open_results_in_web_browser(self, paths_to_results):
         if self.display_html:

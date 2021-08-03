@@ -11,16 +11,20 @@ from oval_graph.command_line_client.json_to_html import JsonToHtml
 
 
 def get_client_json_to_html(src, rule):
-    return JsonToHtml(["--display", tests.any_test_help.get_src(src), rule])
+    client = JsonToHtml(["--display", tests.any_test_help.get_src(src), rule])
+    client.load_file()
+    return client
 
 
 def get_client_json_to_html_with_define_dest(src, rule):
-    return JsonToHtml(
+    client = JsonToHtml(
         ["--output", tests.any_test_help.get_src(
             os.path.join(tempfile.gettempdir(), str(uuid.uuid4()))),
          tests.any_test_help.get_src(src),
          rule,
          ])
+    client.load_file()
+    return client
 
 
 def try_expection_for_prepare_graph(src, rule, err):
@@ -107,7 +111,7 @@ def test_get_wanted_rules_from_array_of_ids():
         client.json_data_file.keys())
 
 
-def test_json_to_html_if_not_installed_inquirer(capsys):
+def disable_test_json_to_html_if_not_installed_inquirer(capsys):
     with mock.patch.dict(sys.modules, {'inquirer': None}):
         src = 'test_data/referenc_result_data_json.json'
         regex = r'_package_\w+_removed'

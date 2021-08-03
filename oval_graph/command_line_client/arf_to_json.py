@@ -30,10 +30,12 @@ class ArfToJson(ClientArfInput):
         if os.path.isfile(src) and not self.file_is_empty(src):
             with open(src, "r") as file_:
                 data = json.load(file_)
-                for key in data:
-                    dict_[key] = data[key]
+                dict_.update(data)
         with open(src, "w+") as file_:
             json.dump(dict_, file_)
+
+    def _get_rule_key(self, rule):
+        return rule + self._get_date()
 
     def prepare_data(self, rules):
         out = []
@@ -41,11 +43,9 @@ class ArfToJson(ClientArfInput):
         out_oval_tree_dict = dict()
         for rule in rules['rules']:
             try:
-                out_oval_tree_dict[
-                    rule + self._get_date()] = self.create_dict_of_rule(rule)
+                out_oval_tree_dict[self._get_rule_key(rule)] = self.create_dict_of_rule(rule)
             except NotTestedRule as error:
-                out_oval_tree_dict[
-                    rule + self._get_date()] = str(error)
+                out_oval_tree_dict[self._get_rule_key(rule)] = str(error)
         if self.out is not None:
             self.save_dict_as_json(out_oval_tree_dict, self.out)
             out.append(self.out)

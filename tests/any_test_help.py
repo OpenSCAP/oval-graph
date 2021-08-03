@@ -200,7 +200,7 @@ def get_questions_not_selected(capsys, client):
     captured = capsys.readouterr()
 # Problem with CI when si called function test_arf_to_hml.test_get_question_not_selected
 # other calls work with ==.
-    regex = r'rule_package_\w+_removed\(Not selected\)'
+    regex = r'rule_package_\w+_removed +\(Not selected\)'
     _find_all_in_string(regex, 6, captured.out)
 
 
@@ -209,7 +209,7 @@ def get_questions_not_selected_and_show_failed_rules(capsys, client):
     outResult = ['xccdf_org.ssgproject.content_rule_package_abrt_removed']
     assert out == outResult
     captured = capsys.readouterr()
-    regex = r'rule_package_\w+_removed\(Not selected\)'
+    regex = r'rule_package_\w+_removed +\(Not selected\)'
     _find_all_in_string(regex, 6, captured.out)
 
 
@@ -240,7 +240,7 @@ def if_not_installed_inquirer_with_option_show_not_selected_rules(
         assert "inquirer" in captured.out
         regex = r'rule_package_\w+_removed\$'
         _find_all_in_string(regex, count_of_selected_rule, captured.out)
-        regex = r'rule_package_\w+_removed\(Not selected\)'
+        regex = r'rule_package_\w+_removed +\(Not selected\)'
         _find_all_in_string(regex, 6, captured.out)
 
 

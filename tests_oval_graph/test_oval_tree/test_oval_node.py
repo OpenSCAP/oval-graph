@@ -37,8 +37,7 @@ def test_eval_big_tree():
     assert GetTree.big_oval_tree().evaluate_tree() == 'false'
 
 
-# fix 11, 12 ids
-@pytest.mark.parametrize("node_id", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+@pytest.mark.parametrize("node_id", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
 def test_find_node_with_id(node_id):
     assert GetTree.big_oval_tree().find_node_with_id(node_id).node_id == node_id
 

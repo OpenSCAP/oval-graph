@@ -8,24 +8,19 @@ import pytest
 from readchar import key
 
 from ..test_tools import TestTools
-from .test_command_arf_to_json import BASE_COMMAND as COMMAND_ARF_TO_JSON
-
-START_OF_COMMAND = ['python3',
-                    '-m',
-                    'oval_graph.command_line',
-                    'json-to-graph',
-                    ]
+from .command_constants import ARF_TO_JSON, COMMAND_START, TEST_ARF_XML_PATCH
 
 
 @pytest.mark.usefixtures("remove_generated_reports_in_root")
 def test_command_json_to_graph():
     src = TestTools.get_random_dir_in_tmp() + '.json'
-    out = subprocess.check_output(COMMAND_ARF_TO_JSON)
+    out = subprocess.check_output(ARF_TO_JSON)
 
     with open(src, "w+") as output:
         output.writelines(out.decode('utf-8'))
 
-    command = [*START_OF_COMMAND,
+    command = [*COMMAND_START,
+               'json-to-graph',
                '-o', '.',
                src,
                'xccdf_org.ssgproject.content_rule_package_abrt_removed'
@@ -40,11 +35,12 @@ def test_command_json_to_graph():
 @pytest.mark.usefixtures("remove_generated_reports_in_root")
 def test_command_json_to_graph_with_verbose():
     src = TestTools.get_random_dir_in_tmp() + '.json'
-    out = subprocess.check_output(COMMAND_ARF_TO_JSON)
+    out = subprocess.check_output(ARF_TO_JSON)
     with open(src, "w+") as output:
         output.writelines(out.decode('utf-8'))
 
-    command = [*START_OF_COMMAND,
+    command = [*COMMAND_START,
+               'json-to-graph',
                '-o', '.',
                '--verbose',
                src,
@@ -62,10 +58,11 @@ def test_command_json_to_graph_with_verbose():
 def test_command_json_to_graph_is_tty():
     src = TestTools.get_random_dir_in_tmp() + '.json'
     with open(src, 'w+') as output:
-        subprocess.check_call(COMMAND_ARF_TO_JSON, stdout=output)
+        subprocess.check_call(ARF_TO_JSON, stdout=output)
 
     out_dir = TestTools.get_random_dir_in_tmp()
-    commad = [*START_OF_COMMAND,
+    commad = [*COMMAND_START,
+              'json-to-graph',
               '--out',
               out_dir,
               src,
@@ -82,7 +79,7 @@ def test_inquirer_choice_rule():
     args = ['-m',
             'oval_graph.command_line',
             'arf-to-json',
-            'tests_oval_graph/global_test_data/ssg-fedora-ds-arf.xml',
+            TEST_ARF_XML_PATCH,
             r'_package_\w+_removed'
             ]
 
@@ -99,7 +96,8 @@ def test_inquirer_choice_rule():
     TestTools.compare_results_json(src)
 
     out_dir = TestTools.get_random_dir_in_tmp()
-    args = [*START_OF_COMMAND,
+    args = [*COMMAND_START,
+            'json-to-graph',
             '-o',
             out_dir,
             src,
@@ -120,12 +118,10 @@ def test_inquirer_choice_rule():
 
 def test_command_parameter_all():
     src = TestTools.get_random_dir_in_tmp() + '.json'
-    command = ['python3',
-               '-m',
-               'oval_graph.command_line',
+    command = [*COMMAND_START,
                'arf-to-json',
                '--all',
-               'tests_oval_graph/global_test_data/ssg-fedora-ds-arf.xml',
+               TEST_ARF_XML_PATCH,
                '.'
                ]
     with open(src, 'w+') as output:
@@ -135,7 +131,8 @@ def test_command_parameter_all():
         rules = json.load(data)
     assert len(rules.keys()) == 184
     out_dir = TestTools.get_random_dir_in_tmp()
-    command = [*START_OF_COMMAND,
+    command = [*COMMAND_START,
+               'json-to-graph',
                src,
                '.',
                '--all',

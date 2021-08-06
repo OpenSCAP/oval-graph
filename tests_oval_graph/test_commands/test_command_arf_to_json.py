@@ -6,17 +6,7 @@ import pexpect
 from readchar import key
 
 from ..test_tools import TestTools
-
-START_OF_COMMAND = ['python3',
-                    '-m',
-                    'oval_graph.command_line',
-                    'arf-to-json',
-                    ]
-
-BASE_COMMAND = [*START_OF_COMMAND,
-                'tests_oval_graph/global_test_data/ssg-fedora-ds-arf.xml',
-                'xccdf_org.ssgproject.content_rule_package_abrt_removed'
-                ]
+from .command_constants import ARF_TO_JSON, COMMAND_START, TEST_ARF_XML_PATCH
 
 
 def run_commad_and_save_output_to_file(parameters):
@@ -28,21 +18,21 @@ def run_commad_and_save_output_to_file(parameters):
 
 def test_command_arf_to_json():
     src = TestTools.get_random_dir_in_tmp() + '.json'
-    out = subprocess.check_output(BASE_COMMAND)
+    out = subprocess.check_output(ARF_TO_JSON)
     with open(src, "w+") as data:
         data.writelines(out.decode('utf-8'))
     TestTools.compare_results_json(src)
 
 
 def test_command_arf_to_json_is_tty():
-    src = run_commad_and_save_output_to_file(BASE_COMMAND)
+    src = run_commad_and_save_output_to_file(ARF_TO_JSON)
     TestTools.compare_results_json(src)
 
 
 def test_inquirer_choice_rule():
     src = TestTools.get_random_dir_in_tmp() + '.json'
 
-    command_parameters = [*BASE_COMMAND]
+    command_parameters = [*ARF_TO_JSON]
     command_parameters.remove("python3")
     command_parameters.remove('xccdf_org.ssgproject.content_rule_package_abrt_removed')
     command_parameters.append(r'_package_\w+_removed')
@@ -60,10 +50,11 @@ def test_inquirer_choice_rule():
 
 
 def test_command_parameter_all():
-    command = [*START_OF_COMMAND,
-               '--all',
-               'tests_oval_graph/global_test_data/ssg-fedora-ds-arf.xml',
-               '.'
+    command = [*COMMAND_START,
+               "arf-to-json",
+               "--all",
+               TEST_ARF_XML_PATCH,
+               ".",
                ]
     src = run_commad_and_save_output_to_file(command)
     with open(src, "r") as data:
@@ -72,10 +63,11 @@ def test_command_parameter_all():
 
 
 def test_command_parameter_all_and_show_failed_rules():
-    command = [*START_OF_COMMAND,
+    command = [*COMMAND_START,
+               'arf-to-json',
                '--all',
                '--show-failed-rules',
-               'tests_oval_graph/global_test_data/ssg-fedora-ds-arf.xml',
+               TEST_ARF_XML_PATCH,
                r'_package_\w+_removed'
                ]
     src = run_commad_and_save_output_to_file(command)
@@ -85,9 +77,10 @@ def test_command_parameter_all_and_show_failed_rules():
 
 
 def test_command_with_parameter_out():
-    command = [*START_OF_COMMAND,
+    command = [*COMMAND_START,
+               'arf-to-json',
                '--all',
-               'tests_oval_graph/global_test_data/ssg-fedora-ds-arf.xml',
+               TEST_ARF_XML_PATCH,
                r'_package_\w+_removed'
                ]
     src = run_commad_and_save_output_to_file(command)

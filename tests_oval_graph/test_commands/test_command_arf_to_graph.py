@@ -7,30 +7,19 @@ import pytest
 from readchar import key
 
 from ..test_tools import TestTools
-
-START_OF_COMMAND = ['python3',
-                    '-m',
-                    'oval_graph.command_line',
-                    'arf-to-graph',
-                    ]
-
-BASE_COMMAND = [*START_OF_COMMAND,
-                '-o', '.',
-                'tests_oval_graph/global_test_data/ssg-fedora-ds-arf.xml',
-                'xccdf_org.ssgproject.content_rule_package_abrt_removed'
-                ]
+from .command_constants import ARF_TO_GRAPH, COMMAND_START, TEST_ARF_XML_PATCH
 
 
 def get_command_with_random_output_patch():
     src = TestTools.get_random_dir_in_tmp()
-    command = [*BASE_COMMAND]
+    command = [*ARF_TO_GRAPH]
     command[command.index('.')] = src
     return command, src
 
 
 @pytest.mark.usefixtures("remove_generated_reports_in_root")
 def test_command_arf_to_graph():
-    subprocess.check_call(BASE_COMMAND,
+    subprocess.check_call(ARF_TO_GRAPH,
                           cwd='./')
     file_src = TestTools.find_files(
         "graph-of-xccdf_org.ssgproject.content_rule_package_abrt_removed",
@@ -40,7 +29,7 @@ def test_command_arf_to_graph():
 
 @pytest.mark.usefixtures("remove_generated_reports_in_root")
 def test_command_arf_to_graph_with_verbose():
-    command = [*BASE_COMMAND, '--verbose']
+    command = [*ARF_TO_GRAPH, '--verbose']
     out = subprocess.check_output(command,
                                   cwd='./',
                                   stderr=subprocess.STDOUT)
@@ -60,10 +49,11 @@ def test_command_arf_to_graph_with_out_parameter():
 
 def test_inquirer_choice_rule():
     src = TestTools.get_random_dir_in_tmp()
-    command_parameters = [*START_OF_COMMAND,
+    command_parameters = [*COMMAND_START,
+                          'arf-to-graph',
                           '-o',
                           src,
-                          'tests_oval_graph/global_test_data/ssg-fedora-ds-arf.xml',
+                          TEST_ARF_XML_PATCH,
                           r'_package_\w+_removed'
                           ]
     command_parameters.remove("python3")
@@ -80,11 +70,12 @@ def test_inquirer_choice_rule():
 
 def test_command_parameter_all():
     src = TestTools.get_random_dir_in_tmp()
-    command = [*START_OF_COMMAND,
+    command = [*COMMAND_START,
+               'arf-to-graph',
                '--all',
                '-o',
                src,
-               'tests_oval_graph/global_test_data/ssg-fedora-ds-arf.xml',
+               TEST_ARF_XML_PATCH,
                '.',
                ]
     subprocess.check_call(command)
@@ -93,12 +84,13 @@ def test_command_parameter_all():
 
 def test_command_parameter_all_and_show_failed_rules():
     src = TestTools.get_random_dir_in_tmp()
-    command = [*START_OF_COMMAND,
+    command = [*COMMAND_START,
+               'arf-to-graph',
                '--all',
                '--show-failed-rules',
                '-o',
                src,
-               'tests_oval_graph/global_test_data/ssg-fedora-ds-arf.xml',
+               TEST_ARF_XML_PATCH,
                r'_package_\w+_removed'
                ]
     subprocess.check_call(command)

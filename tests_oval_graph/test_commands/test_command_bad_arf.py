@@ -2,16 +2,7 @@ import subprocess
 
 import pytest
 
-COMMAND_START = ['python3',
-                 '-m',
-                 'oval_graph.command_line'
-                 ]
-
-JSON_TO_GRAPH_COMMAND = [*COMMAND_START,
-                         'json-to-graph',
-                         'tests_oval_graph/global_test_data/ssg-fedora-ds-arf.xml',
-                         '.'
-                         ]
+from .command_constants import BAD_JSON_TO_GRAPH, COMMAND_START
 
 
 @pytest.mark.parametrize("command_name, optional_args", [
@@ -43,7 +34,7 @@ def test_command_with_bad_arf_file(command_name, optional_args):
 
 
 def test_bad_command_json_to_graph_with_verbose():
-    command = [*JSON_TO_GRAPH_COMMAND, '-v']
+    command = [*BAD_JSON_TO_GRAPH, '-v']
     out = subprocess.check_output(command,
                                   stderr=subprocess.STDOUT)
     out_string = out.decode('utf-8')
@@ -52,7 +43,7 @@ def test_bad_command_json_to_graph_with_verbose():
 
 
 def test_bad_command_json_to_graph():
-    out = subprocess.check_output(JSON_TO_GRAPH_COMMAND,
+    out = subprocess.check_output(BAD_JSON_TO_GRAPH,
                                   stderr=subprocess.STDOUT)
     out_string = out.decode('utf-8')
     assert out_string.find("Traceback") == -1

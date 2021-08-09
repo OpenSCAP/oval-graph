@@ -21,7 +21,7 @@ setup(name='oval_graph',
       author='Jan Rodak',
       author_email='jrodak@redhat.com',
       license='Apache-2.0',
-      packages=find_packages(),
+      packages=find_packages(exclude=["tests_oval_graph", "tests_oval_graph.*"]),
       install_requires=[
           'lxml',
       ],

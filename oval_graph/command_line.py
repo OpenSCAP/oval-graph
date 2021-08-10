@@ -11,7 +11,7 @@ from .exceptions import NotTestedRule
 
 C_RED = '\033[91m'
 C_END = '\033[0m'
-ERRORS = (ValueError, TypeError, ResourceWarning, NotTestedRule)
+ERRORS = (ValueError, TypeError, ResourceWarning, NotTestedRule, OSError)
 
 
 def arf_to_graph(params=None):

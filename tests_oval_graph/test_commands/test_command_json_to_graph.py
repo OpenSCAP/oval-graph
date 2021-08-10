@@ -2,6 +2,7 @@ import json
 import os
 import re
 import subprocess
+from pathlib import Path
 
 import pexpect
 import pytest
@@ -49,9 +50,9 @@ def test_command_json_to_graph_with_verbose():
     out = subprocess.check_output(command,
                                   cwd='./',
                                   stderr=subprocess.STDOUT)
-    src_regex = r"\"(\.\/.*?)\""
+    src_regex = r"\"(.*?)\"$"
     src = re.search(src_regex, out.decode('utf-8')).group(1)
-    file_src = '.{}'.format(src)
+    file_src = Path(__file__).parent.parent.parent / src
     TestTools.compare_results_html(file_src)
 
 
@@ -70,8 +71,7 @@ def test_command_json_to_graph_is_tty():
               ]
     subprocess.check_output(commad)
 
-    file_src = os.path.join(out_dir, os.listdir(out_dir)[0])
-    TestTools.compare_results_html(file_src)
+    TestTools.compare_results_html(out_dir)
 
 
 def test_inquirer_choice_rule():
@@ -111,9 +111,7 @@ def test_inquirer_choice_rule():
     for key_ in keys:
         sut.send(key_)
     sut.wait()
-    assert len(os.listdir(out_dir)) == 1
-    assert ("xccdf_org.ssgproject.content_rule_package_abrt_removed"
-            in os.listdir(out_dir)[0])
+    assert os.path.isfile(out_dir)
 
 
 def test_command_parameter_all():

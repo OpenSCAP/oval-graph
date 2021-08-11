@@ -7,14 +7,10 @@ import pytest
 from oval_graph.command_line_client.json_to_html import JsonToHtml
 
 from ...test_tools import TestTools
+from .constants_for_tests import EXPECTED_RULES_ID, SEARCH_RULES
 
 PATH_TO_REPORT = Path('../test_data/referenc_result_data_json.json')
 TOP_PATH = Path(__file__).parent
-
-EXPECTED_RULES_ID = [
-    'xccdf_org.ssgproject.content_rule_package_abrt_removed',
-    'xccdf_org.ssgproject.content_rule_package_sendmail_removed',
-]
 
 
 def get_client_json_to_html(rule, optional_args=None, src=PATH_TO_REPORT):
@@ -66,13 +62,7 @@ def test_get_questions():
     assert out == EXPECTED_RULES_ID
 
 
-@pytest.mark.parametrize("part_of_id_rule, result", [
-    ('xccdf_org.ssgproject.', 184),
-    (r'_package_\w+_removed', 2),
-    ('fips', 1),
-    ('audit', 110),
-    ('password', 15),
-])
+@pytest.mark.parametrize("part_of_id_rule, result", SEARCH_RULES)
 def test_search_rules_id(part_of_id_rule, result):
     client = get_client_json_to_html(part_of_id_rule)
     assert len(client.search_rules_id()) == result

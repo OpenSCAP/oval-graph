@@ -30,4 +30,9 @@ EXPECTED_RULES_ID_WITH_ARGS = [
 ]
 
 TOP_PATH = Path(__file__).parent
-PATH_TO_REPORT = TOP_PATH.parent.parent / "global_test_data/ssg-fedora-ds-arf.xml"
+PATH_TO_ARF_REPORT = TOP_PATH.parent.parent / "global_test_data/ssg-fedora-ds-arf.xml"
+PATH_TO_JSON_REPORT = TOP_PATH.parent / "test_data/referenc_result_data_json.json"
+PATH_TO_EMPTY_FILE = TOP_PATH.parent / "test_data/empty_file.json"
+PATH_TO_REFERENCE_RESULT_JSON = TOP_PATH.parent / "test_data/referenc_result_data_json.json"
+PATH_TO_REFERENCE_RESULT_HTML = TOP_PATH.parent / "test_data/referenc_html_report.html"
+PATH_TO_BAD_RESULT_JSON = TOP_PATH.parent / "test_data/bad_result_data_json.json"

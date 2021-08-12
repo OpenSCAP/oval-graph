@@ -7,14 +7,15 @@ import pytest
 from oval_graph.command_line_client.json_to_html import JsonToHtml
 
 from ...test_tools import TestTools
-from .constants_for_tests import EXPECTED_RULES_ID, SEARCH_RULES
+from .constants_for_tests import (EXPECTED_RULES_ID, SEARCH_RULES, PATH_TO_ARF_REPORT,
+                                  PATH_TO_REFERENCE_RESULT_HTML, PATH_TO_BAD_RESULT_JSON,
+                                  PATH_TO_JSON_REPORT)
 
-PATH_TO_REPORT = Path('../test_data/referenc_result_data_json.json')
-TOP_PATH = Path(__file__).parent
 
-
-def get_client_json_to_html(rule, optional_args=None, src=PATH_TO_REPORT):
-    path = str(TOP_PATH / src)
+def get_client_json_to_html(rule, optional_args=None, src=None):
+    path = str(PATH_TO_JSON_REPORT)
+    if src is not None:
+        path = str(src)
     args = ["--display", path, rule]
     if optional_args is not None:
         args.extend(optional_args)
@@ -24,9 +25,9 @@ def get_client_json_to_html(rule, optional_args=None, src=PATH_TO_REPORT):
 
 
 @pytest.mark.parametrize("src, error_pattern", [
-    ('../../global_test_data/ssg-fedora-ds-arf.xml', 'is not valid json'),
-    ('../test_data/referenc_html_report.html', 'No such file or directory:'),
-    ('../test_data/bad_result_data_json.json', 'valid for OVAL tree')
+    (str(PATH_TO_ARF_REPORT), 'is not valid json'),
+    (str(PATH_TO_REFERENCE_RESULT_HTML), 'No such file or directory:'),
+    (str(PATH_TO_BAD_RESULT_JSON), 'valid for OVAL tree')
 ])
 def test_expection_for_prepare_graph(src, error_pattern):
     rule = 'xccdf_org.ssgproject.content_rule_package_abrt_removed'

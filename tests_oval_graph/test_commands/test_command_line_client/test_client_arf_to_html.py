@@ -8,11 +8,11 @@ from oval_graph.command_line_client.arf_to_html import ArfToHtml
 
 from ...test_tools import TestTools
 from .constants_for_tests import (EXPECTED_RULES_ID, EXPECTED_RULES_ID_WITH_ARGS,
-                                  SEARCH_BAD_RULES, SEARCH_RULES, PATH_TO_REPORT)
+                                  SEARCH_BAD_RULES, SEARCH_RULES, PATH_TO_ARF_REPORT)
 
 
 def get_client_arf_to_html(rule, optional_args=None):
-    path = str(PATH_TO_REPORT)
+    path = str(PATH_TO_ARF_REPORT)
     args = ["--display", path, rule]
     if optional_args is not None:
         args.extend(optional_args)

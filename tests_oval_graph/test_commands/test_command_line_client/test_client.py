@@ -1,11 +1,11 @@
 import pytest
 
 from oval_graph.command_line_client.client import Client
-from .constants_for_tests import PATH_TO_REPORT
+from .constants_for_tests import PATH_TO_ARF_REPORT
 
 
 def get_client(rule, optional_args=None):
-    path = str(PATH_TO_REPORT)
+    path = str(PATH_TO_ARF_REPORT)
     args = [path, rule]
     if optional_args is not None:
         args.extend(optional_args)

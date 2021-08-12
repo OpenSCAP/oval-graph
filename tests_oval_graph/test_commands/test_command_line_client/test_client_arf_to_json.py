@@ -11,12 +11,12 @@ from oval_graph.command_line_client.arf_to_json import ArfToJson
 
 from ...test_tools import TestTools
 from .constants_for_tests import (EXPECTED_RULES_ID, EXPECTED_RULES_ID_WITH_ARGS,
-                                  SEARCH_BAD_RULES, SEARCH_RULES, PATH_TO_REPORT,
-                                  TOP_PATH)
+                                  SEARCH_BAD_RULES, SEARCH_RULES, PATH_TO_ARF_REPORT,
+                                  PATH_TO_EMPTY_FILE, PATH_TO_REFERENCE_RESULT_JSON)
 
 
 def get_client_arf_to_json(rule, optional_args=None):
-    path = str(PATH_TO_REPORT)
+    path = str(PATH_TO_ARF_REPORT)
     args = [path, rule]
     if optional_args is not None:
         args.extend(optional_args)
@@ -159,8 +159,8 @@ def test_prepare_graph_with_not_selected_rule(capsys):
 
 
 @pytest.mark.parametrize("file_src, result", [
-    ('../test_data/empty_file.json', True),
-    ('../test_data/referenc_result_data_json.json', False),
+    (PATH_TO_EMPTY_FILE, True),
+    (PATH_TO_REFERENCE_RESULT_JSON, False),
 ])
 def test_file_is_empty(file_src, result):
     rule = 'xccdf_org.ssgproject.content_rule_package_abrt_removed'
@@ -169,7 +169,7 @@ def test_file_is_empty(file_src, result):
             str(Path(tempfile.gettempdir()) / file_name)]
     client = get_client_arf_to_json(rule, args)
 
-    path = str(TOP_PATH / file_src)
+    path = str(file_src)
 
     assert client.file_is_empty(path) == result
 
@@ -200,8 +200,7 @@ def test_creation_json_with_two_more_rule():
     assert len(rules_id) == 2
     assert data[rules_id[0]] == data[rules_id[1]]
 
-    referenc_result = TestTools.get_data_json(
-        'test_commands/test_data/referenc_result_data_json.json')
+    referenc_result = TestTools.get_data_json(PATH_TO_REFERENCE_RESULT_JSON)
     assert referenc_result[
         "xccdf_org.ssgproject.content_rule_package_abrt_removed"] == data[rules_id[0]]
 
@@ -222,8 +221,7 @@ def test_creation_json_two_selected_rules():
     rules_id = list(data.keys())
     assert len(rules_id) == 2
 
-    referenc_result = TestTools.get_data_json(
-        'test_commands/test_data/referenc_result_data_json.json')
+    referenc_result = TestTools.get_data_json(PATH_TO_REFERENCE_RESULT_JSON)
     assert referenc_result[
         "xccdf_org.ssgproject.content_rule_package_abrt_removed"] == data[rules_id[0]]
     assert rule_1 in rules_id[1]

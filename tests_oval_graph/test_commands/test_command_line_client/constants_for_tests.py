@@ -1,5 +1,7 @@
 from pathlib import Path
 
+from oval_graph.exceptions import NotTestedRule
+
 SEARCH_RULES = [
     ('xccdf_org.ssgproject.', 184),
     (r'_package_\w+_removed', 2),
@@ -9,8 +11,8 @@ SEARCH_RULES = [
 ]
 
 SEARCH_BAD_RULES = [
-    ('non-existent_rule', '404'),
-    ('xccdf_org.ssgproject.content_rule_package_nis_removed', 'notselected'),
+    ('non-existent_rule', '404', ValueError),
+    ('xccdf_org.ssgproject.content_rule_package_nis_removed', 'notselected', NotTestedRule),
 ]
 
 EXPECTED_RULES_ID = [

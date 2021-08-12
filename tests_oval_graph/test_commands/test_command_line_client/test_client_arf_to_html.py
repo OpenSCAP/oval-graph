@@ -21,18 +21,18 @@ def get_client_arf_to_html(rule, optional_args=None):
     return client
 
 
-@pytest.mark.parametrize("rule, error_pattern", SEARCH_BAD_RULES)
-def test_expection_prepare_data(rule, error_pattern):
+@pytest.mark.parametrize("rule, error_pattern, expection_type", SEARCH_BAD_RULES)
+def test_expection_prepare_data(rule, error_pattern, expection_type):
     client = get_client_arf_to_html(rule)
     rules = {'rules': [rule]}
-    with pytest.raises(Exception, match=error_pattern):
+    with pytest.raises(expection_type, match=error_pattern):
         assert client.prepare_data(rules)
 
 
-@pytest.mark.parametrize("rule, error_pattern", SEARCH_BAD_RULES)
-def test_expection_search_rules_id(rule, error_pattern):
+@pytest.mark.parametrize("rule, error_pattern, expection_type", SEARCH_BAD_RULES)
+def test_expection_search_rules_id(rule, error_pattern, expection_type):
     client = get_client_arf_to_html(rule)
-    with pytest.raises(Exception, match=error_pattern):
+    with pytest.raises(expection_type, match=error_pattern):
         assert client.search_rules_id()
 
 

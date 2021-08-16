@@ -1,5 +1,4 @@
 import json
-import os
 import re
 import subprocess
 from pathlib import Path
@@ -9,77 +8,77 @@ import pytest
 from readchar import key
 
 from ..test_tools import TestTools
-from .command_constants import ARF_TO_JSON, COMMAND_START, TEST_ARF_XML_PATCH
+from .command_constants import ARF_TO_JSON, COMMAND_START, TEST_ARF_XML_PATH
 
 
 @pytest.mark.usefixtures("remove_generated_reports_in_root")
 def test_command_json_to_graph():
-    src = TestTools.get_random_dir_in_tmp() + '.json'
+    path = str(TestTools.get_random_path_in_tmp()) + '.json'
     out = subprocess.check_output(ARF_TO_JSON)
 
-    with open(src, "w+") as output:
+    with open(path, "w+") as output:
         output.writelines(out.decode('utf-8'))
 
     command = [*COMMAND_START,
                'json-to-graph',
                '-o', '.',
-               src,
+               path,
                'xccdf_org.ssgproject.content_rule_package_abrt_removed'
                ]
     subprocess.check_call(command, cwd='./')
-    file_src = TestTools.find_files(
+    file_paths = TestTools.find_files(
         "graph-of-xccdf_org.ssgproject.content_rule_package_abrt_removed",
         '../')
-    TestTools.compare_results_html(file_src[0])
+    TestTools.compare_results_html(file_paths[0])
 
 
 @pytest.mark.usefixtures("remove_generated_reports_in_root")
 def test_command_json_to_graph_with_verbose():
-    src = TestTools.get_random_dir_in_tmp() + '.json'
+    path = str(TestTools.get_random_path_in_tmp()) + '.json'
     out = subprocess.check_output(ARF_TO_JSON)
-    with open(src, "w+") as output:
+    with open(path, "w+") as output:
         output.writelines(out.decode('utf-8'))
 
     command = [*COMMAND_START,
                'json-to-graph',
                '-o', '.',
                '--verbose',
-               src,
+               path,
                'xccdf_org.ssgproject.content_rule_package_abrt_removed'
                ]
     out = subprocess.check_output(command,
                                   cwd='./',
                                   stderr=subprocess.STDOUT)
-    src_regex = r"\"(.*?)\"$"
-    src = re.search(src_regex, out.decode('utf-8')).group(1)
-    file_src = Path(__file__).parent.parent.parent / src
-    TestTools.compare_results_html(file_src)
+    path_regex = r"\"(.*?)\"$"
+    path_search = re.search(path_regex, out.decode('utf-8')).group(1)
+    file_path = Path(__file__).parent.parent.parent / path_search
+    TestTools.compare_results_html(file_path)
 
 
 def test_command_json_to_graph_is_tty():
-    src = TestTools.get_random_dir_in_tmp() + '.json'
-    with open(src, 'w+') as output:
+    path = str(TestTools.get_random_path_in_tmp()) + '.json'
+    with open(path, 'w+') as output:
         subprocess.check_call(ARF_TO_JSON, stdout=output)
 
-    out_dir = TestTools.get_random_dir_in_tmp()
+    out_path = TestTools.get_random_path_in_tmp()
     commad = [*COMMAND_START,
               'json-to-graph',
               '--out',
-              out_dir,
-              src,
+              str(out_path),
+              str(path),
               'xccdf_org.ssgproject.content_rule_package_abrt_removed'
               ]
     subprocess.check_output(commad)
 
-    TestTools.compare_results_html(out_dir)
+    TestTools.compare_results_html(out_path)
 
 
 def test_inquirer_choice_rule():
-    src = TestTools.get_random_dir_in_tmp() + '.json'
+    path = str(TestTools.get_random_path_in_tmp()) + '.json'
     args = ['-m',
             'oval_graph.command_line',
             'arf-to-json',
-            TEST_ARF_XML_PATCH,
+            TEST_ARF_XML_PATH,
             r'_package_\w+_removed'
             ]
 
@@ -91,16 +90,16 @@ def test_inquirer_choice_rule():
     sut.wait()
     out = sut.readlines()
 
-    with open(src, "w+") as output:
+    with open(path, "w+") as output:
         output.writelines(row.decode("utf-8") for row in out[20:])
-    TestTools.compare_results_json(src)
+    TestTools.compare_results_json(path)
 
-    out_dir = TestTools.get_random_dir_in_tmp()
+    out_path = TestTools.get_random_path_in_tmp()
     args = [*COMMAND_START,
             'json-to-graph',
             '-o',
-            out_dir,
-            src,
+            str(out_path),
+            path,
             '.'
             ]
     args.remove("python3")
@@ -111,31 +110,31 @@ def test_inquirer_choice_rule():
     for key_ in keys:
         sut.send(key_)
     sut.wait()
-    assert os.path.isfile(out_dir)
+    assert out_path.is_file()
 
 
 def test_command_parameter_all():
-    src = TestTools.get_random_dir_in_tmp() + '.json'
+    path = str(TestTools.get_random_path_in_tmp()) + '.json'
     command = [*COMMAND_START,
                'arf-to-json',
                '--all',
-               TEST_ARF_XML_PATCH,
+               TEST_ARF_XML_PATH,
                '.'
                ]
-    with open(src, 'w+') as output:
+    with open(path, 'w+') as output:
         subprocess.check_call(command, stdout=output)
 
-    with open(src, "r") as data:
+    with open(path, "r") as data:
         rules = json.load(data)
     assert len(rules.keys()) == 184
-    out_dir = TestTools.get_random_dir_in_tmp()
+    out_path = TestTools.get_random_path_in_tmp()
     command = [*COMMAND_START,
                'json-to-graph',
-               src,
+               path,
                '.',
                '--all',
                '-o',
-               out_dir
+               str(out_path)
                ]
     subprocess.check_call(command)
-    assert len(os.listdir(out_dir)) == 184
+    assert len(list(out_path.glob('**/*.html'))) == 184

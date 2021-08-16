@@ -6,22 +6,22 @@ import pexpect
 from readchar import key
 
 from ..test_tools import TestTools
-from .command_constants import ARF_TO_JSON, COMMAND_START, TEST_ARF_XML_PATCH
+from .command_constants import ARF_TO_JSON, COMMAND_START, TEST_ARF_XML_PATH
 
 
 def run_commad_and_save_output_to_file(parameters):
-    src = TestTools.get_random_dir_in_tmp() + '.json'
-    with open(src, 'w+') as output:
+    path = str(TestTools.get_random_path_in_tmp()) + '.json'
+    with open(path, 'w+') as output:
         subprocess.check_call(parameters, stdout=output)
-    return src
+    return path
 
 
 def test_command_arf_to_json():
-    src = TestTools.get_random_dir_in_tmp() + '.json'
+    path = str(TestTools.get_random_path_in_tmp()) + '.json'
     out = subprocess.check_output(ARF_TO_JSON)
-    with open(src, "w+") as data:
+    with open(path, "w+") as data:
         data.writelines(out.decode('utf-8'))
-    TestTools.compare_results_json(src)
+    TestTools.compare_results_json(path)
 
 
 def test_command_arf_to_json_is_tty():
@@ -30,7 +30,7 @@ def test_command_arf_to_json_is_tty():
 
 
 def test_inquirer_choice_rule():
-    src = TestTools.get_random_dir_in_tmp() + '.json'
+    path = str(TestTools.get_random_path_in_tmp()) + '.json'
 
     command_parameters = [*ARF_TO_JSON]
     command_parameters.remove("python3")
@@ -44,16 +44,16 @@ def test_inquirer_choice_rule():
         sut.send(key_)
     sut.wait()
     out = sut.readlines()
-    with open(src, "w+") as data:
+    with open(path, "w+") as data:
         data.writelines(row.decode("utf-8") for row in out[24:])
-    TestTools.compare_results_json(src)
+    TestTools.compare_results_json(path)
 
 
 def test_command_parameter_all():
     command = [*COMMAND_START,
                "arf-to-json",
                "--all",
-               TEST_ARF_XML_PATCH,
+               TEST_ARF_XML_PATH,
                ".",
                ]
     src = run_commad_and_save_output_to_file(command)
@@ -67,7 +67,7 @@ def test_command_parameter_all_and_show_failed_rules():
                'arf-to-json',
                '--all',
                '--show-failed-rules',
-               TEST_ARF_XML_PATCH,
+               TEST_ARF_XML_PATH,
                r'_package_\w+_removed'
                ]
     src = run_commad_and_save_output_to_file(command)
@@ -80,7 +80,7 @@ def test_command_with_parameter_out():
     command = [*COMMAND_START,
                'arf-to-json',
                '--all',
-               TEST_ARF_XML_PATCH,
+               TEST_ARF_XML_PATH,
                r'_package_\w+_removed'
                ]
     src = run_commad_and_save_output_to_file(command)

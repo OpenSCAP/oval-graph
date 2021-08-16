@@ -28,8 +28,8 @@ class TestTools():
             return data.readlines()
 
     @staticmethod
-    def get_random_dir_in_tmp():
-        return os.path.join(tempfile.gettempdir(), str(uuid.uuid4()))
+    def get_random_path_in_tmp():
+        return Path(tempfile.gettempdir()) / str(uuid.uuid4())
 
     @staticmethod
     def compare_results_html(result):

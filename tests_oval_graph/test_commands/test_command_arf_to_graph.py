@@ -1,4 +1,3 @@
-import os
 import re
 import subprocess
 from pathlib import Path
@@ -8,14 +7,14 @@ import pytest
 from readchar import key
 
 from ..test_tools import TestTools
-from .command_constants import ARF_TO_GRAPH, COMMAND_START, TEST_ARF_XML_PATCH
+from .command_constants import ARF_TO_GRAPH, COMMAND_START, TEST_ARF_XML_PATH
 
 
-def get_command_with_random_output_patch():
-    src = TestTools.get_random_dir_in_tmp()
+def get_command_with_random_output_path():
+    path = TestTools.get_random_path_in_tmp()
     command = [*ARF_TO_GRAPH]
-    command[command.index('.')] = src
-    return command, src
+    command[command.index('.')] = str(path)
+    return command, str(path)
 
 
 @pytest.mark.usefixtures("remove_generated_reports_in_root")
@@ -42,18 +41,18 @@ def test_command_arf_to_graph_with_verbose():
 
 
 def test_command_arf_to_graph_with_out_parameter():
-    command, src = get_command_with_random_output_patch()
+    command, src = get_command_with_random_output_path()
     subprocess.check_call(command)
     TestTools.compare_results_html(src)
 
 
 def test_inquirer_choice_rule():
-    src = TestTools.get_random_dir_in_tmp()
+    path = TestTools.get_random_path_in_tmp()
     command_parameters = [*COMMAND_START,
                           'arf-to-graph',
                           '-o',
-                          src,
-                          TEST_ARF_XML_PATCH,
+                          str(path),
+                          TEST_ARF_XML_PATH,
                           r'_package_\w+_removed'
                           ]
     command_parameters.remove("python3")
@@ -63,33 +62,33 @@ def test_inquirer_choice_rule():
     sut.send(key.SPACE)
     sut.send(key.ENTER)
     sut.wait()
-    assert os.path.isfile(src)
+    assert path.is_file()
 
 
 def test_command_parameter_all():
-    src = TestTools.get_random_dir_in_tmp()
+    path = TestTools.get_random_path_in_tmp()
     command = [*COMMAND_START,
                'arf-to-graph',
                '--all',
                '-o',
-               src,
-               TEST_ARF_XML_PATCH,
+               str(path),
+               TEST_ARF_XML_PATH,
                '.',
                ]
     subprocess.check_call(command)
-    assert len(os.listdir(src)) == 184
+    assert len(list(path.glob("**/*.html"))) == 184
 
 
 def test_command_parameter_all_and_show_failed_rules():
-    src = TestTools.get_random_dir_in_tmp()
+    path = TestTools.get_random_path_in_tmp()
     command = [*COMMAND_START,
                'arf-to-graph',
                '--all',
                '--show-failed-rules',
                '-o',
-               src,
-               TEST_ARF_XML_PATCH,
+               str(path),
+               TEST_ARF_XML_PATH,
                r'_package_\w+_removed'
                ]
     subprocess.check_call(command)
-    assert os.path.isfile(src)
+    assert path.is_file()

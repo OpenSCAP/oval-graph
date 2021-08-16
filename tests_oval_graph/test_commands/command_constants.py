@@ -1,11 +1,11 @@
-TEST_ARF_XML_PATCH = 'tests_oval_graph/global_test_data/ssg-fedora-ds-arf.xml'
+TEST_ARF_XML_PATH = 'tests_oval_graph/global_test_data/ssg-fedora-ds-arf.xml'
 
 COMMAND_START = ['python3',
                  '-m',
                  'oval_graph.command_line',
                  ]
 
-COMMAND_END = [TEST_ARF_XML_PATCH,
+COMMAND_END = [TEST_ARF_XML_PATH,
                'xccdf_org.ssgproject.content_rule_package_abrt_removed',
                ]
 
@@ -22,7 +22,7 @@ ARF_TO_JSON = [*COMMAND_START,
 
 BAD_JSON_TO_GRAPH = [*COMMAND_START,
                      'json-to-graph',
-                     TEST_ARF_XML_PATCH,
+                     TEST_ARF_XML_PATH,
                      '.'
                      ]
 

@@ -204,7 +204,8 @@ class Client():
             '--output',
             action="store",
             default=None,
-            help='The file where to save output.')
+            help=("The path where to save the output. If there are more report "
+                  "files to generate it will create an OUTPUT path as a directory."))
         parser.add_argument(
             "source_filename",
             help=self._get_message().get('source_filename'))

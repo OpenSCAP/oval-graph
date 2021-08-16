@@ -19,11 +19,12 @@ class Graph():
         self.script = self._get_part('script.js')
         self.search_bar = self._get_search_bar()
 
-    def save_html(self, dict_oval_trees, src):
-        with open(src, "wb+") as data_file:
+    def save_html(self, dict_oval_trees, path):
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with open(path, "wb+") as data_file:
             data_file.writelines(self._get_html(dict_oval_trees))
         if self.verbose:
-            self.print_output_message(src, list(dict_oval_trees.keys()))
+            self.print_output_message(path, list(dict_oval_trees.keys()))
 
     def _get_html(self, dict_of_rules):
         html = E.html(

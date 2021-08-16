@@ -1,7 +1,7 @@
-import os
 import tempfile
 import time
 import webbrowser
+from pathlib import Path
 from subprocess import PIPE, Popen, check_call
 
 from ..exceptions import NotTestedRule
@@ -20,6 +20,7 @@ class ClientHtmlOutput(Client):
         self.display_html = True if self.out is None else self.arg.display
         self.html_builder = Graph(self.arg.verbose, self.all_in_one)
         self.web_browsers = []
+        self.selected_only_one_rule = False
 
     def prepare_data(self, rules):
         paths_to_generated_rules = self._prepare_data(rules)
@@ -36,13 +37,15 @@ class ClientHtmlOutput(Client):
     def _prepare_data(self, rules):
         dict_oval_trees = dict()
         paths_to_generated_rules = []
+        if len(rules['rules']) == 1:
+            self.selected_only_one_rule = True
         for rule in rules['rules']:
             try:
                 self._put_to_dict_oval_trees(dict_oval_trees, rule)
                 if not self.all_in_one:
-                    src = self._get_src_for_one_graph(rule)
-                    self.html_builder.save_html(dict_oval_trees, src)
-                    paths_to_generated_rules.append(src)
+                    path = self._get_src_for_one_graph(rule)
+                    self.html_builder.save_html(dict_oval_trees, path)
+                    paths_to_generated_rules.append(str(path))
                     dict_oval_trees = {}
             except NotTestedRule as error:
                 start_red_color = '\033[91m'
@@ -50,9 +53,9 @@ class ClientHtmlOutput(Client):
                 message = '{}{}{}'.format(start_red_color, str(error), end_red_color)
                 raise NotTestedRule(message) from error
         if self.all_in_one:
-            src = self.get_save_src('rules' + self._get_date())
-            self.html_builder.save_html(dict_oval_trees, src)
-            paths_to_generated_rules.append(src)
+            path = self.get_save_src('rules' + self._get_date())
+            self.html_builder.save_html(dict_oval_trees, path)
+            paths_to_generated_rules.append(str(path))
         return paths_to_generated_rules
 
     def _get_src_for_one_graph(self, rule):
@@ -64,11 +67,12 @@ class ClientHtmlOutput(Client):
 
     def get_save_src(self, rule):
         if self.out is not None:
-            os.makedirs(self.out, exist_ok=True)
-            return os.path.join(
-                self.out, self.get_file_name(rule))
-        return os.path.join(
-            tempfile.gettempdir(), self.get_file_name(rule))
+            output_path = Path(self.out)
+            if not output_path.is_dir():
+                if (self.all_in_one and self.all_rules) or self.selected_only_one_rule:
+                    return output_path
+            return output_path / self.get_file_name(rule)
+        return Path(tempfile.gettempdir()) / self.get_file_name(rule)
 
     def open_results_in_web_browser(self, paths_to_results):
         if self.display_html:

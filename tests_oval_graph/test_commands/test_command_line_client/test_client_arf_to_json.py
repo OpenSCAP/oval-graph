@@ -10,9 +10,11 @@ import pytest
 from oval_graph.command_line_client.arf_to_json import ArfToJson
 
 from ...test_tools import TestTools
-from .constants_for_tests import (EXPECTED_RULES_ID, EXPECTED_RULES_ID_WITH_ARGS,
-                                  SEARCH_BAD_RULES, SEARCH_RULES, PATH_TO_ARF_REPORT,
-                                  PATH_TO_EMPTY_FILE, PATH_TO_REFERENCE_RESULT_JSON)
+from .constants_for_tests import (EXPECTED_RULES_ID,
+                                  EXPECTED_RULES_ID_WITH_ARGS,
+                                  PATH_TO_ARF_REPORT, PATH_TO_EMPTY_FILE,
+                                  PATH_TO_REFERENCE_RESULT_JSON,
+                                  SEARCH_BAD_RULES, SEARCH_RULES)
 
 
 def get_client_arf_to_json(rule, optional_args=None):

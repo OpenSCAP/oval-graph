@@ -7,9 +7,9 @@ import pytest
 from oval_graph.command_line_client.json_to_html import JsonToHtml
 
 from ...test_tools import TestTools
-from .constants_for_tests import (EXPECTED_RULES_ID, SEARCH_RULES, PATH_TO_ARF_REPORT,
-                                  PATH_TO_REFERENCE_RESULT_HTML, PATH_TO_BAD_RESULT_JSON,
-                                  PATH_TO_JSON_REPORT)
+from .constants_for_tests import (EXPECTED_RULES_ID, PATH_TO_ARF_REPORT,
+                                  PATH_TO_BAD_RESULT_JSON, PATH_TO_JSON_REPORT,
+                                  PATH_TO_REFERENCE_RESULT_HTML, SEARCH_RULES)
 
 
 def get_client_json_to_html(rule, optional_args=None, src=None):

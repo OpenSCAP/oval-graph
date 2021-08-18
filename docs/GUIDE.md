@@ -194,6 +194,8 @@ There are many test options for syntax, code, code coverage.
 
 ### Before testing install requirements
 
+Requirements contain optional dependency `inquirer`. Test suite works differently when is not installed, but when you use `tox`. It runs tests two times when is installed `inquirer` and when is not installed.
+
 ```bash
 pip3 install -r test_suite_requirements.txt
 ```

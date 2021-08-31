@@ -1,6 +1,7 @@
 import pytest
 
 from oval_graph.command_line_client.client import Client
+
 from .constants_for_tests import PATH_TO_ARF_REPORT
 
 

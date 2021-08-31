@@ -7,8 +7,10 @@ import pytest
 from oval_graph.command_line_client.arf_to_html import ArfToHtml
 
 from ...test_tools import TestTools
-from .constants_for_tests import (EXPECTED_RULES_ID, EXPECTED_RULES_ID_WITH_ARGS,
-                                  SEARCH_BAD_RULES, SEARCH_RULES, PATH_TO_ARF_REPORT)
+from .constants_for_tests import (EXPECTED_RULES_ID,
+                                  EXPECTED_RULES_ID_WITH_ARGS,
+                                  PATH_TO_ARF_REPORT, SEARCH_BAD_RULES,
+                                  SEARCH_RULES)
 
 
 def get_client_arf_to_html(rule, optional_args=None):
@@ -49,18 +51,21 @@ def test_prepare_tree(args):
 
 @pytest.mark.parametrize("args, result", EXPECTED_RULES_ID_WITH_ARGS)
 def test_get_questions_with_parameters(capsys, args, result):
+    pytest.importorskip("inquirer")
     rule = r'_package_\w+_removed'
     client = get_client_arf_to_html(rule, args)
     TestTools.get_questions_not_selected(capsys, client, result)
 
 
 def test_get_questions_with_option_show_failed_rules():
+    pytest.importorskip("inquirer")
     rule = r'_package_\w+_removed'
     client = get_client_arf_to_html(rule, ["--show-failed-rules"])
     TestTools.get_questions_with_option_show_failed_rules(client)
 
 
 def test_get_questions():
+    pytest.importorskip("inquirer")
     rule = r'_package_\w+_removed'
     client = get_client_arf_to_html(rule)
     out = client.get_questions()[0].choices

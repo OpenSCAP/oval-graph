@@ -3,6 +3,7 @@ import subprocess
 import time
 
 import pexpect
+import pytest
 from readchar import key
 
 from ..test_tools import TestTools
@@ -30,6 +31,7 @@ def test_command_arf_to_json_is_tty():
 
 
 def test_inquirer_choice_rule():
+    pytest.importorskip("inquirer")
     path = str(TestTools.get_random_path_in_tmp()) + '.json'
 
     command_parameters = [*ARF_TO_JSON]

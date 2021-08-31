@@ -1,0 +1,9 @@
+flake8==3.8.4
+lxml==4.6.3
+mock==4.0.3
+pexpect==4.8.0
+pylint==2.6.0
+pytest==6.2.0
+pytest-cov==2.10.1
+tox==3.20.1
+readchar==3.0.4

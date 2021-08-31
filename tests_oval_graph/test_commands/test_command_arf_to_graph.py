@@ -47,6 +47,7 @@ def test_command_arf_to_graph_with_out_parameter():
 
 
 def test_inquirer_choice_rule():
+    pytest.importorskip("inquirer")
     path = TestTools.get_random_path_in_tmp()
     command_parameters = [*COMMAND_START,
                           'arf-to-graph',

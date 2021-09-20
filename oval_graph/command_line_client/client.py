@@ -5,13 +5,6 @@ from datetime import datetime
 
 from .. import __version__
 
-IS_INQUIRER_INSTALLED = True
-try:
-    from inquirer.prompt import prompt
-    from inquirer.questions import Checkbox
-except ImportError:
-    IS_INQUIRER_INSTALLED = False
-
 
 class Client():
     def __init__(self, args):
@@ -78,11 +71,6 @@ class Client():
             if self.all_rules:
                 return self._get_rules()
 
-            if IS_INQUIRER_INSTALLED:
-                questions = self.get_questions()
-                answers = prompt(questions)
-                return answers
-
             print(self.get_selection_rules())
             return None
         return self._get_rules()
@@ -110,8 +98,6 @@ class Client():
             for line in self._get_rows_not_visualizable_rules():
                 lines.append(line)
         lines.append(
-            "Interactive rule selection is not available,"
-            " because inquirer is not installed."
             " Copy id of the rule you want to visualize and"
             " paste it into a command with regular"
             " expression characters(^$).\n"
@@ -127,19 +113,6 @@ class Client():
         if not self.show_not_selected_rules and self.show_not_tested_rules:
             print("\n".join(self._get_rows_not_visualizable_rules()))
         return self._get_list_of_matched_rules()
-
-    def get_questions(self):
-        choices = self._get_choices()
-        questions = [
-            Checkbox(
-                'rules',
-                message=(
-                    "= The Rules IDs = (move - UP and DOWN arrows,"
-                    " select - SPACE or LEFT and RIGHT arrows, submit - ENTER)"),
-                choices=choices,
-            ),
-        ]
-        return questions
 
     def _get_wanted_rules(self, rules):
         return [

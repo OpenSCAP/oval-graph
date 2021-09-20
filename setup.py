@@ -25,11 +25,6 @@ setup(name='oval_graph',
       install_requires=[
           'lxml',
       ],
-      extras_require={
-          'niceCli': [
-              'inquirer',
-          ],
-      },
       include_package_data=True,
       zip_safe=False,
       entry_points={

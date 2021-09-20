@@ -7,8 +7,8 @@ import pytest
 from oval_graph.command_line_client.json_to_html import JsonToHtml
 
 from ...test_tools import TestTools
-from .constants_for_tests import (EXPECTED_RULES_ID, PATH_TO_ARF_REPORT,
-                                  PATH_TO_BAD_RESULT_JSON, PATH_TO_JSON_REPORT,
+from .constants_for_tests import (PATH_TO_ARF_REPORT, PATH_TO_BAD_RESULT_JSON,
+                                  PATH_TO_JSON_REPORT,
                                   PATH_TO_REFERENCE_RESULT_HTML, SEARCH_RULES)
 
 
@@ -54,14 +54,6 @@ def test_prepare_tree(args):
     rule = 'xccdf_org.ssgproject.content_rule_package_abrt_removed'
     client = get_client_json_to_html(rule, args)
     TestTools.prepare_tree_test(client, rule)
-
-
-def test_get_questions():
-    pytest.importorskip("inquirer")
-    rule = r'_package_\w+_removed'
-    client = get_client_json_to_html(rule)
-    out = client.get_questions()[0].choices
-    assert out == EXPECTED_RULES_ID
 
 
 @pytest.mark.parametrize("part_of_id_rule, result", SEARCH_RULES)

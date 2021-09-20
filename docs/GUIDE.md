@@ -12,7 +12,7 @@ This tool generates an [OVAL](https://oval.cisecurity.org/) result in the form o
 ### Optional dependencies
 
 - includes required dependencies
-- [inquirer](https://pypi.org/project/inquirer/)
+- [inquirer](https://pypi.org/project/inquirer/) __Not supported until oval-graph 1.9.0__
 
 ## Installation
 
@@ -46,7 +46,7 @@ sudo yum install oval-graph
 sudo dnf install oval-graph
 ```
 
-##### Install inquirer, if you want have nice cli features. (optional)
+##### Install inquirer, if you want have nice cli features. (optional) (Not supported until oval-graph 1.9.0)
 
 ```bash
 sudo pip3 install inquirer
@@ -57,14 +57,9 @@ sudo pip3 install inquirer
 ```bash
 # If you want to install oval-graph to $HOME/.local/bin, you have to run the below command:
 pip3 install --user oval-graph
-# Install inquirer, if you want have nice cli features. (optional)
-pip3 install --user inquirer
 
 # If you want to install oval-graph globally instead, you have to run the below commands as admin, e.g. on Linux:
 sudo pip3 install oval-graph
-# Install inquirer, if you want have nice cli features. (optional)
-sudo pip3 install inquirer
-
 ```
 
 ### Installation from source
@@ -193,8 +188,6 @@ python3 -m oval_graph.command_line json-to-graph -h
 There are many test options for syntax, code, code coverage.
 
 ### Before testing install requirements
-
-Requirements contain optional dependency `inquirer`. Test suite works differently when is not installed, but when you use `tox`. It runs tests two times when is installed `inquirer` and when is not installed.
 
 ```bash
 pip3 install -r test_suite_requirements.txt

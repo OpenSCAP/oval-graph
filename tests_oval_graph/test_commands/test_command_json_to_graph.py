@@ -3,9 +3,7 @@ import re
 import subprocess
 from pathlib import Path
 
-import pexpect
 import pytest
-from readchar import key
 
 from ..test_tools import TestTools
 from .command_constants import ARF_TO_JSON, COMMAND_START, TEST_ARF_XML_PATH
@@ -53,65 +51,6 @@ def test_command_json_to_graph_with_verbose():
     path_search = re.search(path_regex, out.decode('utf-8')).group(1)
     file_path = Path(__file__).parent.parent.parent / path_search
     TestTools.compare_results_html(file_path)
-
-
-def test_command_json_to_graph_is_tty():
-    path = str(TestTools.get_random_path_in_tmp()) + '.json'
-    with open(path, 'w+') as output:
-        subprocess.check_call(ARF_TO_JSON, stdout=output)
-
-    out_path = TestTools.get_random_path_in_tmp()
-    commad = [*COMMAND_START,
-              'json-to-graph',
-              '--out',
-              str(out_path),
-              str(path),
-              'xccdf_org.ssgproject.content_rule_package_abrt_removed'
-              ]
-    subprocess.check_output(commad)
-
-    TestTools.compare_results_html(out_path)
-
-
-def test_inquirer_choice_rule():
-    pytest.importorskip("inquirer")
-    path = str(TestTools.get_random_path_in_tmp()) + '.json'
-    args = ['-m',
-            'oval_graph.command_line',
-            'arf-to-json',
-            TEST_ARF_XML_PATH,
-            r'_package_\w+_removed'
-            ]
-
-    sut = pexpect.spawn('python3', args)
-    sut.expect(r'\w+')
-    keys = [key.DOWN, key.SPACE, key.UP, key.SPACE, key.ENTER]
-    for key_ in keys:
-        sut.send(key_)
-    sut.wait()
-    out = sut.readlines()
-
-    with open(path, "w+") as output:
-        output.writelines(row.decode("utf-8") for row in out[20:])
-    TestTools.compare_results_json(path)
-
-    out_path = TestTools.get_random_path_in_tmp()
-    args = [*COMMAND_START,
-            'json-to-graph',
-            '-o',
-            str(out_path),
-            path,
-            '.'
-            ]
-    args.remove("python3")
-
-    sut = pexpect.spawn('python3', args)
-    sut.expect(r'\w+')
-    keys = [key.DOWN, key.SPACE, key.ENTER]
-    for key_ in keys:
-        sut.send(key_)
-    sut.wait()
-    assert out_path.is_file()
 
 
 def test_command_parameter_all():

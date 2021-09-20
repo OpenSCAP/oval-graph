@@ -2,9 +2,7 @@ import re
 import subprocess
 from pathlib import Path
 
-import pexpect
 import pytest
-from readchar import key
 
 from ..test_tools import TestTools
 from .command_constants import ARF_TO_GRAPH, COMMAND_START, TEST_ARF_XML_PATH
@@ -44,26 +42,6 @@ def test_command_arf_to_graph_with_out_parameter():
     command, src = get_command_with_random_output_path()
     subprocess.check_call(command)
     TestTools.compare_results_html(src)
-
-
-def test_inquirer_choice_rule():
-    pytest.importorskip("inquirer")
-    path = TestTools.get_random_path_in_tmp()
-    command_parameters = [*COMMAND_START,
-                          'arf-to-graph',
-                          '-o',
-                          str(path),
-                          TEST_ARF_XML_PATH,
-                          r'_package_\w+_removed'
-                          ]
-    command_parameters.remove("python3")
-    sut = pexpect.spawn("python3", command_parameters)
-    sut.expect(r'\w+')
-    sut.send(key.DOWN)
-    sut.send(key.SPACE)
-    sut.send(key.ENTER)
-    sut.wait()
-    assert path.is_file()
 
 
 def test_command_parameter_all():

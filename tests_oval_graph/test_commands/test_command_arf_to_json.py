@@ -2,10 +2,6 @@ import json
 import subprocess
 import time
 
-import pexpect
-import pytest
-from readchar import key
-
 from ..test_tools import TestTools
 from .command_constants import ARF_TO_JSON, COMMAND_START, TEST_ARF_XML_PATH
 
@@ -28,27 +24,6 @@ def test_command_arf_to_json():
 def test_command_arf_to_json_is_tty():
     src = run_commad_and_save_output_to_file(ARF_TO_JSON)
     TestTools.compare_results_json(src)
-
-
-def test_inquirer_choice_rule():
-    pytest.importorskip("inquirer")
-    path = str(TestTools.get_random_path_in_tmp()) + '.json'
-
-    command_parameters = [*ARF_TO_JSON]
-    command_parameters.remove("python3")
-    command_parameters.remove('xccdf_org.ssgproject.content_rule_package_abrt_removed')
-    command_parameters.append(r'_package_\w+_removed')
-    sut = pexpect.spawn('python3', command_parameters)
-
-    sut.expect(r'\w+')
-    keys = [key.DOWN, key.SPACE, key.SPACE, key.UP, key.SPACE, key.ENTER]
-    for key_ in keys:
-        sut.send(key_)
-    sut.wait()
-    out = sut.readlines()
-    with open(path, "w+") as data:
-        data.writelines(row.decode("utf-8") for row in out[24:])
-    TestTools.compare_results_json(path)
 
 
 def test_command_parameter_all():

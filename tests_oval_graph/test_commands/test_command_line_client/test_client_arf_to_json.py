@@ -10,9 +10,7 @@ import pytest
 from oval_graph.command_line_client.arf_to_json import ArfToJson
 
 from ...test_tools import TestTools
-from .constants_for_tests import (EXPECTED_RULES_ID,
-                                  EXPECTED_RULES_ID_WITH_ARGS,
-                                  PATH_TO_ARF_REPORT, PATH_TO_EMPTY_FILE,
+from .constants_for_tests import (PATH_TO_ARF_REPORT, PATH_TO_EMPTY_FILE,
                                   PATH_TO_REFERENCE_RESULT_JSON,
                                   SEARCH_BAD_RULES, SEARCH_RULES)
 
@@ -227,29 +225,6 @@ def test_creation_json_two_selected_rules():
     assert referenc_result[
         "xccdf_org.ssgproject.content_rule_package_abrt_removed"] == data[rules_id[0]]
     assert rule_1 in rules_id[1]
-
-
-@pytest.mark.parametrize("args, result", EXPECTED_RULES_ID_WITH_ARGS)
-def test_get_questions_with_parameters(capsys, args, result):
-    pytest.importorskip("inquirer")
-    rule = r'_package_\w+_removed'
-    client = get_client_arf_to_json(rule, args)
-    TestTools.get_questions_not_selected(capsys, client, result)
-
-
-def test_get_questions_with_option_show_failed_rules():
-    pytest.importorskip("inquirer")
-    rule = r'_package_\w+_removed'
-    client = get_client_arf_to_json(rule, ["--show-failed-rules"])
-    TestTools.get_questions_with_option_show_failed_rules(client)
-
-
-def test_get_questions():
-    pytest.importorskip("inquirer")
-    rule = r'_package_\w+_removed'
-    client = get_client_arf_to_json(rule)
-    out = client.get_questions()[0].choices
-    assert out == EXPECTED_RULES_ID
 
 
 @pytest.mark.parametrize("part_of_id_rule, result", SEARCH_RULES)

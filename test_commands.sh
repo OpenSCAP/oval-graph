@@ -101,7 +101,7 @@ parse_commandline "$@"
 # [ <-- needed because of Argbash
 
 name="oval-graph"
-test_file_src="./tests/test_data/ssg-fedora-ds-arf.xml"
+test_file_src="./tests_oval_graph/global_test_data/ssg-fedora-ds-arf.xml"
 tmp_dir_src="./tmp_data"
 tmp_json_file_src="${tmp_dir_src}/data.json"
 

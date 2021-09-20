@@ -12,7 +12,7 @@ This tool generates an [OVAL](https://oval.cisecurity.org/) result in the form o
 ### Optional dependencies
 
 - includes required dependencies
-- [inquirer](https://pypi.org/project/inquirer/) __Not supported until oval-graph 1.9.0__
+- [inquirer](https://pypi.org/project/inquirer/) __Not supported until oval-graph 1.3.0__
 
 ## Installation
 
@@ -46,7 +46,7 @@ sudo yum install oval-graph
 sudo dnf install oval-graph
 ```
 
-##### Install inquirer, if you want have nice cli features. (optional) (Not supported until oval-graph 1.9.0)
+##### Install inquirer, if you want have nice cli features. (optional) (Not supported until oval-graph 1.3.0)
 
 ```bash
 sudo pip3 install inquirer
@@ -65,16 +65,11 @@ sudo pip3 install oval-graph
 ### Installation from source
 
 ```bash
-git clone https://github.com/OpenSCAP/OVAL-visualization-as-graph.git
-cd OVAL-visualization-as-graph
+git clone https://github.com/OpenSCAP/oval-graph.git
+cd oval-graph
 
 # Install without features (light version)
 sudo pip3 install .
-
-# OR
-
-# Install with nice cli features
-sudo pip3 install ".[niceCli]"
 ```
 
 > If you don't want to install anything, look [here](#run-from-source).

@@ -180,6 +180,26 @@ test_command_rise_error() {
     report "${msg}"
 }
 
+test_of_command_output_contains_expected_str() {
+    test_name="$1"
+    command="$2"
+    expected_str="$3"
+    msg=""
+    echo "Start: $test_name"
+    output=$($command 2>&1)
+    exit_code=$?
+    if [[ $output =~ $expected_str ]]; then
+        test_result=0
+        msg="$test_name"
+    else
+        echo "$output"
+        test_result=1
+        overall_test_result=1
+        msg="$test_name: $command"
+    fi
+    report "${msg}"
+}
+
 clean() {
     file=$1
     if [ "$_arg_verbose" = "on" ]; then
@@ -222,6 +242,11 @@ hide_all_passing_tests_test() {
     test_command run-json-to-graph "json-to-graph -o ${tmp_dir_src} ${tmp_json_file_src} --hide-passing-tests -i fips"
 }
 
+test_of_reference_to_right_binary_in_help() {
+    test_of_command_output_contains_expected_str expect_right_reference_in_help "arf-to-graph -h" "arf-to-graph"
+    test_of_command_output_contains_expected_str expect_right_reference_in_help "arf-to-json -h" "arf-to-json"
+    test_of_command_output_contains_expected_str expect_right_reference_in_help "json-to-graph -h" "json-to-graph"
+}
 
 # Backup descriptors stdout -> 3, stderr -> 4
 exec 3>&1 4>&2
@@ -241,6 +266,7 @@ basic_test
 regex_and_all_test
 regex_and_all_in_one_test
 hide_all_passing_tests_test
+test_of_reference_to_right_binary_in_help
 
 if [ "$_arg_clean" = "on" ]; then
     clean "${tmp_dir_src}"

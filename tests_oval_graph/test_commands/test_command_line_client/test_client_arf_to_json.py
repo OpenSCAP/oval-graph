@@ -46,11 +46,11 @@ def get_date_regex():
         r'(?:\_([0-5]?\d))?'
         r'(?:\_([0-5]?\d))?'
     )
-    regex_date = '(?:-{}-|-{}-|-{}-){}'.format(
-        date_regex_part_one,
-        date_regex_part_two,
-        date_regex_part_three,
-        time_regex
+    regex_date = (
+        f'(?:-{date_regex_part_one}'
+        f'-|-{date_regex_part_two}'
+        f'-|-{date_regex_part_three}'
+        f'-){time_regex}'
     )
     return regex_date
 

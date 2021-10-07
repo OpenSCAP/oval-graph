@@ -50,7 +50,7 @@ class ClientHtmlOutput(Client):
             except NotTestedRule as error:
                 start_red_color = '\033[91m'
                 end_red_color = '\033[0m'
-                message = '{}{}{}'.format(start_red_color, str(error), end_red_color)
+                message = f'{start_red_color}{str(error)}{end_red_color}'
                 raise NotTestedRule(message) from error
         if self.all_in_one:
             path = self.get_save_src('rules' + self._get_date())
@@ -63,7 +63,7 @@ class ClientHtmlOutput(Client):
 
     @staticmethod
     def get_file_name(rule):
-        return "{}{}.html".format(START_OF_FILE_NAME, rule)
+        return f"{START_OF_FILE_NAME}{rule}.html"
 
     def get_save_src(self, rule):
         if self.out is not None:

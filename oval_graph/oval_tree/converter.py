@@ -88,7 +88,7 @@ class Converter():
     def _get_negation_character(value):
         return (
             '<strong>'
-            '<span class="' + VALUE_TO_BOOTSTRAP_COLOR[value] + '">NOT</strong>'
+            f'<span class="{VALUE_TO_BOOTSTRAP_COLOR[value]}">NOT</strong>'
             '</span>'
         )
 
@@ -141,11 +141,8 @@ class Converter():
         label = self._get_label()
         if self.tree.test_result_details:
             self.tree.test_result_details['result'] = (
-                ' <span class="label {color_tag}">{result}</span>'
-                .format(
-                    color_tag=BOOTSTRAP_COLOR_TO_LABEL_COLOR[icons['color']],
-                    result=self.result,
-                ))
+                f' <span class="label {BOOTSTRAP_COLOR_TO_LABEL_COLOR[icons["color"]]}">'
+                f'{self.result}</span>')
         out = {'text':
                '{negation} <strong><span class="{icon}">{label}</span></strong>'
                ' <span class="label {color_tag}">{tag}</span>'

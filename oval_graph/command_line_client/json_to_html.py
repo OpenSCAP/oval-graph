@@ -27,6 +27,7 @@ class JsonToHtml(ClientHtmlOutput, ClientJsonInput):
 
     def _get_message(self):
         return {
+            'command_name': 'json-to-graph',
             'description': 'Client for visualization of JSON created by command arf-to-json',
             'source_filename': 'JSON file',
         }

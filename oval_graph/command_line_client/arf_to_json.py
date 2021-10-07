@@ -13,6 +13,7 @@ class ArfToJson(ClientArfInput):
 
     def _get_message(self):
         return {
+            'command_name': 'arf-to-json',
             'description': 'Client for generating JSON of SCAP rule evaluation results',
             'source_filename': 'ARF scan file',
         }

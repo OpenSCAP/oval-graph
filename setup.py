@@ -4,12 +4,8 @@ import oval_graph
 
 
 def get_long_description():
-    try:
-        with open('README.md', encoding='utf8') as fd:
-            return fd.read()
-    except TypeError:
-        with open('README.md') as fd:
-            return fd.read()
+    with open('README.md', encoding='utf8') as readme:
+        return readme.read()
 
 
 setup(name='oval_graph',

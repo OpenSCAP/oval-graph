@@ -75,7 +75,7 @@ def get_path_to_data_source(data_source):
 def test_evaluation_of_oval_tree(data_source, expected_result):
     path = get_path_to_data_source(data_source)
     data = dict()
-    with open(path, "r") as file_:
+    with open(path, "r", encoding="utf-8") as file_:
         data = json.load(file_)
     oval_tree = Builder.dict_to_oval_tree(data)
     assert oval_tree.evaluate_tree() == expected_result

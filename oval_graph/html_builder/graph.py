@@ -104,7 +104,7 @@ class Graph():
     @staticmethod
     def _get_part(part):
         out = ''
-        with open(LOCAL_DATA_DIR / part, "r") as data_file:
+        with open(LOCAL_DATA_DIR / part, "r", encoding="utf-8") as data_file:
             out = ''.join(data_file.readlines())
         return out
 

@@ -380,5 +380,5 @@ class GetTree():
     @staticmethod
     def json_of_tree(src):
         path = Path(__file__).parent / src
-        with open(path, 'r') as file_:
+        with open(path, 'r', encoding="utf-8") as file_:
             return json.load(file_)

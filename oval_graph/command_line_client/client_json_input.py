@@ -25,7 +25,7 @@ class ClientJsonInput(Client):
         raise NotImplementedError
 
     def get_json_data_file(self):
-        with open(self.source_filename, 'r') as file_:
+        with open(self.source_filename, 'r', encoding="utf-8") as file_:
             try:
                 return json.load(file_)
             except json.JSONDecodeError as error:

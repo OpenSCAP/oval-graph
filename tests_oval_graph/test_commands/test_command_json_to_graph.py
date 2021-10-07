@@ -14,7 +14,7 @@ def test_command_json_to_graph():
     path = str(TestTools.get_random_path_in_tmp()) + '.json'
     out = subprocess.check_output(ARF_TO_JSON)
 
-    with open(path, "w+") as output:
+    with open(path, "w+", encoding="utf-8") as output:
         output.writelines(out.decode('utf-8'))
 
     command = [*COMMAND_START,
@@ -34,7 +34,7 @@ def test_command_json_to_graph():
 def test_command_json_to_graph_with_verbose():
     path = str(TestTools.get_random_path_in_tmp()) + '.json'
     out = subprocess.check_output(ARF_TO_JSON)
-    with open(path, "w+") as output:
+    with open(path, "w+", encoding="utf-8") as output:
         output.writelines(out.decode('utf-8'))
 
     command = [*COMMAND_START,
@@ -61,10 +61,10 @@ def test_command_parameter_all():
                TEST_ARF_XML_PATH,
                '.'
                ]
-    with open(path, 'w+') as output:
+    with open(path, 'w+', encoding="utf-8") as output:
         subprocess.check_call(command, stdout=output)
 
-    with open(path, "r") as data:
+    with open(path, "r", encoding="utf-8") as data:
         rules = json.load(data)
     assert len(rules.keys()) == 184
     out_path = TestTools.get_random_path_in_tmp()

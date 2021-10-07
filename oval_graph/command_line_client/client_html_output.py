@@ -103,12 +103,14 @@ class ClientHtmlOutput(Client):
         is_firefox_installed = self._is_firefox_installed()
         if is_firefox_installed:
             command = ["firefox", path_to_result]
+            # pylint: disable=bad-option-value,R1732
             browser = Popen(command, stdout=PIPE, stderr=PIPE)
             self.web_browsers.append(browser)
             time.sleep(0.2)
         else:
             default_web_browser_name = webbrowser.get().name
             command = [default_web_browser_name, path_to_result]
+            # pylint: disable=bad-option-value,R1732
             browser = Popen(command, stdout=PIPE, stderr=PIPE)
             self.web_browsers.append(browser)
             time.sleep(0.2)

@@ -5,7 +5,7 @@ STR_TO_BOOL = {'true': True, 'false': False}
 STR_NEGATE_BOOL = {'true': 'false', 'false': 'true'}
 
 
-class _OVALScanDefinitions:
+class _OVALScanDefinitions:  # pylint: disable=R0903
     def __init__(self, definitions, oval_definitions, report_data):
         self.definitions = definitions
         self.comments_parser = _Comments(oval_definitions)

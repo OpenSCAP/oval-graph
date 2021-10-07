@@ -41,7 +41,7 @@ class ArfToJson(ClientArfInput):
     def prepare_data(self, rules):
         out = []
         rule = None
-        out_oval_tree_dict = dict()
+        out_oval_tree_dict = {}
         for rule in rules['rules']:
             try:
                 out_oval_tree_dict[self._get_rule_key(rule)] = self.create_dict_of_rule(rule)

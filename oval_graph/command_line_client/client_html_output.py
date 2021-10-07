@@ -35,7 +35,7 @@ class ClientHtmlOutput(Client):
         raise NotImplementedError
 
     def _prepare_data(self, rules):
-        dict_oval_trees = dict()
+        dict_oval_trees = {}
         paths_to_generated_rules = []
         if len(rules['rules']) == 1:
             self.selected_only_one_rule = True

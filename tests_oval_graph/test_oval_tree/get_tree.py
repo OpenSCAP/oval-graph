@@ -4,7 +4,7 @@ from pathlib import Path
 from oval_graph.oval_tree.oval_node import OvalNode
 
 
-class GetTree():
+class GetTree():  # pylint: disable=R0904
 
     @staticmethod
     def simple_tree():

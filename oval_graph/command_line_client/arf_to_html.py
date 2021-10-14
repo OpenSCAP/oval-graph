@@ -10,6 +10,7 @@ class ArfToHtml(ClientArfInput, ClientHtmlOutput):
 
     def _get_message(self):
         return {
+            'command_name': 'arf-to-graph',
             'description': 'Client for visualization of SCAP rule evaluation results',
             'source_filename': 'ARF scan file',
         }

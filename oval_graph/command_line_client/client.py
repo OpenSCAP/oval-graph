@@ -25,6 +25,7 @@ class Client():
     @staticmethod
     def _get_message():
         return {
+            'command_name': '',
             'description': '',
             'source_filename': '',
         }
@@ -123,7 +124,7 @@ class Client():
 
     def parse_arguments(self, args):
         parser = argparse.ArgumentParser(
-            prog='oval-graph',
+            prog=self._get_message().get('command_name'),
             description=self._get_message().get('description'))
         self.prepare_parser(parser)
         if args is None:

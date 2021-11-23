@@ -5,7 +5,7 @@ from .global_namespaces import namespaces
 MAX_MESSAGE_LEN = 99
 
 
-class _TestInfo:
+class _TestInfo:  # pylint: disable=R0903
     def __init__(self, report_data):
         self.report_data = report_data
         self.oval_definitions = self._get_oval_definitions()
@@ -124,7 +124,7 @@ class _TestInfo:
     @staticmethod
     def _complete_message(item, var_id):
         if len(item.text) == MAX_MESSAGE_LEN and var_id[:item.text.find('(')] in var_id:
-            return "{}{})".format(item.text[:item.text.find('(') + 1], var_id)
+            return f"{item.text[:item.text.find('(') + 1]}{var_id})"
         return item.text
 
     @staticmethod

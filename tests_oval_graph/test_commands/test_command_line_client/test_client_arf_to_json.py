@@ -46,11 +46,11 @@ def get_date_regex():
         r'(?:\_([0-5]?\d))?'
         r'(?:\_([0-5]?\d))?'
     )
-    regex_date = '(?:-{}-|-{}-|-{}-){}'.format(
-        date_regex_part_one,
-        date_regex_part_two,
-        date_regex_part_three,
-        time_regex
+    regex_date = (
+        f'(?:-{date_regex_part_one}'
+        f'-|-{date_regex_part_two}'
+        f'-|-{date_regex_part_three}'
+        f'-){time_regex}'
     )
     return regex_date
 
@@ -193,7 +193,7 @@ def test_creation_json_with_two_more_rule():
     assert result_src == result_src_second_rule
 
     data = None
-    with open(result_src[-1], 'r') as file_:
+    with open(result_src[-1], 'r', encoding="utf-8") as file_:
         data = json.load(file_)
     rules_id = list(data.keys())
 
@@ -216,7 +216,7 @@ def test_creation_json_two_selected_rules():
     result_src = client.prepare_data(rules)
 
     data = None
-    with open(result_src[-1], 'r') as file_:
+    with open(result_src[-1], 'r', encoding="utf-8") as file_:
         data = json.load(file_)
     rules_id = list(data.keys())
     assert len(rules_id) == 2

@@ -25,16 +25,15 @@ class ClientJsonInput(Client):
         raise NotImplementedError
 
     def get_json_data_file(self):
-        with open(self.source_filename, 'r') as file_:
+        with open(self.source_filename, 'r', encoding="utf-8") as file_:
             try:
                 return json.load(file_)
             except json.JSONDecodeError as error:
                 raise ValueError(
-                    'Used file "{}" is not valid json.'.format(
-                        self.source_filename)) from error
+                    f'Used file "{self.source_filename}" is not valid json.') from error
 
     def search_rules_id(self):
         rules = self._get_wanted_rules(self.json_data_file.keys())
         if not rules:
-            raise ValueError('404 rule "{}" not found!'.format(self.rule_name))
+            raise ValueError(f'404 rule "{self.rule_name}" not found!')
         return rules

@@ -35,7 +35,7 @@ class ClientHtmlOutput(Client):
         raise NotImplementedError
 
     def _prepare_data(self, rules):
-        dict_oval_trees = dict()
+        dict_oval_trees = {}
         paths_to_generated_rules = []
         if len(rules['rules']) == 1:
             self.selected_only_one_rule = True
@@ -50,7 +50,7 @@ class ClientHtmlOutput(Client):
             except NotTestedRule as error:
                 start_red_color = '\033[91m'
                 end_red_color = '\033[0m'
-                message = '{}{}{}'.format(start_red_color, str(error), end_red_color)
+                message = f'{start_red_color}{str(error)}{end_red_color}'
                 raise NotTestedRule(message) from error
         if self.all_in_one:
             path = self.get_save_src('rules' + self._get_date())
@@ -63,7 +63,7 @@ class ClientHtmlOutput(Client):
 
     @staticmethod
     def get_file_name(rule):
-        return "{}{}.html".format(START_OF_FILE_NAME, rule)
+        return f"{START_OF_FILE_NAME}{rule}.html"
 
     def get_save_src(self, rule):
         if self.out is not None:
@@ -103,12 +103,14 @@ class ClientHtmlOutput(Client):
         is_firefox_installed = self._is_firefox_installed()
         if is_firefox_installed:
             command = ["firefox", path_to_result]
+            # pylint: disable=bad-option-value,R1732
             browser = Popen(command, stdout=PIPE, stderr=PIPE)
             self.web_browsers.append(browser)
             time.sleep(0.2)
         else:
             default_web_browser_name = webbrowser.get().name
             command = [default_web_browser_name, path_to_result]
+            # pylint: disable=bad-option-value,R1732
             browser = Popen(command, stdout=PIPE, stderr=PIPE)
             self.web_browsers.append(browser)
             time.sleep(0.2)

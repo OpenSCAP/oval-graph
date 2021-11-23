@@ -53,9 +53,10 @@ class ClientArfInput(Client):
         wanted_rules = self._get_wanted_rules(self.arf_xml_parser.used_rules.keys())
         not_tested_rule = self.get_matched_not_tested_rules()
         if not wanted_rules and not not_tested_rule:
-            raise ValueError('404 rule "{}" not found!'.format(self.rule_name))
+            raise ValueError(f'404 rule "{self.rule_name}" not found!')
         if self.rule_name in not_tested_rule:
-            raise NotTestedRule(
-                'Rule "{}" is {}, so there are no results.'
-                .format(self.rule_name, self.arf_xml_parser.not_tested_rules[self.rule_name]))
+            raise NotTestedRule((
+                f'Rule "{self.rule_name}" '
+                f'is {self.arf_xml_parser.not_tested_rules[self.rule_name]},'
+                ' so there are no results.'))
         return wanted_rules

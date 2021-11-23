@@ -90,7 +90,7 @@ class Graph():
         json_of_graphs = {self._remove_unfit_chars(key): value
                           for key, value in dict_of_rules.items()}
         data = str(json.dumps(json_of_graphs))
-        return "var data_of_tree = {};".format(data)
+        return f"var data_of_tree = {data};"
 
     def _get_titles_and_places_for_graph(self, dict_of_rules):
         rules_html = E.div({'id': 'graphs'})
@@ -104,7 +104,7 @@ class Graph():
     @staticmethod
     def _get_part(part):
         out = ''
-        with open(LOCAL_DATA_DIR / part, "r") as data_file:
+        with open(LOCAL_DATA_DIR / part, "r", encoding="utf-8") as data_file:
             out = ''.join(data_file.readlines())
         return out
 
@@ -112,7 +112,7 @@ class Graph():
     def print_output_message(src, rules):
         if len(rules) > 1:
             rule_names = "\n" + "\n".join(rules)
-            print('Rules "{}" done!'.format(rule_names), file=sys.stderr)
+            print(f'Rules "{rule_names}" done!', file=sys.stderr)
         else:
-            print('Rule "{}" done!'.format(rules.pop()), file=sys.stderr)
-        print('Result is saved:"{}"'.format(src), file=sys.stderr)
+            print(f'Rule "{rules.pop()}" done!', file=sys.stderr)
+        print(f'Result is saved:"{src}"', file=sys.stderr)

@@ -4,7 +4,7 @@ from pathlib import Path
 from oval_graph.oval_tree.oval_node import OvalNode
 
 
-class GetTree():
+class GetTree():  # pylint: disable=R0904
 
     @staticmethod
     def simple_tree():
@@ -380,5 +380,5 @@ class GetTree():
     @staticmethod
     def json_of_tree(src):
         path = Path(__file__).parent / src
-        with open(path, 'r') as file_:
+        with open(path, 'r', encoding="utf-8") as file_:
             return json.load(file_)

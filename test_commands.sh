@@ -108,7 +108,7 @@ tmp_json_file_src="${tmp_dir_src}/data.json"
 test_result=0
 overall_test_result=0
 
-test_if_is_instaled_oval_graph() {
+test_if_is_installed_oval_graph() {
     rpm -q $name >/dev/null 2>&1
     is_rpm_installed=$?
     pip list | grep -F $name
@@ -258,7 +258,7 @@ if [ "$_arg_install_oval_graph" = "on" ]; then
     install_package_from_source
 fi
 
-test_if_is_instaled_oval_graph
+test_if_is_installed_oval_graph
 clean "${tmp_json_file_src}"
 help_tests
 bad_args_tests

@@ -1,7 +1,7 @@
 from .global_namespaces import namespaces
 
 
-class _Comments:
+class _Comments:  # pylint: disable=R0903
     def __init__(self, oval_definitions):
         self.oval_definitions = oval_definitions
 

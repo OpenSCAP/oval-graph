@@ -1,6 +1,6 @@
-import re
 import subprocess
 from pathlib import Path
+from re import search
 
 import pytest
 
@@ -33,7 +33,7 @@ def test_command_arf_to_graph_with_verbose():
                                   stderr=subprocess.STDOUT)
     # Reads path to file from verbose output
     src_regex = r"\"(.*?)\"$"
-    src = re.search(src_regex, out.decode('utf-8')).group(1)
+    src = search(src_regex, out.decode('utf-8')).group(1)
     file_src = Path(__file__).parent.parent.parent / src
     TestTools.compare_results_html(file_src)
 

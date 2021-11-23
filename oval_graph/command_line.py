@@ -33,7 +33,7 @@ def catch_errors(client_class, params):
     except ERRORS as error:
         if client.verbose:
             traceback.print_exc()
-        print('{}Error: {}{}'.format(C_RED, error, C_END))
+        print(f'{C_RED}Error: {error}{C_END}')
 
 
 def main(client):

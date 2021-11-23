@@ -24,9 +24,8 @@ class ARFXMLParser:
         if not self.validate(self.arf_schemas_path):
             start_red_color = '\033[91m'
             end_red_color = '\033[0m'
-            message = "{}Warning: This file is not valid arf report.{}".format(
-                start_red_color, end_red_color)
-            print(message, file=sys.stderr)
+            message = "Warning: This file is not valid arf report."
+            print(f"{start_red_color}{message}{end_red_color}", file=sys.stderr)
         try:
             self.used_rules, self.not_tested_rules = self._get_rules_in_profile()
             self.report_data_href = list(self.used_rules.values())[0]['href']
@@ -37,8 +36,8 @@ class ARFXMLParser:
                 self.definitions, self.oval_definitions, self.report_data).get_scan()
         except BaseException as error:
             raise ValueError(
-                'This file "{}" is not arf report file or there are no results'.format(
-                    self.src)) from error
+                f'This file "{self.src}" is not arf report file or there are no results'
+            ) from error
 
     def validate(self, xsd_path):
         xsd_path = str(LOCAL_DATA_DIR / xsd_path)
@@ -105,9 +104,9 @@ class ARFXMLParser:
 
         if rule_id in self.not_tested_rules:
             raise NotTestedRule(
-                'Rule "{}" is {}, so there are no results.'
-                .format(rule_id, self.not_tested_rules[rule_id]))
-        raise ValueError('404 rule "{}" not found!'.format(rule_id))
+                f'Rule "{rule_id}" is {self.not_tested_rules[rule_id]}, so there are no results.'
+            )
+        raise ValueError(f'404 rule "{rule_id}" not found!')
 
     def get_oval_tree(self, rule_id):
         return Builder.dict_of_rule_to_oval_tree(

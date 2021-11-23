@@ -24,7 +24,7 @@ class TestTools():
     @staticmethod
     def get_text_file(src):
         path = TOP_PATH / src
-        with open(path, 'r') as data:
+        with open(path, 'r', encoding="utf-8") as data:
             return data.readlines()
 
     @staticmethod
@@ -61,7 +61,7 @@ class TestTools():
     @staticmethod
     def get_data_json(src):
         path = TOP_PATH / src
-        with open(path, 'r') as data:
+        with open(path, 'r', encoding="utf-8") as data:
             return json.load(data)
 
     @staticmethod

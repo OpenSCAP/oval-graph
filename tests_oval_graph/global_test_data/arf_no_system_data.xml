@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<arf:asset-report-collection xmlns:arf="http://scap.nist.gov/schema/asset-reporting-format/1.1" xmlns:core="http://scap.nist.gov/schema/reporting-core/1.1" xmlns:ai="http://scap.nist.gov/schema/asset-identification/1.1">
+  <core:relationships xmlns:arfvocab="http://scap.nist.gov/specifications/arf/vocabulary/relationships/1.0#">
+    <core:relationship type="arfvocab:createdFor" subject="xccdf1">
+      <core:ref>collection1</core:ref>
+    </core:relationship>
+    <core:relationship type="arfvocab:isAbout" subject="xccdf1">
+      <core:ref>asset0</core:ref>
+    </core:relationship>
+  </core:relationships>
+  <arf:report-requests>
+    <arf:report-request id="collection1">
+      <arf:content>
+        <ds:data-stream-collection xmlns:ds="http://scap.nist.gov/schema/scap/source/1.2" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:cat="urn:oasis:names:tc:entity:xmlns:xml:catalog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="scap_org.open-scap_collection_from_xccdf_test_single_rule.xccdf.xml" schematron-version="1.3" xsi:schemaLocation="http://scap.nist.gov/schema/scap/source/1.2 https://scap.nist.gov/schema/scap/1.3/scap-source-data-stream_1.3.xsd">
+  <ds:data-stream id="scap_org.open-scap_datastream_simple" scap-version="1.3" use-case="OTHER">
+    <ds:checklists>
+      <ds:component-ref id="scap_org.open-scap_cref_test_single_rule.xccdf.xml" xlink:href="#scap_org.open-scap_comp_test_single_rule.xccdf.xml">
+        <cat:catalog>
+          <cat:uri name="test_single_rule.oval.xml" uri="#scap_org.open-scap_cref_test_single_rule.oval.xml"/>
+        </cat:catalog>
+      </ds:component-ref>
+    </ds:checklists>
+    <ds:checks>
+      <ds:component-ref id="scap_org.open-scap_cref_test_single_rule.oval.xml" xlink:href="#scap_org.open-scap_comp_test_single_rule.oval.xml"/>
+    </ds:checks>
+  </ds:data-stream>
+  <ds:component id="scap_org.open-scap_comp_test_single_rule.oval.xml" timestamp="2021-02-01T08:07:06+01:00">
+    <oval_definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5" xmlns:ind-def="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" xmlns:oval-def="http://oval.mitre.org/XMLSchema/oval-definitions-5" xmlns:oval="http://oval.mitre.org/XMLSchema/oval-common-5" xmlns:win-def="http://oval.mitre.org/XMLSchema/oval-definitions-5#windows" xsi:schemaLocation="http://oval.mitre.org/XMLSchema/oval-definitions-5 oval-definitions-schema.xsd    http://oval.mitre.org/XMLSchema/oval-definitions-5#independent independent-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-definitions-5#windows windows-definitions-schema.xsd">
+      <generator>
+        <oval:schema_version>5.11.2</oval:schema_version>
+        <oval:timestamp>2021-02-01T08:07:06+01:00</oval:timestamp>
+      </generator>
+      <definitions>
+        <definition class="compliance" id="oval:x:def:1" version="1">
+          <metadata>
+            <title>File not found</title>
+            <description>File fail</description>
+          </metadata>
+          <criteria>
+            <criterion comment="Fail test" test_ref="oval:x:tst:1"/>
+          </criteria>
+        </definition>
+      </definitions>
+      <tests>
+        <textfilecontent54_test xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:x:tst:1" version="1" check_existence="all_exist" check="all" comment="is file?">
+          <object object_ref="oval:x:obj:1"/>
+        </textfilecontent54_test>
+      </tests>
+      <objects>
+        <textfilecontent54_object xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" id="oval:x:obj:1" version="1">
+          <filepath>/nonexistent/file/random/nums/0112358132134</filepath>
+          <pattern operation="pattern match">^0, 1, 1, 2, 3, 5, 8, 13, 21, 34$</pattern>
+          <instance datatype="int">1</instance>
+        </textfilecontent54_object>        
+      </objects>
+    </oval_definitions>
+  </ds:component>
+  <ds:component id="scap_org.open-scap_comp_test_single_rule.xccdf.xml" timestamp="2021-02-01T08:07:06+01:00">
+    <Benchmark xmlns="http://checklists.nist.gov/xccdf/1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="xccdf_com.example.www_benchmark_dummy" xsi:schemaLocation="http://checklists.nist.gov/xccdf/1.1 xccdf-1.1.4.xsd" resolved="false" xml:lang="en-US">
+      <status date="2021-01-21">accepted</status>
+      <version>1.0</version>
+      <Profile xmlns:xhtml="http://www.w3.org/1999/xhtml" id="xccdf_com.example.www_profile_test_single_rule">
+        <title>xccdf_test_profile</title>
+        <select idref="xccdf_com.example.www_rule_test-fail" selected="true"/>
+      </Profile>
+      <Rule selected="true" id="xccdf_com.example.www_rule_test-fail">
+        <check system="http://oval.mitre.org/XMLSchema/oval-definitions-5">
+          <check-content-ref href="test_single_rule.oval.xml" name="oval:x:def:1"/>
+        </check>
+      </Rule>
+    </Benchmark>
+  </ds:component>
+</ds:data-stream-collection>
+      </arf:content>
+    </arf:report-request>
+  </arf:report-requests>
+  <arf:assets>
+    <arf:asset id="asset0">
+      <ai:computing-device>
+        <ai:connections>
+          <ai:connection>
+            <ai:ip-address>
+              <ai:ip-v4>127.0.0.1</ai:ip-v4>
+            </ai:ip-address>
+          </ai:connection>
+          <ai:connection>
+            <ai:ip-address>
+              <ai:ip-v4>192.168.0.59</ai:ip-v4>
+            </ai:ip-address>
+          </ai:connection>
+          <ai:connection>
+            <ai:ip-address>
+              <ai:ip-v4>192.168.122.1</ai:ip-v4>
+            </ai:ip-address>
+          </ai:connection>
+          <ai:connection>
+            <ai:ip-address>
+              <ai:ip-v6>0:0:0:0:0:0:0:1</ai:ip-v6>
+            </ai:ip-address>
+          </ai:connection>
+          <ai:connection>
+            <ai:ip-address>
+              <ai:ip-v6>fe80:0:0:0:33ef:8077:dfe0:4d7c</ai:ip-v6>
+            </ai:ip-address>
+          </ai:connection>
+          <ai:connection>
+            <ai:ip-address>
+              <ai:ip-v6>fe80:0:0:0:fc01:f6ff:fe0f:32c8</ai:ip-v6>
+            </ai:ip-address>
+          </ai:connection>
+          <ai:connection>
+            <ai:mac-address>00:00:00:00:00:00</ai:mac-address>
+          </ai:connection>
+          <ai:connection>
+            <ai:mac-address>00:2B:67:04:65:C0</ai:mac-address>
+          </ai:connection>
+          <ai:connection>
+            <ai:mac-address>74:D8:3E:1A:0C:3E</ai:mac-address>
+          </ai:connection>
+          <ai:connection>
+            <ai:mac-address>52:54:00:E8:16:C5</ai:mac-address>
+          </ai:connection>
+          <ai:connection>
+            <ai:mac-address>FE:01:F6:0F:32:C8</ai:mac-address>
+          </ai:connection>
+        </ai:connections>
+        <ai:fqdn>rh-hony</ai:fqdn>
+        <ai:hostname>rh-hony</ai:hostname>
+      </ai:computing-device>
+    </arf:asset>
+  </arf:assets>
+  <arf:reports>
+    <arf:report id="xccdf1">
+      <arf:content>
+        <TestResult xmlns="http://checklists.nist.gov/xccdf/1.2" id="xccdf_org.open-scap_testresult_default-profile" start-time="2021-12-10T16:05:06+01:00" end-time="2021-12-10T16:05:06+01:00" version="1.0" test-system="cpe:/a:redhat:openscap:1.3.5">
+          <benchmark href="#scap_org.open-scap_comp_test_single_rule.xccdf.xml" id="xccdf_com.example.www_benchmark_dummy"/>
+          <title>OSCAP Scan Result</title>
+          <identity authenticated="false" privileged="false">jrodak</identity>
+          <target>rh-hony</target>
+          <target-address>127.0.0.1</target-address>
+          <target-address>192.168.0.59</target-address>
+          <target-address>192.168.122.1</target-address>
+          <target-address>0:0:0:0:0:0:0:1</target-address>
+          <target-address>fe80:0:0:0:33ef:8077:dfe0:4d7c</target-address>
+          <target-address>fe80:0:0:0:fc01:f6ff:fe0f:32c8</target-address>
+          <target-facts>
+            <fact name="urn:xccdf:fact:scanner:name" type="string">OpenSCAP</fact>
+            <fact name="urn:xccdf:fact:scanner:version" type="string">1.3.5</fact>
+            <fact name="urn:xccdf:fact:asset:identifier:fqdn" type="string">rh-hony</fact>
+            <fact name="urn:xccdf:fact:asset:identifier:host_name" type="string">rh-hony</fact>
+            <fact name="urn:xccdf:fact:ethernet:MAC" type="string">00:00:00:00:00:00</fact>
+            <fact name="urn:xccdf:fact:asset:identifier:mac" type="string">00:00:00:00:00:00</fact>
+            <fact name="urn:xccdf:fact:ethernet:MAC" type="string">00:2B:67:04:65:C0</fact>
+            <fact name="urn:xccdf:fact:asset:identifier:mac" type="string">00:2B:67:04:65:C0</fact>
+            <fact name="urn:xccdf:fact:ethernet:MAC" type="string">74:D8:3E:1A:0C:3E</fact>
+            <fact name="urn:xccdf:fact:asset:identifier:mac" type="string">74:D8:3E:1A:0C:3E</fact>
+            <fact name="urn:xccdf:fact:ethernet:MAC" type="string">52:54:00:E8:16:C5</fact>
+            <fact name="urn:xccdf:fact:asset:identifier:mac" type="string">52:54:00:E8:16:C5</fact>
+            <fact name="urn:xccdf:fact:ethernet:MAC" type="string">FE:01:F6:0F:32:C8</fact>
+            <fact name="urn:xccdf:fact:asset:identifier:mac" type="string">FE:01:F6:0F:32:C8</fact>
+            <fact name="urn:xccdf:fact:asset:identifier:ipv4" type="string">127.0.0.1</fact>
+            <fact name="urn:xccdf:fact:asset:identifier:ipv4" type="string">192.168.0.59</fact>
+            <fact name="urn:xccdf:fact:asset:identifier:ipv4" type="string">192.168.122.1</fact>
+            <fact name="urn:xccdf:fact:asset:identifier:ipv6" type="string">::1</fact>
+            <fact name="urn:xccdf:fact:asset:identifier:ipv6" type="string">fe80::33ef:8077:dfe0:4d7c</fact>
+            <fact name="urn:xccdf:fact:asset:identifier:ipv6" type="string">fe80::fc01:f6ff:fe0f:32c8</fact>
+          </target-facts>
+          <target-id-ref system="http://scap.nist.gov/schema/asset-identification/1.1" name="asset0" href=""/>
+          <rule-result idref="xccdf_com.example.www_rule_test-fail" role="full" time="2021-12-10T16:05:06+01:00" severity="unknown" weight="1.000000">
+            <result>fail</result>
+            <check system="http://oval.mitre.org/XMLSchema/oval-definitions-5">
+              <check-content-ref name="oval:x:def:1" href="#oval0"/>
+            </check>
+          </rule-result>
+          <score system="urn:xccdf:scoring:default" maximum="100.000000">0.000000</score>
+        </TestResult>
+      </arf:content>
+    </arf:report>
+    <arf:report id="oval0">
+      <arf:content>
+        <oval_results xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oval="http://oval.mitre.org/XMLSchema/oval-common-5" xmlns="http://oval.mitre.org/XMLSchema/oval-results-5" xsi:schemaLocation="http://oval.mitre.org/XMLSchema/oval-results-5 oval-results-schema.xsd http://oval.mitre.org/XMLSchema/oval-common-5 oval-common-schema.xsd">
+          <generator>
+            <oval:product_name>cpe:/a:open-scap:oscap</oval:product_name>
+            <oval:product_version>1.3.5</oval:product_version>
+            <oval:schema_version>5.11.2</oval:schema_version>
+            <oval:timestamp>2021-12-10T16:05:06</oval:timestamp>
+          </generator>
+          <directives>
+            <definition_true reported="true" content="full"/>
+            <definition_false reported="true" content="full"/>
+            <definition_unknown reported="true" content="full"/>
+            <definition_error reported="true" content="full"/>
+            <definition_not_evaluated reported="true" content="full"/>
+            <definition_not_applicable reported="true" content="full"/>
+          </directives>
+          <oval_definitions xmlns:oval="http://oval.mitre.org/XMLSchema/oval-common-5" xmlns:unix-def="http://oval.mitre.org/XMLSchema/oval-definitions-5#unix" xmlns:ind-def="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" xmlns:lin-def="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux" xmlns:win-def="http://oval.mitre.org/XMLSchema/oval-definitions-5#windows" xmlns:mac-def="http://oval.mitre.org/XMLSchema/oval-definitions-5#macos" xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5" xsi:schemaLocation="http://oval.mitre.org/XMLSchema/oval-definitions-5#unix unix-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-definitions-5#independent independent-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-definitions-5#unix unix-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-definitions-5#linux linux-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-definitions-5#windows windows-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-definitions-5#macos macos-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-definitions-5 oval-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-common-5 oval-common-schema.xsd">
+            <generator>
+              <oval:schema_version>5.11.2</oval:schema_version>
+              <oval:timestamp>2021-02-01T08:07:06+01:00</oval:timestamp>
+            </generator>
+            <definitions>
+              <definition id="oval:x:def:1" version="1" class="compliance">
+                <metadata>
+                  <title>File not found</title>
+                  <description>File fail</description>
+                </metadata>
+                <criteria>
+                  <criterion test_ref="oval:x:tst:1" comment="Fail test"/>
+                </criteria>
+              </definition>
+            </definitions>
+            <tests>
+              <ind-def:textfilecontent54_test id="oval:x:tst:1" version="1" check_existence="all_exist" check="all" comment="is file?">
+                <ind-def:object object_ref="oval:x:obj:1"/>
+              </ind-def:textfilecontent54_test>
+            </tests>
+            <objects>
+              <ind-def:textfilecontent54_object id="oval:x:obj:1" version="1">
+                <ind-def:filepath>/nonexistent/file/random/nums/0112358132134</ind-def:filepath>
+                <ind-def:pattern operation="pattern match">^0, 1, 1, 2, 3, 5, 8, 13, 21, 34$</ind-def:pattern>
+                <ind-def:instance datatype="int">1</ind-def:instance>
+              </ind-def:textfilecontent54_object>
+            </objects>
+          </oval_definitions>
+          <results>
+            <system>
+              <definitions>
+                <definition definition_id="oval:x:def:1" result="false" version="1">
+                  <criteria operator="AND" result="false">
+                    <criterion test_ref="oval:x:tst:1" version="1" result="false"/>
+                  </criteria>
+                </definition>
+              </definitions>
+              <tests>
+                <test test_id="oval:x:tst:1" version="1" check_existence="all_exist" check="all" result="false"/>
+              </tests>
+              <oval_system_characteristics xmlns:oval="http://oval.mitre.org/XMLSchema/oval-common-5" xmlns:unix-sys="http://oval.mitre.org/XMLSchema/oval-system-characteristics-5#unix" xmlns:ind-sys="http://oval.mitre.org/XMLSchema/oval-system-characteristics-5#independent" xmlns:lin-sys="http://oval.mitre.org/XMLSchema/oval-system-characteristics-5#linux" xmlns:win-sys="http://oval.mitre.org/XMLSchema/oval-system-characteristics-5#windows" xmlns="http://oval.mitre.org/XMLSchema/oval-system-characteristics-5" xsi:schemaLocation="http://oval.mitre.org/XMLSchema/oval-system-characteristics-5 oval-system-characteristics-schema.xsd http://oval.mitre.org/XMLSchema/oval-system-characteristics-5#independent independent-system-characteristics-schema.xsd http://oval.mitre.org/XMLSchema/oval-system-characteristics-5#unix unix-system-characteristics-schema.xsd http://oval.mitre.org/XMLSchema/oval-system-characteristics-5#linux linux-system-characteristics-schema.xsd http://oval.mitre.org/XMLSchema/oval-system-characteristics-5#windows windows-system-characteristics-schema.xsd http://oval.mitre.org/XMLSchema/oval-system-characteristics-5#macos macos-system-characteristics-schema.xsd http://oval.mitre.org/XMLSchema/oval-common-5 oval-common-schema.xsd">
+                <generator>
+                  <oval:product_name>cpe:/a:open-scap:oscap</oval:product_name>
+                  <oval:schema_version>5.11.2</oval:schema_version>
+                  <oval:timestamp>2021-12-10T16:05:06</oval:timestamp>
+                </generator>
+                <system_info>
+                  <os_name>Fedora</os_name>
+                  <os_version>34 (Workstation Edition)</os_version>
+                  <architecture>x86_64</architecture>
+                  <primary_host_name>rh-hony</primary_host_name>
+                  <interfaces>
+                    <interface>
+                      <interface_name>lo</interface_name>
+                      <ip_address>127.0.0.1</ip_address>
+                      <mac_address>00:00:00:00:00:00</mac_address>
+                    </interface>
+                    <interface>
+                      <interface_name>wlp0s20f3</interface_name>
+                      <ip_address>192.168.0.59</ip_address>
+                      <mac_address>74:D8:3E:1A:0C:3E</mac_address>
+                    </interface>
+                    <interface>
+                      <interface_name>virbr0</interface_name>
+                      <ip_address>192.168.122.1</ip_address>
+                      <mac_address>52:54:00:E8:16:C5</mac_address>
+                    </interface>
+                    <interface>
+                      <interface_name>lo</interface_name>
+                      <ip_address>::1</ip_address>
+                      <mac_address>00:00:00:00:00:00</mac_address>
+                    </interface>
+                    <interface>
+                      <interface_name>wlp0s20f3</interface_name>
+                      <ip_address>fe80::33ef:8077:dfe0:4d7c</ip_address>
+                      <mac_address>74:D8:3E:1A:0C:3E</mac_address>
+                    </interface>
+                    <interface>
+                      <interface_name>tap0</interface_name>
+                      <ip_address>fe80::fc01:f6ff:fe0f:32c8</ip_address>
+                      <mac_address>FE:01:F6:0F:32:C8</mac_address>
+                    </interface>
+                  </interfaces>
+                </system_info>
+                <collected_objects>
+                  <object id="oval:x:obj:1" version="1" flag="does not exist"/>
+                </collected_objects>
+              </oval_system_characteristics>
+            </system>
+          </results>
+        </oval_results>
+      </arf:content>
+    </arf:report>
+  </arf:reports>
+</arf:asset-report-collection>

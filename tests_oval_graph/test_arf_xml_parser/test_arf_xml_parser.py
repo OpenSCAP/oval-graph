@@ -47,6 +47,14 @@ def test_parsing_and_evaluate_scan_rule(rule_id, result):
     assert oval_tree.evaluate_tree() == result
 
 
+def test_parsing_arf_report_without_system_data():
+    path = get_arf_report_path("global_test_data/arf_no_system_data.xml")
+    rule_id = "xccdf_com.example.www_rule_test-fail"
+    parser = ARFXMLParser(path)
+    oval_tree = parser.get_oval_tree(rule_id)
+    assert oval_tree.evaluate_tree() == "false"
+
+
 @pytest.mark.parametrize("rule_id, pattern", [
     ("hello", "404 rule \"hello\" not found!"),
     ("xccdf_org.ssgproject.content_rule_ntpd_specify_remote_server", "notselected"),

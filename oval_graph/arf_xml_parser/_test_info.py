@@ -23,6 +23,8 @@ class _TestInfo:  # pylint: disable=R0903
 
     @staticmethod
     def _get_data_by_id(data):
+        if data is None:
+            return {}
         return {item.attrib.get('id'): item for item in data}
 
     def _get_collected_objects_by_id(self):
@@ -99,6 +101,8 @@ class _TestInfo:  # pylint: disable=R0903
 
     def _get_object_items(self, object_, collected_object):
         out = {}
+        if object_ is None:
+            return out
         for element in object_.iterchildren():
             if element.text and element.text.strip():
                 out[self._get_unique_id_in_dict(element, out)] = element.text
@@ -134,6 +138,8 @@ class _TestInfo:  # pylint: disable=R0903
     def _get_item(self, item_ref):
         item = self.system_data.get(item_ref)
         out = {}
+        if item is None:
+            return out
         for element in item.iterchildren():
             if element.text and element.text.strip():
                 out[self._get_unique_id_in_dict(element, out)] = element.text

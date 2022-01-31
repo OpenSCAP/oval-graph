@@ -31,12 +31,13 @@ jobs:
     - fedora-all
     - epel-7-x86_64
     - epel-8-x86_64
+    - epel-9-x86_64
 
 - job: tests
   trigger: pull_request
   metadata:
     targets:
     - fedora-all
-    - epel-8-x86_64
-# EPEL 7 test is disabled, because for install is used dnf on CentOS 7 
+# EPEL 7 test is disabled, because yum install need to pass a list of pkgs to install.
 #    - epel-7-x86_64
+    - epel-8-x86_64

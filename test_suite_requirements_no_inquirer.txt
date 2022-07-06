@@ -1,5 +1,5 @@
 flake8==3.8.4
-lxml==4.6.5
+lxml==4.9.1
 mock==4.0.3
 pexpect==4.8.0
 pylint==2.6.0
